@@ -5,7 +5,7 @@
       "description": "Votre demande de devis Stagnum a bien été envoyée."
     },
     "title": "Merci, votre demande est envoyée",
-    "lead": "Nous vous rappelons rapidement avec votre devis.",
+    "lead": "Nous vous envoyons votre devis rapidement. Si vous avez coché la case, nous vous appelons pour vous l’expliquer.",
     "button": "Retour à l’accueil"
   },
   "notFound": {

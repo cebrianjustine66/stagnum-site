@@ -107,7 +107,7 @@
   },
   "request": {
     "title": "Recevez votre devis et démarrez l’essai",
-    "lead": "Laissez vos coordonnées : nous vous rappelons avec votre devis et nous ouvrons votre essai gratuit de {essai} jours."
+    "lead": "Laissez vos coordonnées : nous vous envoyons votre devis et nous ouvrons votre essai gratuit de {essai} jours. Cochez la case si vous voulez qu’on vous appelle pour l’expliquer."
   },
   "faqTitle": "Questions sur les tarifs",
   "faq": [

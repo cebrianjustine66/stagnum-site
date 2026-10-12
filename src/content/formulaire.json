@@ -5,6 +5,7 @@
   "email": "E-mail",
   "message": "Votre message",
   "optional": "(facultatif)",
+  "callback": "Je souhaite être contacté en complément du devis, pour des explications plus précises",
   "button": "Envoyer ma demande",
   "legal": "Vos informations servent uniquement à répondre à votre demande. Voir notre [politique de confidentialité](/confidentialite/).",
   "errorDisabled": "L’envoi n’est pas encore activé sur ce site.",
