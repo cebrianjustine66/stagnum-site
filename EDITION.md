@@ -38,16 +38,24 @@ En bas de la page d'accueil, de la page des tarifs et de chaque page de fonction
 
 Les blocs se glissent pour changer d'ordre. Ils s'affichent en bas de la page, avec les couleurs du site.
 
-## Mettre les modifications en ligne
+## En local ou en ligne
 
-Pour l'instant, l'interface enregistre les modifications dans les fichiers du site, sur cet ordinateur (dossier `src/content/`). Il reste à les envoyer sur GitHub (« commit » puis « push »), avec GitHub Desktop ou Claude Code.
+- **Sur cet ordinateur** (`npm run dev`) : l'interface enregistre dans les fichiers du dossier (`src/content/`). Il reste à les envoyer sur GitHub (« commit » puis « push »), avec GitHub Desktop ou Claude Code.
+- **En ligne** (`https://<adresse du site>/keystatic`) : on se connecte avec son compte GitHub, et chaque enregistrement part directement dans GitHub. Vercel reconstruit alors le site tout seul, en une à deux minutes.
 
-## Donner l'accès à d'autres personnes
+Tout le monde peut voir le site. Seules les personnes invitées sur le dépôt GitHub peuvent le modifier.
 
-Aujourd'hui l'interface ne fonctionne que sur l'ordinateur où le site est installé. Pour que d'autres personnes modifient le site depuis leur navigateur, il faut :
+## Mise en place sur Vercel (une seule fois)
 
-1. **Héberger le site** chez un hébergeur qui sait faire tourner l'interface : Vercel, Netlify ou Cloudflare.
-2. **Passer Keystatic en mode GitHub** : dans `keystatic.config.ts`, remplacer `storage: { kind: 'local' }` par `storage: { kind: 'github', repo: 'cebrianjustine66/stagnum-site' }`, ajouter l'adaptateur de l'hébergeur dans `astro.config.mjs` et y retirer la condition `editing`. Au premier lancement, Keystatic guide la création de l'application GitHub qui sert à se connecter.
-3. **Inviter chaque personne** sur le dépôt GitHub `cebrianjustine66/stagnum-site` (Settings → Collaborators), avec le droit d'écriture. Il lui faut un compte GitHub, gratuit.
+1. **Créer le projet Vercel** : sur vercel.com, se connecter avec GitHub, « Add New → Project », choisir le dépôt `cebrianjustine66/stagnum-site`. Vercel reconnaît Astro, il n'y a rien à régler.
+2. **Créer la connexion GitHub de Keystatic** : sur l'ordinateur, lancer `npm run dev:github`, ouvrir http://127.0.0.1:4321/keystatic et suivre l'écran qui propose de créer l'application GitHub. À la fin, un fichier `.env` contient quatre lignes (`KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`). Ce fichier est secret : il ne part pas sur GitHub.
+3. **Recopier ces quatre valeurs dans Vercel** : Project → Settings → Environment Variables, puis relancer un déploiement.
+4. **Autoriser l'adresse du site** : dans les réglages de l'application GitHub créée à l'étape 2 (GitHub → Settings → Developer settings → GitHub Apps), ajouter l'adresse de retour `https://<adresse du site>/api/keystatic/github/oauth/callback`.
 
-Ensuite chacun ouvre `https://<adresse du site>/keystatic`, se connecte avec GitHub et modifie le contenu. Chaque enregistrement arrive dans GitHub et le site se remet à jour tout seul en une à deux minutes.
+## Donner l'accès à une personne
+
+1. Elle crée un compte GitHub (gratuit).
+2. L'inviter sur le dépôt : GitHub → `cebrianjustine66/stagnum-site` → Settings → Collaborators → Add people, avec le droit d'écriture.
+3. Elle ouvre `https://<adresse du site>/keystatic` et se connecte avec GitHub.
+
+Pour retirer l'accès, la supprimer de la même liste.

@@ -1,6 +1,10 @@
-// Interface d'édition du site (http://127.0.0.1:4321/keystatic en local).
+// Interface d'édition du site (/keystatic).
 // Chaque champ décrit ici correspond à un fichier de src/content/.
 import { config, collection, singleton, fields } from '@keystatic/core';
+
+// Sur l'ordinateur (npm run dev), les modifications sont écrites dans les fichiers du dossier.
+// En ligne, elles sont envoyées dans le dépôt GitHub : il faut s'y connecter pour modifier.
+const online = !import.meta.env.DEV || import.meta.env.PUBLIC_KEYSTATIC_MODE === 'github';
 
 const ICONS = [
   { label: 'Devis', value: 'devis' },
@@ -135,7 +139,7 @@ const blocks = () =>
   );
 
 export default config({
-  storage: { kind: 'local' },
+  storage: online ? { kind: 'github', repo: 'cebrianjustine66/stagnum-site' } : { kind: 'local' },
   locale: 'fr-FR',
   ui: {
     brand: { name: 'Stagnum · contenu du site' },
