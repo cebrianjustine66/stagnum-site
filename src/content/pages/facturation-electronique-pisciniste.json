@@ -1,0 +1,57 @@
+{
+  "nav": "Facturation électronique",
+  "order": 9,
+  "kind": "atout",
+  "brick": "aucune",
+  "included": "Incluse avec la brique Factures",
+  "withBricks": "Avec la brique Factures",
+  "parent": "logiciel-facturation-pisciniste",
+  "title": "Facturation électronique pour pisciniste | Stagnum",
+  "description": "La facturation électronique devient obligatoire pour les piscinistes. Dates, obligations, et comment Stagnum vous met en conformité sans changer vos habitudes.",
+  "h1": "La facturation électronique du pisciniste, sans y penser",
+  "lead": "La réforme de la facturation électronique concerne toutes les entreprises, y compris les piscinistes indépendants. Stagnum est conforme : vous continuez à faire vos factures comme d’habitude.",
+  "voice": {
+    "said": "",
+    "done": []
+  },
+  "points": [
+    "Réception des factures électroniques de vos fournisseurs",
+    "Émission de vos factures au format exigé",
+    "Incluse dans la brique Factures, sans supplément",
+    "Aucun changement dans votre façon de facturer"
+  ],
+  "sections": [
+    {
+      "h2": "Ce que la réforme vous demande",
+      "text": "Depuis le 1er septembre 2026, toutes les entreprises doivent pouvoir recevoir des factures électroniques de leurs fournisseurs. À partir du 1er septembre 2027, les TPE, les PME et les micro-entreprises devront aussi émettre leurs factures entre professionnels dans ce format. Une facture envoyée en PDF par e-mail ne suffira plus."
+    },
+    {
+      "h2": "Ce qui change pour un pisciniste",
+      "text": "Vos factures à des professionnels (syndics, campings, hôtels, collectivités, autres entreprises) devront passer par le circuit électronique. Les ventes aux particuliers ne sont pas des factures électroniques, mais leurs données doivent être transmises à l’administration. Stagnum s’en occupe dans les deux cas."
+    },
+    {
+      "h2": "Rien à ajouter à votre logiciel",
+      "text": "Vous dictez ou vous saisissez votre facture comme avant. Stagnum la met au bon format et la transmet. Vous n’avez ni second outil à acheter, ni double saisie."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Un pisciniste auto-entrepreneur est-il concerné par la facturation électronique ?",
+      "a": "Oui. L’obligation de recevoir des factures électroniques s’applique à toutes les entreprises depuis le 1er septembre 2026, y compris les micro-entreprises. L’obligation d’en émettre s’applique à elles à partir du 1er septembre 2027."
+    },
+    {
+      "q": "La facturation électronique est-elle payante en plus dans Stagnum ?",
+      "a": "Non. Elle fait partie de la brique Factures."
+    },
+    {
+      "q": "Mes factures aux particuliers sont-elles concernées ?",
+      "a": "Elles ne passent pas par le circuit de la facture électronique, mais leurs données doivent être transmises à l’administration. Stagnum gère cette transmission."
+    }
+  ],
+  "related": [
+    "logiciel-facturation-pisciniste",
+    "logiciel-caisse-magasin-piscine",
+    "logiciel-devis-piscine"
+  ],
+  "blocks": []
+}

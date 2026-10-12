@@ -5,12 +5,12 @@ import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import { SITE } from '../data/site';
 import { TRIAL_DAYS } from '../data/pricing';
+import { POSTS } from '../data/posts';
 const { frontmatter: fm, headings = [] } = Astro.props;
 const url = new URL(Astro.url.pathname, SITE.url).href;
 const fmtDate = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const toc = headings.filter((h: any) => h.depth === 2);
-const others = Object.values(import.meta.glob('../pages/blog/*.md', { eager: true }) as Record<string, any>)
-  .filter((p) => p.frontmatter.h1 !== fm.h1);
+const others = POSTS.filter((p) => p.frontmatter.h1 !== fm.h1);
 const article = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -66,7 +66,7 @@ const article = {
         <h2>À lire aussi</h2>
         <div class="grid grid-2">
           {others.map((p) => (
-            <a class="o-post reveal" href={p.url.endsWith('/') ? p.url : p.url + '/'} style={`--c:${p.frontmatter.color}`}>
+            <a class="o-post reveal" href={p.url} style={`--c:${p.frontmatter.color}`}>
               <span class="o-ic"><Icon name={p.frontmatter.icon} size={28} /></span>
               <span><small>{p.frontmatter.tag} · {p.frontmatter.minutes} min</small><strong>{p.frontmatter.h1}</strong></span>
             </a>

@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Facturation électronique : ce qui change pour un pisciniste"
 h1: "Facturation électronique : ce qui change pour les piscinistes"
 description: "Dates, obligations, clients concernés : ce que la facturation électronique change pour un pisciniste, et comment s’y préparer sans attendre."

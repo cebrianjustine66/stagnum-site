@@ -1,0 +1,10 @@
+---
+import Article from '../../layouts/Article.astro';
+import { POSTS } from '../../data/posts';
+
+export function getStaticPaths() {
+  return POSTS.map((post) => ({ params: { slug: post.slug } }));
+}
+const post = POSTS.find((p) => p.slug === Astro.params.slug)!;
+---
+<Article frontmatter={post.frontmatter} headings={post.headings}><post.Content /></Article>

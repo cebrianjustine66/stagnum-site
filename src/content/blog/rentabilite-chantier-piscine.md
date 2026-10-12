@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Rentabilité d’un chantier piscine : le calcul | Stagnum"
 h1: "Comment calculer la rentabilité d’un chantier piscine"
 description: "La méthode pour calculer la marge d’un chantier de piscine, avec un exemple chiffré et les erreurs qui font perdre de l’argent sans qu’on le voie."

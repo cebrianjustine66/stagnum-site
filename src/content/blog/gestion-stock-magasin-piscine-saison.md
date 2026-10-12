@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Stock d’un magasin de piscine : préparer la saison | Stagnum"
 h1: "Stock d’un magasin de piscine : comment préparer la saison"
 description: "Éviter les ruptures en juillet sans immobiliser sa trésorerie en mars : une méthode simple pour gérer le stock d’un magasin de piscine au fil de la saison."

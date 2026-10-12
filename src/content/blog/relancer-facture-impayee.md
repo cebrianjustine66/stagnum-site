@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Facture impayée : comment relancer un client | Stagnum"
 h1: "Facture impayée : comment relancer un client"
 description: "Les étapes pour relancer une facture impayée, de la relance amiable à la mise en demeure, et ce qui change entre un client particulier et un professionnel."

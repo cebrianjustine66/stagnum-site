@@ -1,0 +1,56 @@
+{
+  "nav": "Personnalisation",
+  "order": 10,
+  "kind": "atout",
+  "brick": "aucune",
+  "included": "Présente dans chaque brique",
+  "withBricks": "Dans toutes les briques",
+  "title": "Logiciel pisciniste personnalisable | Stagnum",
+  "description": "Stagnum se règle à votre façon : paramètres de vos analyses d’eau, contenu de vos devis, délai de relance des factures. Un logiciel qui s’adapte à votre métier.",
+  "h1": "Un logiciel qui se règle à votre façon de travailler",
+  "lead": "Deux piscinistes ne travaillent jamais pareil. Dans Stagnum, chaque brique se règle : ce que vous mesurez, ce que vous écrivez sur un devis, le moment où une relance part. Vous décidez une fois, le logiciel suit.",
+  "voice": {
+    "said": "",
+    "done": []
+  },
+  "points": [
+    "Chaque brique a ses réglages",
+    "Paramètres des analyses d’eau au choix",
+    "Contenu des devis au choix",
+    "Délai de relance des factures au choix"
+  ],
+  "sections": [
+    {
+      "h2": "Vos analyses d’eau, avec vos mesures",
+      "text": "Vous choisissez les paramètres qui apparaissent dans vos analyses. Si vous ne suivez pas une mesure, elle n’encombre ni votre écran ni la fiche remise au client."
+    },
+    {
+      "h2": "Vos devis, avec ce que vous voulez y voir",
+      "text": "Vous décidez de ce qui figure ou non sur vos devis. Une fois réglés, tous vos devis sortent à votre façon, sans retouche à chaque fois."
+    },
+    {
+      "h2": "Vos relances, à votre rythme",
+      "text": "Vous fixez le nombre de jours après l’échéance d’une facture. Passé ce délai, la relance part automatiquement. Vous pouvez changer ce réglage quand vous voulez."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Faut-il tout régler avant de commencer ?",
+      "a": "Non. Stagnum fonctionne dès le premier jour avec des réglages par défaut. Vous les ajustez quand vous en ressentez le besoin."
+    },
+    {
+      "q": "Qui peut modifier les réglages ?",
+      "a": "Parlez-nous de votre organisation dans votre demande de devis : nous vous montrons les réglages pendant l’essai gratuit."
+    },
+    {
+      "q": "La personnalisation est-elle payante ?",
+      "a": "Non. Les réglages font partie de chaque brique."
+    }
+  ],
+  "related": [
+    "logiciel-analyse-eau-piscine",
+    "logiciel-devis-piscine",
+    "logiciel-facturation-pisciniste"
+  ],
+  "blocks": []
+}

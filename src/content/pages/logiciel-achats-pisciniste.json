@@ -1,0 +1,56 @@
+{
+  "nav": "Achats",
+  "order": 4,
+  "kind": "brique",
+  "brick": "achats",
+  "included": "",
+  "withBricks": "",
+  "title": "Logiciel de gestion des achats pour pisciniste | Stagnum",
+  "description": "Déposez le bon de livraison de votre fournisseur : Stagnum saisit vos achats à votre place. Fini les références retapées ligne par ligne.",
+  "h1": "Vos achats saisis tout seuls, à partir du bon de livraison",
+  "lead": "Une commande arrive. Vous déposez le bon de livraison dans Stagnum, qui en lit les lignes et remplit l’achat. Vous n’avez plus à retaper les références une par une.",
+  "voice": {
+    "said": "",
+    "done": []
+  },
+  "points": [
+    "Achats créés à partir du bon de livraison",
+    "Aucune référence à retaper ligne par ligne",
+    "Chaque ligne vérifiable avant validation",
+    "Stock mis à jour avec la brique Inventaire"
+  ],
+  "sections": [
+    {
+      "h2": "Un bon de livraison, zéro ressaisie",
+      "text": "Saisir une livraison de quarante lignes prend une demi-heure, et une erreur de référence se paie plus tard. Stagnum lit le bon de livraison et crée l’achat avec les articles, les quantités et les prix. Il vous reste à vérifier et à valider."
+    },
+    {
+      "h2": "Vous gardez le dernier mot",
+      "text": "Avant de valider, vous voyez chaque ligne lue par Stagnum. Vous corrigez une quantité ou un article en un geste si la livraison ne correspond pas à la commande."
+    },
+    {
+      "h2": "Des achats qui servent au reste",
+      "text": "Un achat bien saisi ne dort pas dans un classeur. Avec la brique Inventaire, les quantités reçues entrent en stock ; avec les Chantiers, vos coûts de matériaux sont justes."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Comment Stagnum saisit-il un bon de livraison ?",
+      "a": "Vous déposez le bon de livraison dans Stagnum. Le logiciel en lit les lignes et prépare l’achat ; vous le relisez avant de le valider."
+    },
+    {
+      "q": "Que se passe-t-il si une ligne est mal lue ?",
+      "a": "Rien n’est enregistré sans vous. Vous voyez toutes les lignes avant de valider et vous pouvez corriger chacune."
+    },
+    {
+      "q": "Faut-il la brique Inventaire pour utiliser les achats ?",
+      "a": "Non. La brique Achats fonctionne seule. Avec l’Inventaire, les quantités reçues mettent votre stock à jour."
+    }
+  ],
+  "related": [
+    "gestion-stock-magasin-piscine",
+    "suivi-chantier-piscine",
+    "logiciel-facturation-pisciniste"
+  ],
+  "blocks": []
+}

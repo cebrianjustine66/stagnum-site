@@ -1,0 +1,60 @@
+{
+  "nav": "Devis",
+  "order": 1,
+  "kind": "brique",
+  "brick": "devis",
+  "included": "",
+  "withBricks": "",
+  "title": "Logiciel de devis piscine pour piscinistes | Stagnum",
+  "description": "Faites vos devis de piscine en quelques secondes, au clavier ou à la voix. Un logiciel de devis pensé pour les piscinistes, avec ou sans magasin.",
+  "h1": "Le logiciel de devis piscine qui écrit à votre place",
+  "lead": "Vous décrivez le besoin du client en une phrase, tapée ou dictée. Stagnum prépare le devis avec les bons articles, les quantités et les prix. Vous relisez, vous envoyez.",
+  "voice": {
+    "said": "« Devis pour Madame Martin : remplacement du liner, bassin 8 par 4, et une pompe à chaleur. »",
+    "done": [
+      "Cliente retrouvée dans votre fichier",
+      "Articles et main-d’œuvre ajoutés",
+      "Devis prêt à relire et à envoyer"
+    ]
+  },
+  "points": [
+    "Devis préparés à partir d’une simple phrase, tapée ou dictée",
+    "Catalogue d’articles et de prestations à vos prix",
+    "Fiche client créée ou retrouvée automatiquement",
+    "Transformation en facture ou en chantier sans ressaisie"
+  ],
+  "sections": [
+    {
+      "h2": "Un devis fait sur place, pas le soir au bureau",
+      "text": "Le devis le plus rentable est celui que le client reçoit pendant qu’il a encore son projet en tête. Avec Stagnum, vous le préparez chez lui, au bord du bassin, sans rien ressaisir en rentrant. Les soirées passées à recopier des notes de chantier disparaissent."
+    },
+    {
+      "h2": "Vos articles, vos prix, vos habitudes",
+      "text": "Stagnum travaille avec votre catalogue et vos tarifs. Il apprend les prestations que vous vendez le plus souvent et vous les propose au bon moment. Vous gardez la main sur chaque ligne avant l’envoi."
+    },
+    {
+      "h2": "Du devis à la facture sans ressaisie",
+      "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces briques. Les informations du client suivent toutes seules, parce que la base clients est commune à tout Stagnum."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Peut-on faire un devis de piscine sans ordinateur ?",
+      "a": "Oui. Vous pouvez préparer un devis depuis votre téléphone, en le dictant. Vous le relisez avant de l’envoyer au client."
+    },
+    {
+      "q": "Faut-il prendre toutes les briques pour utiliser les devis ?",
+      "a": "Non. La brique Devis fonctionne seule. La base clients est incluse, et vous ajoutez les factures ou les chantiers quand vous en avez besoin."
+    },
+    {
+      "q": "L’intelligence artificielle peut-elle envoyer un devis sans moi ?",
+      "a": "Non. Stagnum prépare le devis, et c’est vous qui le validez et qui l’envoyez."
+    }
+  ],
+  "related": [
+    "logiciel-facturation-pisciniste",
+    "suivi-chantier-piscine",
+    "pilotage-vocal"
+  ],
+  "blocks": []
+}

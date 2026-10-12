@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Logiciel pisciniste : 7 critères pour bien choisir | Stagnum"
 h1: "Logiciel pisciniste : 7 critères pour bien choisir"
 description: "Comment choisir un logiciel de gestion quand on est pisciniste : les sept critères qui comptent vraiment, et les questions à poser avant de signer."

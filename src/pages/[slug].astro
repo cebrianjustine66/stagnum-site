@@ -5,6 +5,7 @@ import BrickDemo from '../components/BrickDemo.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
+import Blocks from '../components/Blocks.astro';
 import { LANDINGS, BRIQUE_PAGES, type Landing } from '../data/pages';
 import { TRIAL_DAYS } from '../data/pricing';
 import { faqLd } from '../lib';
@@ -81,6 +82,8 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
       </nav>
     </div>
   </section>
+
+  <Blocks blocks={page.blocks} />
 
   <Cta />
 </Base>

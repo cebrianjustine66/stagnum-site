@@ -1,0 +1,65 @@
+{
+  "nav": "Factures et relances",
+  "order": 2,
+  "kind": "brique",
+  "brick": "factures",
+  "included": "",
+  "withBricks": "",
+  "title": "Logiciel de facturation pour pisciniste | Stagnum",
+  "description": "Facturez vos clients et relancez les impayés sans y penser. Le logiciel de facturation des piscinistes, avec relances de paiement incluses.",
+  "h1": "Le logiciel de facturation des piscinistes, relances comprises",
+  "lead": "Vos factures partent le jour où le travail est fini. Les retards de paiement sont relancés automatiquement, après le nombre de jours que vous avez choisi. Les relances font partie de la brique Factures.",
+  "voice": {
+    "said": "« Facture le chantier Durand. »",
+    "done": [
+      "Facture créée à partir du chantier",
+      "Envoyée au client",
+      "Relance programmée selon votre réglage"
+    ]
+  },
+  "points": [
+    "Factures créées à partir d’un devis ou d’un chantier",
+    "Relances envoyées automatiquement, au délai que vous réglez",
+    "Conforme à la facturation électronique obligatoire",
+    "Suivi des factures payées, à venir et en retard",
+    "Utilisable au clavier ou à la voix, au magasin comme sur le terrain"
+  ],
+  "sections": [
+    {
+      "h2": "Facturer le jour même",
+      "text": "Une facture envoyée tard est une facture payée tard. Stagnum reprend le devis ou le chantier et prépare la facture : vous n’avez qu’à la relire. Vous facturez en fin d’intervention, pas en fin de mois."
+    },
+    {
+      "h2": "Des relances qui partent toutes seules",
+      "text": "Relancer un client est la tâche que tout le monde repousse. Dans Stagnum, vous réglez une fois le délai : sept jours après l’échéance, quinze, trente. Passé ce délai, la relance part automatiquement, et vous savez à tout moment qui vous doit combien."
+    },
+    {
+      "h2": "Une vue claire de ce qu’on vous doit",
+      "text": "Un seul écran montre les factures payées, celles qui arrivent à échéance et celles qui sont en retard. Vous n’avez plus besoin d’un tableur à côté pour suivre votre trésorerie."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Les relances de paiement sont-elles payantes en plus ?",
+      "a": "Non. Les relances font partie de la brique Factures. Il n’y a pas d’option à ajouter."
+    },
+    {
+      "q": "Stagnum est-il conforme à la facturation électronique ?",
+      "a": "Oui. Stagnum reçoit et émet des factures électroniques conformes à la réforme. Vous n’avez pas d’autre logiciel à ajouter."
+    },
+    {
+      "q": "Les relances partent-elles automatiquement ?",
+      "a": "Oui. Vous choisissez dans les paramètres le nombre de jours après l’échéance, et la relance part toute seule passé ce délai."
+    },
+    {
+      "q": "Puis-je utiliser la facturation sans la brique Devis ?",
+      "a": "Oui. Chaque brique fonctionne seule. Si vous prenez aussi les devis, un devis accepté se transforme en facture sans ressaisie."
+    }
+  ],
+  "related": [
+    "facturation-electronique-pisciniste",
+    "logiciel-devis-piscine",
+    "suivi-chantier-piscine"
+  ],
+  "blocks": []
+}

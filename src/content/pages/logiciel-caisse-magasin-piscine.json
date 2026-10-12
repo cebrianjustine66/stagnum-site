@@ -1,0 +1,65 @@
+{
+  "nav": "Caisse",
+  "order": 5,
+  "kind": "brique",
+  "brick": "caisse",
+  "included": "",
+  "withBricks": "",
+  "title": "Logiciel de caisse pour magasin de piscine | Stagnum",
+  "description": "Une caisse simple pour votre magasin de piscine, reliée à votre fichier client et à votre stock. Encaissez vite, même en pleine saison.",
+  "h1": "Le logiciel de caisse pensé pour un magasin de piscine",
+  "lead": "Vous encaissez en quelques gestes, et chaque vente rejoint la fiche du client. En pleine saison, quand la file s’allonge au comptoir, la caisse ne doit pas vous ralentir.",
+  "voice": {
+    "said": "",
+    "done": []
+  },
+  "points": [
+    "Encaissement rapide au comptoir",
+    "Ventes rattachées à la fiche client",
+    "Logiciel de caisse certifié conforme à la loi française",
+    "Mise à jour du stock avec la brique Inventaire",
+    "Un prix par magasin, quel que soit le nombre de vendeurs"
+  ],
+  "sections": [
+    {
+      "h2": "Une caisse que tout le monde sait utiliser",
+      "text": "Un saisonnier doit pouvoir encaisser dès son premier jour. L’écran de caisse de Stagnum va à l’essentiel : le produit, le client, le paiement."
+    },
+    {
+      "h2": "Chaque vente raconte l’histoire du client",
+      "text": "Quand un client revient, vous voyez ce qu’il a acheté et le bassin qu’il possède. Vous conseillez le bon produit au lieu de reposer les mêmes questions."
+    },
+    {
+      "h2": "Une caisse certifiée",
+      "text": "La loi impose aux commerçants un logiciel de caisse qui garantit l’inaltérabilité, la sécurisation, la conservation et l’archivage des données. La caisse de Stagnum est certifiée conforme à ces quatre exigences, et vous recevez le justificatif à présenter en cas de contrôle."
+    },
+    {
+      "h2": "Reliée à votre stock, si vous le voulez",
+      "text": "Avec la brique Inventaire, chaque vente met votre stock à jour. Sans elle, la caisse fonctionne quand même : chaque brique est indépendante."
+    }
+  ],
+  "faq": [
+    {
+      "q": "La caisse de Stagnum est-elle conforme à la loi anti-fraude à la TVA ?",
+      "a": "Oui. La caisse est certifiée conforme aux exigences d’inaltérabilité, de sécurisation, de conservation et d’archivage. Le justificatif vous est remis pour vos contrôles."
+    },
+    {
+      "q": "La caisse fonctionne-t-elle sans la brique Inventaire ?",
+      "a": "Oui. Les deux briques sont indépendantes. Ensemble, chaque vente décompte le stock automatiquement."
+    },
+    {
+      "q": "Combien de vendeurs peuvent utiliser la caisse ?",
+      "a": "Autant que vous voulez. Le prix de Stagnum est fixé par magasin, pas par utilisateur."
+    },
+    {
+      "q": "J’ai plusieurs magasins : puis-je les relier ?",
+      "a": "Oui. Chaque magasin a son abonnement, et vous pouvez les relier entre eux pour partager vos clients et suivre l’ensemble."
+    }
+  ],
+  "related": [
+    "gestion-stock-magasin-piscine",
+    "logiciel-analyse-eau-piscine",
+    "logiciel-facturation-pisciniste"
+  ],
+  "blocks": []
+}
