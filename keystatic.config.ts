@@ -589,6 +589,7 @@ export default config({
           title: text('Titre', HL),
           intro: text('Phrase sous le titre'),
           hint: text('Invitation à cliquer, en bas de chaque carte'),
+          back: text('Mention au dos de la carte, pour la retourner'),
           members: fields.array(
             fields.object({
               name: text('Prénom'),
