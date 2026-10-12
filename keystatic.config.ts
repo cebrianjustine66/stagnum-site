@@ -141,12 +141,11 @@ const blocks = () =>
         }),
       },
       equipe: {
-        label: 'Équipe : un texte et les prénoms en vignettes',
+        label: 'Équipe : un texte et les cartes des membres, qui se retournent au clic',
         itemLabel: (p) => `Équipe · ${p.fields.title.value}`,
         schema: fields.object({
           title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Qui est *derrière Stagnum* ?' }),
-          text: fields.text({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
-          members: list('Prénoms', 'Une vignette par prénom, avec son initiale.'),
+          text: fields.text({ label: 'Texte', description: `Les membres, leurs photos et leurs présentations se règlent dans « Qui sommes-nous ». ${LINK}`, multiline: true }),
           button: text('Texte du bouton (facultatif)'),
           href: text('Adresse du bouton', 'Exemple : /a-propos/'),
         }),
@@ -589,10 +588,18 @@ export default config({
         team: group('3. L’équipe', {
           title: text('Titre', HL),
           intro: text('Phrase sous le titre'),
+          hint: text('Invitation à cliquer, en bas de chaque carte'),
           members: fields.array(
             fields.object({
               name: text('Prénom'),
               role: text('Rôle (facultatif)', 'Exemple : Développement, Relation clients. Laissez vide pour ne rien afficher.'),
+              photo: fields.image({
+                label: 'Photo (facultatif)',
+                description: 'Portrait, plutôt carré ou vertical. Sans photo, l’initiale du prénom s’affiche.',
+                directory: 'public/equipe',
+                publicPath: '/equipe/',
+              }),
+              bio: long('Présentation', 'Deux ou trois phrases, affichées au dos de la carte quand on clique dessus. Laissez vide pour une carte qui ne se retourne pas.'),
             }),
             { label: 'Membres', itemLabel: (p) => p.fields.name.value || 'Nouveau membre' },
           ),

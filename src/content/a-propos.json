@@ -34,29 +34,40 @@
   },
   "team": {
     "title": "Cinq personnes, *une équipe*",
-    "intro": "Stagnum a été créé par Yohan, Léana, Axel, Jérémy et Justine.",
+    "intro": "Cliquez sur une carte pour faire connaissance.",
     "members": [
       {
         "name": "Yohan",
-        "role": ""
+        "role": "",
+        "photo": null,
+        "bio": "Présentation à compléter dans l’éditeur."
       },
       {
         "name": "Léana",
-        "role": ""
+        "role": "",
+        "photo": null,
+        "bio": "Présentation à compléter dans l’éditeur."
       },
       {
         "name": "Axel",
-        "role": ""
+        "role": "",
+        "photo": null,
+        "bio": "Présentation à compléter dans l’éditeur."
       },
       {
         "name": "Jérémy",
-        "role": ""
+        "role": "",
+        "photo": null,
+        "bio": "Présentation à compléter dans l’éditeur."
       },
       {
         "name": "Justine",
-        "role": ""
+        "role": "",
+        "photo": null,
+        "bio": "Présentation à compléter dans l’éditeur."
       }
-    ]
+    ],
+    "hint": "Faire connaissance"
   },
   "values": {
     "title": "Nos *partis pris*",

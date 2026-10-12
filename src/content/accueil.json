@@ -152,14 +152,7 @@
       "discriminant": "equipe",
       "value": {
         "title": "Qui est *derrière Stagnum* ?",
-        "text": "Cinq personnes, parties d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels, et les rares outils qui existent ont vieilli.\n\nNous voulons leur donner plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise.",
-        "members": [
-          "Yohan",
-          "Léana",
-          "Axel",
-          "Jérémy",
-          "Justine"
-        ],
+        "text": "Cinq personnes, parties d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels. Cliquez sur une carte pour faire connaissance.",
         "button": "Découvrir notre histoire",
         "href": "/a-propos/"
       }

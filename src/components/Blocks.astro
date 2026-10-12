@@ -3,13 +3,14 @@
 import Icon from './Icon.astro';
 import Faq from './Faq.astro';
 import Cta from './Cta.astro';
+import Team from './Team.astro';
 import { rich, type Block } from '../lib';
 interface Props { blocks?: Block[] }
 const { blocks = [] } = Astro.props;
 const bg = { clair: '', sable: 'sandy', fonce: 'on-deep water' };
 const hl = (b: { background: keyof typeof bg }) => (b.background === 'fonce' ? 'hl' : 'hl hl-ink');
 const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
-const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
+const cardColors = [['#0F5358', 'dark'], ['#FBE6D2', ''], ['#DDF2F3', '']];
 const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 ---
 {blocks.map(({ discriminant: type, value: b }) => (
@@ -38,13 +39,16 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
         <div class="wrap">
           {b.title && <h2 class="center" set:html={rich(b.title, 'hl hl-ink')} />}
           <div class="grid grid-3">
-            {b.cards.map((c) => {
+            {b.cards.map((c, i) => {
               const Tag = c.href ? 'a' : 'div';
+              const [color, tone] = cardColors[i % 3];
               return (
-                <Tag class="card reveal" href={c.href || undefined}>
-                  <span class="tile"><Icon name={c.icon} size={24} /></span>
+                <Tag class={`card tint reveal ${tone}`} style={`--tint:${color}`} href={c.href || undefined}>
+                  <span class="ghost" aria-hidden="true"><Icon name={c.icon} size={150} /></span>
+                  <span class="tile"><Icon name={c.icon} size={26} /></span>
                   <h3>{c.title}</h3>
-                  <p class="muted">{c.text}</p>
+                  <p>{c.text}</p>
+                  {c.href && <span class="go"><Icon name="arrow" size={18} /></span>}
                 </Tag>
               );
             })}
@@ -69,23 +73,14 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
       </section>
     )}
     {type === 'equipe' && (
-      <section class="block">
+      <section class="block sandy crew">
         <div class="wrap">
-          <div class="crew reveal">
-            <div class="crew-copy">
-              {b.title && <h2 set:html={rich(b.title, 'hl hl-ink')} />}
-              {paragraphs(b.text).map((p) => <p set:html={rich(p)} />)}
-              {b.button && b.href && <a class="btn btn-ghost" href={b.href}>{b.button} <Icon name="arrow" size={18} /></a>}
-            </div>
-            <ul class="faces">
-              {b.members.map((m, i) => (
-                <li style={`--c:${faceColors[i % 3]}`}>
-                  <span aria-hidden="true">{m.charAt(0)}</span>
-                  {m}
-                </li>
-              ))}
-            </ul>
+          <div class="center crew-head reveal">
+            {b.title && <h2 set:html={rich(b.title, 'hl hl-ink')} />}
+            {paragraphs(b.text).map((p) => <p class="lead" set:html={rich(p)} />)}
           </div>
+          <Team />
+          {b.button && b.href && <p class="center crew-more"><a class="btn btn-ghost" href={b.href}>{b.button} <Icon name="arrow" size={18} /></a></p>}
         </div>
       </section>
     )}
@@ -102,8 +97,21 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .block .lead + .lead, .block .lead + .checks { margin-top: 18px; }
   .block .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
   .block .card p { margin: 0; }
+  .block .tint { position: relative; overflow: hidden; background: var(--tint); border-color: transparent; border-radius: 28px; padding: 30px 28px 34px; color: var(--ink); }
+  .block .tint .tile { width: 58px; height: 58px; border-radius: 18px; background: #fff; color: var(--deep); margin-bottom: 22px; position: relative; transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
+  .block .tint:hover .tile { transform: scale(1.1) rotate(-6deg); }
+  .block .tint h3 { font-size: 1.45rem; letter-spacing: -.02em; position: relative; }
+  .block .tint p { position: relative; color: var(--ink-2); line-height: 1.6; }
+  .block .tint .ghost { position: absolute; right: -28px; bottom: -34px; opacity: .09; color: var(--deep); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .block .tint:hover .ghost { transform: translate(-8px, -8px) rotate(-8deg); }
+  .block .tint.dark { color: #fff; }
+  .block .tint.dark h3 { color: #fff; }
+  .block .tint.dark p { color: #E6F5F5; }
+  .block .tint.dark .ghost { color: #fff; opacity: .1; }
+  .block .tint .go { position: absolute; top: 30px; right: 28px; opacity: .6; }
   .block .card { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
   .block .card:hover { transform: translateY(-5px); box-shadow: var(--lift-hover); border-color: var(--aqua); }
+  .block .tint:hover { border-color: transparent; }
 
   .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 28px; position: relative; }
   .steps::before { content: ""; position: absolute; left: 12%; right: 12%; top: 31px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, #1799A1, #EC7F51 50%, #0B3D42); opacity: .35; }
@@ -113,15 +121,9 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .steps h3 { font-size: 1.3rem; margin-bottom: 8px; }
   .steps p { margin: 0 auto; max-width: 34ch; color: var(--ink-2); line-height: 1.6; }
 
-  .crew { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 32px; box-shadow: var(--lift); padding: clamp(28px, 4.5vw, 56px); }
-  .crew h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 16px; }
-  .crew-copy p { color: var(--ink-2); line-height: 1.65; margin: 0 0 14px; }
-  .crew-copy .btn { margin-top: 10px; }
-  .faces { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 14px; }
-  .faces li { width: 92px; display: grid; justify-items: center; gap: 8px; font: 680 1rem var(--font-display); color: var(--ink); }
-  .faces span { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--deep); font: 800 1.7rem var(--font-display); transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
-  .faces li:hover span { transform: translateY(-6px) rotate(-6deg); }
-  .faces li:nth-child(even) { margin-top: 22px; }
+  .crew-head { margin-bottom: 36px; }
+  .crew-head .lead { margin-inline: auto; max-width: 62ch; }
+  .crew-more { margin: 40px 0 0; }
   @media (max-width: 860px) {
     .steps { grid-template-columns: 1fr; gap: 22px; }
     .steps::before { display: none; }
@@ -129,9 +131,5 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
     .steps .n { width: 52px; height: 52px; font-size: 1.25rem; margin: 0; grid-row: span 2; border-width: 4px; }
     .steps h3 { font-size: 1.12rem; margin-bottom: 4px; align-self: end; }
     .steps p { margin: 0; max-width: none; font-size: .95rem; }
-    .crew { grid-template-columns: 1fr; gap: 28px; border-radius: 24px; }
-    .faces li { width: 76px; font-size: .92rem; }
-    .faces span { width: 58px; height: 58px; font-size: 1.35rem; }
-    .faces li:nth-child(even) { margin-top: 0; }
   }
 </style>

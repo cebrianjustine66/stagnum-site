@@ -4,11 +4,11 @@ import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import Blocks from '../components/Blocks.astro';
+import Team from '../components/Team.astro';
 import p from '../content/a-propos.json';
 import { plain, rich, type Block } from '../lib';
 
 const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
-const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
 ---
 <Base
   title={plain(p.seo.title)}
@@ -47,15 +47,7 @@ const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
           <h2 set:html={rich(p.team.title, 'hl hl-ink')} />
           {p.team.intro && <p class="lead">{p.team.intro}</p>}
         </div>
-        <ul class="team">
-          {p.team.members.map((m, i) => (
-            <li class="reveal" style={`--c:${faceColors[i % 3]}`}>
-              <span class="avatar" aria-hidden="true">{m.name.charAt(0)}</span>
-              <strong>{m.name}</strong>
-              {m.role && <span class="role">{m.role}</span>}
-            </li>
-          ))}
-        </ul>
+        <Team />
       </div>
     </section>
   )}
@@ -98,15 +90,6 @@ const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
   .w-card p { margin: 0; color: var(--ink-2); font-size: 1rem; line-height: 1.6; }
 
   .head { margin-bottom: 40px; }
-  .team { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; }
-  .team li { width: 190px; display: grid; justify-items: center; gap: 4px; padding: 30px 16px 26px; border-radius: 28px; background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); text-align: center; transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease; }
-  .team li:nth-child(even) { margin-top: 28px; }
-  .team li:hover { transform: translateY(-6px); box-shadow: var(--lift-hover); }
-  .avatar { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; background: var(--c); color: var(--deep); font: 800 2rem var(--font-display); transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
-  .team li:hover .avatar { transform: scale(1.1) rotate(-6deg); }
-  .team strong { font: 720 1.25rem var(--font-display); color: var(--ink); }
-  .role { font-size: .92rem; color: var(--ink-2); }
-
   .values-title { margin-bottom: 32px; }
   .incl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), 1fr); background: #fff; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
   .incl li { padding: 28px 24px; border-right: 1px solid var(--border); transition: background-color .25s ease; }
@@ -133,10 +116,6 @@ const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
     .w-card { padding: 16px 16px 16px 20px; border-radius: 16px; }
     .w-card h3 { font-size: 1.08rem; }
     .w-card p { font-size: .92rem; }
-    .team { gap: 12px; }
-    .team li { width: calc(50% - 6px); padding: 20px 10px; border-radius: 20px; }
-    .team li:nth-child(even) { margin-top: 0; }
-    .avatar { width: 62px; height: 62px; font-size: 1.5rem; }
     .incl li { padding: 18px 14px; }
   }
 </style>
