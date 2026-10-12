@@ -3,11 +3,11 @@
 // Les membres se règlent dans l'éditeur, rubrique « Qui sommes-nous ».
 import Icon from './Icon.astro';
 import p from '../content/a-propos.json';
-const faceColors = ['#0F5358', '#EC7F51', '#0B3D42'];
+const faceColors = ['#0F5358', '#EC7F51', '#1799A1', '#C8974F', '#3FD0D6'];
 ---
 <ul class="team">
   {p.team.members.map((m, i) => (
-    <li class="reveal" style={`--c:${faceColors[i % 3]}`}>
+    <li class="reveal" style={`--c:${faceColors[i % faceColors.length]}`}>
       <button type="button" class="flip" aria-pressed="false" disabled={!m.bio}>
         <span class="flip-in">
           <span class="face front">
