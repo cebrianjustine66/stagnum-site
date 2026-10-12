@@ -126,6 +126,31 @@ const blocks = () =>
           ),
         }),
       },
+      etapes: {
+        label: 'Étapes numérotées : des ronds reliés par une ligne',
+        itemLabel: (p) => `Étapes · ${p.fields.title.value}`,
+        schema: fields.object({
+          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
+          steps: fields.array(
+            fields.object({
+              title: text('Titre de l’étape', 'Le numéro s’ajoute tout seul.'),
+              text: long('Texte', LINK),
+            }),
+            { label: 'Étapes', description: 'Trois étapes tiennent bien sur une ligne.', itemLabel: (p) => p.fields.title.value || 'Nouvelle étape' },
+          ),
+        }),
+      },
+      equipe: {
+        label: 'Équipe : un texte et les prénoms en vignettes',
+        itemLabel: (p) => `Équipe · ${p.fields.title.value}`,
+        schema: fields.object({
+          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Qui est *derrière Stagnum* ?' }),
+          text: fields.text({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
+          members: list('Prénoms', 'Une vignette par prénom, avec son initiale.'),
+          button: text('Texte du bouton (facultatif)'),
+          href: text('Adresse du bouton', 'Exemple : /a-propos/'),
+        }),
+      },
       cta: {
         label: 'Appel à l’action : bandeau avec les deux boutons',
         itemLabel: (p) => `Appel à l’action · ${p.fields.title.value}`,
@@ -548,13 +573,19 @@ export default config({
           title: text('Grand titre', HL),
           lead: long('Texte d’introduction'),
         }),
-        story: fields.array(
-          fields.object({
-            title: text('Titre', HL),
-            text: long('Texte', `Laissez une ligne vide entre deux paragraphes. ${LINK}`),
-          }),
-          { label: '2. Notre histoire', description: 'Chaque élément est une section de texte, affichée dans l’ordre.', itemLabel: (p) => p.fields.title.value || 'Nouvelle section' },
-        ),
+        story: group('2. Pourquoi Stagnum', {
+          title: text('Titre de l’encadré foncé', HL),
+          points: list('Points à coches de l’encadré'),
+          button: text('Bouton de l’encadré (facultatif)'),
+          href: text('Adresse du bouton', 'Exemple : /demande-de-devis/'),
+          items: fields.array(
+            fields.object({
+              title: text('Titre'),
+              text: long('Texte'),
+            }),
+            { label: 'Étapes de l’histoire', description: 'Numérotées toutes seules, dans l’ordre.', itemLabel: (p) => p.fields.title.value || 'Nouvelle étape' },
+          ),
+        }),
         team: group('3. L’équipe', {
           title: text('Titre', HL),
           intro: text('Phrase sous le titre'),
@@ -564,6 +595,18 @@ export default config({
               role: text('Rôle (facultatif)', 'Exemple : Développement, Relation clients. Laissez vide pour ne rien afficher.'),
             }),
             { label: 'Membres', itemLabel: (p) => p.fields.name.value || 'Nouveau membre' },
+          ),
+        }),
+        values: group('4. Nos partis pris', {
+          title: text('Titre', HL),
+          items: fields.array(
+            fields.object({
+              icon: icon(),
+              color: color(),
+              title: text('Titre'),
+              text: text('Texte'),
+            }),
+            { label: 'Éléments', description: 'Quatre éléments tiennent sur une ligne.', itemLabel: (p) => p.fields.title.value || 'Nouvel élément' },
           ),
         }),
         blocks: blocks(),
