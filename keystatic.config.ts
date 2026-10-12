@@ -752,6 +752,7 @@ export default config({
         email: text('Champ « e-mail »'),
         message: text('Champ « message »'),
         optional: text('Mention « facultatif »'),
+        callback: text('Case à cocher « être rappelé »', 'Si la personne coche cette case, la demande reçue indique « rappel : Oui ».'),
         button: text('Bouton d’envoi'),
         legal: long('Mention sous le bouton', LINK),
         errorDisabled: text('Message si l’envoi n’est pas activé'),

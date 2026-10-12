@@ -28,6 +28,10 @@ if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulai
   <label>{f.message} <span class="opt">{f.optional}</span>
     <textarea name="message" rows="3"></textarea>
   </label>
+  <label class="check">
+    <input name="rappel" type="checkbox" value="Oui" />
+    <span>{f.callback}</span>
+  </label>
   <button class="btn btn-primary" type="submit">{f.button}</button>
   <p class="status" role="alert" hidden></p>
   <p class="small muted legal" set:html={rich(f.legal)} />
@@ -63,6 +67,8 @@ if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulai
     border: 1.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 12px 14px; width: 100%; min-height: 48px;
   }
   input:focus, textarea:focus { outline: 3px solid var(--aqua); outline-offset: 1px; border-color: var(--accent); }
+  .check { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; cursor: pointer; }
+  .check input { width: 20px; height: 20px; min-height: 0; padding: 0; margin-top: 2px; flex: none; accent-color: var(--accent); }
   .opt { font-weight: 400; color: var(--ink-2); }
   .hp { position: absolute; left: -9999px; }
   .legal { margin: 0; }

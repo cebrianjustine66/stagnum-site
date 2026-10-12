@@ -142,6 +142,40 @@
         ],
         "background": "sable"
       }
+    },
+    {
+      "discriminant": "cartes",
+      "value": {
+        "title": "Démarrer en *trois étapes*",
+        "cards": [
+          {
+            "icon": "devis",
+            "title": "1. Vous demandez votre devis",
+            "text": "Avec la calculette ou le formulaire : la taille de votre équipe, vos briques, vos coordonnées.",
+            "href": "/demande-de-devis/"
+          },
+          {
+            "icon": "check",
+            "title": "2. Vous recevez votre devis",
+            "text": "Nous vous l’envoyons. Si vous cochez la case prévue dans le formulaire, nous vous appelons pour vous l’expliquer plus en détail.",
+            "href": ""
+          },
+          {
+            "icon": "horloge",
+            "title": "3. Vous essayez gratuitement",
+            "text": "L’essai est gratuit, avant tout engagement. Vous commencez par les briques qui vous manquent le plus et vous en ajoutez quand vous voulez.",
+            "href": ""
+          }
+        ]
+      }
+    },
+    {
+      "discriminant": "texte",
+      "value": {
+        "title": "Qui est *derrière Stagnum* ?",
+        "text": "Stagnum a été créé par cinq personnes : Yohan, Léana, Axel, Jérémy et Justine.\n\nNous sommes partis d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels. Il existe peu d’outils faits pour eux, et ceux qui existent ont vieilli : peu d’évolutions, des demandes de clients qui restent sans suite, des réponses qui se font attendre.\n\nNous voulons changer le quotidien des piscinistes en leur donnant plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise. Et nous tenons à rester à l’écoute de ceux qui l’utilisent.",
+        "background": "fonce"
+      }
     }
   ],
   "seo": {
