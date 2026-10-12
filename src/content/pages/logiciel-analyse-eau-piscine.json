@@ -1,12 +1,7 @@
 {
   "nav": "Analyse d’eau",
-  "order": 7,
   "kind": "brique",
   "brick": "eau",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel d’analyse d’eau de piscine | Stagnum",
-  "description": "Enregistrez vos analyses d’eau de piscine, obtenez un diagnostic clair et gardez l’historique de chaque bassin. Pour magasins et piscinistes.",
   "h1": "Le logiciel d’analyse d’eau de piscine pour les professionnels",
   "lead": "Vous relevez les mesures, Stagnum les range dans la fiche du bassin et vous aide à expliquer le traitement au client, avec des mots simples.",
   "voice": {
@@ -17,6 +12,7 @@
       "Conseil de traitement à valider"
     ]
   },
+  "included": "",
   "points": [
     "Mesures saisies ou dictées : pH, chlore, TAC, stabilisant",
     "Historique des analyses par bassin",
@@ -51,10 +47,9 @@
       "a": "Oui. La brique sert aussi pendant les visites d’entretien, depuis un téléphone."
     }
   ],
-  "related": [
-    "logiciel-caisse-magasin-piscine",
-    "fichier-client-pisciniste",
-    "gestion-stock-magasin-piscine"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 7,
+  "withBricks": "",
+  "title": "Logiciel d’analyse d’eau de piscine | Stagnum",
+  "description": "Enregistrez vos analyses d’eau de piscine, obtenez un diagnostic clair et gardez l’historique de chaque bassin. Pour magasins et piscinistes."
 }

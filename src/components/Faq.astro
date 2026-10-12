@@ -1,18 +1,19 @@
 ---
 import Icon from './Icon.astro';
+import c from '../content/commun.json';
 interface Props { items: { q: string; a: string }[]; title?: string }
-const { items, title = 'Questions fréquentes' } = Astro.props;
+const { items, title = c.faq.title } = Astro.props;
 const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <section class="faq-section">
   <div class="wrap faq-grid">
     <div class="faq-side">
       <h2>{title}</h2>
-      <p class="muted">Les réponses courtes aux questions que les piscinistes nous posent le plus.</p>
+      <p class="muted">{c.faq.intro}</p>
       <div class="ask" data-water>
-        <p class="big">Une autre question ?</p>
-        <p>Posez-la dans votre demande : nous vous rappelons.</p>
-        <a class="btn btn-primary" href="/demande-de-devis/">Nous contacter <Icon name="arrow" size={18} /></a>
+        <p class="big">{c.faq.askTitle}</p>
+        <p>{c.faq.askText}</p>
+        <a class="btn btn-primary" href="/demande-de-devis/">{c.faq.askButton} <Icon name="arrow" size={18} /></a>
       </div>
     </div>
     <div class="faq">

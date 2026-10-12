@@ -11,7 +11,8 @@ export const POSTS = Object.entries(files).map(([path, file]) => {
   return {
     slug,
     url: `/blog/${slug}/`,
-    frontmatter: { ...fm, date: isoDate(fm.date), updated: fm.updated ? isoDate(fm.updated) : undefined },
+    // Sans « titre pour Google », on reprend le titre de l'article.
+    frontmatter: { ...fm, title: fm.title || `${fm.h1} | Stagnum`, date: isoDate(fm.date), updated: fm.updated ? isoDate(fm.updated) : undefined },
     Content: file.Content,
     headings: file.getHeadings(),
   };

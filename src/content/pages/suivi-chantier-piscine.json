@@ -1,12 +1,7 @@
 {
   "nav": "Chantiers et rentabilité",
-  "order": 3,
   "kind": "brique",
   "brick": "chantiers",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel de suivi de chantier piscine | Stagnum",
-  "description": "Suivez vos chantiers de piscine et voyez la rentabilité de chacun. Un logiciel de gestion de chantier pour piscinistes, utilisable sur le terrain.",
   "h1": "Le suivi de chantier piscine qui vous dit ce que vous gagnez",
   "lead": "Chaque chantier a sa fiche, son avancement et sa rentabilité. Vous savez, chantier par chantier, si vous avez gagné de l’argent, et pourquoi. L’application mobile est incluse.",
   "voice": {
@@ -17,6 +12,7 @@
       "Rentabilité recalculée"
     ]
   },
+  "included": "",
   "points": [
     "Une fiche par chantier, avec son avancement",
     "Rentabilité calculée chantier par chantier",
@@ -51,10 +47,9 @@
       "a": "Oui. Une construction, une rénovation de liner ou une intervention d’entretien se suivent de la même façon : une fiche, des coûts, une marge."
     }
   ],
-  "related": [
-    "logiciel-devis-piscine",
-    "logiciel-facturation-pisciniste",
-    "pilotage-vocal"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 3,
+  "withBricks": "",
+  "title": "Logiciel de suivi de chantier piscine | Stagnum",
+  "description": "Suivez vos chantiers de piscine et voyez la rentabilité de chacun. Un logiciel de gestion de chantier pour piscinistes, utilisable sur le terrain."
 }

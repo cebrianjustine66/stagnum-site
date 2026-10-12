@@ -4,39 +4,42 @@ import PageHero from '../../components/PageHero.astro';
 import Icon from '../../components/Icon.astro';
 import Cta from '../../components/Cta.astro';
 import { POSTS } from '../../data/posts';
+import c from '../../content/commun.json';
+import b from '../../content/page-blog.json';
+import { plain, rich } from '../../lib';
 const posts = [...POSTS].sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
 const url = (p: any) => p.url;
 const fmtDate = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const [first, ...rest] = posts;
 ---
 <Base
-  title="Blog Stagnum : gérer son entreprise de piscine"
-  description="Conseils de gestion pour les piscinistes : rentabilité des chantiers, factures impayées, organisation du magasin et de la saison."
-  breadcrumbs={[{ name: 'Blog', href: '/blog/' }]}
+  title={plain(b.seo.title)}
+  description={plain(b.seo.description)}
+  breadcrumbs={[{ name: b.breadcrumb, href: '/blog/' }]}
 >
   <PageHero
-    title="Le blog des <span class='hl'>piscinistes</span>"
-    lead="Des conseils concrets pour gérer une entreprise de piscine : chantiers, factures, magasin, saison."
+    title={rich(b.hero.title)}
+    lead={b.hero.lead}
   />
 
   <section class="list-section">
     <div class="wrap">
       <a class="lead-post reveal" href={url(first)}>
         <div class="cover" aria-hidden="true">
-          <span class="label">À la une</span>
+          <span class="label">{b.featured}</span>
           <span class="theme">{first.frontmatter.tag}</span>
         </div>
         <div class="body">
-          <p class="meta"><span class="tag">{first.frontmatter.tag}</span><time datetime={first.frontmatter.date}>{fmtDate(first.frontmatter.date)}</time><span>{first.frontmatter.minutes} min de lecture</span></p>
+          <p class="meta"><span class="tag">{first.frontmatter.tag}</span><time datetime={first.frontmatter.date}>{fmtDate(first.frontmatter.date)}</time><span>{first.frontmatter.minutes} {c.article.readTime}</span></p>
           <h2>{first.frontmatter.h1}</h2>
           <p class="excerpt">{first.frontmatter.description}</p>
-          <span class="more">Lire l’article <Icon name="arrow" size={16} /></span>
+          <span class="more">{b.readMore} <Icon name="arrow" size={16} /></span>
         </div>
       </a>
 
       {rest.length > 0 && (
         <>
-          <h2 class="all-title">Tous les articles</h2>
+          <h2 class="all-title">{b.allTitle}</h2>
           <ul class="rows reveal">
             {rest.map((p) => (
               <li>

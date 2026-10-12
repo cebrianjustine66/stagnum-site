@@ -1,12 +1,7 @@
 {
   "nav": "Factures et relances",
-  "order": 2,
   "kind": "brique",
   "brick": "factures",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel de facturation pour pisciniste | Stagnum",
-  "description": "Facturez vos clients et relancez les impayés sans y penser. Le logiciel de facturation des piscinistes, avec relances de paiement incluses.",
   "h1": "Le logiciel de facturation des piscinistes, relances comprises",
   "lead": "Vos factures partent le jour où le travail est fini. Les retards de paiement sont relancés automatiquement, après le nombre de jours que vous avez choisi. Les relances font partie de la brique Factures.",
   "voice": {
@@ -17,6 +12,7 @@
       "Relance programmée selon votre réglage"
     ]
   },
+  "included": "",
   "points": [
     "Factures créées à partir d’un devis ou d’un chantier",
     "Relances envoyées automatiquement, au délai que vous réglez",
@@ -56,10 +52,9 @@
       "a": "Oui. Chaque brique fonctionne seule. Si vous prenez aussi les devis, un devis accepté se transforme en facture sans ressaisie."
     }
   ],
-  "related": [
-    "facturation-electronique-pisciniste",
-    "logiciel-devis-piscine",
-    "suivi-chantier-piscine"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 2,
+  "withBricks": "",
+  "title": "Logiciel de facturation pour pisciniste | Stagnum",
+  "description": "Facturez vos clients et relancez les impayés sans y penser. Le logiciel de facturation des piscinistes, avec relances de paiement incluses."
 }

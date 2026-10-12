@@ -4,86 +4,59 @@ import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
-import { EXTRABAT_CHECKED } from '../data/site';
-import { TRIAL_DAYS } from '../data/pricing';
-import { faqLd } from '../lib';
+import Blocks from '../components/Blocks.astro';
+import c from '../content/commun.json';
+import x from '../content/comparatif.json';
+import { faqLd, plain, rich, type Block } from '../lib';
 
-const rows = [
-  { icon: 'metier', label: 'Pour qui', us: 'Les piscinistes, et eux seuls', them: 'Bâtiment, piscine, chauffage, paysage, menuiserie' },
-  { icon: 'equipe', label: 'Facturation', us: 'Par magasin, utilisateurs illimités', them: 'Par utilisateur' },
-  { icon: 'caisse', label: 'Prix', us: 'Selon vos briques et la taille de l’équipe', them: '49 €, 69 € ou 99 € HT par utilisateur et par mois' },
-  { icon: 'inventaire', label: 'Composition', us: 'Des briques indépendantes, à la carte', them: 'Trois formules' },
-  { icon: 'nuage', label: 'Stockage', us: 'Inclus, sans supplément', them: '1 Go, 5 Go ou illimité selon la formule' },
-  { icon: 'horloge', label: 'Essai', us: `${TRIAL_DAYS} jours gratuits`, them: 'Essai gratuit proposé' },
-];
-const forUs = [
-  { icon: 'achats', c: '#E1F3F1', t: 'Vous ne voulez plus ressaisir', d: 'Stagnum remplit le devis, l’achat ou la relance à partir d’une phrase ou d’un bon de livraison.' },
-  { icon: 'equipe', c: '#FBE6D2', t: 'Votre équipe grossit en saison', d: 'Le prix par magasin ne bouge pas quand vous embauchez un saisonnier.' },
-  { icon: 'reglages', c: '#F3EDE2', t: 'Vous voulez un outil à votre main', d: 'Vous ne prenez que les briques utiles, et chacune se règle à votre façon.' },
-  { icon: 'magasin', c: '#DDF2F3', t: 'Vous tenez un magasin', d: 'La caisse, l’inventaire et l’analyse d’eau font partie de Stagnum.' },
-];
-const forThem = [
-  { t: 'Vous exercez plusieurs métiers du bâtiment', d: 'et vous voulez un seul logiciel pour tous.' },
-  { t: 'Vous avez besoin de ses modules spécifiques', d: 'comme les contrats de service ou sa place de marché de connecteurs.' },
-  { t: 'Vous tenez à un éditeur installé de longue date', d: 'qui annonce plus de 41 000 utilisateurs et des formations certifiées.' },
-];
-const test = [
-  { t: 'Prenez un vrai dossier', d: 'Un devis de rénovation, l’acompte, le chantier, la facture et une relance.' },
-  { t: 'Faites-le dans les deux logiciels', d: 'Pendant leurs essais gratuits, si possible depuis un téléphone.' },
-  { t: 'Comptez le temps passé', d: 'En une heure, vous savez lequel vous en fait gagner.' },
-];
-const faq = [
-  { q: 'Quelle est la principale différence entre Stagnum et Extrabat ?', a: 'Extrabat est un logiciel de gestion pour cinq métiers du bâtiment, dont la piscine, facturé par utilisateur. Stagnum est conçu uniquement pour les piscinistes, fait la saisie à votre place et se paie par magasin.' },
-  { q: 'Stagnum est-il moins cher qu’Extrabat ?', a: 'Cela dépend de la taille de votre équipe et des briques choisies. Stagnum facture par magasin et Extrabat par utilisateur : l’écart grandit avec le nombre de personnes. La calculette de la page Tarifs vous donne votre prix exact.' },
-  { q: 'Puis-je essayer Stagnum en gardant mon logiciel actuel ?', a: `Oui. L’essai gratuit de ${TRIAL_DAYS} jours vous permet de tester Stagnum sur de vrais dossiers avant de décider.` },
-];
+const faq = x.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 ---
 <Base
-  title="Alternative à Extrabat pour les piscinistes | Stagnum"
-  description="Vous cherchez une alternative à Extrabat Piscine ? Comparez avec Stagnum : l’assistant conçu pour les piscinistes, sans ressaisie, facturé par magasin."
-  breadcrumbs={[{ name: 'Alternative à Extrabat', href: '/alternative-extrabat/' }]}
+  title={plain(x.seo.title)}
+  description={plain(x.seo.description)}
+  breadcrumbs={[{ name: x.breadcrumb, href: '/alternative-extrabat/' }]}
   jsonld={[faqLd(faq)]}
 >
   <PageHero
-    crumbs={[{ name: 'Comparer' }]}
-    title="Stagnum, une alternative à Extrabat <span class='hl'>pour les piscinistes</span>"
-    lead="Extrabat est le logiciel le plus répandu chez les piscinistes. Stagnum fait un autre choix : un assistant conçu pour ce seul métier. Voici de quoi décider, faits à l’appui."
+    crumbs={[{ name: x.hero.crumb }]}
+    title={rich(x.hero.title)}
+    lead={x.hero.lead}
   />
 
   <section class="versus-section">
     <div class="wrap">
-      <h2 class="center">Les deux, <span class="hl hl-ink">côte à côte</span></h2>
+      <h2 class="center" set:html={rich(x.table.title, 'hl hl-ink')} />
       <div class="versus reveal" role="table" aria-label="Comparaison de Stagnum et d’Extrabat">
         <div class="v-row v-head" role="row">
           <span role="columnheader"></span>
-          <span class="us" role="columnheader">Stagnum</span>
-          <span class="them" role="columnheader">Extrabat</span>
+          <span class="us" role="columnheader">{x.table.us}</span>
+          <span class="them" role="columnheader">{x.table.them}</span>
         </div>
-        {rows.map((r) => (
+        {x.table.rows.map((r) => (
           <div class="v-row" role="row">
             <span class="label" role="rowheader"><i><Icon name={r.icon} size={20} /></i>{r.label}</span>
-            <span class="us" role="cell">{r.us}</span>
-            <span class="them" role="cell">{r.them}</span>
+            <span class="us" role="cell">{plain(r.us)}</span>
+            <span class="them" role="cell">{plain(r.them)}</span>
           </div>
         ))}
       </div>
-      <p class="source">Informations sur Extrabat relevées sur extrabat.com le {EXTRABAT_CHECKED}. Elles peuvent avoir changé : vérifiez-les auprès de l’éditeur. Extrabat est une marque de son propriétaire, sans lien avec Stagnum.</p>
+      <p class="source">{x.table.source.replace('{date}', x.table.checked)}</p>
     </div>
   </section>
 
   <section class="sandy">
     <div class="wrap fit">
       <div class="fit-head">
-        <h2>Stagnum est fait pour vous <span class="sun">si…</span></h2>
-        <p class="muted">Quatre situations où le choix est simple.</p>
-        <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+        <h2 set:html={rich(x.forUs.title, 'sun')} />
+        <p class="muted">{x.forUs.intro}</p>
+        <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
       </div>
       <ol class="frame fit-list reveal">
-        {forUs.map((x, i) => (
+        {x.forUs.items.map((u, i) => (
           <li>
-            <div class="f-top"><span class="i-ic" style={`--c:${x.c}`}><Icon name={x.icon} size={24} /></span><span class="n">0{i + 1}</span></div>
-            <h3>{x.t}</h3>
-            <p>{x.d}</p>
+            <div class="f-top"><span class="i-ic" style={`--c:${u.color}`}><Icon name={u.icon} size={24} /></span><span class="n">0{i + 1}</span></div>
+            <h3>{u.title}</h3>
+            <p>{u.text}</p>
           </li>
         ))}
       </ol>
@@ -93,33 +66,34 @@ const faq = [
   <section>
     <div class="wrap them-wrap">
       <div>
-        <h2>Extrabat reste un bon choix <span class="sun">si…</span></h2>
-        <p class="muted">Un comparatif honnête dit aussi quand l’autre solution convient mieux.</p>
+        <h2 set:html={rich(x.forThem.title, 'sun')} />
+        <p class="muted">{x.forThem.intro}</p>
       </div>
       <ul class="for-them">
-        {forThem.map((x) => <li class="reveal"><strong>{x.t}</strong> {x.d}</li>)}
+        {x.forThem.items.map((u) => <li class="reveal"><strong>{u.title}</strong> {u.text}</li>)}
       </ul>
     </div>
   </section>
 
   <section class="on-deep water test">
     <div class="wrap">
-      <h2 class="center">Le seul vrai test : <span class="hl">une heure, un dossier</span></h2>
+      <h2 class="center" set:html={rich(x.test.title)} />
       <ol class="t-steps">
-        {test.map((x, i) => (
+        {x.test.steps.map((u, i) => (
           <li class="reveal">
             <span class="n">{i + 1}</span>
-            <h3>{x.t}</h3>
-            <p>{x.d}</p>
+            <h3>{u.title}</h3>
+            <p>{u.text}</p>
           </li>
         ))}
       </ol>
-      <div class="btns center-btns"><a class="btn btn-primary" href="/demande-de-devis/">Essayer Stagnum {TRIAL_DAYS} jours <Icon name="arrow" size={18} /></a></div>
+      <div class="btns center-btns"><a class="btn btn-primary" href="/demande-de-devis/">{plain(x.test.button)} <Icon name="arrow" size={18} /></a></div>
     </div>
   </section>
 
   <Faq items={faq} />
-  <Cta title="Comparez avec vos propres chiffres" />
+  <Blocks blocks={x.blocks as Block[]} />
+  <Cta title={x.ctaTitle} />
 </Base>
 
 <style>

@@ -7,7 +7,7 @@ import DevisForm from '../components/DevisForm.astro';
 import { TIERS, BRICKS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, ENGAGEMENTS, TRIAL_DAYS, ANNUAL_PAYMENT_DISCOUNT, MULTI_STORE_DISCOUNT, MAX_STORES } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
 import t from '../content/tarifs.json';
-import { faqLd, plain, rich, type Block } from '../lib';
+import { faqLd, pct, plain, rich, type Block } from '../lib';
 
 const faq = t.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 
@@ -18,18 +18,18 @@ const cfg = {
   ENGAGEMENTS,
   ANNUAL_PAYMENT_DISCOUNT,
   MULTI_STORE_DISCOUNT,
+  ALL_HINT: t.calc.allHint,
 };
 // Teinte claire de chaque brique dans la calculette.
 const tint: Record<string, string> = {
   devis: '#D9EFF0', factures: '#E1F3F1', chantiers: '#FBE6D2', achats: '#F3EDE2', caisse: '#F8DDD0', inventaire: '#D6E8E9', eau: '#DDF2F3',
 };
 const dots = [1, 3, 6, 10, 14];
-const pct = (d: number) => `${Math.round(d * 100)} %`;
 ---
 <Base
   title={plain(t.seo.title)}
   description={plain(t.seo.description)}
-  breadcrumbs={[{ name: 'Tarifs', href: '/tarifs/' }]}
+  breadcrumbs={[{ name: t.breadcrumb, href: '/tarifs/' }]}
   jsonld={[faqLd(faq)]}
 >
   <PageHero center title={rich(t.hero.title)} lead={t.hero.lead} />
@@ -53,12 +53,12 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
               <input type="radio" name="tier" value="xl" />
               <span>
                 <i class="people" aria-hidden="true">{Array.from({ length: dots[4] }, () => <b></b>)}</i>
-                <strong>Plus de 20</strong><small>personnes</small>
+                <strong>{t.calc.xlLabel}</strong><small>{t.calc.xlSub}</small>
               </span>
             </label>
           </div>
           <label class="stores">
-            <span>Combien de magasins ?<small>Sans magasin, laissez 1.</small></span>
+            <span>{t.calc.storesLabel}<small>{t.calc.storesHint}</small></span>
             <select name="stores" id="stores">
               {Array.from({ length: MAX_STORES }, (_, i) => <option value={i + 1}>{i + 1}</option>)}
             </select>
@@ -78,10 +78,10 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
             ))}
             <div class="all">
               <div>
-                <strong>Prix préférentiel avec les {BRICK_COUNT_WORD} briques</strong>
-                <small id="all-hint">La remise s’applique toute seule.</small>
+                <strong>{plain(t.calc.allTitle)}</strong>
+                <small id="all-hint">{t.calc.allHint}</small>
               </div>
-              <button type="button" class="btn" id="all-btn">Tout cocher</button>
+              <button type="button" class="btn" id="all-btn">{t.calc.allButton}</button>
             </div>
           </div>
         </fieldset>
@@ -95,12 +95,12 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
                 <span>
                   {e.discount > 0 && <em class="badge">−{pct(e.discount)}</em>}
                   <strong>{e.months} mois</strong>
-                  <small>{e.discount ? 'Prix réduit' : 'Engagement minimum'}</small>
+                  <small>{e.discount ? t.calc.reduced : t.calc.minimum}</small>
                 </span>
               </label>
             ))}
           </div>
-          <p class="small muted hint">L’engagement démarre après {TRIAL_DAYS} jours d’essai gratuit.</p>
+          <p class="small muted hint">{plain(t.calc.engagementHint)}</p>
         </fieldset>
 
         <fieldset class="step">
@@ -108,13 +108,13 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
           <div class="choices pay">
             <label class="choice">
               <input type="radio" name="pay" value="month" checked />
-              <span><i class="p-ic"><Icon name="horloge" size={20} /></i><strong>Chaque mois</strong><small>Un prélèvement mensuel</small></span>
+              <span><i class="p-ic"><Icon name="horloge" size={20} /></i><strong>{t.calc.monthlyTitle}</strong><small>{t.calc.monthlySub}</small></span>
             </label>
             <label class="choice">
               <input type="radio" name="pay" value="year" />
               <span>
-                <em class="badge">−{pct(ANNUAL_PAYMENT_DISCOUNT)} en plus</em>
-                <i class="p-ic"><Icon name="check" size={20} /></i><strong>Une fois par an</strong><small>{pct(ANNUAL_PAYMENT_DISCOUNT)} de remise en plus de celle des 12 mois</small>
+                <em class="badge">{plain(t.calc.yearlyBadge)}</em>
+                <i class="p-ic"><Icon name="check" size={20} /></i><strong>{t.calc.yearlyTitle}</strong><small>{plain(t.calc.yearlySub)}</small>
               </span>
             </label>
           </div>
@@ -123,10 +123,10 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
 
       <aside class="summary" aria-live="polite">
         <div class="s-head" data-water>
-          <p class="s-title">Votre prix</p>
-          <p class="empty" id="s-empty">Cochez une brique pour voir votre prix.</p>
-          <p class="amount" id="s-price" hidden><span id="s-amount">0</span> €<small>HT par mois<span id="s-per-store"> et par magasin</span></small></p>
-          <p class="quote" id="s-quote" hidden>Sur mesure, au-delà de 20 personnes.</p>
+          <p class="s-title">{t.summary.title}</p>
+          <p class="empty" id="s-empty">{t.summary.empty}</p>
+          <p class="amount" id="s-price" hidden><span id="s-amount">0</span> €<small>{t.summary.unit}<span id="s-per-store">{t.summary.perStore}</span></small></p>
+          <p class="quote" id="s-quote" hidden>{t.summary.quote}</p>
         </div>
         <div class="s-body">
           <p class="s-line total" id="s-total" hidden></p>
@@ -134,8 +134,8 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
           <p class="s-line applied" id="s-applied" hidden></p>
           <ul class="chosen" id="s-list"></ul>
           <p class="s-line tip" id="s-tip" hidden></p>
-          <a class="btn btn-primary" href="#demande" id="s-cta">Recevoir mon devis <Icon name="arrow" size={18} /></a>
-          <p class="trial">{TRIAL_DAYS} jours d’essai gratuit, puis engagement de 3 mois minimum.</p>
+          <a class="btn btn-primary" href="#demande" id="s-cta">{t.summary.button} <Icon name="arrow" size={18} /></a>
+          <p class="trial">{plain(t.summary.trial)}</p>
         </div>
       </aside>
     </div>
@@ -224,7 +224,7 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
     $('#all-btn').hidden = all;
     $('#all-hint').textContent = all
       ? (xl ? 'Vous avez tout Stagnum.' : `Appliqué : ${cut(fullSum) - fullPrice} € d’économie par mois.`)
-      : 'La remise s’applique toute seule.';
+      : cfg.ALL_HINT;
     $('#s-list').replaceChildren(...names.map((n) => Object.assign(document.createElement('li'), { textContent: n })));
     let config = `Taille : ${xl ? 'plus de 20 personnes' : cfg.TIERS[t].label + (t ? ' personnes' : '')} | Magasins : ${stores} | Briques : ${all ? 'toutes' : names.join(', ') || 'non choisies'} | Engagement : ${eng.months} mois | Paiement : ${yearly ? 'une fois par an' : 'chaque mois'}`;
 

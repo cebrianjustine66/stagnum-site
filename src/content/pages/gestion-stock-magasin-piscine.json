@@ -1,12 +1,7 @@
 {
   "nav": "Inventaire",
-  "order": 6,
   "kind": "brique",
   "brick": "inventaire",
-  "included": "",
-  "withBricks": "",
-  "title": "Gestion de stock pour magasin de piscine | Stagnum",
-  "description": "Suivez le stock de votre magasin de piscine sans tableur et faites votre inventaire sans ressaisie. Un logiciel de gestion de stock pour piscinistes.",
   "h1": "La gestion de stock d’un magasin de piscine, sans tableur ni ressaisie",
   "lead": "Votre stock se met à jour à chaque vente et à chaque livraison. Pour l’inventaire, vous comptez et Stagnum enregistre : plus de feuille à recopier le soir.",
   "voice": {
@@ -17,6 +12,7 @@
       "Stock à jour sans ressaisie"
     ]
   },
+  "included": "",
   "points": [
     "Inventaire sans feuille de comptage ni ressaisie",
     "Suivi des produits qui baissent et de ceux qui dorment",
@@ -51,10 +47,9 @@
       "a": "Non. Le stockage est inclus dans Stagnum, sans supplément."
     }
   ],
-  "related": [
-    "logiciel-achats-pisciniste",
-    "logiciel-caisse-magasin-piscine",
-    "logiciel-analyse-eau-piscine"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 6,
+  "withBricks": "",
+  "title": "Gestion de stock pour magasin de piscine | Stagnum",
+  "description": "Suivez le stock de votre magasin de piscine sans tableur et faites votre inventaire sans ressaisie. Un logiciel de gestion de stock pour piscinistes."
 }

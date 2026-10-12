@@ -1,19 +1,14 @@
 {
   "nav": "Facturation électronique",
-  "order": 9,
   "kind": "atout",
   "brick": "aucune",
-  "included": "Incluse avec la brique Factures",
-  "withBricks": "Avec la brique Factures",
-  "parent": "logiciel-facturation-pisciniste",
-  "title": "Facturation électronique pour pisciniste | Stagnum",
-  "description": "La facturation électronique devient obligatoire pour les piscinistes. Dates, obligations, et comment Stagnum vous met en conformité sans changer vos habitudes.",
   "h1": "La facturation électronique du pisciniste, sans y penser",
   "lead": "La réforme de la facturation électronique concerne toutes les entreprises, y compris les piscinistes indépendants. Stagnum est conforme : vous continuez à faire vos factures comme d’habitude.",
   "voice": {
     "said": "",
     "done": []
   },
+  "included": "Incluse avec la brique Factures",
   "points": [
     "Réception des factures électroniques de vos fournisseurs",
     "Émission de vos factures au format exigé",
@@ -48,10 +43,9 @@
       "a": "Elles ne passent pas par le circuit de la facture électronique, mais leurs données doivent être transmises à l’administration. Stagnum gère cette transmission."
     }
   ],
-  "related": [
-    "logiciel-facturation-pisciniste",
-    "logiciel-caisse-magasin-piscine",
-    "logiciel-devis-piscine"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 9,
+  "withBricks": "Avec la brique Factures",
+  "title": "Facturation électronique pour pisciniste | Stagnum",
+  "description": "La facturation électronique devient obligatoire pour les piscinistes. Dates, obligations, et comment Stagnum vous met en conformité sans changer vos habitudes."
 }

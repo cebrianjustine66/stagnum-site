@@ -1,18 +1,14 @@
 {
   "nav": "Achats",
-  "order": 4,
   "kind": "brique",
   "brick": "achats",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel de gestion des achats pour pisciniste | Stagnum",
-  "description": "Déposez le bon de livraison de votre fournisseur : Stagnum saisit vos achats à votre place. Fini les références retapées ligne par ligne.",
   "h1": "Vos achats saisis tout seuls, à partir du bon de livraison",
   "lead": "Une commande arrive. Vous déposez le bon de livraison dans Stagnum, qui en lit les lignes et remplit l’achat. Vous n’avez plus à retaper les références une par une.",
   "voice": {
     "said": "",
     "done": []
   },
+  "included": "",
   "points": [
     "Achats créés à partir du bon de livraison",
     "Aucune référence à retaper ligne par ligne",
@@ -47,10 +43,9 @@
       "a": "Non. La brique Achats fonctionne seule. Avec l’Inventaire, les quantités reçues mettent votre stock à jour."
     }
   ],
-  "related": [
-    "gestion-stock-magasin-piscine",
-    "suivi-chantier-piscine",
-    "logiciel-facturation-pisciniste"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 4,
+  "withBricks": "",
+  "title": "Logiciel de gestion des achats pour pisciniste | Stagnum",
+  "description": "Déposez le bon de livraison de votre fournisseur : Stagnum saisit vos achats à votre place. Fini les références retapées ligne par ligne."
 }

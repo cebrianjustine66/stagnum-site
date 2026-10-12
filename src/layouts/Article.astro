@@ -4,7 +4,9 @@ import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import { SITE } from '../data/site';
-import { TRIAL_DAYS } from '../data/pricing';
+import c from '../content/commun.json';
+import blog from '../content/page-blog.json';
+import { plain } from '../lib';
 import { POSTS } from '../data/posts';
 const { frontmatter: fm, headings = [] } = Astro.props;
 const url = new URL(Astro.url.pathname, SITE.url).href;
@@ -28,14 +30,14 @@ const article = {
   title={fm.title}
   description={fm.description}
   type="article"
-  breadcrumbs={[{ name: 'Blog', href: '/blog/' }, { name: fm.h1, href: Astro.url.pathname }]}
+  breadcrumbs={[{ name: blog.breadcrumb, href: '/blog/' }, { name: fm.h1, href: Astro.url.pathname }]}
   jsonld={[article]}
 >
-  <PageHero crumbs={[{ name: 'Blog', href: '/blog/' }]} title={fm.h1} lead={fm.description}>
+  <PageHero crumbs={[{ name: blog.breadcrumb, href: '/blog/' }]} title={fm.h1} lead={fm.description}>
     <p class="a-meta">
       <span class="a-tag">{fm.tag}</span>
-      <span><Icon name="horloge" size={16} /> {fm.minutes} min de lecture</span>
-      <span>Publié le <time datetime={fm.date}>{fmtDate(fm.date)}</time></span>
+      <span><Icon name="horloge" size={16} /> {fm.minutes} {c.article.readTime}</span>
+      <span>{c.article.published} <time datetime={fm.date}>{fmtDate(fm.date)}</time></span>
     </p>
   </PageHero>
 
@@ -45,17 +47,17 @@ const article = {
     </article>
     <aside class="a-side">
       {toc.length > 0 && (
-        <nav class="toc" aria-label="Dans cet article">
-          <p class="s-title">Dans cet article</p>
+        <nav class="toc" aria-label={c.article.tocTitle}>
+          <p class="s-title">{c.article.tocTitle}</p>
           <ol>
             {toc.map((h: any) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
           </ol>
         </nav>
       )}
       <div class="s-cta" data-water>
-        <p class="big">Moins de saisie, plus de piscines.</p>
-        <p>Essayez Stagnum gratuitement pendant {TRIAL_DAYS} jours.</p>
-        <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif</a>
+        <p class="big">{c.article.sideTitle}</p>
+        <p>{plain(c.article.sideText)}</p>
+        <a class="btn btn-primary" href="/tarifs/">{c.buttons.price}</a>
       </div>
     </aside>
   </div>
@@ -63,7 +65,7 @@ const article = {
   {others.length > 0 && (
     <section class="more-posts">
       <div class="wrap">
-        <h2>À lire aussi</h2>
+        <h2>{c.article.moreTitle}</h2>
         <div class="grid grid-2">
           {others.map((p) => (
             <a class="o-post reveal" href={p.url} style={`--c:${p.frontmatter.color}`}>

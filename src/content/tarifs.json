@@ -1,8 +1,5 @@
 {
-  "seo": {
-    "title": "Tarifs Stagnum : prix du logiciel pour pisciniste",
-    "description": "Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
-  },
+  "breadcrumb": "Tarifs",
   "hero": {
     "title": "Votre prix, *en une minute*",
     "lead": "Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche."
@@ -12,6 +9,32 @@
     "bricks": "De quoi avez-vous besoin ?",
     "duration": "Sur quelle durée ?",
     "payment": "À quelle fréquence payer ?"
+  },
+  "calc": {
+    "xlLabel": "Plus de 20",
+    "xlSub": "personnes",
+    "storesLabel": "Combien de magasins ?",
+    "storesHint": "Sans magasin, laissez 1.",
+    "allTitle": "Prix préférentiel avec les {toutes} briques",
+    "allHint": "La remise s’applique toute seule.",
+    "allButton": "Tout cocher",
+    "reduced": "Prix réduit",
+    "minimum": "Engagement minimum",
+    "engagementHint": "L’engagement démarre après {essai} jours d’essai gratuit.",
+    "monthlyTitle": "Chaque mois",
+    "monthlySub": "Un prélèvement mensuel",
+    "yearlyBadge": "−{remise_annuelle} en plus",
+    "yearlyTitle": "Une fois par an",
+    "yearlySub": "{remise_annuelle} de remise en plus de celle des 12 mois"
+  },
+  "summary": {
+    "title": "Votre prix",
+    "empty": "Cochez une brique pour voir votre prix.",
+    "unit": "HT par mois",
+    "perStore": " et par magasin",
+    "quote": "Sur mesure, au-delà de 20 personnes.",
+    "button": "Recevoir mon devis",
+    "trial": "{essai} jours d’essai gratuit, puis engagement de 3 mois minimum."
   },
   "included": {
     "title": "Toujours inclus, *quel que soit votre choix*",
@@ -81,5 +104,9 @@
       "a": "Oui. Les briques sont indépendantes : vous en ajoutez quand vous en avez besoin."
     }
   ],
-  "blocks": []
+  "blocks": [],
+  "seo": {
+    "title": "Tarifs Stagnum : prix du logiciel pour pisciniste",
+    "description": "Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
+  }
 }

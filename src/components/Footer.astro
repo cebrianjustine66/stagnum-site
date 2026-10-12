@@ -4,33 +4,30 @@ import logo from '../assets/logo-wordmark-white.png';
 import { LANDINGS } from '../data/pages';
 const briques = LANDINGS.filter((l) => l.kind === 'brique');
 const atouts = LANDINGS.filter((l) => l.kind === 'atout');
-const year = new Date().getFullYear();
+import nav from '../content/navigation.json';
+import { plain } from '../lib';
+const f = nav.footer;
 ---
 <footer class="on-deep site-footer" data-water>
   <div class="wrap cols">
     <div>
       <a href="/" class="brand" aria-label="Stagnum, accueil"><Image src={logo} alt="Stagnum" width={150} height={29} densities={[1, 2]} /></a>
-      <p class="muted small">L’assistant intelligent des piscinistes. Un prix par magasin, utilisateurs illimités.</p>
+      <p class="muted small">{f.tagline}</p>
     </div>
-    <nav aria-label="Fonctionnalités">
-      <p class="f-title">Fonctionnalités</p>
+    <nav aria-label={f.featuresTitle}>
+      <p class="f-title">{f.featuresTitle}</p>
       {briques.map((f) => <a href={`/${f.slug}/`}>{f.nav}</a>)}
     </nav>
-    <nav aria-label="Inclus, sans supplément">
-      <p class="f-title">Inclus</p>
+    <nav aria-label={nav.header.includedTitle}>
+      <p class="f-title">{f.includedTitle}</p>
       {atouts.map((f) => <a href={`/${f.slug}/`}>{f.nav}</a>)}
     </nav>
-    <nav aria-label="Stagnum">
-      <p class="f-title">Stagnum</p>
-      <a href="/tarifs/">Tarifs</a>
-      <a href="/demande-de-devis/">Demander un devis</a>
-      <a href="/alternative-extrabat/">Comparer avec Extrabat</a>
-      <a href="/blog/">Blog</a>
-      <a href="/mentions-legales/">Mentions légales</a>
-      <a href="/confidentialite/">Confidentialité</a>
+    <nav aria-label={f.companyTitle}>
+      <p class="f-title">{f.companyTitle}</p>
+      {f.links.map((l) => <a href={l.href}>{l.label}</a>)}
     </nav>
   </div>
-  <div class="wrap legal small muted">© {year} Stagnum. Tous droits réservés.</div>
+  <div class="wrap legal small muted">{plain(f.copyright)}</div>
 </footer>
 
 <style>

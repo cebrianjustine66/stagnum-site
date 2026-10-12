@@ -1,0 +1,12 @@
+{
+  "name": "Nom et prénom",
+  "company": "Société",
+  "phone": "Téléphone",
+  "email": "E-mail",
+  "message": "Votre message",
+  "optional": "(facultatif)",
+  "button": "Envoyer ma demande",
+  "legal": "Vos informations servent uniquement à répondre à votre demande. Voir notre [politique de confidentialité](/confidentialite/).",
+  "errorDisabled": "L’envoi n’est pas encore activé sur ce site.",
+  "errorFailed": "L’envoi a échoué. Réessayez dans un instant."
+}

@@ -9,9 +9,16 @@ export const faqLd = (items: { q: string; a: string }[]) => ({
 });
 
 // Textes saisis dans l'interface d'édition (/keystatic).
-// {essai}, {nb_briques} et {toutes} sont remplacés par les valeurs de pricing.ts.
-import { BRICKS, BRICK_COUNT_WORD, TRIAL_DAYS } from './data/pricing';
-const VARS: Record<string, string | number> = { essai: TRIAL_DAYS, nb_briques: BRICKS.length, toutes: BRICK_COUNT_WORD };
+// {essai}, {nb_briques}, {toutes}, {remise_annuelle} et {annee} sont remplacés automatiquement.
+import { BRICKS, BRICK_COUNT_WORD, TRIAL_DAYS, ANNUAL_PAYMENT_DISCOUNT } from './data/pricing';
+export const pct = (d: number) => `${Math.round(d * 100)} %`;
+const VARS: Record<string, string | number> = {
+  essai: TRIAL_DAYS,
+  nb_briques: BRICKS.length,
+  toutes: BRICK_COUNT_WORD,
+  remise_annuelle: pct(ANNUAL_PAYMENT_DISCOUNT),
+  annee: new Date().getFullYear(),
+};
 export const plain = (s = '') => s.replace(/\{(\w+)\}/g, (m, k) => (k in VARS ? String(VARS[k]) : m));
 
 const ESC: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
@@ -22,6 +29,8 @@ export const rich = (s = '', hl = 'hl') =>
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, `<span class="${hl}">$1</span>`);
+// Une ligne vide sépare deux paragraphes.
+export const paragraphs = (t = '') => t.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
 // Blocs empilables en bas de page (voir components/Blocks.astro et keystatic.config.ts).
 type Background = 'clair' | 'sable' | 'fonce';

@@ -1,0 +1,21 @@
+{
+  "thanks": {
+    "seo": {
+      "title": "Demande envoyée | Stagnum",
+      "description": "Votre demande de devis Stagnum a bien été envoyée."
+    },
+    "title": "Merci, votre demande est envoyée",
+    "lead": "Nous vous rappelons rapidement avec votre devis.",
+    "button": "Retour à l’accueil"
+  },
+  "notFound": {
+    "seo": {
+      "title": "Page introuvable | Stagnum",
+      "description": "Cette page n’existe pas ou a été déplacée."
+    },
+    "title": "Cette page n’existe pas",
+    "lead": "Elle a peut-être été déplacée. Repartez de l’accueil ou calculez votre tarif.",
+    "homeButton": "Accueil",
+    "priceButton": "Tarifs"
+  }
+}

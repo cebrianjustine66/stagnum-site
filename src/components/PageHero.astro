@@ -1,6 +1,7 @@
 ---
 // Haut de page commun : fond turquoise, effet d'eau et vague en bas.
 interface Props { title: string; lead?: string; crumbs?: { name: string; href?: string }[]; center?: boolean }
+import c from '../content/commun.json';
 const { title, lead, crumbs, center = false } = Astro.props;
 ---
 <section class="on-deep water wave-bottom page-hero">
@@ -8,7 +9,7 @@ const { title, lead, crumbs, center = false } = Astro.props;
     {crumbs && (
       <nav class="breadcrumb" aria-label="Fil d’Ariane">
         <ol>
-          <li><a href="/">Accueil</a></li>
+          <li><a href="/">{c.home}</a></li>
           {crumbs.map((c) => (c.href ? <li><a href={c.href}>{c.name}</a></li> : <li aria-current="page">{c.name}</li>))}
         </ol>
       </nav>

@@ -1,8 +1,4 @@
 {
-  "seo": {
-    "title": "Logiciel de gestion pour pisciniste : l’assistant intelligent | Stagnum",
-    "description": "Stagnum est l’assistant intelligent des piscinistes : devis, factures, achats, chantiers, caisse, stock et analyse d’eau, sans ressaisie. Un prix par magasin."
-  },
   "hero": {
     "title": "L’assistant *intelligent* des piscinistes",
     "lead": "Le logiciel de gestion qui fait la saisie à votre place : devis, factures, achats, chantiers, caisse, stock et analyse d’eau. Et il se règle à votre façon.",
@@ -15,7 +11,8 @@
   },
   "bricks": {
     "title": "{nb_briques} briques. Prenez seulement *ce qu’il vous faut*",
-    "lead": "Chaque brique fonctionne seule. Cliquez sur une brique pour la voir fonctionner."
+    "lead": "Chaque brique fonctionne seule. Cliquez sur une brique pour la voir fonctionner.",
+    "more": "Voir la démonstration"
   },
   "smart": {
     "title": "Il fait la saisie, *vous décidez*",
@@ -67,7 +64,8 @@
       "Votre prix s’affiche"
     ],
     "bonus": "**Prix préférentiel** si vous prenez les {toutes} briques.",
-    "note": "Vous utilisez un autre logiciel ? [Comparez Stagnum et Extrabat](/alternative-extrabat/)."
+    "note": "Vous utilisez un autre logiciel ? [Comparez Stagnum et Extrabat](/alternative-extrabat/).",
+    "allChip": "Les {toutes} briques : prix préférentiel"
   },
   "faq": [
     {
@@ -103,5 +101,9 @@
       "a": "Oui. L’essai est gratuit pendant {essai} jours. Ensuite, l’engagement minimum est de 3 mois, avec un prix dégressif sur 6 et 12 mois."
     }
   ],
-  "blocks": []
+  "blocks": [],
+  "seo": {
+    "title": "Logiciel de gestion pour pisciniste : l’assistant intelligent | Stagnum",
+    "description": "Stagnum est l’assistant intelligent des piscinistes : devis, factures, achats, chantiers, caisse, stock et analyse d’eau, sans ressaisie. Un prix par magasin."
+  }
 }

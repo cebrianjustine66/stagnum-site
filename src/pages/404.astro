@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import m from '../content/messages.json';
+const t = m.notFound;
 ---
-<Base title="Page introuvable | Stagnum" description="Cette page n’existe pas ou a été déplacée." noindex>
-  <PageHero center title="Cette page n’existe pas" lead="Elle a peut-être été déplacée. Repartez de l’accueil ou calculez votre tarif.">
+<Base title={t.seo.title} description={t.seo.description} noindex>
+  <PageHero center title={t.title} lead={t.lead}>
     <div class="btns" style="justify-content:center">
-        <a class="btn btn-primary" href="/">Accueil</a>
-        <a class="btn btn-ghost" href="/tarifs/">Tarifs</a>
+        <a class="btn btn-primary" href="/">{t.homeButton}</a>
+        <a class="btn btn-ghost" href="/tarifs/">{t.priceButton}</a>
       </div>
   </PageHero>
 </Base>

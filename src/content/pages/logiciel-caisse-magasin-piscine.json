@@ -1,18 +1,14 @@
 {
   "nav": "Caisse",
-  "order": 5,
   "kind": "brique",
   "brick": "caisse",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel de caisse pour magasin de piscine | Stagnum",
-  "description": "Une caisse simple pour votre magasin de piscine, reliée à votre fichier client et à votre stock. Encaissez vite, même en pleine saison.",
   "h1": "Le logiciel de caisse pensé pour un magasin de piscine",
   "lead": "Vous encaissez en quelques gestes, et chaque vente rejoint la fiche du client. En pleine saison, quand la file s’allonge au comptoir, la caisse ne doit pas vous ralentir.",
   "voice": {
     "said": "",
     "done": []
   },
+  "included": "",
   "points": [
     "Encaissement rapide au comptoir",
     "Ventes rattachées à la fiche client",
@@ -56,10 +52,9 @@
       "a": "Oui. Chaque magasin a son abonnement, et vous pouvez les relier entre eux pour partager vos clients et suivre l’ensemble."
     }
   ],
-  "related": [
-    "gestion-stock-magasin-piscine",
-    "logiciel-analyse-eau-piscine",
-    "logiciel-facturation-pisciniste"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 5,
+  "withBricks": "",
+  "title": "Logiciel de caisse pour magasin de piscine | Stagnum",
+  "description": "Une caisse simple pour votre magasin de piscine, reliée à votre fichier client et à votre stock. Encaissez vite, même en pleine saison."
 }

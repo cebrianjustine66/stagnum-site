@@ -9,6 +9,7 @@ import { SITE } from '../data/site';
 import { BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
 import a from '../content/accueil.json';
+import c from '../content/commun.json';
 import { faqLd, plain, rich, type Block } from '../lib';
 
 const faq = a.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
@@ -43,8 +44,8 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         <h1 set:html={rich(a.hero.title)} />
         <p class="lead">{a.hero.lead}</p>
         <div class="btns">
-          <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
-          <a class="btn btn-ghost" href="/demande-de-devis/">Essayer <span class="long">{TRIAL_DAYS} jours </span>gratuitement</a>
+          <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
+          <a class="btn btn-ghost" href="/demande-de-devis/">{c.buttons.trial.before} <span class="long">{plain(c.buttons.trial.middle)} </span>{c.buttons.trial.after}</a>
         </div>
         <ul class="proofs">
           {a.hero.proofs.map((p) => <li>{plain(p)}</li>)}
@@ -70,7 +71,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             <h3>{b.name}</h3>
             <p class="b-desc">{b.desc}</p>
             <div class="mini-wrap"><BrickMini id={b.id} /></div>
-            <span class="b-more"><span>Voir la démonstration</span> <Icon name="arrow" size={16} /></span>
+            <span class="b-more"><span>{a.bricks.more}</span> <Icon name="arrow" size={16} /></span>
           </a>
         ))}
       </div>
@@ -172,11 +173,11 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             {a.price.steps.map((t, i) => <li><span>{i + 1}</span>{t}</li>)}
           </ol>
           <p class="ct-bonus" set:html={rich(a.price.bonus)} />
-          <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+          <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
         </div>
         <div class="ct-right" aria-hidden="true">
           {BRICKS.map((b) => <span class="ct-chip"><i><Icon name="check" size={14} /></i>{b.name}</span>)}
-          <span class="ct-all">Les {BRICK_COUNT_WORD} briques : prix préférentiel</span>
+          <span class="ct-all">{plain(a.price.allChip)}</span>
         </div>
       </div>
       <p class="center small muted note" set:html={rich(a.price.note)} />

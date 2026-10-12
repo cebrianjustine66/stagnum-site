@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
-import keystatic from '@keystatic/astro';
+import editor from './src/editor/integration.mjs';
 import vercel from '@astrojs/vercel';
 
 // Les pages du site restent du HTML statique. Seule l'interface d'édition (/keystatic)
@@ -16,6 +16,6 @@ export default defineConfig({
   integrations: [
     sitemap({ filter: (page) => !/\/(merci|mentions-legales|confidentialite)\/$/.test(page) }),
     react(),
-    keystatic(),
+    editor(),
   ],
 });

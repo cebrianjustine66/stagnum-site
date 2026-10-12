@@ -4,12 +4,15 @@ import logo from '../assets/logo-wordmark.png';
 import Icon from './Icon.astro';
 import { LANDINGS } from '../data/pages';
 import { BRICKS } from '../data/pricing';
+import nav from '../content/navigation.json';
+const h = nav.header;
+const current = (href: string) => (path === href || (href === '/blog/' && path.startsWith(href)) ? 'page' : undefined);
 const briques = LANDINGS.filter((l) => l.kind === 'brique');
 const atouts = LANDINGS.filter((l) => l.kind === 'atout');
 const desc = (id?: string) => BRICKS.find((b) => b.id === id)?.desc;
 const path = Astro.url.pathname;
 ---
-<a class="skip" href="#contenu">Aller au contenu</a>
+<a class="skip" href="#contenu">{h.skip}</a>
 <header class="site-header">
   <div class="bar">
     <a href="/" class="logo" aria-label="Stagnum, accueil">
@@ -17,10 +20,10 @@ const path = Astro.url.pathname;
     </a>
     <nav class="nav" aria-label="Navigation principale">
       <div class="drop">
-        <button type="button" class="drop-btn" aria-expanded="false" aria-controls="menu-fonctions">Fonctionnalités</button>
+        <button type="button" class="drop-btn" aria-expanded="false" aria-controls="menu-fonctions">{h.menuLabel}</button>
         <div id="menu-fonctions" class="mega">
           <div class="mega-col">
-            <p class="mega-title">Les briques</p>
+            <p class="mega-title">{h.bricksTitle}</p>
             <ul class="mega-grid">
               {briques.map((f) => (
                 <li>
@@ -33,7 +36,7 @@ const path = Astro.url.pathname;
             </ul>
           </div>
           <div class="mega-side">
-            <p class="mega-title">Inclus, sans supplément</p>
+            <p class="mega-title">{h.includedTitle}</p>
             <ul>
               {atouts.map((f) => (
                 <li>
@@ -47,15 +50,13 @@ const path = Astro.url.pathname;
           </div>
         </div>
       </div>
-      <a href="/tarifs/" aria-current={path === '/tarifs/' ? 'page' : undefined}>Tarifs</a>
-      <a href="/alternative-extrabat/" aria-current={path === '/alternative-extrabat/' ? 'page' : undefined}>Comparer</a>
-      <a href="/blog/" aria-current={path.startsWith('/blog/') ? 'page' : undefined}>Blog</a>
+      {h.links.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
     </nav>
-    <a href="/tarifs/" class="btn btn-primary cta">Calculer mon tarif</a>
+    <a href={h.cta.href} class="btn btn-primary cta">{h.cta.label}</a>
     <details class="mobile">
       <summary aria-label="Menu"><span></span></summary>
       <nav aria-label="Navigation mobile">
-        <p class="m-title">Les briques</p>
+        <p class="m-title">{h.bricksTitle}</p>
         <div class="m-grid">
           {briques.map((f) => (
             <a href={`/${f.slug}/`} aria-current={path === `/${f.slug}/` ? 'page' : undefined}>
@@ -63,16 +64,14 @@ const path = Astro.url.pathname;
             </a>
           ))}
         </div>
-        <p class="m-title">Inclus, sans supplément</p>
+        <p class="m-title">{h.includedTitle}</p>
         <div class="m-chips">
           {atouts.map((f) => <a href={`/${f.slug}/`}>{f.nav}</a>)}
         </div>
         <div class="m-links">
-          <a href="/tarifs/">Tarifs</a>
-          <a href="/alternative-extrabat/">Comparer</a>
-          <a href="/blog/">Blog</a>
+          {h.links.map((l) => <a href={l.href}>{l.label}</a>)}
         </div>
-        <a href="/tarifs/" class="btn btn-primary">Calculer mon tarif</a>
+        <a href={h.cta.href} class="btn btn-primary">{h.cta.label}</a>
       </nav>
     </details>
   </div>

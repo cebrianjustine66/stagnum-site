@@ -1,0 +1,59 @@
+{
+  "header": {
+    "skip": "Aller au contenu",
+    "menuLabel": "Fonctionnalités",
+    "bricksTitle": "Les briques",
+    "includedTitle": "Inclus, sans supplément",
+    "links": [
+      {
+        "label": "Tarifs",
+        "href": "/tarifs/"
+      },
+      {
+        "label": "Comparer",
+        "href": "/alternative-extrabat/"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog/"
+      }
+    ],
+    "cta": {
+      "label": "Calculer mon tarif",
+      "href": "/tarifs/"
+    }
+  },
+  "footer": {
+    "tagline": "L’assistant intelligent des piscinistes. Un prix par magasin, utilisateurs illimités.",
+    "featuresTitle": "Fonctionnalités",
+    "includedTitle": "Inclus",
+    "companyTitle": "Stagnum",
+    "links": [
+      {
+        "label": "Tarifs",
+        "href": "/tarifs/"
+      },
+      {
+        "label": "Demander un devis",
+        "href": "/demande-de-devis/"
+      },
+      {
+        "label": "Comparer avec Extrabat",
+        "href": "/alternative-extrabat/"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog/"
+      },
+      {
+        "label": "Mentions légales",
+        "href": "/mentions-legales/"
+      },
+      {
+        "label": "Confidentialité",
+        "href": "/confidentialite/"
+      }
+    ],
+    "copyright": "© {annee} Stagnum. Tous droits réservés."
+  }
+}

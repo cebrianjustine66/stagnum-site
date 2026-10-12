@@ -1,0 +1,123 @@
+{
+  "trialDays": 14,
+  "tiers": {
+    "solo": {
+      "label": "Indépendant",
+      "sub": "Je travaille seul"
+    },
+    "s": {
+      "label": "2 à 5",
+      "sub": "personnes"
+    },
+    "m": {
+      "label": "6 à 10",
+      "sub": "personnes"
+    },
+    "l": {
+      "label": "11 à 20",
+      "sub": "personnes"
+    }
+  },
+  "bricks": {
+    "devis": {
+      "name": "Devis",
+      "desc": "Décrivez le besoin, le devis est prêt.",
+      "prices": {
+        "solo": 15,
+        "s": 17,
+        "m": 19,
+        "l": 21
+      },
+      "href": "/logiciel-devis-piscine/"
+    },
+    "factures": {
+      "name": "Factures",
+      "desc": "Factures et relances de paiement.",
+      "prices": {
+        "solo": 19,
+        "s": 22,
+        "m": 24,
+        "l": 26
+      },
+      "href": "/logiciel-facturation-pisciniste/"
+    },
+    "chantiers": {
+      "name": "Chantiers",
+      "desc": "Suivi, rentabilité et application mobile.",
+      "prices": {
+        "solo": 19,
+        "s": 22,
+        "m": 24,
+        "l": 26
+      },
+      "href": "/suivi-chantier-piscine/"
+    },
+    "achats": {
+      "name": "Achats",
+      "desc": "Le bon de livraison remplit vos achats.",
+      "prices": {
+        "solo": 19,
+        "s": 22,
+        "m": 24,
+        "l": 26
+      },
+      "href": "/logiciel-achats-pisciniste/"
+    },
+    "caisse": {
+      "name": "Caisse",
+      "desc": "Encaissez au comptoir du magasin.",
+      "prices": {
+        "solo": 10,
+        "s": 11,
+        "m": 13,
+        "l": 14
+      },
+      "href": "/logiciel-caisse-magasin-piscine/"
+    },
+    "inventaire": {
+      "name": "Inventaire",
+      "desc": "Votre stock à jour, sans tableur.",
+      "prices": {
+        "solo": 19,
+        "s": 22,
+        "m": 24,
+        "l": 26
+      },
+      "href": "/gestion-stock-magasin-piscine/"
+    },
+    "eau": {
+      "name": "Analyse d’eau",
+      "desc": "Mesures, diagnostic et traitement.",
+      "prices": {
+        "solo": 23,
+        "s": 26,
+        "m": 29,
+        "l": 32
+      },
+      "href": "/logiciel-analyse-eau-piscine/"
+    }
+  },
+  "allBricks": {
+    "solo": 105,
+    "s": 121,
+    "m": 133,
+    "l": 145
+  },
+  "engagements": [
+    {
+      "months": 3,
+      "discount": 0
+    },
+    {
+      "months": 6,
+      "discount": 10
+    },
+    {
+      "months": 12,
+      "discount": 20
+    }
+  ],
+  "annualDiscount": 20,
+  "multiStoreDiscount": 0,
+  "maxStores": 5
+}

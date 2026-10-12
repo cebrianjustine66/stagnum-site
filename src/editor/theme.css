@@ -1,0 +1,77 @@
+/* Habillage de l'interface d'édition aux couleurs de Stagnum.
+   Keystatic colore ses boutons, liens et sélections avec une gamme « indigo » :
+   on la remplace par le turquoise du site. */
+html .kui-scheme--light,
+html .kui-scheme--auto {
+  --kui-color-scale-indigo1: #fbfdfd;
+  --kui-color-scale-indigo2: #f3fafa;
+  --kui-color-scale-indigo3: #e1f3f1;
+  --kui-color-scale-indigo4: #d1ecea;
+  --kui-color-scale-indigo5: #bde2e1;
+  --kui-color-scale-indigo6: #a3d5d5;
+  --kui-color-scale-indigo7: #7fc2c4;
+  --kui-color-scale-indigo8: #4faab0;
+  --kui-color-scale-indigo9: #117c83;
+  --kui-color-scale-indigo10: #0e6d74;
+  --kui-color-scale-indigo11: #0c5f65;
+  --kui-color-scale-indigo12: #0b3d42;
+}
+html .kui-scheme--dark {
+  --kui-color-scale-indigo9: #15909a;
+  --kui-color-scale-indigo10: #1ba3ad;
+  --kui-color-scale-indigo11: #6fd0d6;
+}
+@media (prefers-color-scheme: dark) {
+  html .kui-scheme--auto {
+    --kui-color-scale-indigo1: #0d1b1d;
+    --kui-color-scale-indigo2: #10262a;
+    --kui-color-scale-indigo3: #123237;
+    --kui-color-scale-indigo4: #143d43;
+    --kui-color-scale-indigo5: #174a51;
+    --kui-color-scale-indigo6: #1b5a62;
+    --kui-color-scale-indigo7: #206f78;
+    --kui-color-scale-indigo8: #26868f;
+    --kui-color-scale-indigo9: #15909a;
+    --kui-color-scale-indigo10: #1ba3ad;
+    --kui-color-scale-indigo11: #6fd0d6;
+    --kui-color-scale-indigo12: #d6f3f4;
+  }
+}
+
+html .kui-theme {
+  --font-inter: "Inter Variable";
+}
+html .kui-theme h1,
+html .kui-theme h2,
+html .kui-theme h3 {
+  font-family: "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
+  letter-spacing: -.015em;
+}
+
+/* Fond doux comme sur le site, menu de gauche légèrement teinté. */
+html #keystatic-main-panel { background: #f6faf9; }
+html [data-split-pane="primary"] { background: #eef6f5; border-right: 1px solid #d9e8e6; }
+
+/* Chaque section d'une page (« 1. Haut de page », « 2. Les briques »…) devient une carte blanche. */
+html #keystatic-main-panel [role="group"][aria-labelledby$="-label"] {
+  background: #fff;
+  border: 1px solid #dbe9e7;
+  border-radius: 18px;
+  padding: 22px 24px 24px;
+  box-shadow: 0 10px 24px -20px rgba(7, 52, 58, .45);
+}
+html #keystatic-main-panel [role="group"][aria-labelledby$="-label"] > span[id$="-label"]:first-child {
+  font: 700 1.3rem/1.2 "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
+  letter-spacing: -.015em;
+  color: #0b3d42;
+}
+/* Sous-section à l'intérieur d'une carte : plus discrète. */
+html #keystatic-main-panel [role="group"][aria-labelledby$="-label"] [role="group"][aria-labelledby$="-label"] {
+  background: #f6faf9;
+  border-radius: 14px;
+  padding: 16px 18px 18px;
+  box-shadow: none;
+}
+html #keystatic-main-panel [role="group"][aria-labelledby$="-label"] [role="group"][aria-labelledby$="-label"] > span[id$="-label"]:first-child {
+  font-size: 1.05rem;
+}

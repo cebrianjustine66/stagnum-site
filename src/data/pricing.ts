@@ -1,12 +1,13 @@
-// Toute la tarification du site est ici. Les prix sont en € HT par mois et par magasin,
-// pour un engagement de 3 mois. Ordre des colonnes : voir TIERS.
+// Toute la tarification du site. Les valeurs viennent de src/content/prix.json et se modifient
+// depuis l'interface d'édition (/keystatic, « Prix et briques »). Les prix sont en € HT par mois
+// et par magasin, pour un engagement de 3 mois. Ordre des colonnes : voir TIERS.
+import prix from '../content/prix.json';
 
-export const TIERS = [
-  { id: 'solo', label: 'Indépendant', sub: 'Je travaille seul' },
-  { id: 's', label: '2 à 5', sub: 'personnes' },
-  { id: 'm', label: '6 à 10', sub: 'personnes' },
-  { id: 'l', label: '11 à 20', sub: 'personnes' },
-];
+const TIER_IDS = ['solo', 's', 'm', 'l'] as const;
+const BRICK_IDS = ['devis', 'factures', 'chantiers', 'achats', 'caisse', 'inventaire', 'eau'] as const;
+const byTier = (v: Record<(typeof TIER_IDS)[number], number>) => TIER_IDS.map((t) => v[t]);
+
+export const TIERS = TIER_IDS.map((id) => ({ id, ...prix.tiers[id] }));
 
 // Chaque brique a sa couleur de carte : fond, texte.
 export const BRICK_COLORS: Record<string, [string, string]> = {
@@ -19,37 +20,28 @@ export const BRICK_COLORS: Record<string, [string, string]> = {
   eau: ['#DDF2F3', '#0E2224'],
 };
 
-export const BRICKS = [
-  { id: 'devis', name: 'Devis', desc: 'Décrivez le besoin, le devis est prêt.', prices: [15, 17, 19, 21], href: '/logiciel-devis-piscine/' },
-  { id: 'factures', name: 'Factures', desc: 'Factures et relances de paiement.', prices: [19, 22, 24, 26], href: '/logiciel-facturation-pisciniste/' },
-  { id: 'chantiers', name: 'Chantiers', desc: 'Suivi, rentabilité et application mobile.', prices: [19, 22, 24, 26], href: '/suivi-chantier-piscine/' },
-  // Prix de la brique Achats provisoire, à confirmer.
-  { id: 'achats', name: 'Achats', desc: 'Le bon de livraison remplit vos achats.', prices: [19, 22, 24, 26], href: '/logiciel-achats-pisciniste/' },
-  { id: 'caisse', name: 'Caisse', desc: 'Encaissez au comptoir du magasin.', prices: [10, 11, 13, 14], href: '/logiciel-caisse-magasin-piscine/' },
-  { id: 'inventaire', name: 'Inventaire', desc: 'Votre stock à jour, sans tableur.', prices: [19, 22, 24, 26], href: '/gestion-stock-magasin-piscine/' },
-  { id: 'eau', name: 'Analyse d’eau', desc: 'Mesures, diagnostic et traitement.', prices: [23, 26, 29, 32], href: '/logiciel-analyse-eau-piscine/' },
-];
+export const BRICKS = BRICK_IDS.map((id) => {
+  const b = prix.bricks[id];
+  return { id: id as string, name: b.name, desc: b.desc, prices: byTier(b.prices), href: b.href };
+});
 
 // « six », « sept »… pour écrire le nombre de briques en toutes lettres.
 export const BRICK_COUNT_WORD = ['zéro', 'une', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix'][BRICKS.length];
 
 // Prix préférentiel appliqué quand toutes les briques sont cochées (même ordre que TIERS).
-export const ALL_BRICKS_PRICES = [105, 121, 133, 145];
+export const ALL_BRICKS_PRICES = byTier(prix.allBricks);
 
-export const ENGAGEMENTS = [
-  { months: 3, discount: 0 },
-  { months: 6, discount: 0.1 },
-  { months: 12, discount: 0.2 },
-];
+// Les remises sont saisies en pourcentage (10 pour 10 %).
+export const ENGAGEMENTS = prix.engagements.map((e) => ({ months: e.months, discount: e.discount / 100 }));
 
-export const TRIAL_DAYS = 14;
+export const TRIAL_DAYS = prix.trialDays;
 
 // Remise supplémentaire pour un paiement en une fois par an (0 = aucune). Le paiement annuel engage sur 12 mois.
-export const ANNUAL_PAYMENT_DISCOUNT = 0.2;
+export const ANNUAL_PAYMENT_DISCOUNT = prix.annualDiscount / 100;
 
 // Remise appliquée à chaque magasin à partir du deuxième (0 = aucune).
-export const MULTI_STORE_DISCOUNT = 0;
-export const MAX_STORES = 5;
+export const MULTI_STORE_DISCOUNT = prix.multiStoreDiscount / 100;
+export const MAX_STORES = prix.maxStores;
 
 // Quota de demandes IA par magasin et par mois : 10 demandes par jour travaillé (22 jours)
 // et par personne, à l'effectif maximum de la fourchette. Non affiché sur le site pour l'instant.

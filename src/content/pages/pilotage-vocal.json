@@ -1,12 +1,7 @@
 {
   "nav": "Pilotage à la voix",
-  "order": 11,
   "kind": "atout",
   "brick": "aucune",
-  "included": "Présent dans chaque brique",
-  "withBricks": "Dans toutes les briques",
-  "title": "Logiciel pisciniste à commande vocale | Stagnum",
-  "description": "Stagnum s’utilise aussi à la voix : devis, chantier, inventaire, analyse d’eau. Pratique quand vous avez les mains occupées, jamais obligatoire.",
   "h1": "Un logiciel que vous pouvez aussi piloter à la voix",
   "lead": "Sur un chantier ou dans la réserve, vous avez rarement les mains libres. Dans ces moments-là, vous dites ce que vous voulez faire, et c’est fait. Le reste du temps, tout se fait à l’écran.",
   "voice": {
@@ -17,6 +12,7 @@
       "Une facture à relancer"
     ]
   },
+  "included": "Présent dans chaque brique",
   "points": [
     "Voix incluse dans chaque brique",
     "Aucune commande à apprendre",
@@ -51,10 +47,9 @@
       "a": "Stagnum est conçu pour le terrain. Le plus simple est de l’essayer dans vos conditions pendant les deux semaines d’essai gratuit."
     }
   ],
-  "related": [
-    "suivi-chantier-piscine",
-    "gestion-stock-magasin-piscine",
-    "logiciel-devis-piscine"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 11,
+  "withBricks": "Dans toutes les briques",
+  "title": "Logiciel pisciniste à commande vocale | Stagnum",
+  "description": "Stagnum s’utilise aussi à la voix : devis, chantier, inventaire, analyse d’eau. Pratique quand vous avez les mains occupées, jamais obligatoire."
 }

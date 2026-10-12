@@ -1,12 +1,7 @@
 {
   "nav": "Devis",
-  "order": 1,
   "kind": "brique",
   "brick": "devis",
-  "included": "",
-  "withBricks": "",
-  "title": "Logiciel de devis piscine pour piscinistes | Stagnum",
-  "description": "Faites vos devis de piscine en quelques secondes, au clavier ou à la voix. Un logiciel de devis pensé pour les piscinistes, avec ou sans magasin.",
   "h1": "Le logiciel de devis piscine qui écrit à votre place",
   "lead": "Vous décrivez le besoin du client en une phrase, tapée ou dictée. Stagnum prépare le devis avec les bons articles, les quantités et les prix. Vous relisez, vous envoyez.",
   "voice": {
@@ -17,6 +12,7 @@
       "Devis prêt à relire et à envoyer"
     ]
   },
+  "included": "",
   "points": [
     "Devis préparés à partir d’une simple phrase, tapée ou dictée",
     "Catalogue d’articles et de prestations à vos prix",
@@ -51,10 +47,9 @@
       "a": "Non. Stagnum prépare le devis, et c’est vous qui le validez et qui l’envoyez."
     }
   ],
-  "related": [
-    "logiciel-facturation-pisciniste",
-    "suivi-chantier-piscine",
-    "pilotage-vocal"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 1,
+  "withBricks": "",
+  "title": "Logiciel de devis piscine pour piscinistes | Stagnum",
+  "description": "Faites vos devis de piscine en quelques secondes, au clavier ou à la voix. Un logiciel de devis pensé pour les piscinistes, avec ou sans magasin."
 }

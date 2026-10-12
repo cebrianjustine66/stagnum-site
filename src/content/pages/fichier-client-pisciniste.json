@@ -1,18 +1,14 @@
 {
   "nav": "Base clients",
-  "order": 8,
   "kind": "atout",
   "brick": "aucune",
-  "included": "Incluse avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
-  "withBricks": "Avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
-  "title": "Fichier client et CRM pour pisciniste | Stagnum",
-  "description": "Un fichier client pour pisciniste, inclus avec vos briques : le client, son bassin, ses devis, ses achats et ses analyses au même endroit.",
   "h1": "Le fichier client du pisciniste, inclus avec vos briques",
   "lead": "Un client, un bassin, une seule fiche. Devis, factures, chantiers, ventes et analyses d’eau s’y rangent tout seuls. Elle vient avec les briques qui en ont besoin, sans ligne en plus.",
   "voice": {
     "said": "",
     "done": []
   },
+  "included": "Incluse avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
   "points": [
     "Incluse avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
     "Une fiche par client, avec son bassin",
@@ -47,10 +43,9 @@
       "a": "Non. Le stockage est inclus dans Stagnum, sans supplément."
     }
   ],
-  "related": [
-    "logiciel-devis-piscine",
-    "logiciel-analyse-eau-piscine",
-    "pilotage-vocal"
-  ],
-  "blocks": []
+  "blocks": [],
+  "order": 8,
+  "withBricks": "Avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
+  "title": "Fichier client et CRM pour pisciniste | Stagnum",
+  "description": "Un fichier client pour pisciniste, inclus avec vos briques : le client, son bassin, ses devis, ses achats et ses analyses au même endroit."
 }

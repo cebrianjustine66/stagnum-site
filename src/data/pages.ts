@@ -11,7 +11,6 @@ export type Landing = {
   nav: string;
   brick?: string; // id dans pricing.ts
   included?: string; // pour les atouts : avec quelles briques ils viennent
-  parent?: string; // slug de la brique dont l'atout fait partie
   withBricks?: string; // version courte pour le menu
   title: string;
   description: string;
@@ -21,7 +20,6 @@ export type Landing = {
   sections: { h2: string; text: string }[];
   points: string[];
   faq: { q: string; a: string }[];
-  related: string[];
   blocks: Block[];
 };
 
@@ -35,7 +33,6 @@ export const LANDINGS: Landing[] = Object.entries(files)
     brick: e.brick && e.brick !== 'aucune' ? e.brick : undefined,
     included: e.included || undefined,
     withBricks: e.withBricks || undefined,
-    parent: e.parent || undefined,
     voice: e.voice?.said ? e.voice : undefined,
     blocks: e.blocks ?? [],
   }))
