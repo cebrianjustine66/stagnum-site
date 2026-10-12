@@ -5,9 +5,10 @@ import BrickDemo from '../components/BrickDemo.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
+import Blocks from '../components/Blocks.astro';
 import { LANDINGS, BRIQUE_PAGES, type Landing } from '../data/pages';
-import { TRIAL_DAYS } from '../data/pricing';
-import { faqLd } from '../lib';
+import c from '../content/commun.json';
+import { faqLd, plain, rich } from '../lib';
 
 export function getStaticPaths() {
   return LANDINGS.map((page) => ({ params: { slug: page.slug }, props: { page } }));
@@ -26,15 +27,15 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
     <div class="wrap hero-grid">
       <div class="copy">
         <nav class="breadcrumb" aria-label="Fil d’Ariane">
-          <ol><li><a href="/">Accueil</a></li><li aria-current="page">{page.nav}</li></ol>
+          <ol><li><a href="/">{c.home}</a></li><li aria-current="page">{page.nav}</li></ol>
         </nav>
         <h1>{page.h1}</h1>
         <p class="lead">{page.lead}</p>
         <div class="btns">
-          <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
-          <a class="btn btn-ghost" href="/demande-de-devis/">Essayer <span class="long">{TRIAL_DAYS} jours </span>gratuitement</a>
+          <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
+          <a class="btn btn-ghost" href="/demande-de-devis/">{c.buttons.trial.before} <span class="long">{plain(c.buttons.trial.middle)} </span>{c.buttons.trial.after}</a>
         </div>
-        {page.included && <p class="from"><Icon name="check" size={16} />{page.included}, sans supplément</p>}
+        {page.included && <p class="from"><Icon name="check" size={16} />{page.included}{c.landing.includedSuffix}</p>}
       </div>
       {page.brick
         ? <BrickDemo id={page.brick} />
@@ -45,11 +46,11 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
   <section class="what">
     <div class="wrap what-grid">
       <aside class="what-side on-deep water reveal">
-        <h2>Ce qu’il fait <span class="hl">pour vous</span></h2>
+        <h2 set:html={rich(c.landing.pointsTitle)} />
         <ul class="checks">
           {page.points.map((p) => <li>{p}</li>)}
         </ul>
-        <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
       </aside>
       <ol class="what-steps">
         {page.sections.map((s, i) => (
@@ -69,8 +70,8 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
 
   <section class="others">
     <div class="wrap">
-      <h2 class="reveal">{page.brick ? 'Les autres briques' : 'Les briques de Stagnum'}</h2>
-      <nav class="o-bar reveal" aria-label="Les briques de Stagnum" style={`--n:${others.length}`}>
+      <h2 class="reveal">{page.brick ? c.landing.otherBricks : c.landing.allBricks}</h2>
+      <nav class="o-bar reveal" aria-label={c.landing.allBricks} style={`--n:${others.length}`}>
         {others.map((o) => (
           <a href={`/${o.slug}/`}>
             <Icon name={o.brick!} size={22} />
@@ -81,6 +82,8 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
       </nav>
     </div>
   </section>
+
+  <Blocks blocks={page.blocks} />
 
   <Cta />
 </Base>

@@ -1,0 +1,55 @@
+{
+  "nav": "Analyse d’eau",
+  "kind": "brique",
+  "brick": "eau",
+  "h1": "Le logiciel d’analyse d’eau de piscine pour les professionnels",
+  "lead": "Vous relevez les mesures, Stagnum les range dans la fiche du bassin et vous aide à expliquer le traitement au client, avec des mots simples.",
+  "voice": {
+    "said": "« Analyse pour Monsieur Petit : pH 7,8, chlore libre 0,5, TAC 60, stabilisant 80. »",
+    "done": [
+      "Mesures enregistrées sur le bassin",
+      "Valeurs hors plage repérées",
+      "Conseil de traitement à valider"
+    ]
+  },
+  "included": "",
+  "points": [
+    "Mesures saisies ou dictées : pH, chlore, TAC, stabilisant",
+    "Historique des analyses par bassin",
+    "Proposition de traitement à valider par vos soins",
+    "Analyse rattachée à la fiche du client"
+  ],
+  "sections": [
+    {
+      "h2": "L’historique de chaque bassin",
+      "text": "Une eau qui tourne tous les étés a une cause. Avec l’historique des analyses, vous voyez ce qui revient d’une saison à l’autre et vous traitez le problème de fond."
+    },
+    {
+      "h2": "Un conseil que le client comprend",
+      "text": "Le client veut savoir quoi mettre dans son bassin, et combien. Stagnum part du volume du bassin et des mesures pour vous proposer un traitement, que vous validez avec votre expérience."
+    },
+    {
+      "h2": "Au comptoir comme au bord du bassin",
+      "text": "L’analyse se fait au magasin, quand le client apporte son échantillon, ou chez lui pendant une visite d’entretien. Dans les deux cas, elle rejoint la même fiche."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Stagnum remplace-t-il mon photomètre ?",
+      "a": "Non. Vous mesurez avec votre matériel habituel. Stagnum enregistre les résultats, garde l’historique et vous aide à formuler le conseil."
+    },
+    {
+      "q": "Le traitement proposé est-il automatique ?",
+      "a": "C’est une proposition. Vous restez le professionnel : vous la validez ou vous l’ajustez avant de la donner au client."
+    },
+    {
+      "q": "Un indépendant sans magasin peut-il utiliser l’analyse d’eau ?",
+      "a": "Oui. La brique sert aussi pendant les visites d’entretien, depuis un téléphone."
+    }
+  ],
+  "blocks": [],
+  "order": 7,
+  "withBricks": "",
+  "title": "Logiciel d’analyse d’eau de piscine | Stagnum",
+  "description": "Enregistrez vos analyses d’eau de piscine, obtenez un diagnostic clair et gardez l’historique de chaque bassin. Pour magasins et piscinistes."
+}

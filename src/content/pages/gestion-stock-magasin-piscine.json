@@ -1,0 +1,55 @@
+{
+  "nav": "Inventaire",
+  "kind": "brique",
+  "brick": "inventaire",
+  "h1": "La gestion de stock d’un magasin de piscine, sans tableur ni ressaisie",
+  "lead": "Votre stock se met à jour à chaque vente et à chaque livraison. Pour l’inventaire, vous comptez et Stagnum enregistre : plus de feuille à recopier le soir.",
+  "voice": {
+    "said": "« Chlore choc cinq kilos : douze seaux. Galets : huit. Il reste deux robots en exposition. »",
+    "done": [
+      "Trois références mises à jour",
+      "Écart signalé sur les galets",
+      "Stock à jour sans ressaisie"
+    ]
+  },
+  "included": "",
+  "points": [
+    "Inventaire sans feuille de comptage ni ressaisie",
+    "Suivi des produits qui baissent et de ceux qui dorment",
+    "Stock mis à jour par la Caisse et les Achats, si vous les prenez",
+    "Utilisable en magasin, au dépôt ou dans le véhicule"
+  ],
+  "sections": [
+    {
+      "h2": "Un inventaire fait en marchant",
+      "text": "L’inventaire est long parce qu’on compte, on note, puis on ressaisit. Avec Stagnum, il ne reste que la première étape : vous annoncez ou saisissez ce que vous comptez, directement dans la réserve."
+    },
+    {
+      "h2": "Savoir quoi commander avant la saison",
+      "text": "Une rupture de chlore en juillet coûte des ventes. Stagnum vous montre les produits qui baissent et ceux qui dorment en réserve, pour commander au bon moment."
+    },
+    {
+      "h2": "Le camion compte aussi",
+      "text": "Un indépendant a son stock dans son véhicule ou son dépôt. La brique Inventaire fonctionne de la même façon, sans magasin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Comment se passe un inventaire dans Stagnum ?",
+      "a": "Vous comptez dans la réserve et vous indiquez la référence et la quantité, au clavier ou à la voix. Stagnum met la fiche à jour et vous signale les écarts à vérifier."
+    },
+    {
+      "q": "Dois-je prendre la caisse pour gérer mon stock ?",
+      "a": "Non. L’inventaire fonctionne seul. Avec la caisse, le stock se met à jour à chaque vente."
+    },
+    {
+      "q": "Le stock est-il limité en nombre de références ?",
+      "a": "Non. Le stockage est inclus dans Stagnum, sans supplément."
+    }
+  ],
+  "blocks": [],
+  "order": 6,
+  "withBricks": "",
+  "title": "Gestion de stock pour magasin de piscine | Stagnum",
+  "description": "Suivez le stock de votre magasin de piscine sans tableur et faites votre inventaire sans ressaisie. Un logiciel de gestion de stock pour piscinistes."
+}

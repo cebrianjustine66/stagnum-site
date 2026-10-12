@@ -1,0 +1,14 @@
+{
+  "breadcrumb": "Blog",
+  "hero": {
+    "title": "Le blog des *piscinistes*",
+    "lead": "Des conseils concrets pour gérer une entreprise de piscine : chantiers, factures, magasin, saison."
+  },
+  "featured": "À la une",
+  "allTitle": "Tous les articles",
+  "readMore": "Lire l’article",
+  "seo": {
+    "title": "Blog Stagnum : gérer son entreprise de piscine",
+    "description": "Conseils de gestion pour les piscinistes : rentabilité des chantiers, factures impayées, organisation du magasin et de la saison."
+  }
+}

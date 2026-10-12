@@ -1,0 +1,55 @@
+{
+  "nav": "Pilotage à la voix",
+  "kind": "atout",
+  "brick": "aucune",
+  "h1": "Un logiciel que vous pouvez aussi piloter à la voix",
+  "lead": "Sur un chantier ou dans la réserve, vous avez rarement les mains libres. Dans ces moments-là, vous dites ce que vous voulez faire, et c’est fait. Le reste du temps, tout se fait à l’écran.",
+  "voice": {
+    "said": "« Qu’est-ce que j’ai à faire demain matin ? »",
+    "done": [
+      "Deux chantiers à visiter",
+      "Un devis en attente de réponse",
+      "Une facture à relancer"
+    ]
+  },
+  "included": "Présent dans chaque brique",
+  "points": [
+    "Voix incluse dans chaque brique",
+    "Aucune commande à apprendre",
+    "Utilisable sur téléphone, en magasin et sur le terrain",
+    "Tout reste faisable au clavier"
+  ],
+  "sections": [
+    {
+      "h2": "Parlez comme à un collègue",
+      "text": "Il n’y a pas de commandes à apprendre par cœur. Vous parlez normalement, avec vos mots de métier, et Stagnum comprend qu’un « huit par quatre » est un bassin."
+    },
+    {
+      "h2": "L’intelligence artificielle, sans le mode d’emploi",
+      "text": "L’IA travaille derrière chaque brique, mais vous ne la voyez pas. Pas de réglages, pas de jargon : vous voyez un devis prêt, un stock à jour, une relance partie à temps."
+    },
+    {
+      "h2": "Vous gardez toujours la main",
+      "text": "Stagnum prépare, vous validez. Vous décidez dans les paramètres de ce qui part automatiquement, et tout ce qui se fait à la voix peut aussi se faire au clavier."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Le pilotage à la voix est-il une option payante ?",
+      "a": "Non. La voix fait partie de chaque brique."
+    },
+    {
+      "q": "Suis-je obligé d’utiliser la voix ?",
+      "a": "Non. Tout ce que vous faites à la voix peut aussi se faire à l’écran. Vous choisissez selon le moment."
+    },
+    {
+      "q": "La voix fonctionne-t-elle sur un chantier bruyant ?",
+      "a": "Stagnum est conçu pour le terrain. Le plus simple est de l’essayer dans vos conditions pendant les deux semaines d’essai gratuit."
+    }
+  ],
+  "blocks": [],
+  "order": 11,
+  "withBricks": "Dans toutes les briques",
+  "title": "Logiciel pisciniste à commande vocale | Stagnum",
+  "description": "Stagnum s’utilise aussi à la voix : devis, chantier, inventaire, analyse d’eau. Pratique quand vous avez les mains occupées, jamais obligatoire."
+}

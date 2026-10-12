@@ -1,0 +1,112 @@
+{
+  "breadcrumb": "Tarifs",
+  "hero": {
+    "title": "Votre prix, *en une minute*",
+    "lead": "Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche."
+  },
+  "steps": {
+    "team": "Combien êtes-vous ?",
+    "bricks": "De quoi avez-vous besoin ?",
+    "duration": "Sur quelle durée ?",
+    "payment": "À quelle fréquence payer ?"
+  },
+  "calc": {
+    "xlLabel": "Plus de 20",
+    "xlSub": "personnes",
+    "storesLabel": "Combien de magasins ?",
+    "storesHint": "Sans magasin, laissez 1.",
+    "allTitle": "Prix préférentiel avec les {toutes} briques",
+    "allHint": "La remise s’applique toute seule.",
+    "allButton": "Tout cocher",
+    "reduced": "Prix réduit",
+    "minimum": "Engagement minimum",
+    "engagementHint": "L’engagement démarre après {essai} jours d’essai gratuit.",
+    "monthlyTitle": "Chaque mois",
+    "monthlySub": "Un prélèvement mensuel",
+    "yearlyBadge": "−{remise_annuelle} en plus",
+    "yearlyTitle": "Une fois par an",
+    "yearlySub": "{remise_annuelle} de remise en plus de celle des 12 mois"
+  },
+  "summary": {
+    "title": "Votre prix",
+    "empty": "Cochez une brique pour voir votre prix.",
+    "unit": "HT par mois",
+    "perStore": " et par magasin",
+    "quote": "Sur mesure, au-delà de 20 personnes.",
+    "button": "Recevoir mon devis",
+    "trial": "{essai} jours d’essai gratuit, puis engagement de 3 mois minimum."
+  },
+  "included": {
+    "title": "Toujours inclus, *quel que soit votre choix*",
+    "items": [
+      {
+        "icon": "equipe",
+        "title": "Utilisateurs illimités",
+        "text": "Toute l’équipe, saisonniers compris.",
+        "color": "#E1F3F1"
+      },
+      {
+        "icon": "nuage",
+        "title": "Stockage inclus",
+        "text": "Sans supplément, quel que soit le volume.",
+        "color": "#FBE6D2"
+      },
+      {
+        "icon": "reglages",
+        "title": "Réglé à votre façon",
+        "text": "Chaque brique se personnalise.",
+        "color": "#F3EDE2"
+      },
+      {
+        "icon": "horloge",
+        "title": "{essai} jours d’essai",
+        "text": "Gratuits, avant tout engagement.",
+        "color": "#DDF2F3"
+      }
+    ]
+  },
+  "request": {
+    "title": "Recevez votre devis et démarrez l’essai",
+    "lead": "Laissez vos coordonnées : nous vous rappelons avec votre devis et nous ouvrons votre essai gratuit de {essai} jours."
+  },
+  "faqTitle": "Questions sur les tarifs",
+  "faq": [
+    {
+      "q": "Le prix dépend-il du nombre d’utilisateurs ?",
+      "a": "Non. Le prix est fixé par magasin, selon une tranche de taille d’équipe. Tous vos collaborateurs peuvent utiliser Stagnum sans coût supplémentaire."
+    },
+    {
+      "q": "Y a-t-il un avantage à prendre toutes les briques ?",
+      "a": "Oui. Quand vous cochez les {toutes} briques, un prix préférentiel s’applique automatiquement dans la calculette."
+    },
+    {
+      "q": "Le stockage est-il facturé en plus ?",
+      "a": "Non. Le stockage est inclus dans le prix."
+    },
+    {
+      "q": "Peut-on payer une fois par an ?",
+      "a": "Oui. Vous choisissez entre un prélèvement chaque mois et un règlement unique par an. Le paiement à l’année correspond à un engagement de 12 mois et ajoute 20 % de remise à celle des 12 mois."
+    },
+    {
+      "q": "Quelle est la durée d’engagement ?",
+      "a": "Après {essai} jours d’essai gratuit, l’engagement minimum est de 3 mois. En vous engageant 6 mois, vous payez 10 % de moins ; sur 12 mois, 20 % de moins."
+    },
+    {
+      "q": "La base clients et la voix sont-elles payantes ?",
+      "a": "Non. La base clients vient avec les briques qui l’utilisent, et la voix est présente dans chaque brique. Les relances de paiement font partie de la brique Factures, et l’application mobile de la brique Chantiers."
+    },
+    {
+      "q": "Comment sont facturés plusieurs magasins ?",
+      "a": "Chaque magasin a son propre abonnement. Vous pouvez relier vos magasins entre eux pour partager vos clients et suivre l’ensemble."
+    },
+    {
+      "q": "Puis-je ajouter une brique plus tard ?",
+      "a": "Oui. Les briques sont indépendantes : vous en ajoutez quand vous en avez besoin."
+    }
+  ],
+  "blocks": [],
+  "seo": {
+    "title": "Tarifs Stagnum : prix du logiciel pour pisciniste",
+    "description": "Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
+  }
+}

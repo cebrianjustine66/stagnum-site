@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/Article.astro
 title: "Devis piscine : les mentions obligatoires | Stagnum"
 h1: "Devis piscine : les mentions obligatoires et les erreurs à éviter"
 description: "Ce que doit contenir un devis de piscine : mentions obligatoires, assurance décennale, droit de rétractation, et les oublis les plus fréquents."

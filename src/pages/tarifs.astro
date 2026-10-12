@@ -5,7 +5,11 @@ import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
 import DevisForm from '../components/DevisForm.astro';
 import { TIERS, BRICKS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, ENGAGEMENTS, TRIAL_DAYS, ANNUAL_PAYMENT_DISCOUNT, MULTI_STORE_DISCOUNT, MAX_STORES } from '../data/pricing';
-import { faqLd } from '../lib';
+import Blocks from '../components/Blocks.astro';
+import t from '../content/tarifs.json';
+import { faqLd, pct, plain, rich, type Block } from '../lib';
+
+const faq = t.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 
 const cfg = {
   TIERS,
@@ -14,43 +18,27 @@ const cfg = {
   ENGAGEMENTS,
   ANNUAL_PAYMENT_DISCOUNT,
   MULTI_STORE_DISCOUNT,
+  ALL_HINT: t.calc.allHint,
 };
 // Teinte claire de chaque brique dans la calculette.
 const tint: Record<string, string> = {
   devis: '#D9EFF0', factures: '#E1F3F1', chantiers: '#FBE6D2', achats: '#F3EDE2', caisse: '#F8DDD0', inventaire: '#D6E8E9', eau: '#DDF2F3',
 };
 const dots = [1, 3, 6, 10, 14];
-const included = [
-  { icon: 'equipe', t: 'Utilisateurs illimités', d: 'Toute l’équipe, saisonniers compris.', c: '#E1F3F1' },
-  { icon: 'nuage', t: 'Stockage inclus', d: 'Sans supplément, quel que soit le volume.', c: '#FBE6D2' },
-  { icon: 'reglages', t: 'Réglé à votre façon', d: 'Chaque brique se personnalise.', c: '#F3EDE2' },
-  { icon: 'horloge', t: `${TRIAL_DAYS} jours d’essai`, d: 'Gratuits, avant tout engagement.', c: '#DDF2F3' },
-];
-const faq = [
-  { q: 'Le prix dépend-il du nombre d’utilisateurs ?', a: 'Non. Le prix est fixé par magasin, selon une tranche de taille d’équipe. Tous vos collaborateurs peuvent utiliser Stagnum sans coût supplémentaire.' },
-  { q: 'Y a-t-il un avantage à prendre toutes les briques ?', a: `Oui. Quand vous cochez les ${BRICK_COUNT_WORD} briques, un prix préférentiel s’applique automatiquement dans la calculette.` },
-  { q: 'Le stockage est-il facturé en plus ?', a: 'Non. Le stockage est inclus dans le prix.' },
-  { q: 'Peut-on payer une fois par an ?', a: 'Oui. Vous choisissez entre un prélèvement chaque mois et un règlement unique par an. Le paiement à l’année correspond à un engagement de 12 mois et ajoute 20 % de remise à celle des 12 mois.' },
-  { q: 'Quelle est la durée d’engagement ?', a: `Après ${TRIAL_DAYS} jours d’essai gratuit, l’engagement minimum est de 3 mois. En vous engageant 6 mois, vous payez 10 % de moins ; sur 12 mois, 20 % de moins.` },
-  { q: 'La base clients et la voix sont-elles payantes ?', a: 'Non. La base clients vient avec les briques qui l’utilisent, et la voix est présente dans chaque brique. Les relances de paiement font partie de la brique Factures, et l’application mobile de la brique Chantiers.' },
-  { q: 'Comment sont facturés plusieurs magasins ?', a: 'Chaque magasin a son propre abonnement. Vous pouvez relier vos magasins entre eux pour partager vos clients et suivre l’ensemble.' },
-  { q: 'Puis-je ajouter une brique plus tard ?', a: 'Oui. Les briques sont indépendantes : vous en ajoutez quand vous en avez besoin.' },
-];
-const pct = (d: number) => `${Math.round(d * 100)} %`;
 ---
 <Base
-  title="Tarifs Stagnum : prix du logiciel pour pisciniste"
-  description={`Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de ${TRIAL_DAYS} jours.`}
-  breadcrumbs={[{ name: 'Tarifs', href: '/tarifs/' }]}
+  title={plain(t.seo.title)}
+  description={plain(t.seo.description)}
+  breadcrumbs={[{ name: t.breadcrumb, href: '/tarifs/' }]}
   jsonld={[faqLd(faq)]}
 >
-  <PageHero center title="Votre prix, <span class='hl'>en une minute</span>" lead="Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche." />
+  <PageHero center title={rich(t.hero.title)} lead={t.hero.lead} />
 
   <section class="calc-section">
     <div class="wrap calc" id="calculette">
       <div class="steps">
         <fieldset class="step">
-          <legend><span class="num">1</span> Combien êtes-vous ?</legend>
+          <legend><span class="num">1</span> {t.steps.team}</legend>
           <div class="choices tiers">
             {TIERS.map((t, i) => (
               <label class="choice">
@@ -65,12 +53,12 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
               <input type="radio" name="tier" value="xl" />
               <span>
                 <i class="people" aria-hidden="true">{Array.from({ length: dots[4] }, () => <b></b>)}</i>
-                <strong>Plus de 20</strong><small>personnes</small>
+                <strong>{t.calc.xlLabel}</strong><small>{t.calc.xlSub}</small>
               </span>
             </label>
           </div>
           <label class="stores">
-            <span>Combien de magasins ?<small>Sans magasin, laissez 1.</small></span>
+            <span>{t.calc.storesLabel}<small>{t.calc.storesHint}</small></span>
             <select name="stores" id="stores">
               {Array.from({ length: MAX_STORES }, (_, i) => <option value={i + 1}>{i + 1}</option>)}
             </select>
@@ -78,7 +66,7 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
         </fieldset>
 
         <fieldset class="step">
-          <legend><span class="num">2</span> De quoi avez-vous besoin ?</legend>
+          <legend><span class="num">2</span> {t.steps.bricks}</legend>
           <div class="b-list">
             {BRICKS.map((b) => (
               <label class="b-row" style={`--tint:${tint[b.id]}`}>
@@ -90,16 +78,16 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
             ))}
             <div class="all">
               <div>
-                <strong>Prix préférentiel avec les {BRICK_COUNT_WORD} briques</strong>
-                <small id="all-hint">La remise s’applique toute seule.</small>
+                <strong>{plain(t.calc.allTitle)}</strong>
+                <small id="all-hint">{t.calc.allHint}</small>
               </div>
-              <button type="button" class="btn" id="all-btn">Tout cocher</button>
+              <button type="button" class="btn" id="all-btn">{t.calc.allButton}</button>
             </div>
           </div>
         </fieldset>
 
         <fieldset class="step">
-          <legend><span class="num">3</span> Sur quelle durée ?</legend>
+          <legend><span class="num">3</span> {t.steps.duration}</legend>
           <div class="choices eng">
             {ENGAGEMENTS.map((e, i) => (
               <label class="choice">
@@ -107,26 +95,26 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
                 <span>
                   {e.discount > 0 && <em class="badge">−{pct(e.discount)}</em>}
                   <strong>{e.months} mois</strong>
-                  <small>{e.discount ? 'Prix réduit' : 'Engagement minimum'}</small>
+                  <small>{e.discount ? t.calc.reduced : t.calc.minimum}</small>
                 </span>
               </label>
             ))}
           </div>
-          <p class="small muted hint">L’engagement démarre après {TRIAL_DAYS} jours d’essai gratuit.</p>
+          <p class="small muted hint">{plain(t.calc.engagementHint)}</p>
         </fieldset>
 
         <fieldset class="step">
-          <legend><span class="num">4</span> À quelle fréquence payer ?</legend>
+          <legend><span class="num">4</span> {t.steps.payment}</legend>
           <div class="choices pay">
             <label class="choice">
               <input type="radio" name="pay" value="month" checked />
-              <span><i class="p-ic"><Icon name="horloge" size={20} /></i><strong>Chaque mois</strong><small>Un prélèvement mensuel</small></span>
+              <span><i class="p-ic"><Icon name="horloge" size={20} /></i><strong>{t.calc.monthlyTitle}</strong><small>{t.calc.monthlySub}</small></span>
             </label>
             <label class="choice">
               <input type="radio" name="pay" value="year" />
               <span>
-                <em class="badge">−{pct(ANNUAL_PAYMENT_DISCOUNT)} en plus</em>
-                <i class="p-ic"><Icon name="check" size={20} /></i><strong>Une fois par an</strong><small>{pct(ANNUAL_PAYMENT_DISCOUNT)} de remise en plus de celle des 12 mois</small>
+                <em class="badge">{plain(t.calc.yearlyBadge)}</em>
+                <i class="p-ic"><Icon name="check" size={20} /></i><strong>{t.calc.yearlyTitle}</strong><small>{plain(t.calc.yearlySub)}</small>
               </span>
             </label>
           </div>
@@ -135,10 +123,10 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
 
       <aside class="summary" aria-live="polite">
         <div class="s-head" data-water>
-          <p class="s-title">Votre prix</p>
-          <p class="empty" id="s-empty">Cochez une brique pour voir votre prix.</p>
-          <p class="amount" id="s-price" hidden><span id="s-amount">0</span> €<small>HT par mois<span id="s-per-store"> et par magasin</span></small></p>
-          <p class="quote" id="s-quote" hidden>Sur mesure, au-delà de 20 personnes.</p>
+          <p class="s-title">{t.summary.title}</p>
+          <p class="empty" id="s-empty">{t.summary.empty}</p>
+          <p class="amount" id="s-price" hidden><span id="s-amount">0</span> €<small>{t.summary.unit}<span id="s-per-store">{t.summary.perStore}</span></small></p>
+          <p class="quote" id="s-quote" hidden>{t.summary.quote}</p>
         </div>
         <div class="s-body">
           <p class="s-line total" id="s-total" hidden></p>
@@ -146,8 +134,8 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
           <p class="s-line applied" id="s-applied" hidden></p>
           <ul class="chosen" id="s-list"></ul>
           <p class="s-line tip" id="s-tip" hidden></p>
-          <a class="btn btn-primary" href="#demande" id="s-cta">Recevoir mon devis <Icon name="arrow" size={18} /></a>
-          <p class="trial">{TRIAL_DAYS} jours d’essai gratuit, puis engagement de 3 mois minimum.</p>
+          <a class="btn btn-primary" href="#demande" id="s-cta">{t.summary.button} <Icon name="arrow" size={18} /></a>
+          <p class="trial">{plain(t.summary.trial)}</p>
         </div>
       </aside>
     </div>
@@ -155,13 +143,13 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
 
   <section class="incl-section">
     <div class="wrap">
-      <h2 class="center">Toujours inclus, <span class="hl hl-ink">quel que soit votre choix</span></h2>
+      <h2 class="center" set:html={rich(t.included.title, 'hl hl-ink')} />
       <ul class="incl reveal">
-        {included.map((x) => (
+        {t.included.items.map((x) => (
           <li>
-            <span class="i-ic" style={`--c:${x.c}`}><Icon name={x.icon} size={24} /></span>
-            <h3>{x.t}</h3>
-            <p>{x.d}</p>
+            <span class="i-ic" style={`--c:${x.color}`}><Icon name={x.icon} size={24} /></span>
+            <h3>{plain(x.title)}</h3>
+            <p>{x.text}</p>
           </li>
         ))}
       </ul>
@@ -171,15 +159,17 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
   <section class="sandy" id="demande">
     <div class="wrap ask">
       <div>
-        <h2>Recevez votre devis et démarrez l’essai</h2>
-        <p class="lead">Laissez vos coordonnées : nous vous rappelons avec votre devis et nous ouvrons votre essai gratuit de {TRIAL_DAYS} jours.</p>
+        <h2>{t.request.title}</h2>
+        <p class="lead">{plain(t.request.lead)}</p>
         <p class="recap" id="f-recap" hidden></p>
       </div>
       <div class="card"><DevisForm withConfig /></div>
     </div>
   </section>
 
-  <Faq items={faq} title="Questions sur les tarifs" />
+  <Blocks blocks={t.blocks as Block[]} />
+
+  <Faq items={faq} title={t.faqTitle} />
 </Base>
 
 <script is:inline define:vars={{ cfg }}>
@@ -234,7 +224,7 @@ const pct = (d: number) => `${Math.round(d * 100)} %`;
     $('#all-btn').hidden = all;
     $('#all-hint').textContent = all
       ? (xl ? 'Vous avez tout Stagnum.' : `Appliqué : ${cut(fullSum) - fullPrice} € d’économie par mois.`)
-      : 'La remise s’applique toute seule.';
+      : cfg.ALL_HINT;
     $('#s-list').replaceChildren(...names.map((n) => Object.assign(document.createElement('li'), { textContent: n })));
     let config = `Taille : ${xl ? 'plus de 20 personnes' : cfg.TIERS[t].label + (t ? ' personnes' : '')} | Magasins : ${stores} | Briques : ${all ? 'toutes' : names.join(', ') || 'non choisies'} | Engagement : ${eng.months} mois | Paiement : ${yearly ? 'une fois par an' : 'chaque mois'}`;
 

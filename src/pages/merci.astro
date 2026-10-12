@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import m from '../content/messages.json';
+const t = m.thanks;
 ---
-<Base title="Demande envoyée | Stagnum" description="Votre demande de devis Stagnum a bien été envoyée." noindex>
-  <PageHero center title="Merci, votre demande est envoyée" lead="Nous vous rappelons rapidement avec votre devis.">
-    <div class="btns" style="justify-content:center"><a class="btn btn-ghost" href="/">Retour à l’accueil</a></div>
+<Base title={t.seo.title} description={t.seo.description} noindex>
+  <PageHero center title={t.title} lead={t.lead}>
+    <div class="btns" style="justify-content:center"><a class="btn btn-ghost" href="/">{t.button}</a></div>
   </PageHero>
 </Base>

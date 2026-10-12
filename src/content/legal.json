@@ -1,0 +1,91 @@
+{
+  "company": {
+    "raisonSociale": "",
+    "formeJuridique": "",
+    "capital": "",
+    "siege": "",
+    "siren": "",
+    "rcs": "",
+    "tva": "",
+    "email": "",
+    "telephone": "",
+    "directeurPublication": "",
+    "hebergeurNom": "",
+    "hebergeurAdresse": "",
+    "hebergeurTelephone": ""
+  },
+  "mentions": {
+    "seo": {
+      "title": "Mentions légales | Stagnum",
+      "description": "Mentions légales du site stagnum.fr."
+    },
+    "title": "Mentions légales",
+    "sections": [
+      {
+        "title": "Éditeur du site",
+        "text": "Le site stagnum.fr est édité par {raison_sociale}, {forme_juridique} au capital de {capital}.\nSiège social : {siege}\nImmatriculation : RCS {rcs}, numéro {siren}\nNuméro de TVA intracommunautaire : {tva}\nE-mail : {email}\nTéléphone : {telephone}"
+      },
+      {
+        "title": "Directeur de la publication",
+        "text": "{directeur}"
+      },
+      {
+        "title": "Hébergement",
+        "text": "Le site est hébergé par {hebergeur_nom}.\nAdresse : {hebergeur_adresse}\nTéléphone : {hebergeur_telephone}"
+      },
+      {
+        "title": "Propriété intellectuelle",
+        "text": "Les textes, les images, le logo et la marque Stagnum présents sur ce site sont la propriété de l’éditeur. Toute reproduction ou réutilisation, totale ou partielle, sans autorisation écrite préalable est interdite.\n\nLes marques et noms de produits de tiers cités sur ce site, notamment à des fins de comparaison, appartiennent à leurs propriétaires respectifs. Leur mention n’implique aucun lien avec Stagnum."
+      },
+      {
+        "title": "Informations et tarifs",
+        "text": "Les informations publiées sur ce site sont données à titre indicatif et peuvent être modifiées à tout moment. Les prix affichés, y compris ceux de la calculette, sont exprimés hors taxes et constituent une estimation : seul le devis transmis par l’éditeur engage celui-ci.\n\nLes articles du blog apportent une information générale. Ils ne constituent pas un conseil juridique, fiscal ou comptable."
+      },
+      {
+        "title": "Responsabilité",
+        "text": "L’éditeur s’efforce de fournir des informations exactes et à jour, sans pouvoir le garantir. Il ne peut être tenu responsable d’une interruption du site ni des dommages résultant de l’utilisation des informations qui y figurent.\n\nCe site peut contenir des liens vers d’autres sites. L’éditeur n’exerce aucun contrôle sur leur contenu et n’en est pas responsable."
+      },
+      {
+        "title": "Données personnelles",
+        "text": "Le traitement des données envoyées par le formulaire de demande de devis est décrit dans la [politique de confidentialité](/confidentialite/)."
+      },
+      {
+        "title": "Droit applicable",
+        "text": "Le présent site est soumis au droit français."
+      }
+    ]
+  },
+  "privacy": {
+    "seo": {
+      "title": "Politique de confidentialité | Stagnum",
+      "description": "Comment Stagnum traite les données envoyées depuis le site stagnum.fr."
+    },
+    "title": "Politique de confidentialité",
+    "sections": [
+      {
+        "title": "Données collectées",
+        "text": "Lorsque vous envoyez une demande de devis, nous recueillons votre nom, votre société, votre téléphone, votre e-mail, votre message et la configuration choisie dans la calculette."
+      },
+      {
+        "title": "Utilisation",
+        "text": "Ces données servent uniquement à répondre à votre demande et à vous présenter Stagnum. Elles ne sont ni vendues ni cédées à des tiers."
+      },
+      {
+        "title": "Durée de conservation",
+        "text": "[À compléter : durée de conservation des demandes, par exemple trois ans après le dernier contact]"
+      },
+      {
+        "title": "Responsable du traitement",
+        "text": "{raison_sociale}, {siege}"
+      },
+      {
+        "title": "Vos droits",
+        "text": "Vous pouvez demander l’accès à vos données, leur rectification ou leur suppression en écrivant à {email}. Vous pouvez aussi adresser une réclamation à la CNIL."
+      },
+      {
+        "title": "Cookies",
+        "text": "Ce site n’utilise pas de cookies publicitaires ni de traceurs tiers."
+      }
+    ]
+  }
+}

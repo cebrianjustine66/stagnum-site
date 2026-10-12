@@ -1,0 +1,20 @@
+{
+  "breadcrumb": "Demander un devis",
+  "hero": {
+    "title": "Demandez *votre devis*",
+    "lead": "Dites-nous qui vous êtes : nous vous rappelons avec un prix adapté et nous ouvrons votre essai gratuit de {essai} jours."
+  },
+  "benefits": {
+    "title": "Ce que vous obtenez",
+    "points": [
+      "Un prix par magasin, utilisateurs illimités",
+      "Vous ne payez que les briques choisies",
+      "Stockage inclus, sans supplément"
+    ],
+    "note": "Vous préférez voir un prix tout de suite ? [Utilisez la calculette](/tarifs/)."
+  },
+  "seo": {
+    "title": "Demander un devis Stagnum | Logiciel pour pisciniste",
+    "description": "Demandez votre devis Stagnum et essayez le logiciel de gestion des piscinistes gratuitement pendant {essai} jours."
+  }
+}

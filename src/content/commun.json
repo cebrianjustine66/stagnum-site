@@ -1,0 +1,37 @@
+{
+  "home": "Accueil",
+  "buttons": {
+    "price": "Calculer mon tarif",
+    "quote": "Demander un devis",
+    "trial": {
+      "before": "Essayer",
+      "middle": "{essai} jours",
+      "after": "gratuitement"
+    }
+  },
+  "cta": {
+    "title": "Voyez ce que Stagnum coûterait pour votre magasin",
+    "lead": "Choisissez vos briques, obtenez votre prix en moins d’une minute, puis essayez gratuitement pendant {essai} jours."
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "intro": "Les réponses courtes aux questions que les piscinistes nous posent le plus.",
+    "askTitle": "Une autre question ?",
+    "askText": "Posez-la dans votre demande : nous vous rappelons.",
+    "askButton": "Nous contacter"
+  },
+  "landing": {
+    "includedSuffix": ", sans supplément",
+    "pointsTitle": "Ce qu’il fait *pour vous*",
+    "otherBricks": "Les autres briques",
+    "allBricks": "Les briques de Stagnum"
+  },
+  "article": {
+    "readTime": "min de lecture",
+    "published": "Publié le",
+    "tocTitle": "Dans cet article",
+    "sideTitle": "Moins de saisie, plus de piscines.",
+    "sideText": "Essayez Stagnum gratuitement pendant {essai} jours.",
+    "moreTitle": "À lire aussi"
+  }
+}

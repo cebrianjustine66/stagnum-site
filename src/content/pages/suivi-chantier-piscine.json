@@ -1,0 +1,55 @@
+{
+  "nav": "Chantiers et rentabilité",
+  "kind": "brique",
+  "brick": "chantiers",
+  "h1": "Le suivi de chantier piscine qui vous dit ce que vous gagnez",
+  "lead": "Chaque chantier a sa fiche, son avancement et sa rentabilité. Vous savez, chantier par chantier, si vous avez gagné de l’argent, et pourquoi. L’application mobile est incluse.",
+  "voice": {
+    "said": "« Chantier Bernard : terrassement terminé, deux heures de plus que prévu, ajoute un sac de ciment. »",
+    "done": [
+      "Avancement mis à jour",
+      "Heures et matériaux ajoutés au chantier",
+      "Rentabilité recalculée"
+    ]
+  },
+  "included": "",
+  "points": [
+    "Une fiche par chantier, avec son avancement",
+    "Rentabilité calculée chantier par chantier",
+    "Application mobile incluse dans la brique",
+    "Saisie à la voix, sans quitter le chantier"
+  ],
+  "sections": [
+    {
+      "h2": "La rentabilité de chaque chantier, sans tableur",
+      "text": "Stagnum compare ce que vous avez vendu à ce que le chantier vous a réellement coûté : matériaux, heures passées, déplacements. Vous voyez la marge de chaque chantier pendant qu’il avance, pas trois mois après."
+    },
+    {
+      "h2": "Fait pour des mains occupées",
+      "text": "Sur un chantier, personne n’a envie de sortir un ordinateur. Vous parlez à votre téléphone : une étape terminée, des heures en plus, une pièce à commander. Stagnum range l’information au bon endroit."
+    },
+    {
+      "h2": "Toute l’équipe voit la même chose",
+      "text": "Le bureau sait où en est le chantier sans appeler le technicien. Le technicien a l’adresse, le détail du devis et l’historique du client dans sa poche."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Comment Stagnum calcule-t-il la rentabilité d’un chantier ?",
+      "a": "Il compare le montant vendu aux coûts enregistrés sur le chantier : matériaux, temps passé et frais. Plus vous notez ce qui se passe sur le terrain, plus le calcul est juste."
+    },
+    {
+      "q": "L’application mobile est-elle payante en plus ?",
+      "a": "Non. L’application mobile fait partie de la brique Chantiers."
+    },
+    {
+      "q": "Le suivi de chantier fonctionne-t-il pour la rénovation et l’entretien ?",
+      "a": "Oui. Une construction, une rénovation de liner ou une intervention d’entretien se suivent de la même façon : une fiche, des coûts, une marge."
+    }
+  ],
+  "blocks": [],
+  "order": 3,
+  "withBricks": "",
+  "title": "Logiciel de suivi de chantier piscine | Stagnum",
+  "description": "Suivez vos chantiers de piscine et voyez la rentabilité de chacun. Un logiciel de gestion de chantier pour piscinistes, utilisable sur le terrain."
+}

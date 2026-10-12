@@ -1,34 +1,36 @@
 ---
 import { FORM_ENDPOINT } from '../data/site';
+import f from '../content/formulaire.json';
+import { rich } from '../lib';
 interface Props { withConfig?: boolean }
 const { withConfig = false } = Astro.props;
 if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulaire de devis ne peut pas envoyer de demande.');
 ---
-<form name="demande-devis" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT} class="form">
+<form name="demande-devis" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT} data-off={f.errorDisabled} data-failed={f.errorFailed} class="form">
   <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off" /></label></p>
   {withConfig && <input type="hidden" name="configuration" id="f-configuration" value="" />}
   <div class="row">
-    <label>Nom et prénom
+    <label>{f.name}
       <input name="nom" type="text" autocomplete="name" required />
     </label>
-    <label>Société
+    <label>{f.company}
       <input name="societe" type="text" autocomplete="organization" required />
     </label>
   </div>
   <div class="row">
-    <label>Téléphone
+    <label>{f.phone}
       <input name="telephone" type="tel" autocomplete="tel" inputmode="tel" required />
     </label>
-    <label>E-mail
+    <label>{f.email}
       <input name="email" type="email" autocomplete="email" required />
     </label>
   </div>
-  <label>Votre message <span class="opt">(facultatif)</span>
+  <label>{f.message} <span class="opt">{f.optional}</span>
     <textarea name="message" rows="3"></textarea>
   </label>
-  <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+  <button class="btn btn-primary" type="submit">{f.button}</button>
   <p class="status" role="alert" hidden></p>
-  <p class="small muted legal">Vos informations servent uniquement à répondre à votre demande. Voir notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
+  <p class="small muted legal" set:html={rich(f.legal)} />
 </form>
 
 <script>
@@ -39,14 +41,14 @@ if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulai
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const endpoint = form.dataset.endpoint;
-      if (!endpoint) return fail('L’envoi n’est pas encore activé sur ce site.');
+      if (!endpoint) return fail(form.dataset.off!);
       button.disabled = true;
       try {
         const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
         if (!res.ok) throw new Error(String(res.status));
         window.location.href = '/merci/';
       } catch {
-        fail('L’envoi a échoué. Réessayez dans un instant.');
+        fail(form.dataset.failed!);
       }
     });
   });

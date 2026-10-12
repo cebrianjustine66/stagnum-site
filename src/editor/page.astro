@@ -1,0 +1,49 @@
+---
+// Page de l'interface d'édition. Le contenu vient de Keystatic ; ce fichier ne fait que l'habiller.
+import '@fontsource-variable/inter';
+import '@fontsource-variable/bricolage-grotesque';
+import './theme.css';
+import { Editor } from './Editor';
+
+export const prerender = false;
+---
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
+    <title>Stagnum · contenu du site</title>
+  </head>
+  <body>
+    <Editor client:only="react" />
+    <script is:inline>
+      // Keystatic laisse quelques boutons en anglais : on les traduit à l'affichage.
+      const FR = {
+        Add: 'Ajouter',
+        Save: 'Enregistrer',
+        Regenerate: 'Recréer',
+        'Empty list': 'Aucun bloc pour l’instant',
+        'Add the first item to see it here.': 'Ajoutez un premier élément pour le voir ici.',
+        'Start writing or press "/" for commands...': 'Écrivez ici…',
+      };
+      const translate = (root) => {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const fr = FR[n.nodeValue.trim()];
+          if (fr) n.nodeValue = fr;
+        }
+        root.querySelectorAll?.('[data-placeholder]').forEach((e) => {
+          const fr = FR[e.getAttribute('data-placeholder')];
+          if (fr) e.setAttribute('data-placeholder', fr);
+        });
+      };
+      new MutationObserver((changes) => {
+        for (const c of changes) {
+          if (c.type === 'characterData') translate(c.target.parentNode ?? document.body);
+          c.addedNodes.forEach((n) => translate(n.nodeType === 1 ? n : n.parentNode ?? document.body));
+        }
+      }).observe(document.body, { childList: true, subtree: true, characterData: true });
+    </script>
+  </body>
+</html>

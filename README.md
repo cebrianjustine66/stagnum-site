@@ -7,8 +7,6 @@ Site vitrine de stagnum.fr, construit avec Astro (HTML statique).
 
 Où modifier quoi :
 
-- **Prix, packs, engagement, essai** : `src/data/pricing.ts`
-- **Textes des pages de fonctionnalités et de profils** : `src/data/pages.ts`
-- **Articles de blog** : un fichier Markdown par article dans `src/pages/blog/`
-- **Informations légales de l'éditeur** : `src/data/legal.ts`, à compléter avant la mise en ligne
-- **Adresse de réception du formulaire** : `FORM_ENDPOINT` dans `src/data/site.ts`
+- **Tout le contenu** (textes, articles, prix, menu, pied de page, formulaire, mentions légales) : dans l'interface d'édition, voir [EDITION.md](EDITION.md). Les fichiers correspondants sont dans `src/content/`.
+- **Description des rubriques de l'interface** : `keystatic.config.ts` ; son habillage : `src/editor/`.
+- **Démonstrations animées, icônes, couleurs, mise en page** : dans le code (`src/components/`, `src/styles/global.css`).

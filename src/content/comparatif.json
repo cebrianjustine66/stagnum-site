@@ -1,0 +1,139 @@
+{
+  "breadcrumb": "Alternative à Extrabat",
+  "hero": {
+    "crumb": "Comparer",
+    "title": "Stagnum, une alternative à Extrabat *pour les piscinistes*",
+    "lead": "Extrabat est le logiciel le plus répandu chez les piscinistes. Stagnum fait un autre choix : un assistant conçu pour ce seul métier. Voici de quoi décider, faits à l’appui."
+  },
+  "table": {
+    "title": "Les deux, *côte à côte*",
+    "us": "Stagnum",
+    "them": "Extrabat",
+    "rows": [
+      {
+        "icon": "metier",
+        "label": "Pour qui",
+        "us": "Les piscinistes, et eux seuls",
+        "them": "Bâtiment, piscine, chauffage, paysage, menuiserie"
+      },
+      {
+        "icon": "equipe",
+        "label": "Facturation",
+        "us": "Par magasin, utilisateurs illimités",
+        "them": "Par utilisateur"
+      },
+      {
+        "icon": "caisse",
+        "label": "Prix",
+        "us": "Selon vos briques et la taille de l’équipe",
+        "them": "49 €, 69 € ou 99 € HT par utilisateur et par mois"
+      },
+      {
+        "icon": "inventaire",
+        "label": "Composition",
+        "us": "Des briques indépendantes, à la carte",
+        "them": "Trois formules"
+      },
+      {
+        "icon": "nuage",
+        "label": "Stockage",
+        "us": "Inclus, sans supplément",
+        "them": "1 Go, 5 Go ou illimité selon la formule"
+      },
+      {
+        "icon": "horloge",
+        "label": "Essai",
+        "us": "{essai} jours gratuits",
+        "them": "Essai gratuit proposé"
+      }
+    ],
+    "source": "Informations sur Extrabat relevées sur extrabat.com le {date}. Elles peuvent avoir changé : vérifiez-les auprès de l’éditeur. Extrabat est une marque de son propriétaire, sans lien avec Stagnum.",
+    "checked": "11 octobre 2026"
+  },
+  "forUs": {
+    "title": "Stagnum est fait pour vous *si…*",
+    "intro": "Quatre situations où le choix est simple.",
+    "items": [
+      {
+        "icon": "achats",
+        "color": "#E1F3F1",
+        "title": "Vous ne voulez plus ressaisir",
+        "text": "Stagnum remplit le devis, l’achat ou la relance à partir d’une phrase ou d’un bon de livraison."
+      },
+      {
+        "icon": "equipe",
+        "color": "#FBE6D2",
+        "title": "Votre équipe grossit en saison",
+        "text": "Le prix par magasin ne bouge pas quand vous embauchez un saisonnier."
+      },
+      {
+        "icon": "reglages",
+        "color": "#F3EDE2",
+        "title": "Vous voulez un outil à votre main",
+        "text": "Vous ne prenez que les briques utiles, et chacune se règle à votre façon."
+      },
+      {
+        "icon": "magasin",
+        "color": "#DDF2F3",
+        "title": "Vous tenez un magasin",
+        "text": "La caisse, l’inventaire et l’analyse d’eau font partie de Stagnum."
+      }
+    ]
+  },
+  "forThem": {
+    "title": "Extrabat reste un bon choix *si…*",
+    "intro": "Un comparatif honnête dit aussi quand l’autre solution convient mieux.",
+    "items": [
+      {
+        "title": "Vous exercez plusieurs métiers du bâtiment",
+        "text": "et vous voulez un seul logiciel pour tous."
+      },
+      {
+        "title": "Vous avez besoin de ses modules spécifiques",
+        "text": "comme les contrats de service ou sa place de marché de connecteurs."
+      },
+      {
+        "title": "Vous tenez à un éditeur installé de longue date",
+        "text": "qui annonce plus de 41 000 utilisateurs et des formations certifiées."
+      }
+    ]
+  },
+  "test": {
+    "title": "Le seul vrai test : *une heure, un dossier*",
+    "steps": [
+      {
+        "title": "Prenez un vrai dossier",
+        "text": "Un devis de rénovation, l’acompte, le chantier, la facture et une relance."
+      },
+      {
+        "title": "Faites-le dans les deux logiciels",
+        "text": "Pendant leurs essais gratuits, si possible depuis un téléphone."
+      },
+      {
+        "title": "Comptez le temps passé",
+        "text": "En une heure, vous savez lequel vous en fait gagner."
+      }
+    ],
+    "button": "Essayer Stagnum {essai} jours"
+  },
+  "faq": [
+    {
+      "q": "Quelle est la principale différence entre Stagnum et Extrabat ?",
+      "a": "Extrabat est un logiciel de gestion pour cinq métiers du bâtiment, dont la piscine, facturé par utilisateur. Stagnum est conçu uniquement pour les piscinistes, fait la saisie à votre place et se paie par magasin."
+    },
+    {
+      "q": "Stagnum est-il moins cher qu’Extrabat ?",
+      "a": "Cela dépend de la taille de votre équipe et des briques choisies. Stagnum facture par magasin et Extrabat par utilisateur : l’écart grandit avec le nombre de personnes. La calculette de la page Tarifs vous donne votre prix exact."
+    },
+    {
+      "q": "Puis-je essayer Stagnum en gardant mon logiciel actuel ?",
+      "a": "Oui. L’essai gratuit de {essai} jours vous permet de tester Stagnum sur de vrais dossiers avant de décider."
+    }
+  ],
+  "ctaTitle": "Comparez avec vos propres chiffres",
+  "blocks": [],
+  "seo": {
+    "title": "Alternative à Extrabat pour les piscinistes | Stagnum",
+    "description": "Vous cherchez une alternative à Extrabat Piscine ? Comparez avec Stagnum : l’assistant conçu pour les piscinistes, sans ressaisie, facturé par magasin."
+  }
+}

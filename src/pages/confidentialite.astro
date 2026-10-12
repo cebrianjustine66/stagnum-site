@@ -1,26 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import { LEGAL as L } from '../data/legal';
-const v = (value: string) => value || '[À compléter]';
-// À COMPLÉTER et à faire relire avant la mise en ligne.
+import legal from '../content/legal.json';
+import { legalText } from '../data/legal';
+import { paragraphs, rich } from '../lib';
+const page = legal.privacy;
+// Une ligne vide sépare deux paragraphes ; un simple retour à la ligne reste dans le même paragraphe.
+const html = (p: string) => rich(legalText(p)).replace(/\n/g, '<br />\n');
 ---
-<Base title="Politique de confidentialité | Stagnum" description="Comment Stagnum traite les données envoyées depuis le site stagnum.fr." noindex>
-  <PageHero title="Politique de confidentialité" />
+<Base title={page.seo.title} description={page.seo.description} noindex>
+  <PageHero title={page.title} />
   <section style="padding-top:24px">
     <div class="wrap narrow prose">
-      <h2>Données collectées</h2>
-      <p>Lorsque vous envoyez une demande de devis, nous recueillons votre nom, votre société, votre téléphone, votre e-mail, votre message et la configuration choisie dans la calculette.</p>
-      <h2>Utilisation</h2>
-      <p>Ces données servent uniquement à répondre à votre demande et à vous présenter Stagnum. Elles ne sont ni vendues ni cédées à des tiers.</p>
-      <h2>Durée de conservation</h2>
-      <p>[À compléter : durée de conservation des demandes, par exemple trois ans après le dernier contact]</p>
-      <h2>Responsable du traitement</h2>
-      <p>{v(L.raisonSociale)}, {v(L.siege)}</p>
-      <h2>Vos droits</h2>
-      <p>Vous pouvez demander l’accès à vos données, leur rectification ou leur suppression en écrivant à {v(L.email)}. Vous pouvez aussi adresser une réclamation à la CNIL.</p>
-      <h2>Cookies</h2>
-      <p>Ce site n’utilise pas de cookies publicitaires ni de traceurs tiers.</p>
+      {page.sections.map((s) => (
+        <>
+          <h2>{s.title}</h2>
+          {paragraphs(s.text).map((p) => <p set:html={html(p)} />)}
+        </>
+      ))}
     </div>
   </section>
 </Base>
