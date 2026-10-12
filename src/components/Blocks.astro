@@ -10,7 +10,8 @@ const { blocks = [] } = Astro.props;
 const bg = { clair: '', sable: 'sandy', fonce: 'on-deep water' };
 const hl = (b: { background: keyof typeof bg }) => (b.background === 'fonce' ? 'hl' : 'hl hl-ink');
 const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
-const cardColors = [['#0F5358', 'dark'], ['#FFFFFF', ''], ['#0B3D42', 'dark']];
+// Mêmes teintes que les cartes des briques de l'accueil.
+const cardColors = [['#0F5358', 'dark'], ['#E1F3F1', ''], ['#FBE6D2', '']];
 const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 ---
 {blocks.map(({ discriminant: type, value: b }) => (
@@ -45,7 +46,10 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
               return (
                 <Tag class={`card tint reveal ${tone}`} style={`--tint:${color}`} href={c.href || undefined}>
                   <span class="ghost" aria-hidden="true"><Icon name={c.icon} size={150} /></span>
-                  <span class="tile"><Icon name={c.icon} size={26} /></span>
+                  <span class="tint-top">
+                    <span class="tile"><Icon name={c.icon} size={24} /></span>
+                    <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                  </span>
                   <h3>{c.title}</h3>
                   <p>{c.text}</p>
                   {c.href && <span class="go"><Icon name="arrow" size={18} /></span>}
@@ -97,19 +101,21 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .block .lead + .lead, .block .lead + .checks { margin-top: 18px; }
   .block .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
   .block .card p { margin: 0; }
-  .block .tint { position: relative; overflow: hidden; background: var(--tint); border-color: var(--border); border-radius: 28px; padding: 30px 28px 34px; color: var(--ink); }
-  .block .tint .tile { width: 58px; height: 58px; border-radius: 18px; background: var(--deep); color: var(--aqua); margin-bottom: 22px; position: relative; transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
+  .block .tint { position: relative; overflow: hidden; background: var(--tint); border-color: rgba(11, 61, 66, .08); border-radius: 28px; padding: 30px 28px 34px; color: var(--ink); }
+  .block .tint-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; position: relative; }
+  .block .tint .num { font: 700 .95rem var(--font-display); letter-spacing: .06em; opacity: .5; }
+  .block .tint .tile { width: 56px; height: 56px; border-radius: 17px; background: #fff; color: var(--accent); margin-bottom: 0; box-shadow: 0 8px 18px -10px rgba(7, 52, 58, .35); position: relative; transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
   .block .tint:hover .tile { transform: scale(1.1) rotate(-6deg); }
   .block .tint h3 { font-size: 1.45rem; letter-spacing: -.02em; position: relative; }
   .block .tint p { position: relative; color: var(--ink-2); line-height: 1.6; }
   .block .tint .ghost { position: absolute; right: -28px; bottom: -34px; opacity: .09; color: var(--deep); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
   .block .tint:hover .ghost { transform: translate(-8px, -8px) rotate(-8deg); }
   .block .tint.dark { color: #fff; border-color: transparent; }
-  .block .tint.dark .tile { background: var(--sun); color: #fff; }
+  .block .tint.dark .tile { background: rgba(255, 255, 255, .16); color: #fff; box-shadow: none; }
   .block .tint.dark h3 { color: #fff; }
   .block .tint.dark p { color: #E6F5F5; }
   .block .tint.dark .ghost { color: #fff; opacity: .1; }
-  .block .tint .go { position: absolute; top: 30px; right: 28px; opacity: .6; }
+  .block .tint .go { position: absolute; bottom: 26px; right: 28px; opacity: .6; }
   .block .card { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
   .block .card:hover { transform: translateY(-5px); box-shadow: var(--lift-hover); border-color: var(--aqua); }
 
