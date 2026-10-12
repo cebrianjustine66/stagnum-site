@@ -27,6 +27,14 @@
     {
       "h2": "Rien à ajouter à votre logiciel",
       "text": "Vous dictez ou vous saisissez votre facture comme avant. Stagnum la met au bon format et la transmet. Vous n’avez ni second outil à acheter, ni double saisie."
+    },
+    {
+      "h2": "Exemple : une facture pour un camping",
+      "text": "Vous terminez la remise en route du bassin d’un camping. Vous faites la facture comme les autres, à l’écran ou à la voix. Stagnum la met au format exigé et la transmet par le circuit électronique."
+    },
+    {
+      "h2": "Comprise dans la brique Factures",
+      "text": "Pas d’option à ajouter ni de second abonnement : la facturation électronique fait partie de la brique Factures, comme les relances de paiement."
     }
   ],
   "faq": [

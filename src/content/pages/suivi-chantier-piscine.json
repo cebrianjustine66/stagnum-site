@@ -31,6 +31,14 @@
     {
       "h2": "Toute l’équipe voit la même chose",
       "text": "Le bureau sait où en est le chantier sans appeler le technicien. Le technicien a l’adresse, le détail du devis et l’historique du client dans sa poche."
+    },
+    {
+      "h2": "Exemple : une rénovation de liner",
+      "text": "Sur place, le technicien dicte l’avancement, les heures passées et les matériaux utilisés. Au bureau, vous voyez la marge évoluer au fil des jours. À la fin, vous savez si le chantier a été rentable."
+    },
+    {
+      "h2": "Comprendre pourquoi un chantier a moins rapporté",
+      "text": "Deux heures de plus ici, un sac de ciment là : les petits écarts font fondre une marge. Comme chaque coût est noté au moment où il arrive, vous voyez ce qui a pesé et vous ajustez vos prochains devis."
     }
   ],
   "faq": [

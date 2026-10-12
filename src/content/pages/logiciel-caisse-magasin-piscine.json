@@ -32,6 +32,14 @@
     {
       "h2": "Reliée à votre stock, si vous le voulez",
       "text": "Avec la brique Inventaire, chaque vente met votre stock à jour. Sans elle, la caisse fonctionne quand même : chaque brique est indépendante."
+    },
+    {
+      "h2": "Exemple : un samedi de juin",
+      "text": "La file s’allonge au comptoir. Le vendeur choisit le produit, retrouve le client et encaisse. La vente rejoint la fiche du client, et le stock est décompté si vous avez la brique Inventaire."
+    },
+    {
+      "h2": "Un prix qui ne dépend pas du nombre de vendeurs",
+      "text": "En saison, vous renforcez l’équipe. Le prix de Stagnum est fixé par magasin : vos saisonniers utilisent la caisse sans coût supplémentaire."
     }
   ],
   "faq": [

@@ -31,6 +31,14 @@
     {
       "h2": "Du devis à la facture sans ressaisie",
       "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces briques. Les informations du client suivent toutes seules, parce que la base clients est commune à tout Stagnum."
+    },
+    {
+      "h2": "Exemple : un liner à remplacer",
+      "text": "Vous êtes chez un client pour un liner à changer. Vous dictez le besoin au bord du bassin, Stagnum retrouve sa fiche et prépare le devis avec vos articles et vos prix. Vous relisez les lignes et vous l’envoyez avant de reprendre la route."
+    },
+    {
+      "h2": "Rien ne part sans vous",
+      "text": "Stagnum prépare le devis, il ne l’envoie pas. Chaque ligne reste modifiable : un article, une quantité, un prix. Le devis part quand vous l’avez relu."
     }
   ],
   "faq": [

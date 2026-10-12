@@ -25,6 +25,14 @@ const tint: Record<string, string> = {
   devis: '#D9EFF0', factures: '#E1F3F1', chantiers: '#FBE6D2', achats: '#F3EDE2', caisse: '#F8DDD0', inventaire: '#D6E8E9', eau: '#DDF2F3',
 };
 const dots = [1, 3, 6, 10, 14];
+// Exemples de prix : calculés avec les prix en vigueur, pour l'engagement de 3 mois.
+const examples = t.examples.items.map((x) => {
+  const tier = TIERS.findIndex((tr) => tr.id === x.tier);
+  const chosen = BRICKS.filter((b) => x.bricks.includes(b.id));
+  const all = chosen.length === BRICKS.length;
+  const price = all ? ALL_BRICKS_PRICES[tier] : chosen.reduce((sum, b) => sum + b.prices[tier], 0);
+  return { ...x, price, chosen, all };
+});
 ---
 <Base
   title={plain(t.seo.title)}
@@ -155,6 +163,27 @@ const dots = [1, 3, 6, 10, 14];
       </ul>
     </div>
   </section>
+
+  {examples.length > 0 && (
+    <section class="ex-section">
+      <div class="wrap">
+        <h2 class="center" set:html={rich(t.examples.title, 'hl hl-ink')} />
+        <div class="grid grid-3">
+          {examples.map((x) => (
+            <div class="card ex reveal">
+              <h3>{x.title}</h3>
+              <p class="muted">{x.text}</p>
+              <ul class="ex-bricks">
+                {x.all ? <li>Les {BRICK_COUNT_WORD} briques</li> : x.chosen.map((b) => <li>{b.name}</li>)}
+              </ul>
+              <p class="ex-price"><strong>{x.price} €</strong> {t.summary.unit}</p>
+            </div>
+          ))}
+        </div>
+        <p class="center small muted ex-note">{plain(t.examples.note)}</p>
+      </div>
+    </section>
+  )}
 
   <section class="sandy" id="demande">
     <div class="wrap ask">
@@ -358,6 +387,17 @@ const dots = [1, 3, 6, 10, 14];
   .i-ic { width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; background: var(--c); color: var(--deep); margin-bottom: 16px; }
   .incl h3 { font-size: 1.15rem; margin-bottom: 6px; }
   .incl p { margin: 0; color: var(--ink-2); font-size: .93rem; }
+
+  .ex-section { padding-top: 0; }
+  .ex-section h2 { margin-bottom: 32px; }
+  .ex { display: flex; flex-direction: column; gap: 14px; }
+  .ex h3 { font-size: 1.25rem; margin: 0; }
+  .ex p { margin: 0; }
+  .ex-bricks { list-style: none; padding: 0; margin: auto 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .ex-bricks li { font-size: .84rem; font-weight: 650; padding: 5px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .ex-price { color: var(--ink-2); font-size: .93rem; padding-top: 14px; border-top: 1px solid var(--border); }
+  .ex-price strong { font: 800 2rem var(--font-display); color: var(--deep); letter-spacing: -.02em; margin-right: 4px; }
+  .ex-note { margin: 24px 0 0; }
 
   .ask { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: start; }
   .recap { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; font-size: .92rem; font-weight: 600; color: #7A5520; }

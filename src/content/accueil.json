@@ -101,7 +101,49 @@
       "a": "Oui. L’essai est gratuit pendant {essai} jours. Ensuite, l’engagement minimum est de 3 mois, avec un prix dégressif sur 6 et 12 mois."
     }
   ],
-  "blocks": [],
+  "blocks": [
+    {
+      "discriminant": "cartes",
+      "value": {
+        "title": "Fait pour *votre façon* d’exercer",
+        "cards": [
+          {
+            "icon": "camion",
+            "title": "Vous travaillez seul",
+            "text": "Avec ou sans magasin, Stagnum fonctionne de la même façon. Un tarif est prévu pour les indépendants, et vos devis, vos chantiers et vos analyses d’eau se font aussi depuis votre téléphone.",
+            "href": ""
+          },
+          {
+            "icon": "magasin",
+            "title": "Vous tenez un magasin",
+            "text": "Caisse, stock et analyses d’eau au comptoir. Toute l’équipe utilise Stagnum, saisonniers compris, sans payer par utilisateur.",
+            "href": ""
+          },
+          {
+            "icon": "equipe",
+            "title": "Vous avez plusieurs magasins",
+            "text": "Chaque magasin a son abonnement. Vous pouvez les relier entre eux pour partager vos clients et suivre l’ensemble.",
+            "href": ""
+          }
+        ]
+      }
+    },
+    {
+      "discriminant": "liste",
+      "value": {
+        "title": "Ce que vous n’avez *plus à faire*",
+        "intro": "Stagnum prend en charge la saisie. Vous gardez la relecture et la décision.",
+        "items": [
+          "Recopier un bon de livraison ligne par ligne",
+          "Refaire vos devis le soir au bureau",
+          "Penser à relancer les factures en retard",
+          "Ressaisir votre inventaire après le comptage",
+          "Tenir un tableur pour connaître la marge d’un chantier"
+        ],
+        "background": "sable"
+      }
+    }
+  ],
   "seo": {
     "title": "Logiciel de gestion pour pisciniste : l’assistant intelligent | Stagnum",
     "description": "Stagnum est l’assistant intelligent des piscinistes : devis, factures, achats, chantiers, caisse, stock et analyse d’eau, sans ressaisie. Un prix par magasin."

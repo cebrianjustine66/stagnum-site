@@ -27,6 +27,14 @@
     {
       "h2": "Retrouver un client en le nommant",
       "text": "Vous dites « ouvre la fiche de Madame Martin » et vous y êtes. Au comptoir ou sur un chantier, vous avez l’historique complet sous les yeux."
+    },
+    {
+      "h2": "Exemple : un client revient au magasin",
+      "text": "Il ne se souvient plus du produit acheté l’été dernier. Vous ouvrez sa fiche : son bassin, ses achats, ses analyses d’eau et ses chantiers sont là. Vous le conseillez sans lui reposer les mêmes questions."
+    },
+    {
+      "h2": "Une seule base pour plusieurs magasins",
+      "text": "Si vous reliez vos magasins, ils partagent le même fichier client. Un client connu dans l’un est reconnu dans l’autre."
     }
   ],
   "faq": [

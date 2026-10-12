@@ -27,6 +27,14 @@
     {
       "h2": "Des achats qui servent au reste",
       "text": "Un achat bien saisi ne dort pas dans un classeur. Avec la brique Inventaire, les quantités reçues entrent en stock ; avec les Chantiers, vos coûts de matériaux sont justes."
+    },
+    {
+      "h2": "Exemple : une livraison un lundi matin",
+      "text": "Le transporteur dépose une palette de produits de traitement. Vous déposez le bon de livraison dans Stagnum, vous vérifiez les lignes lues et vous validez. L’achat est saisi sans avoir retapé une seule référence."
+    },
+    {
+      "h2": "Moins d’erreurs de référence",
+      "text": "Une référence mal recopiée fausse le stock et le coût d’un chantier. Comme les lignes viennent du bon de livraison, il n’y a plus de recopie à la main, et vous contrôlez tout avant de valider."
     }
   ],
   "faq": [

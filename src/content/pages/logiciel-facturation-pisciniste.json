@@ -32,6 +32,14 @@
     {
       "h2": "Une vue claire de ce qu’on vous doit",
       "text": "Un seul écran montre les factures payées, celles qui arrivent à échéance et celles qui sont en retard. Vous n’avez plus besoin d’un tableur à côté pour suivre votre trésorerie."
+    },
+    {
+      "h2": "Exemple : la fin d’un chantier",
+      "text": "Le chantier Durand se termine un jeudi. Vous dites « facture le chantier Durand » : la facture est créée à partir du chantier, vous la relisez et elle part le jour même. Si elle n’est pas payée au délai que vous avez réglé, la relance part toute seule."
+    },
+    {
+      "h2": "Prête pour la facturation électronique",
+      "text": "La réforme impose de recevoir, puis d’émettre des factures électroniques. C’est compris dans la brique Factures : vous facturez comme d’habitude et Stagnum met la facture au bon format."
     }
   ],
   "faq": [

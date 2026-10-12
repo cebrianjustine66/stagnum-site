@@ -184,8 +184,8 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </section>
 
-  <Faq items={faq} />
   <Blocks blocks={a.blocks as Block[]} />
+  <Faq items={faq} />
   <Cta />
   <script>
   const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
@@ -237,9 +237,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 <style>
   .hero { padding-top: calc(var(--head) + clamp(40px, 6vw, 72px)); }
   .hero-grid { display: grid; grid-template-columns: .88fr 1.12fr; gap: 44px; align-items: center; }
-  .hero-copy .lead { font-size: clamp(1.15rem, 1.9vw, 1.35rem); }
+  .hero-copy .lead { font-size: clamp(1.15rem, 1.9vw, 1.35rem); font-weight: 500; }
   .proofs { list-style: none; padding: 0; margin: 30px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
-  .proofs li { font-size: .9rem; font-weight: 550; color: #D6EEEE; padding: 7px 14px 7px 10px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); }
+  .proofs li { font-size: .9rem; font-weight: 600; color: #fff; padding: 7px 14px 7px 10px; border-radius: 999px; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .3); }
   .proofs li::before { content: "✓"; color: var(--aqua); margin-right: 8px; font-weight: 800; }
 
   .head { margin-bottom: 44px; }
