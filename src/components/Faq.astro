@@ -36,9 +36,10 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .faq-grid { display: grid; grid-template-columns: .8fr 1.4fr; gap: 56px; align-items: start; }
   .faq-side { position: sticky; top: 108px; }
   .faq-side h2 { margin-bottom: 12px; }
-  .ask { margin-top: 26px; border-radius: 24px; padding: 24px; color: #fff; background: var(--grad-deep); }
+  .ask { margin-top: 26px; border-radius: 24px; padding: 24px; color: var(--ink); background: #E1F3F1; border: 1px solid rgba(11, 61, 66, .08); }
   .ask .big { font: 760 1.35rem/1.15 var(--font-display); letter-spacing: -.02em; margin-bottom: 6px; }
-  .ask p { color: #EAF9F9; font-size: .95rem; }
+  .ask .big { color: var(--deep); }
+  .ask p { color: var(--ink-2); font-size: .95rem; }
   .ask .btn { margin-top: 8px; min-height: 46px; padding: 9px 20px; font-size: .95rem; }
 
   .faq { border-radius: 28px; background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
