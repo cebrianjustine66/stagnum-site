@@ -1,0 +1,93 @@
+{
+  "breadcrumb": "Qui sommes-nous",
+  "hero": {
+    "title": "Plus qu’un logiciel pour les *piscinistes*",
+    "lead": "Stagnum est né d’un constat : les piscinistes méritent mieux que des outils qui ont vieilli. Voici pourquoi nous l’avons créé, et qui nous sommes."
+  },
+  "story": [
+    {
+      "title": "Notre *constat*",
+      "text": "Les piscinistes sont un métier délaissé par les éditeurs de logiciels. Il existe peu d’outils faits pour eux.\n\nCeux qui existent ont vieilli : peu d’évolutions, des demandes de clients qui restent sans suite, des réponses qui se font attendre. Pendant ce temps, les piscinistes continuent de recopier des bons de livraison, de refaire leurs devis le soir et de relancer leurs factures à la main."
+    },
+    {
+      "title": "Ce que nous *voulons changer*",
+      "text": "Nous voulons changer le quotidien des piscinistes en leur donnant plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise.\n\nUn logiciel de gestion classique attend que vous le remplissiez. Stagnum fait la saisie à votre place, et c’est vous qui décidez : il prépare, vous validez."
+    }
+  ],
+  "team": {
+    "title": "L’*équipe*",
+    "intro": "Stagnum a été créé par cinq personnes.",
+    "members": [
+      {
+        "name": "Yohan",
+        "role": ""
+      },
+      {
+        "name": "Léana",
+        "role": ""
+      },
+      {
+        "name": "Axel",
+        "role": ""
+      },
+      {
+        "name": "Jérémy",
+        "role": ""
+      },
+      {
+        "name": "Justine",
+        "role": ""
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "discriminant": "cartes",
+      "value": {
+        "title": "Nos *partis pris*",
+        "cards": [
+          {
+            "icon": "metier",
+            "title": "Un seul métier",
+            "text": "Stagnum est conçu uniquement pour les piscinistes, avec ou sans magasin. Il parle votre langage : un « huit par quatre » est un bassin.",
+            "href": ""
+          },
+          {
+            "icon": "check",
+            "title": "Vous gardez la main",
+            "text": "Stagnum prépare, vous validez. Rien ne part sans vous, sauf ce que vous avez choisi d’automatiser.",
+            "href": ""
+          },
+          {
+            "icon": "voix",
+            "title": "À l’écoute",
+            "text": "Nous tenons à rester à l’écoute de ceux qui utilisent Stagnum, et à leur répondre sans les faire attendre.",
+            "href": ""
+          },
+          {
+            "icon": "magasin",
+            "title": "Un prix clair",
+            "text": "Un prix par magasin, pas par utilisateur. Vous ne payez que les briques que vous choisissez.",
+            "href": "/tarifs/"
+          },
+          {
+            "icon": "reglages",
+            "title": "Réglé à votre façon",
+            "text": "Deux piscinistes ne travaillent jamais pareil. Chaque brique se règle selon vos habitudes.",
+            "href": "/logiciel-pisciniste-personnalisable/"
+          },
+          {
+            "icon": "horloge",
+            "title": "L’essai avant l’engagement",
+            "text": "Vous essayez gratuitement avant de vous engager, dans vos conditions de travail.",
+            "href": ""
+          }
+        ]
+      }
+    }
+  ],
+  "seo": {
+    "title": "Qui sommes-nous ? L’équipe et l’histoire de Stagnum",
+    "description": "Stagnum a été créé par cinq personnes pour donner aux piscinistes plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise."
+  }
+}

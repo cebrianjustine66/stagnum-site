@@ -173,7 +173,7 @@
       "discriminant": "texte",
       "value": {
         "title": "Qui est *derrière Stagnum* ?",
-        "text": "Stagnum a été créé par cinq personnes : Yohan, Léana, Axel, Jérémy et Justine.\n\nNous sommes partis d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels. Il existe peu d’outils faits pour eux, et ceux qui existent ont vieilli : peu d’évolutions, des demandes de clients qui restent sans suite, des réponses qui se font attendre.\n\nNous voulons changer le quotidien des piscinistes en leur donnant plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise. Et nous tenons à rester à l’écoute de ceux qui l’utilisent.",
+        "text": "Stagnum a été créé par cinq personnes : Yohan, Léana, Axel, Jérémy et Justine.\n\nNous sommes partis d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels, et les rares outils qui existent ont vieilli. Nous voulons leur donner plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise.\n\n[Découvrir notre histoire et l’équipe](/a-propos/)",
         "background": "fonce"
       }
     }
