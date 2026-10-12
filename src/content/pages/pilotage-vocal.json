@@ -31,6 +31,14 @@
     {
       "h2": "Vous gardez toujours la main",
       "text": "Stagnum prépare, vous validez. Vous décidez dans les paramètres de ce qui part automatiquement, et tout ce qui se fait à la voix peut aussi se faire au clavier."
+    },
+    {
+      "h2": "Exemple : dans la réserve, les bras chargés",
+      "text": "Vous comptez des seaux de chlore et vous annoncez les quantités à voix haute. Avec la brique Inventaire, le stock se met à jour pendant que vous continuez votre tour."
+    },
+    {
+      "h2": "La voix quand elle aide, l’écran le reste du temps",
+      "text": "Au bureau ou au comptoir, le clavier reste souvent le plus rapide. La voix sert quand vous avez les mains prises : sur un chantier, dans la réserve, au bord d’un bassin."
     }
   ],
   "faq": [

@@ -27,6 +27,14 @@
     {
       "h2": "Vos relances, à votre rythme",
       "text": "Vous fixez le nombre de jours après l’échéance d’une facture. Passé ce délai, la relance part automatiquement. Vous pouvez changer ce réglage quand vous voulez."
+    },
+    {
+      "h2": "Exemple : deux piscinistes, deux réglages",
+      "text": "L’un relance ses factures sept jours après l’échéance, l’autre attend trente jours. L’un suit le stabilisant à chaque analyse, l’autre non. Chacun règle Stagnum une fois, et le logiciel suit ses habitudes."
+    },
+    {
+      "h2": "Des réglages par défaut pour démarrer",
+      "text": "Vous n’avez rien à régler le premier jour : Stagnum fonctionne avec des réglages par défaut. Vous les ajustez quand vous en ressentez le besoin, et vous pouvez les changer quand vous voulez."
     }
   ],
   "faq": [

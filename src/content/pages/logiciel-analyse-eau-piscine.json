@@ -31,6 +31,14 @@
     {
       "h2": "Au comptoir comme au bord du bassin",
       "text": "L’analyse se fait au magasin, quand le client apporte son échantillon, ou chez lui pendant une visite d’entretien. Dans les deux cas, elle rejoint la même fiche."
+    },
+    {
+      "h2": "Exemple : un client au comptoir avec son échantillon",
+      "text": "Vous mesurez avec votre matériel, puis vous saisissez ou dictez les valeurs. Stagnum les range sur le bassin du client, repère celles qui sont hors plage et propose un traitement. Vous le validez et vous l’expliquez au client."
+    },
+    {
+      "h2": "Vos paramètres, pas ceux d’un autre",
+      "text": "Vous choisissez les mesures qui apparaissent dans vos analyses. Celles que vous ne suivez pas n’encombrent ni votre écran ni la fiche remise au client."
     }
   ],
   "faq": [

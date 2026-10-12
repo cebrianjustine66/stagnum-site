@@ -65,6 +65,46 @@
       }
     ]
   },
+  "examples": {
+    "title": "Trois exemples *de prix*",
+    "note": "Prix HT par mois et par magasin, pour un engagement de 3 mois, après {essai} jours d’essai gratuit. Sur 6 ou 12 mois, le prix baisse.",
+    "items": [
+      {
+        "title": "Indépendant sans magasin",
+        "text": "Vous travaillez seul, entre devis, chantiers et factures.",
+        "tier": "solo",
+        "bricks": [
+          "devis",
+          "factures",
+          "chantiers"
+        ]
+      },
+      {
+        "title": "Magasin de 4 personnes",
+        "text": "Vous vendez au comptoir et vous analysez l’eau de vos clients.",
+        "tier": "s",
+        "bricks": [
+          "caisse",
+          "inventaire",
+          "eau"
+        ]
+      },
+      {
+        "title": "Magasin et chantiers, 8 personnes",
+        "text": "Vous utilisez tout Stagnum, du devis à l’inventaire.",
+        "tier": "m",
+        "bricks": [
+          "devis",
+          "factures",
+          "chantiers",
+          "achats",
+          "caisse",
+          "inventaire",
+          "eau"
+        ]
+      }
+    ]
+  },
   "request": {
     "title": "Recevez votre devis et démarrez l’essai",
     "lead": "Laissez vos coordonnées : nous vous rappelons avec votre devis et nous ouvrons votre essai gratuit de {essai} jours."

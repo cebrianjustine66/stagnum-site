@@ -421,11 +421,48 @@ export default config({
             { label: 'Éléments', itemLabel: (p) => p.fields.title.value || 'Nouvel élément' },
           ),
         }),
-        request: group('6. Demande de devis', {
+        examples: group(
+          '6. Exemples de prix',
+          {
+            title: text('Titre', HL),
+            items: fields.array(
+              fields.object({
+                title: text('Profil', 'Exemple : Magasin de 4 personnes.'),
+                text: text('Phrase de description'),
+                tier: fields.select({
+                  label: 'Taille de l’équipe',
+                  options: [
+                    { label: 'Indépendant', value: 'solo' },
+                    { label: '2 à 5 personnes', value: 's' },
+                    { label: '6 à 10 personnes', value: 'm' },
+                    { label: '11 à 20 personnes', value: 'l' },
+                  ],
+                  defaultValue: 's',
+                }),
+                bricks: fields.multiselect({
+                  label: 'Briques comptées dans l’exemple',
+                  options: [
+                    { label: 'Devis', value: 'devis' },
+                    { label: 'Factures', value: 'factures' },
+                    { label: 'Chantiers', value: 'chantiers' },
+                    { label: 'Achats', value: 'achats' },
+                    { label: 'Caisse', value: 'caisse' },
+                    { label: 'Inventaire', value: 'inventaire' },
+                    { label: 'Analyse d’eau', value: 'eau' },
+                  ],
+                }),
+              }),
+              { label: 'Exemples', description: 'Trois exemples tiennent sur une ligne. Supprimez-les tous pour masquer la section.', itemLabel: (p) => p.fields.title.value || 'Nouvel exemple' },
+            ),
+            note: long('Mention sous les exemples', TRIAL),
+          },
+          'Le montant n’est pas à saisir : il est calculé avec les prix de « Prix et briques » et suit leurs changements.',
+        ),
+        request: group('7. Demande de devis', {
           title: text('Titre'),
           lead: long('Texte', TRIAL),
         }),
-        faqTitle: text('7. Titre des questions fréquentes'),
+        faqTitle: text('8. Titre des questions fréquentes'),
         faq: faq('Questions fréquentes'),
         blocks: blocks(),
         seo: seo(),

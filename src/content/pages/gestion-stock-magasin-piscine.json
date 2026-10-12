@@ -31,6 +31,14 @@
     {
       "h2": "Le camion compte aussi",
       "text": "Un indépendant a son stock dans son véhicule ou son dépôt. La brique Inventaire fonctionne de la même façon, sans magasin."
+    },
+    {
+      "h2": "Exemple : l’inventaire avant la saison",
+      "text": "Vous faites le tour de la réserve et vous annoncez ce que vous comptez, référence par référence. Stagnum met les fiches à jour et signale les écarts à vérifier. À la fin du tour, l’inventaire est fait."
+    },
+    {
+      "h2": "Un stock qui reste juste entre deux inventaires",
+      "text": "Avec la brique Caisse, chaque vente décompte le stock. Avec la brique Achats, chaque livraison validée l’alimente. Entre deux comptages, vos quantités restent à jour."
     }
   ],
   "faq": [
