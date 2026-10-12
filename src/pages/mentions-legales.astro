@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { LEGAL as L } from '../data/legal';
+const v = (value: string) => value || '[À compléter]';
+---
+<Base title="Mentions légales | Stagnum" description="Mentions légales du site stagnum.fr." noindex>
+  <PageHero title="Mentions légales" />
+  <section style="padding-top:24px">
+    <div class="wrap narrow prose">
+
+      <h2>Éditeur du site</h2>
+      <p>
+        Le site stagnum.fr est édité par {v(L.raisonSociale)}, {v(L.formeJuridique)} au capital de {v(L.capital)}.<br />
+        Siège social : {v(L.siege)}<br />
+        Immatriculation : RCS {v(L.rcs)}, numéro {v(L.siren)}<br />
+        Numéro de TVA intracommunautaire : {v(L.tva)}<br />
+        E-mail : {v(L.email)}<br />
+        Téléphone : {v(L.telephone)}
+      </p>
+
+      <h2>Directeur de la publication</h2>
+      <p>{v(L.directeurPublication)}</p>
+
+      <h2>Hébergement</h2>
+      <p>
+        Le site est hébergé par {v(L.hebergeur.nom)}.<br />
+        Adresse : {v(L.hebergeur.adresse)}<br />
+        Téléphone : {v(L.hebergeur.telephone)}
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>Les textes, les images, le logo et la marque Stagnum présents sur ce site sont la propriété de l’éditeur. Toute reproduction ou réutilisation, totale ou partielle, sans autorisation écrite préalable est interdite.</p>
+      <p>Les marques et noms de produits de tiers cités sur ce site, notamment à des fins de comparaison, appartiennent à leurs propriétaires respectifs. Leur mention n’implique aucun lien avec Stagnum.</p>
+
+      <h2>Informations et tarifs</h2>
+      <p>Les informations publiées sur ce site sont données à titre indicatif et peuvent être modifiées à tout moment. Les prix affichés, y compris ceux de la calculette, sont exprimés hors taxes et constituent une estimation : seul le devis transmis par l’éditeur engage celui-ci.</p>
+      <p>Les articles du blog apportent une information générale. Ils ne constituent pas un conseil juridique, fiscal ou comptable.</p>
+
+      <h2>Responsabilité</h2>
+      <p>L’éditeur s’efforce de fournir des informations exactes et à jour, sans pouvoir le garantir. Il ne peut être tenu responsable d’une interruption du site ni des dommages résultant de l’utilisation des informations qui y figurent.</p>
+      <p>Ce site peut contenir des liens vers d’autres sites. L’éditeur n’exerce aucun contrôle sur leur contenu et n’en est pas responsable.</p>
+
+      <h2>Données personnelles</h2>
+      <p>Le traitement des données envoyées par le formulaire de demande de devis est décrit dans la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+
+      <h2>Droit applicable</h2>
+      <p>Le présent site est soumis au droit français.</p>
+    </div>
+  </section>
+</Base>

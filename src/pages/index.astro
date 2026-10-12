@@ -1,0 +1,406 @@
+---
+import Base from '../layouts/Base.astro';
+import BrickDemo from '../components/BrickDemo.astro';
+import BrickMini from '../components/BrickMini.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { SITE } from '../data/site';
+import { BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
+import { faqLd } from '../lib';
+
+const faq = [
+  { q: 'Qu’est-ce que Stagnum ?', a: 'Stagnum est un logiciel de gestion conçu uniquement pour les piscinistes. C’est un assistant intelligent : il prépare vos devis, vos factures et leurs relances, vos achats, le suivi de vos chantiers, la caisse, le stock et les analyses d’eau, et vous validez.' },
+  { q: 'Qu’est-ce qu’il a d’intelligent ?', a: 'Il fait la saisie à votre place. Vous déposez un bon de livraison et l’achat est rempli ; vous décrivez un besoin en une phrase et le devis est prêt ; une facture est en retard et la relance part au délai que vous avez réglé.' },
+  { q: 'Peut-on adapter Stagnum à sa façon de travailler ?', a: 'Oui. Chaque brique se règle : les paramètres de vos analyses d’eau, le contenu de vos devis, le nombre de jours avant la relance d’une facture.' },
+  { q: 'Faut-il parler à Stagnum pour l’utiliser ?', a: 'Non. Tout se fait à l’écran et au clavier. La voix est une possibilité en plus, pratique quand vous avez les mains occupées sur un chantier.' },
+  { q: 'Combien coûte Stagnum ?', a: 'Le prix dépend de la taille de votre équipe et des briques que vous choisissez. Il est fixé par magasin, pas par utilisateur, et un prix préférentiel s’applique si vous prenez toutes les briques. La calculette vous donne votre montant en une minute.' },
+  { q: 'Suis-je obligé de prendre toutes les briques ?', a: 'Non. Chaque brique fonctionne seule. Vous commencez par celle qui vous manque le plus et vous en ajoutez quand vous voulez.' },
+  { q: 'Stagnum convient-il à un pisciniste sans magasin ?', a: 'Oui. Stagnum fonctionne de la même façon avec ou sans magasin. Un tarif est prévu pour les piscinistes qui travaillent seuls.' },
+  { q: 'Peut-on essayer avant de s’engager ?', a: `Oui. L’essai est gratuit pendant ${TRIAL_DAYS} jours. Ensuite, l’engagement minimum est de 3 mois, avec un prix dégressif sur 6 et 12 mois.` },
+];
+
+const software = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE.name,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: SITE.description,
+  url: SITE.url,
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'EUR',
+    lowPrice: LOWEST_PRICE,
+    highPrice: Math.max(...ALL_BRICKS_PRICES),
+    offerCount: BRICKS.length + 1,
+  },
+};
+const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: SITE.url, inLanguage: 'fr-FR' };
+const flows = [
+  { icon: 'achats', you: 'Vous déposez un bon de livraison', it: 'L’achat est rempli, sans rien retaper' },
+  { icon: 'devis', you: 'Vous décrivez un besoin en une phrase', it: 'Le devis est prêt à relire' },
+  { icon: 'factures', you: 'Une facture dépasse le délai que vous avez réglé', it: 'La relance part toute seule' },
+  { icon: 'chantiers', you: 'Vous notez deux heures de plus', it: 'La marge du chantier est recalculée' },
+];
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+<Base
+  title="Logiciel de gestion pour pisciniste : l’assistant intelligent | Stagnum"
+  description="Stagnum est l’assistant intelligent des piscinistes : devis, factures, achats, chantiers, caisse, stock et analyse d’eau, sans ressaisie. Un prix par magasin."
+  jsonld={[software, website, faqLd(faq)]}
+>
+  <section class="on-deep water wave-bottom hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>L’assistant <span class="hl">intelligent</span> des piscinistes</h1>
+        <p class="lead">Le logiciel de gestion qui fait la saisie à votre place : devis, factures, achats, chantiers, caisse, stock et analyse d’eau. Et il se règle à votre façon.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+          <a class="btn btn-ghost" href="/demande-de-devis/">Essayer <span class="long">{TRIAL_DAYS} jours </span>gratuitement</a>
+        </div>
+        <ul class="proofs">
+          <li>Un prix par magasin</li>
+          <li>Utilisateurs illimités</li>
+          <li>Sans ressaisie</li>
+          <li>{TRIAL_DAYS} jours d’essai gratuit</li>
+        </ul>
+      </div>
+      <BrickDemo id="achats" home />
+    </div>
+  </section>
+
+  <section id="briques" class="briques-section">
+    <div class="wrap">
+      <div class="center head">
+        <h2>{BRICKS.length} briques. Prenez seulement <span class="hl hl-ink">ce qu’il vous faut</span></h2>
+        <p class="lead">Chaque brique fonctionne seule. Cliquez sur une brique pour la voir fonctionner.</p>
+      </div>
+      <div class="bricks">
+        {BRICKS.map((b, i) => (
+          <a class={`brick reveal ${BRICK_COLORS[b.id][1] === '#FFFFFF' ? 'dark' : ''}`} href={b.href} data-water={BRICK_COLORS[b.id][1] === '#FFFFFF' ? '' : undefined} style={`--bg:${BRICK_COLORS[b.id][0]};--fg:${BRICK_COLORS[b.id][1]}`}>
+            <div class="brick-top">
+              <span class="b-icon"><Icon name={b.id} size={22} /></span>
+              <span class="num">{num(i)}</span>
+            </div>
+            <h3>{b.name}</h3>
+            <p class="b-desc">{b.desc}</p>
+            <div class="mini-wrap"><BrickMini id={b.id} /></div>
+            <span class="b-more"><span>Voir la démonstration</span> <Icon name="arrow" size={16} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="on-deep water smart">
+    <div class="wrap two">
+      <div class="reveal">
+        <h2>Il fait la saisie, <span class="hl">vous décidez</span></h2>
+        <p class="lead">Un logiciel de gestion classique attend que vous le remplissiez. Stagnum le remplit pour vous, et vous choisissez ce qu’il fait tout seul.</p>
+        <ul class="checks">
+          <li>Une information se donne une seule fois</li>
+          <li>L’intelligence artificielle travaille en arrière-plan, sans réglages</li>
+          <li>Au clavier ou <a href="/pilotage-vocal/">à la voix</a> : c’est vous qui choisissez</li>
+        </ul>
+      </div>
+      <ul class="flows">
+        {flows.map((f) => (
+          <li class="flow reveal">
+            <span class="f-ic"><Icon name={f.icon} size={22} /></span>
+            <div>
+              <p class="you">{f.you}</p>
+              <p class="it"><Icon name="arrow" size={16} />{f.it}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sandy perso">
+    <div class="wrap perso-grid">
+      <div class="reveal">
+        <h2>Réglé <span class="hl hl-ink">à votre façon</span></h2>
+        <p class="lead">Deux piscinistes ne travaillent jamais pareil. Chaque brique se règle selon vos habitudes : vous décidez une fois, Stagnum suit.</p>
+        <ul class="checks">
+          <li>Des réglages simples, sans technicien</li>
+          <li>Modifiables quand vous voulez</li>
+          <li>Inclus dans chaque brique</li>
+        </ul>
+        <div class="btns"><a class="btn btn-ghost" href="/logiciel-pisciniste-personnalisable/">Voir ce qui se règle <Icon name="arrow" size={18} /></a></div>
+      </div>
+
+      <div class="panel reveal" id="reglages">
+        <div class="p-bar"><i></i><i></i><i></i><span>Réglages · exemple à essayer</span></div>
+        <div class="p-body">
+          <div class="p-nav" role="tablist" aria-label="Exemples de réglages">
+            <button type="button" role="tab" aria-selected="true" data-tab="relances"><Icon name="factures" size={20} /><span>Relances</span></button>
+            <button type="button" role="tab" aria-selected="false" data-tab="eau"><Icon name="eau" size={20} /><span>Analyses d’eau</span></button>
+            <button type="button" role="tab" aria-selected="false" data-tab="devis"><Icon name="devis" size={20} /><span>Devis</span></button>
+          </div>
+          <div class="p-view">
+            <div class="pane" data-pane="relances">
+              <p class="p-label">Relancer une facture impayée après</p>
+              <div class="seg" role="radiogroup" aria-label="Délai de relance">
+                {[3, 7, 15, 30].map((d) => <label><input type="radio" name="delai" value={d} checked={d === 7} /><span>{d} jours</span></label>)}
+              </div>
+              <div class="timeline" aria-hidden="true">
+                <span class="tl-line"><i id="tl-fill"></i></span>
+                <span class="tl-dot start"><b>Échéance</b></span>
+                <span class="tl-dot end" id="tl-end"><b id="tl-label">J + 7</b></span>
+              </div>
+              <p class="out" id="out-delai" aria-live="polite">La relance part toute seule 7 jours après l’échéance.</p>
+            </div>
+            <div class="pane" data-pane="eau" hidden>
+              <p class="p-label">Mesures affichées dans vos analyses</p>
+              <div class="chips" id="set-eau">
+                {['pH', 'Chlore', 'TAC', 'Stabilisant', 'TH', 'Sel'].map((m, i) => <label><input type="checkbox" value={m} checked={i < 4} /><span>{m}</span></label>)}
+              </div>
+              <div class="sheet" aria-hidden="true">
+                <p class="sh-title">Fiche d’analyse</p>
+                <ul id="sheet-eau"></ul>
+              </div>
+              <p class="out" id="out-eau" aria-live="polite">4 mesures sur votre fiche d’analyse.</p>
+            </div>
+            <div class="pane" data-pane="devis" hidden>
+              <p class="p-label">Ce qui figure sur vos devis</p>
+              <div class="switches" id="set-devis">
+                {[['Acompte à la commande', 'Acompte de 30 % à la commande'], ['Durée de validité', 'Devis valable 30 jours'], ['Photos du bassin', 'Photos du bassin jointes']].map(([m, line], i) => <label><span>{m}</span><input type="checkbox" value={line} checked={i < 2} /><i></i></label>)}
+              </div>
+              <div class="sheet" aria-hidden="true">
+                <p class="sh-title">Devis D-0142</p>
+                <ul id="sheet-devis"></ul>
+              </div>
+              <p class="out" id="out-devis" aria-live="polite">2 éléments ajoutés à chaque devis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="center head">
+        <h2>Un prix par magasin, <span class="hl hl-ink">pas par utilisateur</span></h2>
+        <p class="lead">Pas de formule imposée : votre prix se calcule selon ce que vous utilisez.</p>
+      </div>
+      <div class="calc-teaser reveal">
+        <div class="ct-left">
+          <ol class="ct-steps">
+            <li><span>1</span>Vous indiquez la taille de votre équipe</li>
+            <li><span>2</span>Vous cochez vos briques</li>
+            <li><span>3</span>Votre prix s’affiche</li>
+          </ol>
+          <p class="ct-bonus"><strong>Prix préférentiel</strong> si vous prenez les {BRICK_COUNT_WORD} briques.</p>
+          <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+        </div>
+        <div class="ct-right" aria-hidden="true">
+          {BRICKS.map((b) => <span class="ct-chip"><i><Icon name="check" size={14} /></i>{b.name}</span>)}
+          <span class="ct-all">Les {BRICK_COUNT_WORD} briques : prix préférentiel</span>
+        </div>
+      </div>
+      <p class="center small muted note">Vous utilisez un autre logiciel ? <a href="/alternative-extrabat/">Comparez Stagnum et Extrabat</a>.</p>
+    </div>
+  </section>
+
+  <Faq items={faq} />
+  <Cta />
+  <script>
+  const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
+  const $ = (id: string) => document.getElementById(id)!;
+  const checked = (id: string) => [...document.querySelectorAll<HTMLInputElement>(`#${id} input:checked`)];
+
+  // Onglets de la fenêtre de réglages. Les écouteurs sont posés sur le document :
+  // ils restent valables même si la page est mise à jour sans rechargement.
+  document.addEventListener('click', (e) => {
+    const tab = (e.target as HTMLElement).closest<HTMLButtonElement>('.p-nav button');
+    if (!tab) return;
+    document.querySelectorAll('.p-nav button').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+    document.querySelectorAll<HTMLElement>('.pane').forEach((p) => { p.hidden = p.dataset.pane !== tab.dataset.tab; });
+  });
+
+  // relances : le point « J + n » avance sur la frise
+  const place: Record<string, number> = { 3: 28, 7: 46, 15: 68, 30: 94 };
+  const relances = () => {
+    const d = document.querySelector<HTMLInputElement>('input[name=delai]:checked')!.value;
+    $('tl-end').style.left = place[d] + '%';
+    $('tl-fill').style.width = place[d] + '%';
+    $('tl-label').textContent = `J + ${d}`;
+    $('out-delai').textContent = `La relance part toute seule ${d} jours après l’échéance.`;
+  };
+  // analyses et devis : l'aperçu du document suit les cases cochées
+  const fill = (listId: string, items: string[], empty: string) => {
+    $(listId).replaceChildren(...(items.length ? items : [empty]).map((t) => Object.assign(document.createElement('li'), { textContent: t })));
+  };
+  const eau = () => {
+    const items = checked('set-eau').map((i) => i.value);
+    fill('sheet-eau', items, 'Aucune mesure');
+    $('out-eau').textContent = `${plural(items.length, 'mesure', 'mesures')} sur votre fiche d’analyse.`;
+  };
+  const devis = () => {
+    const items = checked('set-devis').map((i) => i.value);
+    fill('sheet-devis', ['Liner armé 8 × 4 m', 'Pose et mise en eau', ...items], '');
+    $('out-devis').textContent = `${plural(items.length, 'élément ajouté', 'éléments ajoutés')} à chaque devis.`;
+  };
+  document.addEventListener('change', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === 'delai') relances();
+    else if (t.closest('#set-eau')) eau();
+    else if (t.closest('#set-devis')) devis();
+  });
+  relances(); eau(); devis();
+</script>
+</Base>
+
+<style>
+  .hero { padding-top: calc(var(--head) + clamp(40px, 6vw, 72px)); }
+  .hero-grid { display: grid; grid-template-columns: .88fr 1.12fr; gap: 44px; align-items: center; }
+  .hero-copy .lead { font-size: clamp(1.15rem, 1.9vw, 1.35rem); }
+  .proofs { list-style: none; padding: 0; margin: 30px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .proofs li { font-size: .9rem; font-weight: 550; color: #D6EEEE; padding: 7px 14px 7px 10px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); }
+  .proofs li::before { content: "✓"; color: var(--aqua); margin-right: 8px; font-weight: 800; }
+
+  .head { margin-bottom: 44px; }
+  .briques-section { padding-top: clamp(40px, 6vw, 72px); }
+  .bricks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+  .brick { grid-column: span 3; display: flex; flex-direction: column; min-height: 340px; padding: 24px; border-radius: 24px; background: var(--bg); color: var(--fg); text-decoration: none; border: 1px solid rgba(14, 34, 36, .06); transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, opacity .7s ease; }
+  .brick:nth-child(-n + 3) { grid-column: span 4; }
+  .brick.reveal.in:hover { transform: translateY(-5px); box-shadow: 0 24px 40px -22px rgba(7, 52, 58, .45); color: var(--fg); }
+  .brick-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .b-icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: #fff; color: var(--accent); box-shadow: 0 6px 14px -8px rgba(7, 52, 58, .4); }
+  .dark .b-icon { background: rgba(255, 255, 255, .14); color: #fff; box-shadow: none; }
+  .num { font: 600 .9rem/1 var(--font-display); letter-spacing: .04em; opacity: .55; }
+  .brick h3 { font-size: 1.5rem; font-weight: 720; letter-spacing: -.025em; margin-bottom: 4px; color: inherit; }
+  .b-desc { opacity: .82; margin-bottom: 18px; font-size: .97rem; }
+  .b-more { font-weight: 650; font-size: .93rem; display: inline-flex; align-items: center; gap: 8px; }
+  .b-more :global(svg) { transition: transform .2s ease; }
+  .brick:hover .b-more :global(svg) { transform: translateX(5px); }
+  .mini-wrap { margin-top: auto; margin-bottom: 18px; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .smart .checks { margin-top: 24px; }
+  .flows { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .flow { display: flex; align-items: center; gap: 16px; background: #fff; color: var(--ink); border-radius: 20px; padding: 18px 20px; box-shadow: 0 24px 40px -28px rgba(0, 0, 0, .6); }
+  .flow:nth-child(even) { margin-left: 28px; }
+  .flow:nth-child(odd) { margin-right: 28px; }
+  .f-ic { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .you { margin: 0; color: var(--ink-2); font-size: .93rem; }
+  .it { margin: 2px 0 0; font: 700 1.1rem/1.25 var(--font-display); letter-spacing: -.015em; display: flex; align-items: center; gap: 8px; }
+  .it :global(svg) { color: var(--sun-deep); flex: none; }
+
+  .perso-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: center; }
+  .perso .checks { margin-top: 22px; }
+  .panel { border-radius: 26px; background: #fff; box-shadow: 0 40px 70px -40px rgba(7, 52, 58, .55), 0 0 0 1px var(--border); overflow: hidden; }
+  .p-bar { display: flex; align-items: center; gap: 7px; padding: 14px 18px; background: var(--deep); color: #B4D6D7; font-size: .82rem; font-weight: 600; }
+  .p-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .25); }
+  .p-bar i:first-child { background: var(--sun); }
+  .p-bar span { margin-left: 10px; }
+  .p-body { display: grid; grid-template-columns: 190px 1fr; min-height: 380px; }
+  .p-nav { display: grid; align-content: start; gap: 4px; padding: 14px; background: var(--surface-2); border-right: 1px solid var(--border); }
+  .p-nav button { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 0; border-radius: 14px; background: none; font: 650 .95rem var(--font-sans); color: var(--ink-2); cursor: pointer; text-align: left; transition: background-color .2s, color .2s; }
+  .p-nav button:hover { background: rgba(255, 255, 255, .7); }
+  .p-nav button[aria-selected="true"] { background: #fff; color: var(--accent); box-shadow: 0 8px 18px -12px rgba(7, 52, 58, .5); }
+  .p-view { padding: 26px; }
+  .pane { display: grid; gap: 18px; animation: paneIn .35s ease both; }
+  .pane[hidden] { display: none; }
+  @keyframes paneIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .p-label { margin: 0; font: 720 1.15rem var(--font-display); letter-spacing: -.015em; }
+  .seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: var(--surface-2); }
+  .seg label, .chips label { position: relative; cursor: pointer; }
+  .seg input, .chips input, .switches input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .seg span { display: block; text-align: center; padding: 10px 4px; border-radius: 10px; font-weight: 650; font-size: .9rem; transition: background-color .2s, color .2s, box-shadow .2s; }
+  .seg input:checked + span { background: var(--accent); color: #fff; box-shadow: 0 6px 14px -8px rgba(17, 124, 131, .9); }
+  .timeline { position: relative; height: 62px; margin: 6px 10px 0; }
+  .tl-line { position: absolute; left: 0; right: 0; top: 10px; height: 4px; border-radius: 4px; background: var(--border); }
+  .tl-line i { display: block; height: 100%; width: 46%; border-radius: 4px; background: linear-gradient(90deg, var(--accent-bright), var(--sun)); transition: width .5s cubic-bezier(.34, 1.3, .5, 1); }
+  .tl-dot { position: absolute; top: 2px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: var(--accent); border: 4px solid #fff; box-shadow: 0 2px 8px rgba(7, 52, 58, .35); transition: left .5s cubic-bezier(.34, 1.3, .5, 1); }
+  .tl-dot b { position: absolute; top: 26px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .8rem; font-weight: 700; color: var(--ink-2); }
+  .tl-dot.start { left: 0; }
+  .tl-dot.start b { left: 0; transform: none; }
+  .tl-dot.end { left: 46%; background: var(--sun); }
+  .tl-dot.end b { color: #A8461E; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips span { display: block; padding: 8px 15px; border-radius: 999px; border: 1.5px solid var(--border-strong); font-weight: 650; font-size: .9rem; color: var(--ink-2); transition: all .2s; }
+  .chips input:checked + span { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .switches { display: grid; gap: 12px; }
+  .switches label { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; font-weight: 600; font-size: .95rem; }
+  .switches i { flex: none; width: 44px; height: 26px; border-radius: 99px; background: var(--border-strong); position: relative; transition: background-color .2s; }
+  .switches i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .25s cubic-bezier(.34, 1.4, .5, 1); }
+  .switches input:checked + i { background: var(--accent); }
+  .switches input:checked + i::after { transform: translateX(18px); }
+  .seg input:focus-visible + span, .chips input:focus-visible + span, .switches input:focus-visible + i { outline: 3px solid var(--aqua); outline-offset: 2px; }
+  .sheet { border: 1px dashed var(--border-strong); border-radius: 16px; padding: 14px 16px; background: var(--bg); }
+  .sh-title { margin: 0 0 8px; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+  .sheet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .sheet :global(li) { display: flex; align-items: center; gap: 10px; font-size: .92rem; font-weight: 550; animation: paneIn .3s ease both; }
+  .sheet :global(li)::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--accent-bright); transform: rotate(45deg); }
+  .out { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--accent-soft); font-weight: 650; font-size: .92rem; color: var(--accent); }
+
+  .calc-teaser { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: clamp(28px, 4vw, 48px); border-radius: 28px; background: var(--sand); border: 1px solid var(--border); }
+  .ct-steps { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 14px; font: 700 clamp(1.1rem, 1.9vw, 1.35rem)/1.2 var(--font-display); letter-spacing: -.02em; }
+  .ct-steps li { display: flex; align-items: center; gap: 14px; }
+  .ct-steps span { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--sun); color: #2A1206; display: grid; place-items: center; font-size: 1rem; }
+  .ct-bonus { margin-bottom: 24px; color: var(--ink-2); }
+  .ct-bonus strong { color: #B4542A; }
+  .ct-right { display: flex; flex-wrap: wrap; gap: 10px; align-content: center; background: #fff; border-radius: 22px; padding: 24px; box-shadow: var(--lift); }
+  .ct-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 9px; border-radius: 999px; background: var(--accent-soft); font-weight: 650; font-size: .93rem; }
+  .ct-chip i { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
+  .ct-all { flex-basis: 100%; margin-top: 6px; padding: 14px 18px; border-radius: 14px; background: var(--deep); color: #FFD3A8; font-weight: 700; text-align: center; }
+  .note { margin-top: 20px; }
+
+  @media (max-width: 1000px) {
+    .brick, .brick:nth-child(-n + 3) { grid-column: span 6; }
+    .brick:last-child { grid-column: span 12; }
+  }
+  @media (max-width: 900px) {
+    .hero-grid, .two, .calc-teaser, .perso-grid { grid-template-columns: 1fr; gap: 44px; }
+    .flow:nth-child(even), .flow:nth-child(odd) { margin: 0; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding-top: calc(var(--head) + 20px); }
+    .hero-grid { gap: 26px; }
+    .long { display: none; }
+    .hero-copy h1 { font-size: 1.85rem; }
+    .hero-copy .lead { font-size: .98rem; margin-bottom: 0; }
+    .hero-copy .btns { margin-top: 16px; }
+    .hero-copy .btns { flex-wrap: nowrap; gap: 8px; }
+    .hero-copy .btns .btn { flex: 1 1 0; min-width: 0; padding-inline: 8px; font-size: .84rem; white-space: nowrap; }
+    .hero-copy .btns .btn :global(svg) { display: none; }
+    .proofs { display: none; }
+    .smart .checks, .perso .checks { display: none; }
+    .perso .btns { margin-top: 14px; }
+    .ct-right { display: none; }
+    .head { margin-bottom: 26px; }
+    /* les briques : deux colonnes de petites cartes, sans l'aperçu */
+    .bricks { gap: 10px; }
+    .brick, .brick:nth-child(-n + 3) { grid-column: span 6; min-height: 0; padding: 14px; border-radius: 16px; }
+    .brick:last-child { grid-column: span 12; }
+    .brick-top { margin-bottom: 10px; }
+    .b-icon { width: 36px; height: 36px; border-radius: 11px; }
+    .brick h3 { font-size: 1.08rem; margin-bottom: 2px; }
+    .b-desc { font-size: .8rem; line-height: 1.35; margin-bottom: 10px; }
+    .mini-wrap { display: none; }
+    .b-more { font-size: .78rem; margin-top: auto; }
+    .b-more span { display: none; }
+    .flows { gap: 8px; }
+    .flow { padding: 12px 14px; border-radius: 16px; gap: 12px; }
+    .f-ic { width: 38px; height: 38px; border-radius: 11px; }
+    .you { font-size: .82rem; }
+    .it { font-size: .98rem; }
+    .panel { border-radius: 20px; }
+    .p-body { grid-template-columns: 1fr; min-height: 0; }
+    .p-nav { grid-auto-flow: column; grid-auto-columns: 1fr; border-right: 0; border-bottom: 1px solid var(--border); padding: 8px; }
+    .p-nav button { justify-content: center; padding: 9px 4px; font-size: .8rem; }
+    .p-nav button :global(svg) { display: none; }
+    .p-view { padding: 18px; }
+    .p-label { font-size: 1.02rem; }
+    .calc-teaser { padding: 20px; border-radius: 20px; gap: 24px; }
+    .ct-steps { font-size: 1rem; gap: 10px; }
+    .ct-steps span { width: 32px; height: 32px; font-size: .9rem; }
+    .ct-right { padding: 16px; gap: 8px; border-radius: 16px; }
+    .ct-chip { font-size: .82rem; padding: 6px 12px 6px 6px; }
+    .ct-all { font-size: .9rem; padding: 11px 14px; }
+  }
+</style>

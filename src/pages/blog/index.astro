@@ -1,0 +1,108 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import Cta from '../../components/Cta.astro';
+const posts = Object.values(import.meta.glob('./*.md', { eager: true }) as Record<string, any>)
+  .sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
+const url = (p: any) => (p.url.endsWith('/') ? p.url : p.url + '/');
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const [first, ...rest] = posts;
+---
+<Base
+  title="Blog Stagnum : gérer son entreprise de piscine"
+  description="Conseils de gestion pour les piscinistes : rentabilité des chantiers, factures impayées, organisation du magasin et de la saison."
+  breadcrumbs={[{ name: 'Blog', href: '/blog/' }]}
+>
+  <PageHero
+    title="Le blog des <span class='hl'>piscinistes</span>"
+    lead="Des conseils concrets pour gérer une entreprise de piscine : chantiers, factures, magasin, saison."
+  />
+
+  <section class="list-section">
+    <div class="wrap">
+      <a class="lead-post reveal" href={url(first)}>
+        <div class="cover" aria-hidden="true">
+          <span class="label">À la une</span>
+          <span class="theme">{first.frontmatter.tag}</span>
+        </div>
+        <div class="body">
+          <p class="meta"><span class="tag">{first.frontmatter.tag}</span><time datetime={first.frontmatter.date}>{fmtDate(first.frontmatter.date)}</time><span>{first.frontmatter.minutes} min de lecture</span></p>
+          <h2>{first.frontmatter.h1}</h2>
+          <p class="excerpt">{first.frontmatter.description}</p>
+          <span class="more">Lire l’article <Icon name="arrow" size={16} /></span>
+        </div>
+      </a>
+
+      {rest.length > 0 && (
+        <>
+          <h2 class="all-title">Tous les articles</h2>
+          <ul class="rows reveal">
+            {rest.map((p) => (
+              <li>
+                <a href={url(p)}>
+                  <p class="meta"><span class="tag">{p.frontmatter.tag}</span><time datetime={p.frontmatter.date}>{fmtDate(p.frontmatter.date)}</time></p>
+                  <div>
+                    <h3>{p.frontmatter.h1}</h3>
+                    <p class="excerpt">{p.frontmatter.description}</p>
+                  </div>
+                  <span class="go" aria-hidden="true"><Icon name="arrow" size={20} /></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .list-section { padding-top: 24px; }
+  .lead-post { display: grid; grid-template-columns: .9fr 1.1fr; border-radius: 28px; overflow: hidden; background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); color: inherit; text-decoration: none; transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, opacity .7s ease; }
+  .lead-post.in:hover { transform: translateY(-4px); box-shadow: var(--lift-hover); color: inherit; }
+  .cover { position: relative; min-height: 320px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; color: #fff;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 320' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.22' stroke-width='2'%3E%3Cpath d='M0 120c100-40 200-40 300 0s200 40 300 0'/%3E%3Cpath d='M0 170c100-40 200-40 300 0s200 40 300 0'/%3E%3Cpath d='M0 220c100-40 200-40 300 0s200 40 300 0'/%3E%3Cpath d='M0 270c100-40 200-40 300 0s200 40 300 0'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat,
+      var(--grad-ink); }
+  .label { align-self: flex-start; font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); }
+  .theme { font: 800 clamp(2.4rem, 5vw, 3.6rem)/1 var(--font-display); letter-spacing: -.04em; }
+  .body { padding: clamp(26px, 4vw, 44px); display: flex; flex-direction: column; justify-content: center; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0 0 14px; font-size: .86rem; color: var(--ink-2); }
+  .tag { font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; font-size: .76rem; }
+  .meta time::before, .meta span:not(.tag)::before { content: "·"; margin-right: 14px; opacity: .6; }
+  .lead-post h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1.1; margin-bottom: 12px; }
+  .excerpt { color: var(--ink-2); margin-bottom: 22px; }
+
+  .all-title { font-size: clamp(1.4rem, 2.6vw, 1.8rem); margin: 56px 0 20px; padding-bottom: 14px; border-bottom: 2px solid var(--deep); }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { border-bottom: 1px solid var(--border-strong); }
+  .rows a { display: grid; grid-template-columns: 200px 1fr auto; gap: 28px; align-items: center; padding: 26px 8px; color: inherit; text-decoration: none; transition: background-color .2s ease, padding .25s ease; }
+  .rows a:hover { background: #fff; padding-inline: 20px; color: inherit; }
+  .rows .meta { flex-direction: column; align-items: flex-start; margin: 0; gap: 4px; }
+  .rows .meta time::before { content: none; }
+  .rows h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: 6px; }
+  .rows .excerpt { margin: 0; font-size: .97rem; }
+  .go { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--border-strong); color: var(--deep); transition: background-color .2s, border-color .2s, transform .25s ease; }
+  .rows a:hover .go { background: var(--sun); border-color: var(--sun); transform: translateX(4px); }
+  @media (max-width: 780px) {
+    .lead-post { grid-template-columns: 1fr; }
+    .cover { min-height: 200px; }
+    .rows a { grid-template-columns: 1fr auto; gap: 14px; }
+    .rows .meta { grid-column: 1 / -1; flex-direction: row; }
+  }
+  @media (max-width: 640px) {
+    .lead-post { border-radius: 20px; }
+    .cover { min-height: 132px; padding: 18px; }
+    .theme { font-size: 1.9rem; }
+    .body { padding: 20px; }
+    .lead-post h2 { font-size: 1.35rem; }
+    .all-title { font-size: 1.2rem; margin: 36px 0 8px; }
+    .rows a { padding: 18px 2px; }
+    .rows h3 { font-size: 1.08rem; }
+    .rows .excerpt { font-size: .88rem; }
+    .go { width: 38px; height: 38px; }
+  }
+</style>

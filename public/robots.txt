@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /merci/
+
+Sitemap: https://stagnum.fr/sitemap-index.xml

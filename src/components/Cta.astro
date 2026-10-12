@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+import { TRIAL_DAYS } from '../data/pricing';
+interface Props { title?: string }
+const { title = 'Voyez ce que Stagnum coûterait pour votre magasin' } = Astro.props;
+---
+<section class="cta-section">
+  <div class="wrap">
+    <div class="cta on-deep water center reveal">
+      <h2>{title}</h2>
+      <p class="lead">Choisissez vos briques, obtenez votre prix en moins d’une minute, puis essayez gratuitement pendant {TRIAL_DAYS} jours.</p>
+      <div class="btns">
+        <a class="btn btn-primary" href="/tarifs/">Calculer mon tarif <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-ghost" href="/demande-de-devis/">Demander un devis</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-section { padding: clamp(24px, 4vw, 48px) 0 clamp(64px, 9vw, 112px); }
+  .cta { border-radius: 36px; padding: clamp(44px, 7vw, 84px) clamp(22px, 5vw, 64px); box-shadow: 0 40px 70px -40px rgba(7, 52, 58, .6); }
+  .cta h2 { max-width: 22ch; margin-inline: auto; }
+  @media (max-width: 640px) {
+    .cta-section { padding: 16px 0 56px; }
+    .cta { border-radius: 24px; padding: 34px 20px; }
+  }
+</style>

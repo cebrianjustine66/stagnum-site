@@ -1,0 +1,189 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/bricolage-grotesque';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  jsonld?: object[];
+  breadcrumbs?: { name: string; href: string }[];
+  type?: 'website' | 'article';
+}
+const { title, description, noindex = false, jsonld = [], breadcrumbs = [], type = 'website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImage = new URL('/og.png', SITE.url).href;
+
+const crumbs = breadcrumbs.length
+  ? [{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Accueil', href: '/' }, ...breadcrumbs].map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.name,
+        item: new URL(c.href, SITE.url).href,
+      })),
+    }]
+  : [];
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  logo: new URL('/favicon-64.png', SITE.url).href,
+};
+---
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#1799A1" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {[org, ...crumbs, ...jsonld].map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+    <script is:inline>
+      document.documentElement.classList.remove('no-js');
+      // Une page ouverte par un lien démarre toujours en haut : certains navigateurs
+      // gardent sinon la hauteur de défilement de la page précédente.
+      (function () {
+        if (location.hash) return;
+        var nav = performance.getEntriesByType('navigation')[0];
+        if (nav && nav.type !== 'navigate') return;
+        var top = function () { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); };
+        top();
+        addEventListener('pageshow', top, { once: true });
+      })();
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main id="contenu">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('in'));
+      }
+
+      // Effet d'eau : une vraie simulation d'ondes. Chaque zone a une grille de hauteurs d'eau ;
+      // la souris y creuse des vagues qui se propagent, se croisent et s'amortissent.
+      function water(host: HTMLElement) {
+        const CELL = 4; // taille d'une case de la grille, en pixels
+        const DAMPING = 0.978;
+        const canvas = document.createElement('canvas');
+        canvas.className = 'water-fx';
+        canvas.setAttribute('aria-hidden', 'true');
+        host.prepend(canvas);
+        const ctx = canvas.getContext('2d')!;
+        let w = 0, h = 0, cur = new Float32Array(0), prev = new Float32Array(0), img: ImageData;
+        let running = false, visible = true, calm = 0;
+        let lastX = -1, lastY = -1;
+
+        const resize = () => {
+          const r = host.getBoundingClientRect();
+          const nw = Math.max(4, Math.ceil(r.width / CELL));
+          const nh = Math.max(4, Math.ceil(r.height / CELL));
+          if (nw === w && nh === h) return;
+          w = nw;
+          h = nh;
+          canvas.width = w;
+          canvas.height = h;
+          cur = new Float32Array(w * h);
+          prev = new Float32Array(w * h);
+          img = ctx.createImageData(w, h);
+        };
+
+        const drop = (cx: number, cy: number, radius: number, power: number) => {
+          for (let dy = -radius; dy <= radius; dy++) {
+            for (let dx = -radius; dx <= radius; dx++) {
+              const x = cx + dx, y = cy + dy, dist = Math.hypot(dx, dy);
+              if (dist > radius || x < 1 || y < 1 || x > w - 2 || y > h - 2) continue;
+              cur[y * w + x] -= power * Math.cos((dist / radius) * Math.PI * 0.5);
+            }
+          }
+          calm = 0;
+          if (!running && visible) { running = true; requestAnimationFrame(frame); }
+        };
+
+        const frame = () => {
+          // Propagation : chaque case prend la moyenne de ses voisines, moins sa hauteur précédente.
+          for (let y = 1; y < h - 1; y++) {
+            for (let i = y * w + 1, end = y * w + w - 1; i < end; i++) {
+              prev[i] = ((cur[i - 1] + cur[i + 1] + cur[i - w] + cur[i + w]) * 0.5 - prev[i]) * DAMPING;
+            }
+          }
+          [cur, prev] = [prev, cur];
+
+          // Rendu : la pente de l'eau accroche la lumière d'un côté et fait de l'ombre de l'autre.
+          const d = img.data;
+          let energy = 0;
+          for (let y = 1; y < h - 1; y++) {
+            for (let i = y * w + 1, end = y * w + w - 1; i < end; i++) {
+              const light = (cur[i - 1] - cur[i + 1]) * 0.6 + (cur[i - w] - cur[i + w]);
+              const o = i * 4;
+              energy += light > 0 ? light : -light;
+              if (light > 0) { d[o] = 255; d[o + 1] = 255; d[o + 2] = 255; d[o + 3] = Math.min(190, light * 7); }
+              else { d[o] = 5; d[o + 1] = 52; d[o + 2] = 58; d[o + 3] = Math.min(120, -light * 4.5); }
+            }
+          }
+          ctx.putImageData(img, 0, 0);
+          calm = energy / (w * h) < 0.02 ? calm + 1 : 0;
+          if (visible && calm < 20) requestAnimationFrame(frame);
+          else { running = false; if (calm >= 20) ctx.clearRect(0, 0, w, h); }
+        };
+
+        const cell = (e: PointerEvent) => {
+          const r = host.getBoundingClientRect();
+          return [Math.round((e.clientX - r.left) / CELL), Math.round((e.clientY - r.top) / CELL)];
+        };
+        host.addEventListener('pointerleave', () => { lastX = -1; });
+        host.addEventListener('pointermove', (e) => {
+          const [x, y] = cell(e);
+          if (lastX < 0) { lastX = x; lastY = y; }
+          // On sème des gouttes tout le long du trajet pour dessiner un sillage continu.
+          const dist = Math.hypot(x - lastX, y - lastY);
+          const steps = Math.max(1, Math.ceil(dist / 2));
+          const power = Math.min(26, 6 + dist * 2.2);
+          for (let s = 1; s <= steps; s++) {
+            drop(Math.round(lastX + ((x - lastX) * s) / steps), Math.round(lastY + ((y - lastY) * s) / steps), 3, power / steps + 3);
+          }
+          lastX = x; lastY = y;
+        });
+        host.addEventListener('pointerdown', (e) => { const [x, y] = cell(e); drop(x, y, 7, 70); });
+
+        resize();
+        new ResizeObserver(resize).observe(host);
+        new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }).observe(host);
+      }
+      if (matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+        document.querySelectorAll<HTMLElement>('.water, [data-water]').forEach(water);
+      }
+    </script>
+  </body>
+</html>

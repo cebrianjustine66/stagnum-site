@@ -1,0 +1,434 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import DevisForm from '../components/DevisForm.astro';
+import { TIERS, BRICKS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, ENGAGEMENTS, TRIAL_DAYS, ANNUAL_PAYMENT_DISCOUNT, MULTI_STORE_DISCOUNT, MAX_STORES } from '../data/pricing';
+import { faqLd } from '../lib';
+
+const cfg = {
+  TIERS,
+  BRICKS: BRICKS.map(({ id, name, prices }) => ({ id, name, prices })),
+  ALL_BRICKS_PRICES,
+  ENGAGEMENTS,
+  ANNUAL_PAYMENT_DISCOUNT,
+  MULTI_STORE_DISCOUNT,
+};
+// Teinte claire de chaque brique dans la calculette.
+const tint: Record<string, string> = {
+  devis: '#D9EFF0', factures: '#E1F3F1', chantiers: '#FBE6D2', achats: '#F3EDE2', caisse: '#F8DDD0', inventaire: '#D6E8E9', eau: '#DDF2F3',
+};
+const dots = [1, 3, 6, 10, 14];
+const included = [
+  { icon: 'equipe', t: 'Utilisateurs illimités', d: 'Toute l’équipe, saisonniers compris.', c: '#E1F3F1' },
+  { icon: 'nuage', t: 'Stockage inclus', d: 'Sans supplément, quel que soit le volume.', c: '#FBE6D2' },
+  { icon: 'reglages', t: 'Réglé à votre façon', d: 'Chaque brique se personnalise.', c: '#F3EDE2' },
+  { icon: 'horloge', t: `${TRIAL_DAYS} jours d’essai`, d: 'Gratuits, avant tout engagement.', c: '#DDF2F3' },
+];
+const faq = [
+  { q: 'Le prix dépend-il du nombre d’utilisateurs ?', a: 'Non. Le prix est fixé par magasin, selon une tranche de taille d’équipe. Tous vos collaborateurs peuvent utiliser Stagnum sans coût supplémentaire.' },
+  { q: 'Y a-t-il un avantage à prendre toutes les briques ?', a: `Oui. Quand vous cochez les ${BRICK_COUNT_WORD} briques, un prix préférentiel s’applique automatiquement dans la calculette.` },
+  { q: 'Le stockage est-il facturé en plus ?', a: 'Non. Le stockage est inclus dans le prix.' },
+  { q: 'Peut-on payer une fois par an ?', a: 'Oui. Vous choisissez entre un prélèvement chaque mois et un règlement unique par an. Le paiement à l’année correspond à un engagement de 12 mois et ajoute 20 % de remise à celle des 12 mois.' },
+  { q: 'Quelle est la durée d’engagement ?', a: `Après ${TRIAL_DAYS} jours d’essai gratuit, l’engagement minimum est de 3 mois. En vous engageant 6 mois, vous payez 10 % de moins ; sur 12 mois, 20 % de moins.` },
+  { q: 'La base clients et la voix sont-elles payantes ?', a: 'Non. La base clients vient avec les briques qui l’utilisent, et la voix est présente dans chaque brique. Les relances de paiement font partie de la brique Factures, et l’application mobile de la brique Chantiers.' },
+  { q: 'Comment sont facturés plusieurs magasins ?', a: 'Chaque magasin a son propre abonnement. Vous pouvez relier vos magasins entre eux pour partager vos clients et suivre l’ensemble.' },
+  { q: 'Puis-je ajouter une brique plus tard ?', a: 'Oui. Les briques sont indépendantes : vous en ajoutez quand vous en avez besoin.' },
+];
+const pct = (d: number) => `${Math.round(d * 100)} %`;
+---
+<Base
+  title="Tarifs Stagnum : prix du logiciel pour pisciniste"
+  description={`Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de ${TRIAL_DAYS} jours.`}
+  breadcrumbs={[{ name: 'Tarifs', href: '/tarifs/' }]}
+  jsonld={[faqLd(faq)]}
+>
+  <PageHero center title="Votre prix, <span class='hl'>en une minute</span>" lead="Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche." />
+
+  <section class="calc-section">
+    <div class="wrap calc" id="calculette">
+      <div class="steps">
+        <fieldset class="step">
+          <legend><span class="num">1</span> Combien êtes-vous ?</legend>
+          <div class="choices tiers">
+            {TIERS.map((t, i) => (
+              <label class="choice">
+                <input type="radio" name="tier" value={i} checked={i === 0} />
+                <span>
+                  <i class="people" aria-hidden="true">{Array.from({ length: dots[i] }, () => <b></b>)}</i>
+                  <strong>{t.label}</strong><small>{t.sub}</small>
+                </span>
+              </label>
+            ))}
+            <label class="choice">
+              <input type="radio" name="tier" value="xl" />
+              <span>
+                <i class="people" aria-hidden="true">{Array.from({ length: dots[4] }, () => <b></b>)}</i>
+                <strong>Plus de 20</strong><small>personnes</small>
+              </span>
+            </label>
+          </div>
+          <label class="stores">
+            <span>Combien de magasins ?<small>Sans magasin, laissez 1.</small></span>
+            <select name="stores" id="stores">
+              {Array.from({ length: MAX_STORES }, (_, i) => <option value={i + 1}>{i + 1}</option>)}
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend><span class="num">2</span> De quoi avez-vous besoin ?</legend>
+          <div class="b-list">
+            {BRICKS.map((b) => (
+              <label class="b-row" style={`--tint:${tint[b.id]}`}>
+                <input type="checkbox" name="brick" value={b.id} />
+                <i class="b-ic"><Icon name={b.id} size={22} /></i>
+                <span class="b-txt"><strong>{b.name}</strong><small>{b.desc}</small></span>
+                <em class="sw" aria-hidden="true"></em>
+              </label>
+            ))}
+            <div class="all">
+              <div>
+                <strong>Prix préférentiel avec les {BRICK_COUNT_WORD} briques</strong>
+                <small id="all-hint">La remise s’applique toute seule.</small>
+              </div>
+              <button type="button" class="btn" id="all-btn">Tout cocher</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend><span class="num">3</span> Sur quelle durée ?</legend>
+          <div class="choices eng">
+            {ENGAGEMENTS.map((e, i) => (
+              <label class="choice">
+                <input type="radio" name="eng" value={i} checked={i === 0} />
+                <span>
+                  {e.discount > 0 && <em class="badge">−{pct(e.discount)}</em>}
+                  <strong>{e.months} mois</strong>
+                  <small>{e.discount ? 'Prix réduit' : 'Engagement minimum'}</small>
+                </span>
+              </label>
+            ))}
+          </div>
+          <p class="small muted hint">L’engagement démarre après {TRIAL_DAYS} jours d’essai gratuit.</p>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend><span class="num">4</span> À quelle fréquence payer ?</legend>
+          <div class="choices pay">
+            <label class="choice">
+              <input type="radio" name="pay" value="month" checked />
+              <span><i class="p-ic"><Icon name="horloge" size={20} /></i><strong>Chaque mois</strong><small>Un prélèvement mensuel</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="pay" value="year" />
+              <span>
+                <em class="badge">−{pct(ANNUAL_PAYMENT_DISCOUNT)} en plus</em>
+                <i class="p-ic"><Icon name="check" size={20} /></i><strong>Une fois par an</strong><small>{pct(ANNUAL_PAYMENT_DISCOUNT)} de remise en plus de celle des 12 mois</small>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="summary" aria-live="polite">
+        <div class="s-head" data-water>
+          <p class="s-title">Votre prix</p>
+          <p class="empty" id="s-empty">Cochez une brique pour voir votre prix.</p>
+          <p class="amount" id="s-price" hidden><span id="s-amount">0</span> €<small>HT par mois<span id="s-per-store"> et par magasin</span></small></p>
+          <p class="quote" id="s-quote" hidden>Sur mesure, au-delà de 20 personnes.</p>
+        </div>
+        <div class="s-body">
+          <p class="s-line total" id="s-total" hidden></p>
+          <p class="s-line yearly" id="s-year" hidden></p>
+          <p class="s-line applied" id="s-applied" hidden></p>
+          <ul class="chosen" id="s-list"></ul>
+          <p class="s-line tip" id="s-tip" hidden></p>
+          <a class="btn btn-primary" href="#demande" id="s-cta">Recevoir mon devis <Icon name="arrow" size={18} /></a>
+          <p class="trial">{TRIAL_DAYS} jours d’essai gratuit, puis engagement de 3 mois minimum.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="incl-section">
+    <div class="wrap">
+      <h2 class="center">Toujours inclus, <span class="hl hl-ink">quel que soit votre choix</span></h2>
+      <ul class="incl reveal">
+        {included.map((x) => (
+          <li>
+            <span class="i-ic" style={`--c:${x.c}`}><Icon name={x.icon} size={24} /></span>
+            <h3>{x.t}</h3>
+            <p>{x.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sandy" id="demande">
+    <div class="wrap ask">
+      <div>
+        <h2>Recevez votre devis et démarrez l’essai</h2>
+        <p class="lead">Laissez vos coordonnées : nous vous rappelons avec votre devis et nous ouvrons votre essai gratuit de {TRIAL_DAYS} jours.</p>
+        <p class="recap" id="f-recap" hidden></p>
+      </div>
+      <div class="card"><DevisForm withConfig /></div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Questions sur les tarifs" />
+</Base>
+
+<script is:inline define:vars={{ cfg }}>
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  const brickById = Object.fromEntries(cfg.BRICKS.map((b) => [b.id, b]));
+  const count = cfg.BRICKS.length;
+  let shown = 0;
+
+  // Fait défiler le montant de l'ancienne valeur vers la nouvelle.
+  function roll(el, to) {
+    const from = shown; shown = to;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || from === to) { el.textContent = to; return; }
+    const t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / 450), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(from + (to - from) * e);
+      if (k < 1 && shown === to) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const show = (el, text) => { el.hidden = !text; if (text) el.textContent = text; };
+
+  // Le paiement annuel engage sur 12 mois ; choisir 3 ou 6 mois ramène au paiement mensuel.
+  const lastEng = cfg.ENGAGEMENTS.length - 1;
+  function sync(changed) {
+    const yearly = $('input[name=pay]:checked').value === 'year';
+    if (changed === 'pay' && yearly) $(`input[name=eng][value="${lastEng}"]`).checked = true;
+    if (changed === 'eng' && yearly && Number($('input[name=eng]:checked').value) !== lastEng) $('input[name=pay][value=month]').checked = true;
+  }
+
+  function update() {
+    const tierVal = $('input[name=tier]:checked').value;
+    const xl = tierVal === 'xl';
+    const t = xl ? cfg.TIERS.length - 1 : Number(tierVal);
+    const selected = $$('input[name=brick]:checked').map((i) => i.value);
+    const eng = cfg.ENGAGEMENTS[Number($('input[name=eng]:checked').value)];
+    const stores = Number($('#stores').value);
+    const yearly = $('input[name=pay]:checked').value === 'year';
+    const all = selected.length === count;
+    const cut = (n) => Math.round(n * (1 - eng.discount) * (yearly ? 1 - cfg.ANNUAL_PAYMENT_DISCOUNT : 1));
+    const sum = selected.reduce((s, id) => s + brickById[id].prices[t], 0);
+    const fullSum = cfg.BRICKS.reduce((s, b) => s + b.prices[t], 0);
+    const fullPrice = cut(cfg.ALL_BRICKS_PRICES[t]);
+    const priced = !xl && selected.length > 0;
+
+    const names = selected.map((id) => brickById[id].name);
+    $('#s-empty').hidden = xl || selected.length > 0;
+    $('#s-price').hidden = !priced;
+    $('#s-quote').hidden = !xl;
+    $('.all').classList.toggle('won', all);
+    $('#all-btn').hidden = all;
+    $('#all-hint').textContent = all
+      ? (xl ? 'Vous avez tout Stagnum.' : `Appliqué : ${cut(fullSum) - fullPrice} € d’économie par mois.`)
+      : 'La remise s’applique toute seule.';
+    $('#s-list').replaceChildren(...names.map((n) => Object.assign(document.createElement('li'), { textContent: n })));
+    let config = `Taille : ${xl ? 'plus de 20 personnes' : cfg.TIERS[t].label + (t ? ' personnes' : '')} | Magasins : ${stores} | Briques : ${all ? 'toutes' : names.join(', ') || 'non choisies'} | Engagement : ${eng.months} mois | Paiement : ${yearly ? 'une fois par an' : 'chaque mois'}`;
+
+    if (priced) {
+      const monthly = all ? fullPrice : cut(sum);
+      const total = Math.round(monthly * (1 + (stores - 1) * (1 - cfg.MULTI_STORE_DISCOUNT)));
+      roll($('#s-amount'), monthly);
+      $('#s-per-store').hidden = stores === 1;
+      show($('#s-total'), stores > 1 ? `Soit ${total} € HT par mois pour vos ${stores} magasins.` : '');
+      show($('#s-year'), yearly ? `Réglé en une fois : ${(total * 12).toLocaleString('fr-FR')} € HT par an.` : '');
+      const notes = [];
+      if (all) notes.push('Prix préférentiel : toutes les briques');
+      if (eng.discount) notes.push(`${notes.length ? 'r' : 'R'}emise de ${Math.round(eng.discount * 100)} % sur ${eng.months} mois`);
+      if (yearly && cfg.ANNUAL_PAYMENT_DISCOUNT) notes.push(`${notes.length ? 'r' : 'R'}emise de ${Math.round(cfg.ANNUAL_PAYMENT_DISCOUNT * 100)} % pour le paiement annuel`);
+      show($('#s-applied'), notes.length ? notes.join(', ') + '.' : '');
+      const more = fullPrice - monthly;
+      show($('#s-tip'), all || selected.length < 3 ? '' : more <= 0
+        ? `Avec toutes les briques, vous paieriez ${fullPrice} € par mois, soit moins qu’aujourd’hui.`
+        : `Pour ${more} € de plus par mois, vous avez toutes les briques.`);
+      config += ` | Prix estimé : ${monthly} € HT par mois${stores > 1 ? ` et par magasin (${total} € au total)` : ''}${yearly ? `, soit ${total * 12} € HT par an` : ''}`;
+    } else {
+      shown = 0;
+      ['#s-total', '#s-year', '#s-applied', '#s-tip'].forEach((s) => show($(s), ''));
+    }
+    $('#f-configuration').value = config;
+    const recap = $('#f-recap');
+    recap.hidden = !xl && selected.length === 0;
+    recap.textContent = 'Votre sélection : ' + config.replaceAll(' | ', ' · ');
+  }
+
+  // Écouteurs posés sur le document : ils restent valables même si la page est mise à jour sans rechargement.
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#all-btn')) return;
+    $$('input[name=brick]').forEach((i) => { i.checked = true; });
+    update();
+  });
+  document.addEventListener('change', (e) => {
+    if (!e.target.closest('#calculette')) return;
+    sync(e.target.name);
+    update();
+  });
+  update();
+</script>
+
+<style>
+  .calc-section { padding-top: 24px; }
+  .calc { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr); gap: 28px; align-items: start; }
+  .steps { display: grid; gap: 22px; }
+  .step { margin: 0; min-width: 0; padding: 28px; border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--lift); }
+  legend { font: 760 clamp(1.4rem, 2.4vw, 1.75rem) var(--font-display); letter-spacing: -.025em; padding: 0; display: flex; align-items: center; gap: 14px; float: left; width: 100%; margin-bottom: 22px; }
+  legend + * { clear: both; }
+  .num { flex: none; width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(180deg, #F59068, var(--sun)); color: #2A1206; display: grid; place-items: center; font-size: 1.2rem; box-shadow: 0 10px 18px -10px rgba(236, 127, 81, .9); transform: rotate(-4deg); }
+  .choices { display: grid; gap: 12px; }
+  .choice { position: relative; display: block; cursor: pointer; }
+  .choice input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; cursor: pointer; margin: 0; z-index: 1; }
+  .choice > span { position: relative; display: grid; gap: 2px; height: 100%; padding: 16px; border: 2px solid transparent; border-radius: 18px; background: var(--surface-2); transition: border-color .15s ease, background-color .2s ease, transform .35s cubic-bezier(.34, 1.4, .5, 1), box-shadow .2s ease; }
+  .choice small { color: var(--ink-2); font-size: .84rem; line-height: 1.35; }
+  .choice:hover > span { transform: translateY(-2px); box-shadow: 0 12px 22px -16px rgba(7, 52, 58, .5); }
+  .choice input:checked + span { border-color: var(--accent-bright); background: #fff; box-shadow: 0 14px 26px -16px rgba(23, 153, 161, .8); }
+  .choice input:focus-visible + span { outline: 3px solid var(--aqua); outline-offset: 2px; }
+
+  .tiers { grid-template-columns: repeat(5, 1fr); }
+  .tiers .choice > span { padding: 14px 12px; align-content: start; }
+  .tiers strong { font-size: .98rem; }
+  .people { display: flex; flex-wrap: wrap; gap: 3px; min-height: 26px; align-content: flex-start; margin-bottom: 8px; }
+  .people b { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); transition: background-color .2s ease; }
+  .choice input:checked + span .people b { background: var(--accent-bright); }
+  .stores { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; padding: 14px 16px; border-radius: 18px; background: var(--sand); font-weight: 650; }
+  .stores small { display: block; font-weight: 400; color: var(--ink-2); font-size: .85rem; }
+  select { font: 650 1rem var(--font-sans); padding: 10px 14px; border-radius: 12px; border: 2px solid #E2C99B; background: #fff; min-height: 46px; min-width: 76px; }
+
+  .b-list { border: 1px solid var(--border); border-radius: 22px; overflow: hidden; }
+  .b-row { position: relative; display: flex; align-items: center; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background-color .2s ease; }
+  .b-row:hover { background: #F4FAFA; }
+  .b-row:has(input:checked) { background: var(--tint); }
+  .b-row input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .b-row:has(input:focus-visible) { outline: 3px solid var(--aqua); outline-offset: -3px; }
+  .b-ic { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--tint); color: var(--accent); transition: transform .4s cubic-bezier(.34, 1.8, .5, 1), background-color .2s, color .2s; }
+  .b-row input:checked ~ .b-ic { background: var(--accent); color: #fff; transform: rotate(-6deg) scale(1.06); }
+  .b-txt { flex: 1; min-width: 0; display: grid; gap: 1px; }
+  .b-txt strong { font-size: 1.05rem; }
+  .b-txt small { color: var(--ink-2); font-size: .88rem; }
+  .sw { flex: none; width: 48px; height: 28px; border-radius: 99px; background: var(--border-strong); position: relative; transition: background-color .2s; }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(7, 52, 58, .3); transition: transform .28s cubic-bezier(.34, 1.4, .5, 1); }
+  .b-row input:checked ~ .sw { background: var(--sun); }
+  .b-row input:checked ~ .sw::after { transform: translateX(20px); }
+  .all { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px; background: linear-gradient(135deg, var(--sun-soft), var(--sand)); transition: background .3s; }
+  .all strong { display: block; }
+  .all small { color: var(--ink-2); font-size: .88rem; }
+  .all .btn { flex: none; min-height: 42px; padding: 8px 20px; font-size: .92rem; background: var(--deep); color: #fff; }
+  .all.won { background: #E3F5EF; }
+  .all.won small { color: #0A7F5A; font-weight: 650; }
+
+  .eng { grid-template-columns: repeat(3, 1fr); }
+  .eng .choice > span { padding: 18px 16px; }
+  .eng strong { font: 760 1.35rem var(--font-display); letter-spacing: -.02em; }
+  .badge { position: absolute; top: -10px; right: 12px; font-style: normal; font-weight: 750; font-size: .8rem; padding: 3px 10px; border-radius: 999px; background: var(--sun); color: #2A1206; box-shadow: 0 6px 12px -6px rgba(236, 127, 81, .9); }
+  .hint { margin: 14px 0 0; }
+  .pay { grid-template-columns: 1fr 1fr; }
+  .pay .choice > span { padding: 18px 16px 18px 70px; min-height: 80px; align-content: center; }
+  .pay strong { font: 740 1.15rem var(--font-display); letter-spacing: -.015em; }
+  .p-ic { position: absolute; left: 16px; top: 50%; margin-top: -21px; width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: #fff; color: var(--accent); box-shadow: 0 6px 14px -8px rgba(7, 52, 58, .4); transition: background-color .2s, color .2s, transform .4s cubic-bezier(.34, 1.8, .5, 1); }
+  .pay input:checked + span .p-ic { background: var(--accent); color: #fff; transform: rotate(-6deg) scale(1.06); }
+  .yearly { font-weight: 700; color: var(--deep); background: var(--accent-soft); border-radius: 12px; padding: 10px 12px; }
+
+  .summary { position: sticky; top: 100px; border-radius: 28px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -30px rgba(7, 52, 58, .45), 0 0 0 1px var(--border); }
+  .s-head { padding: 26px 26px 46px; color: #fff; background: radial-gradient(300px 200px at 100% 0%, rgba(255, 255, 255, .28), transparent 65%), var(--grad-deep); }
+  .s-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 26px; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 26' preserveAspectRatio='none'%3E%3Cpath d='M0 14c50-12 100-12 150-3s100 14 150 4 70-10 100-6v17H0z' fill='%23FFFFFF'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+  .s-title { margin: 0 0 10px; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .9; }
+  .amount { font: 800 4.6rem/1 var(--font-display); letter-spacing: -.05em; margin: 0; font-variant-numeric: tabular-nums; }
+  .amount small { display: block; font: 550 .95rem var(--font-sans); letter-spacing: 0; margin-top: 8px; opacity: .95; }
+  .empty, .quote { margin: 0; font: 650 1.25rem/1.25 var(--font-display); letter-spacing: -.01em; }
+  .s-body { padding: 14px 26px 26px; display: grid; gap: 12px; }
+  .s-line { margin: 0; font-size: .92rem; }
+  .total { color: var(--ink-2); }
+  .applied { color: #0A7F5A; font-weight: 650; background: #E3F5EF; border-radius: 12px; padding: 10px 12px; }
+  .tip { background: var(--sand); color: #7A5520; font-weight: 600; border-radius: 12px; padding: 10px 12px; }
+  .chosen { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chosen:empty { display: none; }
+  .chosen :global(li) { font-size: .84rem; font-weight: 650; padding: 5px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .s-body .btn { width: 100%; margin-top: 4px; }
+  .trial { margin: 0; text-align: center; font-size: .84rem; color: var(--ink-2); }
+
+  .incl-section { padding-top: 0; }
+  .incl-section h2 { margin-bottom: 32px; }
+  .incl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
+  .incl li { padding: 28px 24px; border-right: 1px solid var(--border); transition: background-color .25s ease; }
+  .incl li:last-child { border-right: 0; }
+  .incl li:hover { background: #F2FAFA; }
+  .i-ic { width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; background: var(--c); color: var(--deep); margin-bottom: 16px; }
+  .incl h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .incl p { margin: 0; color: var(--ink-2); font-size: .93rem; }
+
+  .ask { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: start; }
+  .recap { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; font-size: .92rem; font-weight: 600; color: #7A5520; }
+
+  @media (max-width: 980px) {
+    .calc { grid-template-columns: 1fr; }
+    .summary { position: sticky; top: auto; bottom: 0; z-index: 20; border-radius: 24px 24px 0 0; margin-inline: -16px; display: flex; align-items: center; }
+    .s-head { flex: 1; padding: 14px 18px; background: var(--grad-deep); }
+    .s-head::after, .s-title, .s-line, .chosen, .trial { display: none !important; }
+    .amount { font-size: 2.2rem; }
+    .amount { white-space: nowrap; }
+    .amount small { display: inline; margin-left: 6px; font-size: .74rem; white-space: nowrap; }
+    .empty, .quote { font-size: .95rem; }
+    .s-body { padding: 0 14px 0 0; background: var(--grad-deep); align-self: stretch; align-content: center; }
+    .s-body .btn { width: auto; margin: 0; min-height: 44px; padding: 8px 16px; font-size: .9rem; }
+    .tiers { grid-template-columns: repeat(3, 1fr); }
+    .incl { grid-template-columns: 1fr 1fr; }
+    .incl li:nth-child(2) { border-right: 0; }
+    .incl li:nth-child(-n + 2) { border-bottom: 1px solid var(--border); }
+    .ask { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 560px) {
+    .step { padding: 20px; border-radius: 22px; }
+    .eng, .pay { grid-template-columns: 1fr; }
+    .all { flex-direction: column; align-items: flex-start; }
+    .tiers { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .calc-section { padding-top: 8px; }
+    .steps { gap: 14px; }
+    .step { padding: 16px; border-radius: 20px; }
+    legend { font-size: 1.15rem; gap: 10px; margin-bottom: 14px; }
+    .num { width: 34px; height: 34px; border-radius: 11px; font-size: 1rem; }
+    .choices { gap: 8px; }
+    .tiers { grid-template-columns: repeat(3, 1fr); }
+    .tiers .choice > span { padding: 10px 8px; border-radius: 14px; }
+    .tiers strong { font-size: .84rem; }
+    .choice small { font-size: .74rem; }
+    .people { min-height: 20px; margin-bottom: 5px; }
+    .people b { width: 7px; height: 7px; }
+    .stores { padding: 11px 13px; border-radius: 14px; font-size: .92rem; }
+    .b-list { border-radius: 16px; }
+    .b-row { padding: 11px 12px; gap: 12px; }
+    .b-ic { width: 38px; height: 38px; border-radius: 11px; }
+    .b-txt strong { font-size: .97rem; }
+    .b-txt small { font-size: .8rem; }
+    .sw { width: 42px; height: 25px; }
+    .sw::after { width: 19px; height: 19px; }
+    .b-row input:checked ~ .sw::after { transform: translateX(17px); }
+    .all { padding: 14px 12px; }
+    .eng { grid-template-columns: repeat(3, 1fr); }
+    .eng .choice > span { padding: 14px 8px; }
+    .eng strong { font-size: 1.05rem; }
+    .pay .choice > span { padding: 13px 12px 13px 60px; min-height: 0; }
+    .pay strong { font-size: 1rem; }
+    .p-ic { width: 36px; height: 36px; margin-top: -18px; left: 13px; }
+    .incl-section h2 { margin-bottom: 20px; }
+    .incl { border-radius: 20px; }
+    .incl li { padding: 16px 14px; }
+    .i-ic { width: 40px; height: 40px; border-radius: 12px; margin-bottom: 10px; }
+    .incl h3 { font-size: 1rem; }
+    .incl p { font-size: .84rem; }
+  }
+</style>

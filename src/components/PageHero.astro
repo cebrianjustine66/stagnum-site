@@ -1,0 +1,33 @@
+---
+// Haut de page commun : fond turquoise, effet d'eau et vague en bas.
+interface Props { title: string; lead?: string; crumbs?: { name: string; href?: string }[]; center?: boolean }
+const { title, lead, crumbs, center = false } = Astro.props;
+---
+<section class="on-deep water wave-bottom page-hero">
+  <div class={`wrap ${center ? 'center' : ''}`}>
+    {crumbs && (
+      <nav class="breadcrumb" aria-label="Fil d’Ariane">
+        <ol>
+          <li><a href="/">Accueil</a></li>
+          {crumbs.map((c) => (c.href ? <li><a href={c.href}>{c.name}</a></li> : <li aria-current="page">{c.name}</li>))}
+        </ol>
+      </nav>
+    )}
+    <slot name="before" />
+    <h1 set:html={title} />
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero { padding-top: calc(var(--head) + clamp(36px, 5vw, 64px)); padding-bottom: calc(clamp(36px, 5vw, 64px) + 60px); }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); max-width: 18ch; }
+  .center h1 { margin-inline: auto; }
+  .center .breadcrumb ol { justify-content: center; }
+  .lead { margin-bottom: 0; }
+  @media (max-width: 640px) {
+    .page-hero { padding-top: calc(var(--head) + 18px); padding-bottom: 60px; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>

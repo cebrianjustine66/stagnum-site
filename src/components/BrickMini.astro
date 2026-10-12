@@ -1,0 +1,32 @@
+---
+// Petit aperçu d'une brique, avec des données d'exemple. Sert sur l'accueil et dans le téléphone des démonstrations.
+interface Props { id: string }
+const { id } = Astro.props;
+---
+<div class="mini" aria-hidden="true">
+  {id === 'devis' && <><div class="row"><span>Liner armé 8 × 4 m</span><b>3 180 €</b></div><div class="row"><span>Pompe à chaleur</span><b>2 450 €</b></div><div class="row total"><span>Total HT</span><b>5 630 €</b></div></>}
+  {id === 'factures' && <><div class="row"><span>F-0218 · Durand</span><i class="pill ok">Payée</i></div><div class="row"><span>F-0221 · Camping du Lac</span><i class="pill warn">Relancée</i></div><div class="row"><span>F-0224 · Petit</span><i class="pill">À échéance</i></div></>}
+  {id === 'chantiers' && <><div class="row"><span>Chantier Bernard</span><b>Marge 42 %</b></div><div class="bar"><i style="width:68%"></i></div><div class="row sub"><span>Terrassement terminé</span><span>68 %</span></div></>}
+  {id === 'achats' && <><div class="row"><span>BL n° 4471</span><i class="pill ok">Lu</i></div><div class="row"><span>Chlore choc 5 kg</span><b>× 24</b></div><div class="row total"><span>3 lignes</span><b>Rien à retaper</b></div></>}
+  {id === 'caisse' && <><div class="row"><span>Chlore choc 5 kg</span><b>34,90 €</b></div><div class="row"><span>Bandelettes</span><b>12,50 €</b></div><div class="row total"><span>À encaisser</span><b>47,40 €</b></div></>}
+  {id === 'inventaire' && <><div class="row"><span>Chlore choc 5 kg</span><b>12</b></div><div class="row"><span>Galets 250 g</span><i class="pill warn">8 · à commander</i></div><div class="row"><span>Robots</span><b>2</b></div></>}
+  {id === 'eau' && <><div class="gauge"><span>pH</span><div class="track"><i style="left:85%"></i></div><b>7,8</b></div><div class="gauge"><span>Chlore</span><div class="track"><i style="left:17%"></i></div><b>0,5</b></div><div class="gauge"><span>TAC</span><div class="track"><i style="left:44%"></i></div><b>90</b></div></>}
+</div>
+
+<style>
+  .mini { background: #fff; color: var(--ink); border-radius: 14px; box-shadow: 0 10px 22px -16px rgba(7, 52, 58, .5); padding: 12px 14px; display: grid; gap: 8px; font-size: .8rem; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--ink-2); }
+  .row b { color: var(--ink); font-weight: 650; white-space: nowrap; }
+  .row.total { padding-top: 8px; border-top: 1px dashed var(--border-strong); color: var(--ink); font-weight: 600; }
+  .row.total b { color: var(--accent); font-weight: 750; }
+  .row.sub { font-size: .76rem; }
+  .pill { font-style: normal; font-size: .72rem; font-weight: 650; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+  .pill.ok { background: #DEF1E8; color: #14694A; }
+  .pill.warn { background: var(--sun-soft); color: #A8461E; }
+  .bar { height: 8px; border-radius: 99px; background: var(--border); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent-bright), var(--aqua)); }
+  .gauge { display: grid; grid-template-columns: 48px 1fr 34px; align-items: center; gap: 10px; color: var(--ink-2); }
+  .gauge b { color: var(--ink); text-align: right; }
+  .track { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #F2B8A0 0 22%, #9FDFC4 22% 72%, #F2B8A0 72%); }
+  .track i { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #fff; border: 3px solid var(--deep); }
+</style>

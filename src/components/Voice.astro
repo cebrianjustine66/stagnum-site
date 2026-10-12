@@ -1,0 +1,17 @@
+---
+interface Props { said: string; done: string[]; label?: string }
+const { said, done, label = 'Vous dites' } = Astro.props;
+---
+<div class="voice" role="img" aria-label={`Exemple : vous dites ${said} Stagnum fait : ${done.join(', ')}.`}>
+  <div class="voice-top" aria-hidden="true">
+    <span class="mic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2A1206" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+    </span>
+    <span class="voice-label">{label}</span>
+    <span class="voice-wave">{Array.from({ length: 14 }, (_, i) => <i style={`--i:${i}`}></i>)}</span>
+  </div>
+  <p class="voice-said">{said}</p>
+  <ul class="voice-done" aria-hidden="true">
+    {done.map((d) => <li>{d}</li>)}
+  </ul>
+</div>

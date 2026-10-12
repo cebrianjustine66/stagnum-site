@@ -1,0 +1,72 @@
+---
+import Icon from './Icon.astro';
+// Illustration du produit : les montants et les noms sont des exemples.
+---
+<div class="demo" role="img" aria-label="Illustration : un bon de livraison est déposé dans Stagnum, qui remplit l’achat sans ressaisie.">
+  <div class="phone" aria-hidden="true">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="app-bar"><span class="dot"></span> Stagnum <span class="live">assistant</span></div>
+      <div class="bubble">
+        <span class="sheet"><i></i><i></i><i></i><i></i><b class="scan"></b></span>
+        <div><small>Bon de livraison déposé</small><strong>Lecture des lignes…</strong></div>
+      </div>
+      <div class="quote">
+        <div class="q-head"><strong>Achat A-0087</strong><span>BL n° 4471</span></div>
+        <div class="q-line"><span>Chlore choc 5 kg × 24</span><b>432 €</b></div>
+        <div class="q-line"><span>Galets 250 g × 40</span><b>380 €</b></div>
+        <div class="q-line"><span>Robot nettoyeur × 2</span><b>1 180 €</b></div>
+        <div class="q-total"><span>3 lignes, rien à retaper</span><b>1 992 €</b></div>
+        <div class="q-btn">Valider l’achat <Icon name="arrow" size={16} /></div>
+      </div>
+    </div>
+  </div>
+  <div class="chip chip-a" aria-hidden="true"><span class="ic ic-ok"><Icon name="chantiers" size={18} /></span><div><small>Chantier Bernard</small><strong>Marge 42 %</strong></div></div>
+  <div class="chip chip-b" aria-hidden="true"><span class="ic ic-sun"><Icon name="factures" size={18} /></span><div><small>Facture en retard</small><strong>Relance envoyée</strong></div></div>
+  <div class="chip chip-c" aria-hidden="true"><span class="ic ic-aqua"><Icon name="inventaire" size={18} /></span><div><small>Stock</small><strong>Mis à jour</strong></div></div>
+</div>
+
+<style>
+  .demo { position: relative; width: min(100%, 340px); margin-inline: auto; padding: 10px 0; }
+  .phone { position: relative; border-radius: 42px; padding: 11px; background: linear-gradient(160deg, #123c41, #041d21); box-shadow: 0 50px 80px -30px rgba(4, 38, 43, .65), 0 0 0 1px rgba(255, 255, 255, .08) inset; transform: rotate(2deg); }
+  .notch { position: absolute; top: 20px; left: 50%; width: 84px; height: 22px; margin-left: -42px; border-radius: 12px; background: #041d21; z-index: 2; }
+  .screen { border-radius: 32px; background: #F4F8F7; padding: 54px 14px 16px; display: grid; gap: 12px; min-height: 480px; align-content: start; color: var(--ink); }
+  .app-bar { display: flex; align-items: center; gap: 8px; font: 700 .95rem var(--font-display); color: var(--deep); }
+  .dot { width: 10px; height: 10px; border-radius: 3px; background: var(--sun); transform: rotate(45deg); }
+  .live { margin-left: auto; font: 600 .7rem var(--font-sans); color: var(--accent); background: var(--accent-soft); padding: 3px 9px; border-radius: 999px; }
+  .live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); margin-right: 6px; animation: blink 1.4s ease-in-out infinite; }
+  .bubble { background: var(--deep); color: #fff; border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
+  .bubble small { display: block; font-size: .72rem; color: #B4D6D7; }
+  .bubble strong { font-size: .9rem; }
+  .sheet { position: relative; flex: none; width: 38px; height: 48px; border-radius: 5px; background: #fff; padding: 8px 6px; display: grid; gap: 4px; align-content: start; overflow: hidden; }
+  .sheet i { height: 3px; border-radius: 2px; background: #C9D5D3; }
+  .sheet i:nth-child(2) { width: 70%; }
+  .sheet i:nth-child(4) { width: 55%; }
+  .scan { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--sun); box-shadow: 0 0 10px 2px rgba(236, 127, 81, .7); animation: scan 1.6s ease-in-out infinite alternate; }
+  .quote { background: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: 0 10px 24px -14px rgba(7, 52, 58, .35); border: 1px solid var(--border); display: grid; gap: 7px; font-size: .8rem; animation: pop .7s .5s cubic-bezier(.2, .9, .3, 1.2) both; }
+  .q-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 6px; border-bottom: 1px dashed var(--border-strong); }
+  .q-head span { color: var(--ink-2); font-size: .74rem; }
+  .q-line, .q-total { display: flex; justify-content: space-between; gap: 8px; }
+  .q-line span { color: var(--ink-2); }
+  .q-line b { font-weight: 600; white-space: nowrap; }
+  .q-total { margin-top: 2px; padding-top: 8px; border-top: 1px solid var(--border); font-size: .84rem; font-weight: 600; }
+  .q-total b { color: var(--accent); font-weight: 750; white-space: nowrap; }
+  .q-btn { margin-top: 4px; background: var(--sun); color: #2A1206; font-weight: 650; border-radius: 999px; padding: 9px 12px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .82rem; }
+  .chip { position: absolute; display: flex; align-items: center; gap: 10px; background: #fff; color: var(--ink); border-radius: 16px; padding: 10px 14px 10px 10px; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .55); animation: bob 5s ease-in-out infinite; white-space: nowrap; }
+  .chip small { display: block; color: var(--ink-2); font-size: .72rem; line-height: 1.2; }
+  .chip strong { font-size: .92rem; line-height: 1.2; }
+  .ic { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; }
+  .ic-ok { background: #DEF1E8; color: #1B8A60; }
+  .ic-sun { background: var(--sun-soft); color: #B4542A; }
+  .ic-aqua { background: var(--accent-soft); color: var(--accent); }
+  .chip-a { left: -128px; top: 64px; }
+  .chip-b { right: -138px; top: 132px; animation-delay: -1.7s; }
+  .chip-c { left: -112px; bottom: 30px; animation-delay: -3.1s; }
+  @keyframes scan { to { top: calc(100% - 3px); } }
+  @keyframes blink { 50% { opacity: .25; } }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+  @media (max-width: 1180px) { .chip-a { left: -70px; } .chip-b { right: -60px; } .chip-c { left: -60px; } }
+  @media (max-width: 860px) { .demo { width: min(100%, 300px); } .phone { transform: none; } .screen { min-height: 440px; } }
+  @media (max-width: 520px) { .chip-a { left: -6px; top: -14px; } .chip-b { right: -6px; top: auto; bottom: -14px; } .chip-c { display: none; } }
+</style>

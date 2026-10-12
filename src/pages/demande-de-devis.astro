@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import DevisForm from '../components/DevisForm.astro';
+import PageHero from '../components/PageHero.astro';
+import { TRIAL_DAYS } from '../data/pricing';
+---
+<Base
+  title="Demander un devis Stagnum | Logiciel pour pisciniste"
+  description={`Demandez votre devis Stagnum et essayez le logiciel de gestion des piscinistes gratuitement pendant ${TRIAL_DAYS} jours.`}
+  breadcrumbs={[{ name: 'Demander un devis', href: '/demande-de-devis/' }]}
+>
+  <PageHero title="Demandez <span class='hl'>votre devis</span>" lead={`Dites-nous qui vous êtes : nous vous rappelons avec un prix adapté et nous ouvrons votre essai gratuit de ${TRIAL_DAYS} jours.`} />
+  <section class="form-section">
+    <div class="wrap two">
+      <div>
+        <h2>Ce que vous obtenez</h2>
+        <ul class="checks">
+          <li>Un prix par magasin, utilisateurs illimités</li>
+          <li>Vous ne payez que les briques choisies</li>
+          <li>Stockage inclus, sans supplément</li>
+        </ul>
+        <p class="muted">Vous préférez voir un prix tout de suite ? <a href="/tarifs/">Utilisez la calculette</a>.</p>
+      </div>
+      <div class="card"><DevisForm /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .form-section { padding-top: 24px; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+  .checks { margin: 24px 0; }
+  @media (max-width: 860px) { .two { grid-template-columns: 1fr; gap: 28px; } }
+</style>

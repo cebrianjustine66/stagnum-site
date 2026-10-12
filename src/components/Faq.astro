@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { q: string; a: string }[]; title?: string }
+const { items, title = 'Questions fréquentes' } = Astro.props;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+<section class="faq-section">
+  <div class="wrap faq-grid">
+    <div class="faq-side">
+      <h2>{title}</h2>
+      <p class="muted">Les réponses courtes aux questions que les piscinistes nous posent le plus.</p>
+      <div class="ask" data-water>
+        <p class="big">Une autre question ?</p>
+        <p>Posez-la dans votre demande : nous vous rappelons.</p>
+        <a class="btn btn-primary" href="/demande-de-devis/">Nous contacter <Icon name="arrow" size={18} /></a>
+      </div>
+    </div>
+    <div class="faq">
+      {items.map((f, i) => (
+        <details open={i === 0}>
+          <summary><span class="n">{num(i)}</span><span class="q">{f.q}</span><span class="plus" aria-hidden="true"></span></summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Sur téléphone, les questions commencent toutes repliées pour raccourcir la page.
+  if (matchMedia('(max-width: 640px)').matches) document.querySelectorAll('.faq details[open]').forEach((d) => d.removeAttribute('open'));
+</script>
+
+<style>
+  .faq-grid { display: grid; grid-template-columns: .8fr 1.4fr; gap: 56px; align-items: start; }
+  .faq-side { position: sticky; top: 108px; }
+  .faq-side h2 { margin-bottom: 12px; }
+  .ask { margin-top: 26px; border-radius: 24px; padding: 24px; color: #fff; background: var(--grad-deep); }
+  .ask .big { font: 760 1.35rem/1.15 var(--font-display); letter-spacing: -.02em; margin-bottom: 6px; }
+  .ask p { color: #EAF9F9; font-size: .95rem; }
+  .ask .btn { margin-top: 8px; min-height: 46px; padding: 9px 20px; font-size: .95rem; }
+
+  .faq { border-radius: 28px; background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
+  details { border-bottom: 1px solid var(--border); transition: background-color .25s ease; }
+  details:last-child { border-bottom: 0; }
+  details[open] { background: #EEF8F8; }
+  summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; padding: 20px 24px; }
+  summary::-webkit-details-marker { display: none; }
+  .n { font: 700 .82rem var(--font-display); letter-spacing: .04em; color: var(--accent); width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); display: grid; place-items: center; transition: background-color .2s, color .2s; }
+  details[open] .n { background: var(--accent); color: #fff; }
+  .q { font: 680 1.08rem/1.3 var(--font-display); letter-spacing: -.01em; }
+  .plus { position: relative; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border-strong); transition: transform .3s cubic-bezier(.34, 1.4, .5, 1), background-color .2s, border-color .2s; }
+  .plus::before, .plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0 -6px; border-radius: 2px; background: var(--deep); }
+  .plus::after { transform: rotate(90deg); }
+  details[open] .plus { transform: rotate(45deg); background: var(--sun); border-color: var(--sun); }
+  summary:hover .plus { border-color: var(--accent); }
+  details p { margin: 0; padding: 0 72px 22px 74px; color: var(--ink-2); }
+  @media (max-width: 900px) {
+    .faq-grid { grid-template-columns: 1fr; gap: 28px; }
+    .faq-side { position: static; }
+    .ask { display: none; }
+  }
+  @media (max-width: 560px) {
+    summary { padding: 16px; gap: 12px; }
+    details p { padding: 0 16px 18px 62px; }
+  }
+  @media (max-width: 640px) {
+    .faq { border-radius: 20px; }
+    summary { padding: 13px 14px; gap: 10px; }
+    .n { width: 28px; height: 28px; border-radius: 8px; font-size: .72rem; }
+    .q { font-size: .95rem; }
+    .plus { width: 28px; height: 28px; }
+    details p { padding: 0 14px 16px 52px; font-size: .92rem; }
+  }
+</style>

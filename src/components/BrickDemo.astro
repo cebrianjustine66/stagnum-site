@@ -1,0 +1,373 @@
+---
+// Démonstration animée d'une brique. Les noms et les montants sont des exemples.
+// Le script fait avancer une progression de 0 à 1 et révèle chaque élément à son seuil (data-at).
+import Icon from './Icon.astro';
+import BrickMini from './BrickMini.astro';
+import { BRICKS } from '../data/pricing';
+interface Props { id: string; home?: boolean }
+const { id, home = false } = Astro.props;
+const brick = BRICKS.find((b) => b.id === id)!;
+// Sur l'accueil, le téléphone montre ce qui s'est fait tout seul dans la journée.
+const alerts = [
+  { icon: 'chantiers', t: 'Chantier Bernard', v: 'Marge 42 %' },
+  { icon: 'factures', t: 'Facture en retard', v: 'Relance envoyée' },
+  { icon: 'inventaire', t: 'Stock', v: 'Mis à jour' },
+];
+const gauges = [
+  { l: 'pH', v: 7.8, dec: 1, pos: 85.7, zl: 28.6, zw: 28.6, ok: false },
+  { l: 'Chlore libre', v: 0.5, dec: 1, pos: 16.7, zl: 33.3, zw: 33.3, ok: false },
+  { l: 'TAC', v: 90, dec: 0, pos: 45, zl: 40, zw: 35, ok: true },
+  { l: 'Stabilisant', v: 35, dec: 0, pos: 35, zl: 20, zw: 30, ok: true },
+];
+const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
+---
+<div class="demo" data-demo={id}>
+  <div class="devices" role="img" aria-label="Démonstration animée de Stagnum sur ordinateur et sur téléphone, avec des données d’exemple.">
+  <div class="laptop" aria-hidden="true">
+  <div class="lid">
+  <span class="cam"></span>
+  <div class="view">
+  <div class="screen">
+    <div class="app-side">
+      <span class="app-logo"></span>
+      {BRICKS.map((b) => <span class={`app-nav ${b.id === id ? 'on' : ''}`}><Icon name={b.id} size={16} /></span>)}
+    </div>
+    <div class="app-main">
+    <div class="app-top"><strong>{brick.name}</strong><span class="app-search">Rechercher</span><span class="app-user"></span></div>
+    <div class="inner">
+      {id === 'devis' && (
+        <>
+          <div class="said"><span class="mic pen"></span><p><span data-type data-from="0" data-to="0.34">Devis pour Madame Martin : liner 8 par 4 et une pompe à chaleur.</span><i class="caret"></i></p></div>
+          <div class="head" data-at="0.36"><div><small>Devis D-0142</small><strong>Mme Martin · bassin 8 × 4</strong></div><span class="stamp" data-at="0.82">PRÊT ✓</span></div>
+          <div class="lines">
+            <div class="line" data-at="0.42" data-val="3180"><span>Liner armé 8 × 4 m</span><b>3 180 €</b></div>
+            <div class="line" data-at="0.54" data-val="2450"><span>Pompe à chaleur</span><b>2 450 €</b></div>
+            <div class="line" data-at="0.66" data-val="960"><span>Pose et mise en eau</span><b>960 €</b></div>
+          </div>
+          <div class="total"><span>Total HT</span><b data-total>0 €</b></div>
+        </>
+      )}
+      {id === 'factures' && (
+        <>
+          <div class="head on"><div><small>Facture F-0221</small><strong class="big">3 480 €</strong></div><span class="status" data-status="Brouillon|Envoyée|Relancée|Payée ✓">Brouillon</span></div>
+          <div class="rail"><i data-stepfill></i></div>
+          <div class="steps">
+            {steps.map((s, i) => <div class="step" data-step={i}><span>{i + 1}</span><em>{s}</em></div>)}
+          </div>
+          <div class="lines push">
+            <div class="line" data-at="0.5"><span>Relance envoyée toute seule</span><b>à 7 jours, votre réglage</b></div>
+            <div class="line" data-at="0.66"><span>Facture électronique</span><b>Transmise</b></div>
+            <div class="dark" data-at="0.86"><span>Camping du Lac</span><b>Payée</b></div>
+          </div>
+        </>
+      )}
+      {id === 'achats' && (
+        <>
+          <div class="doc">
+            <span class="sheet"><i></i><i></i><i></i><i></i><b class="scan"></b></span>
+            <div><small>Bon de livraison déposé</small><strong>BL n° 4471 · 3 lignes</strong></div>
+            <span class="stamp" data-at="0.34">LU ✓</span>
+          </div>
+          <div class="lines">
+            <div class="line" data-at="0.42" data-val="432"><span>Chlore choc 5 kg <em class="x">× 24</em></span><b>432,00 €</b></div>
+            <div class="line" data-at="0.54" data-val="380"><span>Galets 250 g <em class="x">× 40</em></span><b>380,00 €</b></div>
+            <div class="line" data-at="0.66" data-val="1180"><span>Robot nettoyeur <em class="x">× 2</em></span><b>1 180,00 €</b></div>
+          </div>
+          <div class="total"><span>Achat HT</span><b data-total data-dec="2">0,00 €</b></div>
+          <div class="dark" data-at="0.86"><span>Rien à retaper</span><b>Stock mis à jour</b></div>
+        </>
+      )}
+      {id === 'chantiers' && (
+        <>
+          <div class="said"><span class="mic"></span><p><span data-type data-from="0" data-to="0.3">« Chantier Bernard : terrassement terminé, deux heures de plus. »</span><i class="caret"></i></p></div>
+          <div class="head" data-at="0.3"><div><small>Chantier Bernard</small><strong>Construction 8 × 4</strong></div><span class="pct"><b data-num="68" data-dec="0">0</b> %</span></div>
+          <div class="bar" data-at="0.3"><i data-grow="68"></i></div>
+          <div class="lines">
+            <div class="line" data-at="0.48"><span>Vendu</span><b>18 400 €</b></div>
+            <div class="line" data-at="0.58"><span>Matériaux</span><b>7 950 €</b></div>
+            <div class="line" data-at="0.68"><span>Main-d’œuvre</span><b>2 720 €</b></div>
+          </div>
+          <div class="dark push" data-at="0.82"><span>Marge du chantier</span><b>7 730 € · 42 %</b></div>
+        </>
+      )}
+      {id === 'caisse' && (
+        <>
+          <div class="head on"><div><small>Vente au comptoir</small><strong>Mme Martin · bassin 8 × 4</strong></div><span class="stamp" data-at="0.8">PAYÉ ✓</span></div>
+          <div class="lines">
+            <div class="line" data-at="0.14" data-val="34.9"><span>Chlore choc 5 kg</span><b>34,90 €</b></div>
+            <div class="line" data-at="0.28" data-val="12.5"><span>Bandelettes d’analyse</span><b>12,50 €</b></div>
+            <div class="line" data-at="0.42" data-val="18"><span>Brosse de paroi</span><b>18,00 €</b></div>
+          </div>
+          <div class="total"><span>À encaisser</span><b data-total data-dec="2">0,00 €</b></div>
+          <div class="dark push" data-at="0.9"><span>Stock mis à jour</span><b>3 articles</b></div>
+        </>
+      )}
+      {id === 'inventaire' && (
+        <>
+          <div class="said"><span class="mic"></span><p><span data-type data-from="0" data-to="0.38">« Chlore choc cinq kilos : douze seaux. Galets : huit. Deux robots. »</span><i class="caret"></i></p></div>
+          <div class="lines">
+            <div class="line" data-at="0.3"><span>Chlore choc 5 kg</span><b class="qty"><i data-num="12" data-dec="0" data-from="0.3">0</i><em class="pill ok" data-at="0.5">En stock</em></b></div>
+            <div class="line" data-at="0.44"><span>Galets 250 g</span><b class="qty"><i data-num="8" data-dec="0" data-from="0.44">0</i><em class="pill warn" data-at="0.64">À commander</em></b></div>
+            <div class="line" data-at="0.58"><span>Robots en exposition</span><b class="qty"><i data-num="2" data-dec="0" data-from="0.58">0</i><em class="pill ok" data-at="0.74">En stock</em></b></div>
+          </div>
+          <div class="dark push" data-at="0.86"><span>Inventaire à jour</span><b>3 références</b></div>
+        </>
+      )}
+      {id === 'eau' && (
+        <>
+          <div class="head on"><div><small>Analyse du jour</small><strong>Bassin Petit · 48 m³</strong></div></div>
+          <div class="gauges">
+            {gauges.map((g) => (
+              <div class="gauge">
+                <div class="g-top"><span>{g.l}</span><span class="g-val"><b data-num={g.v} data-dec={g.dec} data-ease>0</b><em class={`pill ${g.ok ? 'ok' : 'warn'}`} data-at="0.46">{g.ok ? 'Idéal' : 'À corriger'}</em></span></div>
+                <div class="track"><i class="zone" style={`left:${g.zl}%;width:${g.zw}%`}></i><i class={`dot ${g.ok ? 'ok' : 'warn'}`} data-pos={g.pos}></i></div>
+              </div>
+            ))}
+          </div>
+          <div class="lines push two">
+            <div class="dark" data-at="0.64"><span>pH moins</span><b>à valider</b></div>
+            <div class="dark" data-at="0.76"><span>Chlore choc</span><b>à valider</b></div>
+          </div>
+        </>
+      )}
+    </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="base"><span></span></div>
+  <div class="ground"></div>
+  </div>
+  <div class="phone" aria-hidden="true">
+    <span class="island"></span>
+    <div class="p-screen">
+      <div class="status"><b>9:41</b><span><i class="sig"></i><i class="bat"></i></span></div>
+      <div class="p-bar"><span class="p-dot"></span>Stagnum</div>
+      {home ? (
+        <ul class="alerts">
+          {alerts.map((a) => <li><span class="a-ic"><Icon name={a.icon} size={15} /></span><div><small>{a.t}</small><strong>{a.v}</strong></div></li>)}
+        </ul>
+      ) : (
+        <>
+          <p class="p-title"><Icon name={id} size={15} />{brick.name}</p>
+          <BrickMini id={id} />
+        </>
+      )}
+      <p class="p-sync">Synchronisé</p>
+      <span class="home"></span>
+    </div>
+  </div>
+  </div>
+  <div class="controls">
+    <button type="button" class="replay">↻ Rejouer</button>
+    <span class="progress" aria-hidden="true"><i></i></span>
+  </div>
+</div>
+
+<script>
+  const SPEED = 7000; // durée d'une lecture, en millisecondes
+  const HOLD = 2600; // pause sur l'écran final avant de recommencer
+  const clamp = (x: number) => Math.min(1, Math.max(0, x));
+  const ease = (x: number) => 1 - Math.pow(1 - clamp(x), 3);
+  const fr = (n: number, dec: number) => n.toLocaleString('fr-FR', { minimumFractionDigits: dec, maximumFractionDigits: dec }).replace(/ /g, ' ');
+
+  // Le contenu de l'écran est dessiné à largeur fixe (--vw), puis réduit à la largeur réelle de l'ordinateur.
+  document.querySelectorAll<HTMLElement>('.view').forEach((view) => {
+    const fit = () => view.style.setProperty('--k', String(view.clientWidth / Number(getComputedStyle(view).getPropertyValue('--vw'))));
+    fit();
+    new ResizeObserver(fit).observe(view);
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-demo]').forEach((demo) => {
+    const q = <T extends HTMLElement>(s: string) => [...demo.querySelectorAll<T>(s)];
+    const typed = q('[data-type]').map((el) => ({ el, text: el.textContent ?? '' }));
+    const statusEl = demo.querySelector<HTMLElement>('[data-status]');
+    const statuses = statusEl?.dataset.status?.split('|') ?? [];
+    const bar = demo.querySelector<HTMLElement>('.progress i')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function render(p: number) {
+      q('[data-at]').forEach((el) => el.classList.toggle('on', p >= Number(el.dataset.at)));
+      typed.forEach(({ el, text }) => {
+        const t = clamp((p - Number(el.dataset.from)) / (Number(el.dataset.to) - Number(el.dataset.from)));
+        el.textContent = text.slice(0, Math.floor(t * text.length));
+        el.parentElement?.classList.toggle('typing', t > 0 && t < 1);
+      });
+      q('[data-total]').forEach((el) => {
+        const sum = q('[data-val]').reduce((s, l) => s + (p >= Number(l.dataset.at) ? Number(l.dataset.val) : 0), 0);
+        el.textContent = fr(sum, Number(el.dataset.dec ?? 0)) + ' €';
+      });
+      q('[data-num]').forEach((el) => {
+        const from = Number(el.dataset.from ?? 0);
+        const k = ease((p - from) * (el.dataset.ease !== undefined ? 2.2 : 3.2));
+        el.textContent = fr(Number(el.dataset.num) * k, Number(el.dataset.dec ?? 0));
+      });
+      q('[data-pos]').forEach((el) => { el.style.left = Number(el.dataset.pos) * ease(p * 2.2) + '%'; el.classList.toggle('on', p > 0.46); });
+      q('[data-grow]').forEach((el) => { el.style.width = Number(el.dataset.grow) * ease((p - 0.3) * 3.2) + '%'; });
+      const step = Math.min(3, Math.floor(p * 4.6));
+      q('[data-step]').forEach((el) => {
+        const i = Number(el.dataset.step);
+        el.classList.toggle('done', i <= step);
+        el.classList.toggle('now', i === step);
+        el.querySelector('span')!.textContent = i <= step ? '✓' : String(i + 1);
+      });
+      q('[data-stepfill]').forEach((el) => { el.style.width = (step / 3) * 100 + '%'; });
+      if (statusEl) { statusEl.textContent = statuses[step]; statusEl.classList.toggle('paid', step === 3); }
+      bar.style.width = clamp(p) * 100 + '%';
+    }
+
+    if (reduced) { render(1); return; }
+
+    let start = 0;
+    let raf = 0;
+    const tick = (now: number) => {
+      if (!start) start = now;
+      const elapsed = now - start;
+      render(elapsed / SPEED);
+      if (elapsed > SPEED + HOLD) start = now;
+      raf = requestAnimationFrame(tick);
+    };
+    const play = () => { cancelAnimationFrame(raf); start = 0; raf = requestAnimationFrame(tick); };
+    demo.querySelector('.replay')!.addEventListener('click', play);
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) play(); else cancelAnimationFrame(raf);
+    }, { threshold: 0.3 }).observe(demo);
+    render(0);
+  });
+</script>
+
+<style>
+  .demo { --spring: cubic-bezier(.34, 1.4, .5, 1); color: var(--ink); }
+  .devices { position: relative; display: flex; align-items: flex-end; padding-bottom: 18px; }
+
+  /* Ordinateur portable */
+  .laptop { position: relative; flex: 1; min-width: 0; margin-right: -52px; }
+  .lid { position: relative; background: #10191B; border-radius: 14px 14px 3px 3px; padding: 13px 8px 9px; box-shadow: inset 0 0 0 1.5px #2C3A3D, inset 0 2px 0 rgba(255, 255, 255, .08); }
+  .cam { position: absolute; left: 50%; top: 5px; width: 5px; height: 5px; margin-left: -2.500px; border-radius: 50%; background: #2F4246; box-shadow: inset 0 0 0 1px #1B282B; }
+  .view { --vw: 560; --vh: 360; position: relative; aspect-ratio: var(--vw) / var(--vh); overflow: hidden; border-radius: 4px; background: #EEF4F3; }
+  .screen { position: absolute; left: 0; top: 0; width: calc(var(--vw) * 1px); height: calc(var(--vh) * 1px); display: flex; transform-origin: 0 0; transform: scale(var(--k, .8)); }
+  .app-side { flex: none; width: 44px; background: var(--deep); padding: 10px 0; display: grid; gap: 5px; align-content: start; justify-items: center; }
+  .app-logo { width: 12px; height: 12px; border-radius: 3px; background: var(--sun); transform: rotate(45deg); margin: 4px 0 10px; }
+  .app-nav { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: #6FA5A8; }
+  .app-nav.on { background: rgba(255, 255, 255, .16); color: #fff; }
+  .app-main { flex: 1; min-width: 0; padding: 10px 74px 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .app-top { display: flex; align-items: center; gap: 10px; }
+  .app-top strong { font: 750 .98rem var(--font-display); letter-spacing: -.01em; color: var(--deep); }
+  .app-search { margin-left: auto; font-size: .68rem; color: #8FA5A4; background: #fff; border: 1px solid var(--border); border-radius: 999px; padding: 4px 26px 4px 10px; }
+  .app-user { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #F59068, var(--sun)); }
+  .base { position: relative; height: 11px; margin: 0 -9%; border-radius: 2px 2px 12px 12px; background: linear-gradient(180deg, #F2F6F5 0%, #D5DFDE 28%, #AEBDBC 100%); box-shadow: inset 0 1px 0 #fff, inset 0 -2px 3px rgba(0, 0, 0, .18); }
+  .base span { position: absolute; left: 50%; top: 0; width: 17%; height: 5px; margin-left: -8.500%; border-radius: 0 0 7px 7px; background: linear-gradient(180deg, #9FAEAD, #C3CECD); }
+  .ground { position: absolute; left: -4%; right: -4%; bottom: -16px; height: 22px; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(4, 38, 43, .5), transparent 70%); filter: blur(4px); z-index: -1; }
+
+  /* Téléphone */
+  .phone { position: relative; z-index: 2; flex: none; width: 156px; margin-bottom: -16px; border-radius: 30px; padding: 5px; background: #10191B; box-shadow: inset 0 0 0 1.5px #3A4A4D, 0 26px 36px -14px rgba(4, 38, 43, .75), 0 6px 10px -4px rgba(4, 38, 43, .5); }
+  .phone::before { content: ""; position: absolute; right: -2px; top: 84px; width: 3px; height: 38px; border-radius: 2px; background: #1E2B2E; }
+  .phone::after { content: ""; position: absolute; left: -2px; top: 66px; width: 3px; height: 22px; border-radius: 2px; background: #1E2B2E; box-shadow: 0 30px 0 #1E2B2E; }
+  .island { position: absolute; left: 50%; top: 11px; width: 42px; height: 12px; margin-left: -21px; border-radius: 8px; background: #10191B; z-index: 2; }
+  .p-screen { position: relative; border-radius: 25px; background: #EEF4F3; padding: 8px 8px 16px; display: grid; gap: 8px; min-height: 308px; align-content: start; }
+  .status { display: flex; justify-content: space-between; align-items: center; padding: 1px 8px 8px; font-size: .56rem; color: var(--ink); }
+  .status span { display: flex; align-items: center; gap: 4px; }
+  .sig { width: 11px; height: 7px; background: linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 3px, var(--ink) 3px 5px, transparent 5px 6px, var(--ink) 6px 8px, transparent 8px 9px, var(--ink) 9px 11px); -webkit-mask: linear-gradient(to top right, #000 50%, transparent 50%); mask: linear-gradient(to top right, #000 50%, transparent 50%); }
+  .bat { position: relative; width: 16px; height: 8px; border-radius: 2.500px; border: 1px solid var(--ink); }
+  .bat::before { content: ""; position: absolute; inset: 1px; right: 4px; border-radius: 1px; background: var(--ink); }
+  .home { position: absolute; left: 50%; bottom: 5px; width: 44px; height: 3px; margin-left: -22px; border-radius: 3px; background: #10191B; opacity: .8; }
+  .p-bar { display: flex; align-items: center; gap: 6px; font: 750 .78rem var(--font-display); color: var(--deep); padding: 0 4px 2px; }
+  .p-dot { width: 7px; height: 7px; border-radius: 2px; background: var(--sun); transform: rotate(45deg); }
+  .p-title { margin: 0; display: flex; align-items: center; gap: 6px; font: 700 .8rem var(--font-display); color: var(--accent); padding: 0 4px; }
+  .phone :global(.mini) { padding: 8px 9px; gap: 6px; font-size: .62rem; border-radius: 10px; box-shadow: 0 6px 14px -10px rgba(7, 52, 58, .5); }
+  .phone :global(.mini .pill) { font-size: .54rem; padding: 2px 6px; }
+  .phone :global(.mini .gauge) { grid-template-columns: 30px 1fr 22px; gap: 6px; }
+  .alerts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .alerts li { display: flex; align-items: center; gap: 7px; background: #fff; border-radius: 10px; padding: 7px; box-shadow: 0 6px 14px -10px rgba(7, 52, 58, .5); }
+  .a-ic { flex: none; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+  .alerts small { display: block; font-size: .56rem; color: var(--ink-2); line-height: 1.2; }
+  .alerts strong { font-size: .66rem; line-height: 1.2; white-space: nowrap; }
+  .p-sync { margin: 2px 0 0; text-align: center; font-size: .58rem; font-weight: 650; color: #0A7F5A; }
+  .p-sync::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #1B8A60; margin-right: 5px; }
+  .inner { display: flex; flex-direction: column; gap: 7px; width: 100%; min-height: 0; flex: 1; font-size: .88rem; }
+  [data-at] { opacity: 0; transform: translateY(10px) scale(.96); transition: opacity .4s, transform .5s var(--spring); }
+  [data-at].on { opacity: 1; transform: none; }
+  .push { margin-top: auto; }
+
+  .said { display: flex; gap: 12px; align-items: flex-start; background: var(--deep); color: #fff; border-radius: 14px 14px 14px 5px; padding: 9px 12px; min-height: 50px; }
+  .said p { margin: 0; font-weight: 550; line-height: 1.4; font-size: .88rem; }
+  .mic { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--sun) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232A1206' stroke-width='2.400' stroke-linecap='round'%3E%3Crect x='9' y='4' width='6' height='10' rx='3'/%3E%3Cpath d='M6 11a6 6 0 0 0 12 0M12 17v3'/%3E%3C/svg%3E") center / 16px no-repeat; }
+  .mic.pen { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232A1206' stroke-width='2.200' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h4L19 9l-4-4L4 16z'/%3E%3C/svg%3E"); }
+  .doc { display: flex; align-items: center; gap: 12px; padding: 9px 13px; border-radius: 14px; background: var(--deep); color: #fff; }
+  .doc small { display: block; font-size: .78rem; color: #B4D6D7; }
+  .doc strong { font: 700 1.05rem/1.2 var(--font-display); }
+  .doc .stamp { margin-left: auto; border-color: #7BE7C2; color: #7BE7C2; }
+  .sheet { position: relative; flex: none; width: 36px; height: 44px; border-radius: 6px; background: #fff; padding: 9px 7px; display: grid; gap: 5px; align-content: start; overflow: hidden; }
+  .sheet i { height: 3px; border-radius: 2px; background: #C9D5D3; }
+  .sheet i:nth-child(2) { width: 70%; }
+  .sheet i:nth-child(4) { width: 55%; }
+  .scan { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--sun); box-shadow: 0 0 10px 2px rgba(236, 127, 81, .7); animation: scan 1.6s ease-in-out infinite alternate; }
+  @keyframes scan { to { top: calc(100% - 3px); } }
+  .x { font-style: normal; color: var(--ink-2); font-weight: 600; margin-left: 4px; }
+  .caret { display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -.15em; background: var(--sun); opacity: 0; }
+  .typing .caret { opacity: 1; }
+
+  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .head small { display: block; font-size: .8rem; color: var(--ink-2); }
+  .head strong { font: 750 1.08rem/1.15 var(--font-display); letter-spacing: -.02em; }
+  .head strong.big { font-size: 1.75rem; letter-spacing: -.04em; }
+  .stamp { padding: 7px 12px; border-radius: 12px; border: 2px solid #0A7F5A; color: #0A7F5A; font-weight: 800; font-size: .82rem; white-space: nowrap; opacity: 0; transform: rotate(-8deg) scale(1.8); transition: transform .5s cubic-bezier(.34, 1.8, .5, 1), opacity .3s; }
+  .stamp.on { opacity: 1; transform: rotate(-8deg) scale(1); }
+  .status { padding: 6px 12px; border-radius: 999px; background: var(--sand, #F6ECDD); font-size: .78rem; font-weight: 700; white-space: nowrap; transition: background .3s, color .3s; }
+  .status.paid { background: #E3F5EF; color: #0A7F5A; }
+  .pct { font: 750 1.5rem/1 var(--font-display); color: var(--accent); white-space: nowrap; }
+
+  .lines { display: grid; gap: 7px; }
+  .lines.two { grid-template-columns: 1fr 1fr; }
+  .line { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 10px; background: #fff; border: 1px solid #E3ECEB; font-size: .84rem; }
+  .line span { font-weight: 500; }
+  .line b { white-space: nowrap; font-weight: 700; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 7px; border-top: 2px dashed #DCE7E5; font-weight: 700; margin-top: auto; }
+  .total b { font: 800 1.5rem/1 var(--font-display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--deep); }
+  .dark { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 10px; background: var(--deep); color: #fff; font-weight: 500; font-size: .84rem; }
+  .dark b { color: #FFD3A8; white-space: nowrap; }
+
+  .rail { position: relative; height: 4px; margin: 22px 8% 0; border-radius: 4px; background: #F1E7D6; }
+  .rail i { display: block; height: 100%; border-radius: 4px; background: var(--accent); width: 0; transition: width .6s cubic-bezier(.2, .7, .2, 1); }
+  .steps { margin-top: -30px; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .step span { width: 32px; height: 32px; border-radius: 50%; background: #E0DBD2; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background .3s, transform .5s cubic-bezier(.34, 1.8, .5, 1); }
+  .step.done span { background: var(--accent); }
+  .step.now span { transform: scale(1.18); }
+  .step em { font-style: normal; font-size: .8rem; font-weight: 700; }
+
+  .bar { height: 10px; border-radius: 99px; background: #F1E7D6; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent-bright), var(--aqua)); }
+  .qty { display: flex; align-items: center; gap: 10px; }
+  .qty i { font-style: normal; font: 800 1.2rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .pill { font-style: normal; padding: 3px 9px; border-radius: 999px; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+  .pill.ok { background: #E3F5EF; color: #0A7F5A; }
+  .pill.warn { background: #FFE6D6; color: #C2461A; }
+
+  .gauges { display: grid; }
+  .gauge { padding: 7px 0; border-bottom: 1px solid #DCE7E5; }
+  .g-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 500; }
+  .g-val { display: flex; align-items: center; gap: 8px; }
+  .g-val b { font-variant-numeric: tabular-nums; }
+  .track { position: relative; height: 6px; margin-top: 7px; border-radius: 6px; background: #F1E7D6; }
+  .zone { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: #C9EFE9; }
+  .dot { position: absolute; top: -4px; left: 0; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #B9C4C3; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .25); transition: background .3s; }
+  .dot.on.ok { background: #0F9A72; }
+  .dot.on.warn { background: var(--sun); }
+
+  .controls { margin-top: 20px; display: flex; align-items: center; gap: 12px; }
+  .replay { border: 0; cursor: pointer; padding: 10px 18px; border-radius: 999px; background: rgba(255, 255, 255, .14); color: #fff; font: 700 .82rem var(--font-sans); transition: background .2s; }
+  .replay:hover { background: rgba(255, 255, 255, .26); }
+  .progress { flex: 1; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .18); overflow: hidden; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--sun); }
+  /* Sur petit écran, le téléphone n'a pas la place : l'ordinateur prend toute la largeur. */
+  @media (max-width: 640px) {
+    .phone { display: none; }
+    .laptop { margin-right: 0; }
+    .devices { padding-bottom: 8px; }
+    .app-main { padding-right: 14px; }
+    .controls { display: none; }
+    .ground { display: none; }
+    .base { margin: 0 -3%; }
+  }
+</style>
