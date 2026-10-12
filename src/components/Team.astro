@@ -3,7 +3,7 @@
 // Les membres se règlent dans l'éditeur, rubrique « Qui sommes-nous ».
 import Icon from './Icon.astro';
 import p from '../content/a-propos.json';
-const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
+const faceColors = ['#0F5358', '#EC7F51', '#0B3D42'];
 ---
 <ul class="team">
   {p.team.members.map((m, i) => (
@@ -58,7 +58,7 @@ const faceColors = ['#DDF2F3', '#FDE6DF', '#F3EBDD'];
   .face::after { content: ""; position: absolute; inset: -40% -60%; pointer-events: none; background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, .75) 50%, transparent 58%); transform: translateX(-70%); opacity: 0; }
   .flip.shine .face::after { animation: shine .9s ease-out; }
   @keyframes shine { 0% { transform: translateX(-70%); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateX(70%); opacity: 0; } }
-  .photo { width: 100%; height: 190px; display: grid; place-items: center; background: var(--c); margin-bottom: 14px; flex: none; overflow: hidden; }
+  .photo { width: 100%; height: 190px; display: grid; place-items: center; background: radial-gradient(220px 160px at 100% 0%, rgba(255, 255, 255, .22), transparent 65%), var(--c); margin-bottom: 14px; flex: none; overflow: hidden; }
   .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
   .flip:hover .photo img { transform: scale(1.06); }
   .initial { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--deep); font: 800 2.4rem var(--font-display); box-shadow: 0 14px 26px -14px rgba(7, 52, 58, .5); }
