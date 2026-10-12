@@ -18,6 +18,7 @@ Le menu de gauche suit l'organisation du site. Dans chaque page, les sections so
 | **Accueil** | Tous les titres, textes, listes, exemples et questions fréquentes de l'accueil. |
 | **Tarifs (textes)** | Les textes de la page tarifs et de la calculette, les « toujours inclus », les exemples de prix (le montant se calcule tout seul), les questions fréquentes. |
 | **Pages de fonctionnalités** | Les pages Devis, Factures, Chantiers… Le bouton « + » en crée une nouvelle, qui s'ajoute au menu. |
+| **Qui sommes-nous** | L’histoire de Stagnum, l’équipe (prénoms et rôles), les partis pris. |
 | **Comparatif Extrabat** | Le tableau, les situations, le test, les questions fréquentes, la date du relevé. |
 | **Demande de devis** | Le titre, l'introduction et la liste « Ce que vous obtenez ». |
 | **Pages « Merci » et « Introuvable »** | Les deux petites pages de message. |

@@ -195,7 +195,7 @@ export default config({
       mark: () => createElement('img', { src: logo.src, alt: '', width: 28, height: 28, style: { borderRadius: 8 } }),
     },
     navigation: {
-      'Pages du site': ['accueil', 'tarifs', 'pages', 'comparatif', 'demande', 'messages'],
+      'Pages du site': ['accueil', 'tarifs', 'pages', 'comparatif', 'apropos', 'demande', 'messages'],
       Blog: ['posts', 'pageBlog'],
       Prix: ['prix'],
       'Présent sur toutes les pages': ['navigation', 'commun', 'formulaire'],
@@ -533,6 +533,39 @@ export default config({
         }),
         faq: faq('6. Questions fréquentes'),
         ctaTitle: text('7. Titre du bandeau final'),
+        blocks: blocks(),
+        seo: seo(),
+      },
+    }),
+    apropos: singleton({
+      label: 'Qui sommes-nous',
+      path: 'src/content/a-propos',
+      format: { data: 'json' },
+      previewUrl: '/a-propos/',
+      schema: {
+        breadcrumb: text('Nom de la page', 'Utilisé dans le fil d’Ariane envoyé à Google.'),
+        hero: group('1. Haut de page', {
+          title: text('Grand titre', HL),
+          lead: long('Texte d’introduction'),
+        }),
+        story: fields.array(
+          fields.object({
+            title: text('Titre', HL),
+            text: long('Texte', `Laissez une ligne vide entre deux paragraphes. ${LINK}`),
+          }),
+          { label: '2. Notre histoire', description: 'Chaque élément est une section de texte, affichée dans l’ordre.', itemLabel: (p) => p.fields.title.value || 'Nouvelle section' },
+        ),
+        team: group('3. L’équipe', {
+          title: text('Titre', HL),
+          intro: text('Phrase sous le titre'),
+          members: fields.array(
+            fields.object({
+              name: text('Prénom'),
+              role: text('Rôle (facultatif)', 'Exemple : Développement, Relation clients. Laissez vide pour ne rien afficher.'),
+            }),
+            { label: 'Membres', itemLabel: (p) => p.fields.name.value || 'Nouveau membre' },
+          ),
+        }),
         blocks: blocks(),
         seo: seo(),
       },

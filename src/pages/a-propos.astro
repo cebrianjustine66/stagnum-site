@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import Blocks from '../components/Blocks.astro';
+import p from '../content/a-propos.json';
+import { paragraphs, plain, rich, type Block } from '../lib';
+---
+<Base
+  title={plain(p.seo.title)}
+  description={plain(p.seo.description)}
+  breadcrumbs={[{ name: p.breadcrumb, href: '/a-propos/' }]}
+>
+  <PageHero title={rich(p.hero.title)} lead={plain(p.hero.lead)} />
+  {p.story.map((s, i) => (
+    <section class={i % 2 ? 'sandy' : ''}>
+      <div class="wrap narrow reveal">
+        <h2 set:html={rich(s.title, 'hl hl-ink')} />
+        {paragraphs(s.text).map((t) => <p class="lead" set:html={rich(t)} />)}
+      </div>
+    </section>
+  ))}
+  {p.team.members.length > 0 && (
+    <section class="on-deep water">
+      <div class="wrap">
+        <div class="center head">
+          <h2 set:html={rich(p.team.title)} />
+          {p.team.intro && <p class="lead">{p.team.intro}</p>}
+        </div>
+        <ul class="team">
+          {p.team.members.map((m) => (
+            <li class="reveal">
+              <span class="avatar" aria-hidden="true">{m.name.charAt(0)}</span>
+              <strong>{m.name}</strong>
+              {m.role && <span class="role">{m.role}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+  <Blocks blocks={p.blocks as Block[]} />
+  <Cta />
+</Base>
+
+<style>
+  .narrow { max-width: 820px; }
+  .narrow h2 { margin-bottom: 20px; }
+  .narrow .lead { max-width: none; }
+  .narrow .lead + .lead { margin-top: 18px; }
+  .head { margin-bottom: 36px; }
+  .team { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+  .team li { width: 170px; display: grid; justify-items: center; gap: 6px; padding: 26px 16px; border-radius: 24px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); text-align: center; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; background: #fff; color: var(--deep); font: 800 1.6rem var(--font-display); }
+  .team strong { font: 700 1.15rem var(--font-display); color: #fff; }
+  .role { font-size: .9rem; color: #fff; opacity: .85; }
+  @media (max-width: 560px) { .team li { width: calc(50% - 9px); padding: 20px 10px; } }
+</style>
