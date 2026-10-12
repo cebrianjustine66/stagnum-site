@@ -38,5 +38,7 @@ export type Block =
   | { discriminant: 'texte'; value: { title: string; text: string; background: Background } }
   | { discriminant: 'liste'; value: { title: string; intro: string; items: string[]; background: Background } }
   | { discriminant: 'cartes'; value: { title: string; cards: { icon: string; title: string; text: string; href: string }[] } }
+  | { discriminant: 'etapes'; value: { title: string; steps: { title: string; text: string }[] } }
+  | { discriminant: 'equipe'; value: { title: string; text: string; button: string; href: string } }
   | { discriminant: 'cta'; value: { title: string } }
   | { discriminant: 'faq'; value: { title: string; items: { q: string; a: string }[] } };

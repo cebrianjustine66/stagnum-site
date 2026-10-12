@@ -129,52 +129,32 @@
       }
     },
     {
-      "discriminant": "liste",
-      "value": {
-        "title": "Ce que vous n’avez *plus à faire*",
-        "intro": "Stagnum prend en charge la saisie. Vous gardez la relecture et la décision.",
-        "items": [
-          "Recopier un bon de livraison ligne par ligne",
-          "Refaire vos devis le soir au bureau",
-          "Penser à relancer les factures en retard",
-          "Ressaisir votre inventaire après le comptage",
-          "Tenir un tableur pour connaître la marge d’un chantier"
-        ],
-        "background": "sable"
-      }
-    },
-    {
-      "discriminant": "cartes",
+      "discriminant": "etapes",
       "value": {
         "title": "Démarrer en *trois étapes*",
-        "cards": [
+        "steps": [
           {
-            "icon": "devis",
-            "title": "1. Vous demandez votre devis",
-            "text": "Avec la calculette ou le formulaire : la taille de votre équipe, vos briques, vos coordonnées.",
-            "href": "/demande-de-devis/"
+            "title": "Vous demandez votre devis",
+            "text": "Avec [la calculette](/tarifs/) ou [le formulaire](/demande-de-devis/) : votre équipe, vos briques, vos coordonnées."
           },
           {
-            "icon": "check",
-            "title": "2. Vous recevez votre devis",
-            "text": "Nous vous l’envoyons. Si vous cochez la case prévue dans le formulaire, nous vous appelons pour vous l’expliquer plus en détail.",
-            "href": ""
+            "title": "Vous recevez votre devis",
+            "text": "Nous vous l’envoyons. Cochez la case du formulaire et nous vous appelons pour l’expliquer."
           },
           {
-            "icon": "horloge",
-            "title": "3. Vous essayez gratuitement",
-            "text": "L’essai est gratuit, avant tout engagement. Vous commencez par les briques qui vous manquent le plus et vous en ajoutez quand vous voulez.",
-            "href": ""
+            "title": "Vous essayez gratuitement",
+            "text": "{essai} jours d’essai avant tout engagement, avec les briques qui vous manquent le plus."
           }
         ]
       }
     },
     {
-      "discriminant": "texte",
+      "discriminant": "equipe",
       "value": {
         "title": "Qui est *derrière Stagnum* ?",
-        "text": "Stagnum a été créé par cinq personnes : Yohan, Léana, Axel, Jérémy et Justine.\n\nNous sommes partis d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels, et les rares outils qui existent ont vieilli. Nous voulons leur donner plus qu’un logiciel : un assistant intelligent pour gérer leur entreprise.\n\n[Découvrir notre histoire et l’équipe](/a-propos/)",
-        "background": "fonce"
+        "text": "Cinq personnes, parties d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels. Cliquez sur une carte pour faire connaissance.",
+        "button": "Découvrir notre histoire",
+        "href": "/a-propos/"
       }
     }
   ],

@@ -1,0 +1,81 @@
+---
+// Cartes de l'équipe : un clic retourne la carte et montre la présentation de la personne.
+// Les membres se règlent dans l'éditeur, rubrique « Qui sommes-nous ».
+import Icon from './Icon.astro';
+import p from '../content/a-propos.json';
+const faceColors = ['#0F5358', '#EC7F51', '#0B3D42'];
+---
+<ul class="team">
+  {p.team.members.map((m, i) => (
+    <li class="reveal" style={`--c:${faceColors[i % 3]}`}>
+      <button type="button" class="flip" aria-pressed="false" disabled={!m.bio}>
+        <span class="flip-in">
+          <span class="face front">
+            <span class="photo">
+              {m.photo ? <img src={m.photo} alt="" loading="lazy" /> : <span class="initial" aria-hidden="true">{m.name.charAt(0)}</span>}
+            </span>
+            <strong>{m.name}</strong>
+            {m.role && <span class="role">{m.role}</span>}
+            {m.bio && <span class="hint">{p.team.hint} <Icon name="arrow" size={14} /></span>}
+          </span>
+          <span class="face back">
+            <strong>{m.name}</strong>
+            {m.role && <span class="role">{m.role}</span>}
+            <span class="bio">{m.bio}</span>
+          </span>
+        </span>
+      </button>
+    </li>
+  ))}
+</ul>
+
+<script>
+  // Cartes de l'équipe : un clic retourne la carte, avec un reflet qui la traverse.
+  document.querySelectorAll<HTMLButtonElement>('.flip').forEach((card) => {
+    card.addEventListener('click', () => {
+      card.setAttribute('aria-pressed', String(card.getAttribute('aria-pressed') !== 'true'));
+      card.classList.remove('shine');
+      void card.offsetWidth;
+      card.classList.add('shine');
+    });
+  });
+</script>
+
+<style>
+  .team { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+  .team li { width: 212px; }
+  .team li:nth-child(even) { margin-top: 28px; }
+  .flip { display: block; width: 100%; height: 320px; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; perspective: 1400px; border-radius: 28px; }
+  .flip:disabled { cursor: default; }
+  .flip:focus-visible { outline: 3px solid var(--aqua); outline-offset: 4px; }
+  .flip-in { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.3, 1.3, .4, 1); }
+  .flip:not(:disabled):hover .flip-in { transform: translateY(-8px) rotateY(-10deg) rotateX(4deg); }
+  .flip[aria-pressed="true"] .flip-in, .flip[aria-pressed="true"]:hover .flip-in { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; border-radius: 28px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; }
+  .front { background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); padding-bottom: 18px; gap: 4px; }
+  .back { transform: rotateY(180deg); justify-content: center; gap: 6px; padding: 26px 22px; color: #fff; background: radial-gradient(260px 200px at 100% 0%, rgba(255, 255, 255, .22), transparent 65%), var(--grad-deep); box-shadow: 0 30px 50px -28px rgba(7, 52, 58, .8); }
+  /* Reflet qui balaie la carte quand elle se retourne. */
+  .face::after { content: ""; position: absolute; inset: -40% -60%; pointer-events: none; background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, .75) 50%, transparent 58%); transform: translateX(-70%); opacity: 0; }
+  .flip.shine .face::after { animation: shine .9s ease-out; }
+  @keyframes shine { 0% { transform: translateX(-70%); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateX(70%); opacity: 0; } }
+  .photo { width: 100%; height: 190px; display: grid; place-items: center; background: radial-gradient(220px 160px at 100% 0%, rgba(255, 255, 255, .22), transparent 65%), var(--c); margin-bottom: 14px; flex: none; overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+  .flip:hover .photo img { transform: scale(1.06); }
+  .initial { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--deep); font: 800 2.4rem var(--font-display); box-shadow: 0 14px 26px -14px rgba(7, 52, 58, .5); }
+  .team strong { font: 720 1.3rem var(--font-display); color: var(--ink); }
+  .role { font-size: .92rem; color: var(--ink-2); padding: 0 12px; }
+  .hint { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-size: .84rem; font-weight: 680; color: var(--accent); }
+  .back strong { color: #fff; font-size: 1.4rem; }
+  .back .role { color: var(--aqua); font-weight: 650; padding: 0; }
+  .bio { margin-top: 10px; font-size: .95rem; line-height: 1.55; color: #EAF9F9; }
+  @media (prefers-reduced-motion: reduce) { .flip-in { transition: none; } .flip.shine .face::after { animation: none; } }
+  @media (max-width: 640px) {
+    .team { gap: 12px; }
+    .team li { width: calc(50% - 6px); }
+    .team li:nth-child(even) { margin-top: 0; }
+    .flip { height: 270px; }
+    .photo { height: 150px; }
+    .initial { width: 76px; height: 76px; font-size: 1.9rem; }
+    .bio { font-size: .86rem; }
+  }
+</style>

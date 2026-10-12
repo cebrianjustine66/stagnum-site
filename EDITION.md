@@ -57,6 +57,8 @@ En bas des pages Accueil, Tarifs, Comparatif et de chaque page de fonctionnalit�
 - **Texte** : un titre et des paragraphes ;
 - **Liste à coches** : un titre et une liste ;
 - **Cartes** : une rangée d'encadrés avec icône, titre et texte ;
+- **Étapes numérotées** : des ronds numérotés reliés par une ligne ;
+- **Équipe** : un texte, les cartes des membres (réglées dans « Qui sommes-nous ») et un bouton ;
 - **Appel à l'action** : le bandeau turquoise avec les deux boutons ;
 - **Questions fréquentes** : une série de questions et réponses.
 

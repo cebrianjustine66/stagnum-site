@@ -3,11 +3,14 @@
 import Icon from './Icon.astro';
 import Faq from './Faq.astro';
 import Cta from './Cta.astro';
+import Team from './Team.astro';
 import { rich, type Block } from '../lib';
 interface Props { blocks?: Block[] }
 const { blocks = [] } = Astro.props;
 const bg = { clair: '', sable: 'sandy', fonce: 'on-deep water' };
 const hl = (b: { background: keyof typeof bg }) => (b.background === 'fonce' ? 'hl' : 'hl hl-ink');
+const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
+const cardColors = [['#0F5358', 'dark'], ['#FFFFFF', ''], ['#0B3D42', 'dark']];
 const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 ---
 {blocks.map(({ discriminant: type, value: b }) => (
@@ -36,17 +39,48 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
         <div class="wrap">
           {b.title && <h2 class="center" set:html={rich(b.title, 'hl hl-ink')} />}
           <div class="grid grid-3">
-            {b.cards.map((c) => {
+            {b.cards.map((c, i) => {
               const Tag = c.href ? 'a' : 'div';
+              const [color, tone] = cardColors[i % 3];
               return (
-                <Tag class="card reveal" href={c.href || undefined}>
-                  <span class="tile"><Icon name={c.icon} size={24} /></span>
+                <Tag class={`card tint reveal ${tone}`} style={`--tint:${color}`} href={c.href || undefined}>
+                  <span class="ghost" aria-hidden="true"><Icon name={c.icon} size={150} /></span>
+                  <span class="tile"><Icon name={c.icon} size={26} /></span>
                   <h3>{c.title}</h3>
-                  <p class="muted">{c.text}</p>
+                  <p>{c.text}</p>
+                  {c.href && <span class="go"><Icon name="arrow" size={18} /></span>}
                 </Tag>
               );
             })}
           </div>
+        </div>
+      </section>
+    )}
+    {type === 'etapes' && (
+      <section class="block">
+        <div class="wrap">
+          {b.title && <h2 class="center" set:html={rich(b.title, 'hl hl-ink')} />}
+          <ol class="steps" style={`--n:${b.steps.length}`}>
+            {b.steps.map((s, i) => (
+              <li class="reveal" style={`--c:${stepColors[i % 3]}`}>
+                <span class="n">{i + 1}</span>
+                <h3>{s.title}</h3>
+                <p set:html={rich(s.text)} />
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+    {type === 'equipe' && (
+      <section class="block sandy crew">
+        <div class="wrap">
+          <div class="center crew-head reveal">
+            {b.title && <h2 set:html={rich(b.title, 'hl hl-ink')} />}
+            {paragraphs(b.text).map((p) => <p class="lead" set:html={rich(p)} />)}
+          </div>
+          <Team />
+          {b.button && b.href && <p class="center crew-more"><a class="btn btn-ghost" href={b.href}>{b.button} <Icon name="arrow" size={18} /></a></p>}
         </div>
       </section>
     )}
@@ -63,4 +97,39 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .block .lead + .lead, .block .lead + .checks { margin-top: 18px; }
   .block .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
   .block .card p { margin: 0; }
+  .block .tint { position: relative; overflow: hidden; background: var(--tint); border-color: var(--border); border-radius: 28px; padding: 30px 28px 34px; color: var(--ink); }
+  .block .tint .tile { width: 58px; height: 58px; border-radius: 18px; background: var(--deep); color: var(--aqua); margin-bottom: 22px; position: relative; transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
+  .block .tint:hover .tile { transform: scale(1.1) rotate(-6deg); }
+  .block .tint h3 { font-size: 1.45rem; letter-spacing: -.02em; position: relative; }
+  .block .tint p { position: relative; color: var(--ink-2); line-height: 1.6; }
+  .block .tint .ghost { position: absolute; right: -28px; bottom: -34px; opacity: .09; color: var(--deep); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .block .tint:hover .ghost { transform: translate(-8px, -8px) rotate(-8deg); }
+  .block .tint.dark { color: #fff; border-color: transparent; }
+  .block .tint.dark .tile { background: var(--sun); color: #fff; }
+  .block .tint.dark h3 { color: #fff; }
+  .block .tint.dark p { color: #E6F5F5; }
+  .block .tint.dark .ghost { color: #fff; opacity: .1; }
+  .block .tint .go { position: absolute; top: 30px; right: 28px; opacity: .6; }
+  .block .card { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+  .block .card:hover { transform: translateY(-5px); box-shadow: var(--lift-hover); border-color: var(--aqua); }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 28px; position: relative; }
+  .steps::before { content: ""; position: absolute; left: 12%; right: 12%; top: 31px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, #1799A1, #EC7F51 50%, #0B3D42); opacity: .35; }
+  .steps li { position: relative; text-align: center; padding: 0 8px; }
+  .steps .n { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; background: var(--c); color: #fff; font: 800 1.6rem var(--font-display); border: 6px solid var(--bg); box-shadow: 0 14px 24px -12px var(--c); transition: transform .4s cubic-bezier(.34, 1.6, .5, 1); }
+  .steps li:hover .n { transform: scale(1.12) rotate(-6deg); }
+  .steps h3 { font-size: 1.3rem; margin-bottom: 8px; }
+  .steps p { margin: 0 auto; max-width: 34ch; color: var(--ink-2); line-height: 1.6; }
+
+  .crew-head { margin-bottom: 36px; }
+  .crew-head .lead { margin-inline: auto; max-width: 62ch; }
+  .crew-more { margin: 40px 0 0; }
+  @media (max-width: 860px) {
+    .steps { grid-template-columns: 1fr; gap: 22px; }
+    .steps::before { display: none; }
+    .steps li { display: grid; grid-template-columns: 52px 1fr; column-gap: 16px; text-align: left; padding: 0; }
+    .steps .n { width: 52px; height: 52px; font-size: 1.25rem; margin: 0; grid-row: span 2; border-width: 4px; }
+    .steps h3 { font-size: 1.12rem; margin-bottom: 4px; align-self: end; }
+    .steps p { margin: 0; max-width: none; font-size: .95rem; }
+  }
 </style>
