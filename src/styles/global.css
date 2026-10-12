@@ -20,7 +20,7 @@
   --sun: #EC7F51;
   --sun-deep: #D9653A;
   --sun-soft: #FDE6DF;
-  --grad-deep: linear-gradient(150deg, #128087 0%, #1799A1 52%, #27B0B6 100%);
+  --grad-deep: linear-gradient(150deg, #0A5A61 0%, #0E6D74 52%, #128087 100%);
   --grad-ink: linear-gradient(160deg, #0C4A51 0%, #07343A 45%, #04262B 100%);
   --grad-aqua: linear-gradient(120deg, #7BE7EA 0%, #3FD0D6 45%, #B8F3F0 100%);
   --lift: 0 1px 2px rgba(7, 52, 58, .05), 0 12px 28px -16px rgba(7, 52, 58, .28);
@@ -126,7 +126,7 @@ a.card:hover .more svg { transform: translateX(4px); }
 .on-deep .hl { background: none; color: #fff; }
 .water { position: relative; isolation: isolate; overflow: hidden;
   background:
-    radial-gradient(760px 480px at 84% 4%, rgba(255, 255, 255, .22), transparent 62%),
+    radial-gradient(760px 480px at 84% 4%, rgba(255, 255, 255, .10), transparent 62%),
     radial-gradient(620px 420px at 4% 100%, rgba(11, 61, 66, .28), transparent 60%),
     var(--grad-deep);
 }
