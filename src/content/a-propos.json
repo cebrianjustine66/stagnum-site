@@ -67,7 +67,8 @@
         "bio": "Présentation à venir."
       }
     ],
-    "hint": "Faire connaissance"
+    "hint": "Faire connaissance",
+    "back": "Retourner"
   },
   "values": {
     "title": "Nos *partis pris*",
