@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import DevisForm from '../components/DevisForm.astro';
 import PageHero from '../components/PageHero.astro';
 import d from '../content/demande.json';
+import f from '../content/formulaire.json';
 import { plain, rich } from '../lib';
 ---
 <Base
@@ -12,23 +13,48 @@ import { plain, rich } from '../lib';
 >
   <PageHero title={rich(d.hero.title)} lead={plain(d.hero.lead)} />
   <section class="form-section">
-    <div class="wrap two">
-      <div>
-        <h2>{d.benefits.title}</h2>
-        <ul class="checks">
-          {d.benefits.points.map((p) => <li set:html={rich(p)} />)}
-        </ul>
-        <p class="muted" set:html={rich(d.benefits.note)} />
+    <div class="wrap narrow-form">
+      <div class="intro">
+        <h2>{plain(f.title)}</h2>
+        <p class="lead">{plain(f.lead)}</p>
+        {f.next.length > 0 && (
+          <ol class="next">
+            {f.next.map((x, i) => <li><span>{i + 1}</span>{plain(x)}</li>)}
+          </ol>
+        )}
       </div>
-      <div class="card"><DevisForm /></div>
+      <DevisForm />
+    </div>
+    <div class="wrap benefits">
+      <h2>{d.benefits.title}</h2>
+      <ul class="checks">
+        {d.benefits.points.map((p) => <li set:html={rich(p)} />)}
+      </ul>
+      <p class="muted" set:html={rich(d.benefits.note)} />
     </div>
   </section>
 </Base>
 
 <style>
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
   .form-section { padding-top: 24px; }
-  h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
-  .checks { margin: 24px 0; }
-  @media (max-width: 860px) { .two { grid-template-columns: 1fr; gap: 28px; } }
+  .narrow-form { max-width: 780px; }
+  .intro { text-align: center; margin-bottom: 32px; }
+  .intro h2 { margin-bottom: 10px; }
+  .intro .lead { margin: 0 auto 28px; }
+  .next { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; counter-reset: n; }
+  .next li { position: relative; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); text-align: left; font-weight: 650; font-size: .93rem; line-height: 1.35; }
+  .next li:not(:last-child)::after { content: ""; position: absolute; right: -11px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-top: 2px solid var(--border-strong); border-right: 2px solid var(--border-strong); transform: rotate(45deg); z-index: 1; }
+  .next span { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 750 .88rem var(--font-display); background: var(--accent-soft); color: var(--accent); }
+  .next li:first-child span { background: var(--sun); color: #2A1206; }
+  .benefits { margin-top: clamp(48px, 7vw, 80px); text-align: center; }
+  .benefits h2 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); margin-bottom: 20px; }
+  .checks { grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 0 20px; text-align: left; }
+  .checks li { padding: 18px 18px 18px 54px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); font-weight: 600; line-height: 1.4; }
+  .checks li::before { left: 18px; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 760px) {
+    .next, .checks { grid-template-columns: 1fr; gap: 8px; }
+    .next li:not(:last-child)::after { display: none; }
+    .next { gap: 10px; text-align: left; max-width: 320px; margin-inline: auto; }
+    .next li { padding: 0; background: none; border: 0; }
+  }
 </style>

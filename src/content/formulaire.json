@@ -1,4 +1,20 @@
 {
+  "title": "Recevez votre devis",
+  "lead": "Quelques informations suffisent. Voici ce qui se passe ensuite.",
+  "next": [
+    "Vous envoyez votre demande",
+    "Nous vous envoyons votre devis adapté",
+    "Votre essai gratuit de {essai} jours démarre"
+  ],
+  "progress": "Votre demande",
+  "activityLabel": "Vous êtes",
+  "activities": [
+    "Indépendant",
+    "Un magasin",
+    "Plusieurs magasins"
+  ],
+  "bricksLabel": "Ce qui vous intéresse",
+  "contactLabel": "Vos coordonnées",
   "name": "Nom et prénom",
   "company": "Société",
   "phone": "Téléphone",
