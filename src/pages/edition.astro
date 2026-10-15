@@ -1,0 +1,21 @@
+---
+// Éditeur visuel du site (voir src/edition/). En ligne, il faut se connecter avec GitHub pour enregistrer.
+import '@fontsource-variable/inter';
+import '@fontsource-variable/bricolage-grotesque';
+import '../edition/edition.css';
+import App from '../edition/App';
+
+export const prerender = false;
+---
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
+    <title>Stagnum · modifier le site</title>
+  </head>
+  <body>
+    <App client:only="react" />
+  </body>
+</html>

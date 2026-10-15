@@ -1,0 +1,57 @@
+/* Styles ajoutés à la page du site pendant l'édition. */
+.ed-on [data-ed] {
+  outline: 1.5px dashed transparent;
+  outline-offset: 4px;
+  border-radius: 4px;
+  cursor: text;
+  transition: outline-color .15s ease, background-color .15s ease;
+}
+.ed-on [data-ed]:hover { outline-color: rgba(23, 153, 161, .55); background-color: rgba(63, 208, 214, .07); }
+.ed-on [data-ed]:focus { outline: 2px solid #1799A1; outline-offset: 4px; background-color: rgba(63, 208, 214, .08); }
+.ed-on [data-ed]:empty::before { content: "Écrivez ici…"; opacity: .45; }
+.ed-on [data-ed].ed-flash { animation: ed-flash 1.4s ease; }
+@keyframes ed-flash { 0%, 40% { outline: 2px solid #EC7F51; outline-offset: 6px; background-color: rgba(236, 127, 81, .14); } }
+.ed-on .ed-wrap { display: inline; }
+.ed-on .ed-var {
+  display: inline-block; padding: 0 .3em; margin: 0 .05em; border-radius: .35em;
+  background: rgba(63, 208, 214, .22); box-shadow: inset 0 0 0 1px rgba(23, 153, 161, .35);
+  cursor: default; user-select: all;
+}
+.ed-on [data-ed] a { cursor: text; }
+.ed-on .ed-new { animation: ed-new .6s ease; }
+@keyframes ed-new { from { opacity: 0; transform: translateY(-6px); } }
+/* Les animations de démonstration continuent, mais les textes en cours de modification ne bougent plus. */
+.ed-on [data-ed]:focus { animation: none !important; transform: none !important; }
+
+.ed-ui {
+  position: absolute; z-index: 2147483000; font: 600 13px/1 "Inter Variable", system-ui, sans-serif; letter-spacing: 0;
+  color: #0E2224; text-transform: none;
+}
+.ed-ui button, .ed-ui select { font: inherit; color: inherit; cursor: pointer; }
+
+.ed-tools {
+  display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 12px;
+  background: #0B3D42; color: #fff; box-shadow: 0 12px 30px -10px rgba(5, 42, 48, .6);
+  opacity: 0; pointer-events: none; transform: translateY(4px); transition: opacity .15s ease, transform .15s ease;
+}
+.ed-tools.show { opacity: 1; pointer-events: auto; transform: none; }
+.ed-tools-label { padding: 0 8px 0 6px; font-weight: 600; color: #9FD9DC; white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.ed-tools button, .ed-tools select {
+  height: 30px; padding: 0 10px; border: 0; border-radius: 8px; background: rgba(255, 255, 255, .1); color: #fff;
+}
+.ed-tools button:hover, .ed-tools select:hover { background: rgba(255, 255, 255, .2); }
+.ed-tools select option { color: #0E2224; }
+.ed-hl-ico { background: linear-gradient(transparent 55%, rgba(236, 127, 81, .9) 55%); padding: 0 2px; }
+
+.ed-itembar {
+  display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: #fff;
+  box-shadow: 0 0 0 1px rgba(14, 34, 36, .12), 0 10px 24px -10px rgba(5, 42, 48, .45);
+  opacity: 0; pointer-events: none; transition: opacity .12s ease;
+}
+.ed-itembar.show { opacity: 1; pointer-events: auto; }
+.ed-itembar button { height: 26px; min-width: 26px; padding: 0 8px; border: 0; border-radius: 7px; background: transparent; font-size: 12px; }
+.ed-itembar button:hover:not(:disabled) { background: #E7F5F5; color: #117C83; }
+.ed-itembar button[data-op="duplicate"] { color: #117C83; }
+.ed-itembar button[data-op="remove"]:hover:not(:disabled) { background: #FCE8EC; color: #A3243C; }
+.ed-itembar button:disabled { opacity: .3; cursor: default; }
+.ed-on [data-ed-item]:hover { box-shadow: 0 0 0 1.5px rgba(23, 153, 161, .35); border-radius: 12px; }
