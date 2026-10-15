@@ -6,13 +6,17 @@ import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { SITE } from '../data/site';
-import { BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
+import { TIERS, BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
 import a from '../content/accueil.json';
 import c from '../content/commun.json';
 import { faqLd, plain, rich, type Block } from '../lib';
 
 const faq = a.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
+
+// Aperçu de la calculette, sans prix : une équipe de 2 à 5 personnes avec trois briques cochées.
+const demoTier = 1;
+const demoOn = ['devis', 'factures', 'achats'];
 
 const software = {
   '@context': 'https://schema.org',
@@ -175,9 +179,19 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
           <p class="ct-bonus" set:html={rich(a.price.bonus)} />
           <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
         </div>
-        <div class="ct-right" aria-hidden="true">
-          {BRICKS.map((b) => <span class="ct-chip"><i><Icon name="check" size={14} /></i>{b.name}</span>)}
-          <span class="ct-all">{plain(a.price.allChip)}</span>
+        <div class="ct-mock" aria-hidden="true">
+          <div class="ct-top">
+            <span class="ct-label">{TIERS[demoTier].label} {TIERS[demoTier].sub}</span>
+            <span class="ct-count">{demoOn.length} briques sur {BRICKS.length}</span>
+          </div>
+          <ul class="ct-list">
+            {BRICKS.map((b) => (
+              <li class={demoOn.includes(b.id) ? 'on' : undefined}>
+                <i><Icon name={b.id} size={16} /></i>{b.name}<em></em>
+              </li>
+            ))}
+          </ul>
+          <p class="ct-all"><Icon name="check" size={16} />{plain(a.price.allChip)}</p>
         </div>
       </div>
       <p class="center small muted note" set:html={rich(a.price.note)} />
@@ -318,16 +332,28 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .sheet :global(li)::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--accent-bright); transform: rotate(45deg); }
   .out { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--accent-soft); font-weight: 650; font-size: .92rem; color: var(--accent); }
 
-  .calc-teaser { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: clamp(28px, 4vw, 48px); border-radius: 28px; background: var(--sand); border: 1px solid var(--border); }
-  .ct-steps { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 14px; font: 700 clamp(1.1rem, 1.9vw, 1.35rem)/1.2 var(--font-display); letter-spacing: -.02em; }
-  .ct-steps li { display: flex; align-items: center; gap: 14px; }
-  .ct-steps span { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--sun); color: #2A1206; display: grid; place-items: center; font-size: 1rem; }
-  .ct-bonus { margin-bottom: 24px; color: var(--ink-2); }
-  .ct-bonus :global(strong) { color: #B4542A; }
-  .ct-right { display: flex; flex-wrap: wrap; gap: 10px; align-content: center; background: #fff; border-radius: 22px; padding: 24px; box-shadow: var(--lift); }
-  .ct-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 9px; border-radius: 999px; background: var(--accent-soft); font-weight: 650; font-size: .93rem; }
-  .ct-chip i { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
-  .ct-all { flex-basis: 100%; margin-top: 6px; padding: 14px 18px; border-radius: 14px; background: var(--deep); color: #FFD3A8; font-weight: 700; text-align: center; }
+  .calc-teaser { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; padding: clamp(28px, 4vw, 52px); border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--lift); }
+  .ct-steps { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 22px; counter-reset: s; }
+  .ct-steps li { position: relative; display: flex; align-items: center; gap: 16px; font: 700 clamp(1.12rem, 1.8vw, 1.32rem)/1.25 var(--font-display); letter-spacing: -.015em; }
+  .ct-steps li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 34px; height: 22px; border-left: 2px dotted var(--border-strong); }
+  .ct-steps span { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); display: grid; place-items: center; font-size: .92rem; }
+  .ct-bonus { margin-bottom: 26px; color: var(--ink-2); }
+  .ct-bonus :global(strong) { color: var(--ink); }
+  .ct-mock { border-radius: 22px; background: var(--surface-2); padding: 22px; }
+  .ct-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .ct-label { font-size: .8rem; font-weight: 650; color: var(--ink-2); padding: 5px 11px; border-radius: 999px; background: var(--surface); }
+  .ct-count { font-size: .8rem; font-weight: 650; color: var(--accent); }
+  .ct-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ct-list li { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 12px; background: var(--surface); font-size: .9rem; font-weight: 600; color: var(--ink-2); border: 1.5px solid transparent; }
+  .ct-list li.on { color: var(--ink); border-color: var(--accent); }
+  .ct-list i { flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--surface-2); color: var(--ink-2); }
+  .ct-list li.on i { background: var(--accent); color: #fff; }
+  .ct-list em { margin-left: auto; flex: none; width: 30px; height: 18px; border-radius: 99px; background: var(--border-strong); position: relative; }
+  .ct-list em::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+  .ct-list li.on em { background: var(--accent); }
+  .ct-list li.on em::after { left: 14px; }
+  .ct-all { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; font-size: .86rem; font-weight: 650; color: var(--ink-2); }
+  .ct-all :global(svg) { flex: none; color: var(--sun-deep); }
   .note { margin-top: 20px; }
 
   @media (max-width: 1000px) {
@@ -351,7 +377,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .proofs { display: none; }
     .smart .checks, .perso .checks { display: none; }
     .perso .btns { margin-top: 14px; }
-    .ct-right { display: none; }
+    .ct-mock { display: none; }
     .head { margin-bottom: 26px; }
     /* les briques : deux colonnes de petites cartes, sans l'aperçu */
     .bricks { gap: 10px; }
@@ -376,11 +402,10 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .p-nav button :global(svg) { display: none; }
     .p-view { padding: 18px; }
     .p-label { font-size: 1.02rem; }
-    .calc-teaser { padding: 20px; border-radius: 20px; gap: 24px; }
-    .ct-steps { font-size: 1rem; gap: 10px; }
-    .ct-steps span { width: 32px; height: 32px; font-size: .9rem; }
-    .ct-right { padding: 16px; gap: 8px; border-radius: 16px; }
-    .ct-chip { font-size: .82rem; padding: 6px 12px 6px 6px; }
-    .ct-all { font-size: .9rem; padding: 11px 14px; }
+    .calc-teaser { padding: 22px; border-radius: 20px; }
+    .ct-steps { gap: 16px; }
+    .ct-steps li { font-size: 1rem; gap: 12px; }
+    .ct-steps span { width: 30px; height: 30px; font-size: .85rem; }
+    .ct-steps li:not(:last-child)::after { left: 14px; top: 30px; height: 16px; }
   }
 </style>

@@ -1,46 +1,110 @@
 ---
 import { FORM_ENDPOINT } from '../data/site';
+import { BRICKS } from '../data/pricing';
 import f from '../content/formulaire.json';
-import { rich } from '../lib';
+import { plain, rich } from '../lib';
+import Icon from './Icon.astro';
+// withConfig : formulaire de la page Tarifs, qui reçoit la configuration de la calculette.
+// Sans calculette, le formulaire demande en plus l'activité et les briques qui intéressent.
 interface Props { withConfig?: boolean }
 const { withConfig = false } = Astro.props;
 if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulaire de devis ne peut pas envoyer de demande.');
+const activityIcons = ['camion', 'magasin', 'equipe'];
 ---
-<form name="demande-devis" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT} data-off={f.errorDisabled} data-failed={f.errorFailed} class="form">
+<form name="demande-devis" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT} data-off={f.errorDisabled} data-failed={f.errorFailed} class="df">
   <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off" /></label></p>
   {withConfig && <input type="hidden" name="configuration" id="f-configuration" value="" />}
-  <div class="row">
-    <label>{f.name}
-      <input name="nom" type="text" autocomplete="name" required />
-    </label>
-    <label>{f.company}
-      <input name="societe" type="text" autocomplete="organization" required />
-    </label>
+
+  <div class="progress" aria-hidden="true">
+    <span class="p-label">{plain(f.progress)}</span>
+    <span class="p-count"><b data-count>0</b> / <span data-total>4</span></span>
+    <span class="p-bar"><i data-bar></i></span>
   </div>
-  <div class="row">
-    <label>{f.phone}
-      <input name="telephone" type="tel" autocomplete="tel" inputmode="tel" required />
-    </label>
-    <label>{f.email}
-      <input name="email" type="email" autocomplete="email" required />
-    </label>
-  </div>
-  <label>{f.message} <span class="opt">{f.optional}</span>
-    <textarea name="message" rows="3"></textarea>
-  </label>
-  <label class="check">
+
+  {!withConfig && (
+    <>
+      <fieldset class="group">
+        <legend>{plain(f.activityLabel)}</legend>
+        <div class="chips">
+          {f.activities.map((a, i) => (
+            <label class="chip">
+              <input type="radio" name="activite" value={plain(a)} />
+              <span><Icon name={activityIcons[i] ?? 'magasin'} size={18} />{plain(a)}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <fieldset class="group">
+        <legend>{plain(f.bricksLabel)} <span class="opt">{f.optional}</span></legend>
+        <div class="chips">
+          {BRICKS.map((b) => (
+            <label class="chip">
+              <input type="checkbox" name="briques" value={b.name} />
+              <span><Icon name={b.id} size={18} />{b.name}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </>
+  )}
+
+  <fieldset class="group">
+    <legend>{plain(f.contactLabel)}</legend>
+    <div class="grid2">
+      <label class="fl">
+        <input name="nom" type="text" autocomplete="name" placeholder=" " required />
+        <span>{f.name}</span><i class="ok"><Icon name="check" size={16} /></i>
+      </label>
+      <label class="fl">
+        <input name="societe" type="text" autocomplete="organization" placeholder=" " required />
+        <span>{f.company}</span><i class="ok"><Icon name="check" size={16} /></i>
+      </label>
+      <label class="fl">
+        <input name="telephone" type="tel" autocomplete="tel" inputmode="tel" placeholder=" " required />
+        <span>{f.phone}</span><i class="ok"><Icon name="check" size={16} /></i>
+      </label>
+      <label class="fl">
+        <input name="email" type="email" autocomplete="email" placeholder=" " required />
+        <span>{f.email}</span><i class="ok"><Icon name="check" size={16} /></i>
+      </label>
+      <label class="fl wide">
+        <textarea name="message" rows="3" placeholder=" "></textarea>
+        <span>{f.message} <em>{f.optional}</em></span>
+      </label>
+    </div>
+  </fieldset>
+
+  <label class="callback">
     <input name="rappel" type="checkbox" value="Oui" />
-    <span>{f.callback}</span>
+    <span class="cb-ic"><Icon name="telephone" size={18} /></span>
+    <span class="cb-txt">{f.callback}</span>
+    <em class="sw" aria-hidden="true"></em>
   </label>
-  <button class="btn btn-primary" type="submit">{f.button}</button>
+
+  <button class="btn btn-primary" type="submit">{f.button} <Icon name="arrow" size={18} /></button>
   <p class="status" role="alert" hidden></p>
-  <p class="small muted legal" set:html={rich(f.legal)} />
+  <p class="legal"><Icon name="cadenas" size={14} /><span set:html={rich(f.legal)} /></p>
 </form>
 
 <script>
   document.querySelectorAll<HTMLFormElement>('form[name="demande-devis"]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('.status')!;
     const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const required = [...form.querySelectorAll<HTMLInputElement>('input[required]')];
+    const count = form.querySelector<HTMLElement>('[data-count]')!;
+    const bar = form.querySelector<HTMLElement>('[data-bar]')!;
+    form.querySelector<HTMLElement>('[data-total]')!.textContent = String(required.length);
+
+    // Barre de progression : nombre de champs obligatoires correctement remplis.
+    const progress = () => {
+      const done = required.filter((i) => i.value.trim() && i.checkValidity()).length;
+      count.textContent = String(done);
+      bar.style.width = `${(done / required.length) * 100}%`;
+      form.classList.toggle('complete', done === required.length);
+    };
+    form.addEventListener('input', progress);
+    progress();
+
     const fail = (msg: string) => { status.textContent = msg; status.hidden = false; button.disabled = false; };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -59,20 +123,85 @@ if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulai
 </script>
 
 <style>
-  .form { display: grid; gap: 16px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  label { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
-  input, textarea {
-    font: 400 1rem var(--font-sans); color: var(--ink); background: var(--surface);
-    border: 1.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 12px 14px; width: 100%; min-height: 48px;
+  .df { position: relative; display: grid; gap: 26px; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 40px 80px -44px rgba(7, 52, 58, .5), var(--lift); }
+
+  /* Progression */
+  .progress { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 12px; }
+  .p-label { font: 740 1.15rem var(--font-display); letter-spacing: -.015em; }
+  .p-count { font-size: .85rem; font-weight: 650; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .p-count b { color: var(--accent); }
+  .p-bar { grid-column: 1 / -1; height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+  .p-bar i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--aqua), var(--accent)); transition: width .45s cubic-bezier(.2, .8, .2, 1), background .3s; }
+  .complete .p-bar i { background: linear-gradient(90deg, var(--accent), #0A7F5A); }
+
+  /* Groupes */
+  .group { margin: 0; padding: 0; border: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 12px; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+  .opt, legend .opt { text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+  /* Choix en pastilles */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chip span { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 11px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--surface); font-size: .92rem; font-weight: 600; color: var(--ink); transition: border-color .15s, background-color .15s, color .15s, transform .25s cubic-bezier(.34, 1.6, .5, 1); }
+  .chip span :global(svg) { color: var(--ink-2); transition: color .15s; }
+  .chip:hover span { border-color: var(--border-strong); }
+  .chip input:checked + span { border-color: var(--accent); background: var(--accent); color: #fff; transform: scale(1.03); }
+  .chip input:checked + span :global(svg) { color: #fff; }
+  .chip input:focus-visible + span { box-shadow: 0 0 0 4px rgba(17, 124, 131, .2); }
+
+  /* Champs à libellé flottant */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fl { position: relative; display: block; }
+  .fl.wide { grid-column: 1 / -1; }
+  .fl input, .fl textarea {
+    display: block; width: 100%; min-height: 62px; padding: 29px 44px 7px 16px;
+    font: 500 1rem var(--font-sans); color: var(--ink); background: #F5F9F9;
+    border: 1.5px solid transparent; border-radius: 14px; transition: border-color .15s, background-color .15s, box-shadow .15s;
   }
-  input:focus, textarea:focus { outline: 3px solid var(--aqua); outline-offset: 1px; border-color: var(--accent); }
-  .check { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; cursor: pointer; }
-  .check input { width: 20px; height: 20px; min-height: 0; padding: 0; margin-top: 2px; flex: none; accent-color: var(--accent); }
-  .opt { font-weight: 400; color: var(--ink-2); }
+  .fl textarea { min-height: 112px; resize: vertical; line-height: 1.5; padding-top: 31px; }
+  .fl > span { position: absolute; left: 17px; top: 20px; font-size: 1rem; color: var(--ink-2); pointer-events: none; transform-origin: left top; transition: transform .18s ease, color .18s ease; }
+  .fl > span em { font-style: normal; opacity: .75; }
+  .fl input:focus + span, .fl input:not(:placeholder-shown) + span,
+  .fl textarea:focus + span, .fl textarea:not(:placeholder-shown) + span { transform: translateY(-11px) scale(.74); font-weight: 650; }
+  .fl input:focus + span, .fl textarea:focus + span { color: var(--accent); }
+  .fl input:hover, .fl textarea:hover { border-color: var(--border); }
+  .fl input:focus, .fl textarea:focus { outline: none; background: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(17, 124, 131, .12); }
+  .fl input:user-invalid { border-color: #D4687C; background: #FDF4F6; }
+  .ok { position: absolute; right: 14px; top: 50%; width: 24px; height: 24px; margin-top: -12px; border-radius: 50%; display: grid; place-items: center; background: #0A7F5A; color: #fff; opacity: 0; transform: scale(.4); transition: opacity .2s, transform .3s cubic-bezier(.34, 1.8, .5, 1); pointer-events: none; }
+  .fl input:valid:not(:placeholder-shown) ~ .ok { opacity: 1; transform: none; }
+
+  /* Rappel */
+  .callback { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; border: 1.5px dashed var(--border-strong); cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .callback:hover { border-color: var(--accent); }
+  .callback:has(input:checked) { border-style: solid; border-color: var(--accent); background: #F3FAFA; }
+  .callback:has(input:focus-visible) { box-shadow: 0 0 0 4px rgba(17, 124, 131, .2); }
+  .callback input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .cb-ic { flex: none; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--sun-soft); color: var(--sun-deep); transition: background-color .15s, color .15s, transform .35s cubic-bezier(.34, 1.8, .5, 1); }
+  .callback:has(input:checked) .cb-ic { background: var(--accent); color: #fff; transform: rotate(-12deg); }
+  .cb-txt { flex: 1; font-size: .92rem; line-height: 1.4; font-weight: 550; }
+  .sw { flex: none; width: 44px; height: 26px; border-radius: 99px; background: var(--border-strong); position: relative; transition: background-color .2s; }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(7, 52, 58, .3); transition: transform .25s cubic-bezier(.34, 1.5, .5, 1); }
+  .callback:has(input:checked) .sw { background: var(--accent); }
+  .callback:has(input:checked) .sw::after { transform: translateX(18px); }
+
+  /* Envoi */
+  button { width: 100%; min-height: 58px; font-size: 1.05rem; }
+  .complete button { animation: ready .6s ease; }
+  @keyframes ready { 40% { transform: scale(1.03); } }
+  button:disabled { opacity: .6; cursor: wait; transform: none; }
+  .status { margin: -10px 0 0; padding: 12px 14px; border-radius: 12px; background: #FCE8EC; color: #A3243C; font-weight: 600; font-size: .92rem; }
+  .legal { margin: -10px 0 0; display: flex; justify-content: center; align-items: flex-start; gap: 7px; color: var(--ink-2); font-size: .8rem; line-height: 1.5; text-align: center; }
+  .legal :global(svg) { flex: none; margin-top: 3px; }
   .hp { position: absolute; left: -9999px; }
-  .legal { margin: 0; }
-  .status { margin: 0; color: #C23A52; font-weight: 600; }
-  button { justify-self: start; }
-  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .df *, .df *::after { transition: none !important; animation: none !important; }
+  }
+  @media (max-width: 560px) {
+    .df { gap: 22px; padding: 20px 16px; border-radius: 22px; }
+    .grid2 { grid-template-columns: 1fr; }
+    .chip span { font-size: .86rem; padding: 8px 12px 8px 9px; }
+    .cb-ic { display: none; }
+  }
 </style>
