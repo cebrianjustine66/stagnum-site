@@ -1,15 +1,35 @@
 # Modifier le contenu du site
 
-Le contenu du site se modifie dans une interface d'édition, sans toucher au code.
+## L'éditeur visuel (/edition)
 
-## Ouvrir l'interface
+On modifie le site directement sur ses pages, sans code à retenir.
+
+- **En ligne** : ouvrir `https://<adresse du site>/edition` et se connecter avec son compte GitHub (une seule fois).
+- **Sur cet ordinateur** : lancer `npm run dev`, puis ouvrir http://127.0.0.1:4321/edition.
+
+Comment s'en servir :
+
+1. **Choisir la page** avec le menu « Page » en haut, ou en cliquant sur les liens du site.
+2. **Cliquer sur un texte** pour l'écrire directement. Une petite barre apparaît au-dessus : *Surligner* (le trait orange des titres), *Lien*, *Insérer* (nombre de jours d'essai, nombre de briques…, qui se mettent à jour tout seuls).
+3. **Survoler un élément d'une liste** (arguments, questions fréquentes, étapes…) pour l'*ajouter*, le *déplacer* ou le *retirer*.
+4. **Le panneau de droite** montre tous les champs de la page, y compris ceux qu'on ne voit pas à l'écran : référencement Google, blocs supplémentaires, réglages. L'onglet *Tout le site* regroupe le menu, les boutons, le formulaire et les prix.
+5. **Publier** (en ligne) ou **Enregistrer** (sur l'ordinateur). En ligne, le site se met à jour tout seul en une à deux minutes.
+
+Les modifications non publiées restent gardées dans le navigateur, même si on ferme la page.
+Si quelqu'un a modifié la même rubrique entre-temps, l'éditeur prévient au lieu d'écraser son travail.
+
+Ce que l'éditeur visuel ne fait pas encore : le texte des **articles du blog** et les **photos de l'équipe**. Pour ceux-là, utiliser l'ancien éditeur décrit ci-dessous (/keystatic).
+
+## L'ancien éditeur (/keystatic)
+
+### Ouvrir l'interface
 
 1. Dans le dossier du site, lancer `npm run dev`.
 2. Ouvrir http://127.0.0.1:4321/keystatic dans le navigateur.
 
 Le site lui-même est visible à côté, sur http://127.0.0.1:4321/ : chaque enregistrement s'y voit tout de suite.
 
-## Ce qui se modifie
+### Ce qui se modifie
 
 Le menu de gauche suit l'organisation du site. Dans chaque page, les sections sont numérotées dans l'ordre où elles apparaissent à l'écran, et l'icône ↗ en haut à droite ouvre la page correspondante du site.
 
@@ -33,7 +53,7 @@ Le menu de gauche suit l'organisation du site. Dans chaque page, les sections so
 
 Chaque page a aussi une section **Référencement (Google)** : le titre et la description affichés dans les résultats de recherche.
 
-## Créer un article
+### Créer un article
 
 1. **Articles** → bouton « + ».
 2. Saisir le titre (l'adresse se remplit toute seule) et le résumé.
@@ -42,7 +62,7 @@ Chaque page a aussi une section **Référencement (Google)** : le titre et la de
 
 Le thème, la date, le temps de lecture, l'icône et la couleur ont une valeur par défaut.
 
-## Trois écritures à connaître
+### Trois écritures à connaître
 
 - `*un passage*` entre astérisques : le passage est surligné, comme dans les titres actuels.
 - `[texte du lien](/tarifs/)` : un lien.
@@ -50,7 +70,7 @@ Le thème, la date, le temps de lecture, l'icône et la couleur ont une valeur p
 
 L'aide sous chaque champ rappelle ce qui s'applique.
 
-## Ajouter des blocs
+### Ajouter des blocs
 
 En bas des pages Accueil, Tarifs, Comparatif et de chaque page de fonctionnalité, la rubrique **Blocs supplémentaires** permet d'empiler des sections : bouton « Ajouter », puis choisir le type.
 
@@ -64,7 +84,7 @@ En bas des pages Accueil, Tarifs, Comparatif et de chaque page de fonctionnalit�
 
 Les blocs se glissent pour changer d'ordre et s'affichent en bas de la page, avec les couleurs du site.
 
-## Ce qui ne se modifie pas dans l'interface
+### Ce qui ne se modifie pas dans l'interface
 
 - **Les démonstrations animées** (écrans de l'application en haut des pages, mini-aperçus des briques, fenêtre de réglages de l'accueil) : ce sont des animations programmées.
 - **Les phrases calculées de la calculette** (« Soit 240 € HT par mois pour vos 2 magasins », économie réalisée…) : elles sont composées avec les montants.
@@ -74,7 +94,7 @@ Les blocs se glissent pour changer d'ordre et s'affichent en bas de la page, ave
 
 Pour ces points, il faut passer par le code.
 
-## En local ou en ligne
+### En local ou en ligne
 
 - **Sur cet ordinateur** (`npm run dev`) : l'interface enregistre dans les fichiers du dossier (`src/content/`). Il reste à les envoyer sur GitHub (« commit » puis « push »), avec GitHub Desktop ou Claude Code.
 - **En ligne** (`https://<adresse du site>/keystatic`) : on se connecte avec son compte GitHub, et chaque enregistrement part directement dans GitHub. Vercel reconstruit alors le site tout seul, en une à deux minutes.

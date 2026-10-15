@@ -48,9 +48,12 @@ const LINK = 'Un lien s’écrit [texte du lien](/adresse/).';
 const TRIAL = '{essai} est remplacé par le nombre de jours d’essai.';
 const COUNT = '{nb_briques} et {toutes} sont remplacés par le nombre de briques, en chiffres et en lettres.';
 
+// Champ texte qui retient s'il tient sur plusieurs lignes : l'éditeur visuel (src/edition/) en a besoin.
+const textField: typeof fields.text = (opts: any) => Object.assign(fields.text(opts), { multiline: !!opts?.multiline }) as any;
+
 // Raccourcis : une ligne de texte, un texte long, une icône, une couleur.
-const text = (label: string, description?: string) => fields.text({ label, description });
-const long = (label: string, description?: string) => fields.text({ label, description, multiline: true });
+const text = (label: string, description?: string) => textField({ label, description });
+const long = (label: string, description?: string) => textField({ label, description, multiline: true });
 const icon = (defaultValue = 'check') => fields.select({ label: 'Icône', options: ICONS, defaultValue });
 const color = (defaultValue = '#E1F3F1') => fields.select({ label: 'Couleur de l’icône', options: COLORS, defaultValue });
 const group = <T extends Parameters<typeof fields.object>[0]>(label: string, schema: T, description?: string) =>
@@ -76,7 +79,7 @@ const faq = (label = 'Questions fréquentes') =>
   );
 
 const list = (label: string, description?: string) =>
-  fields.array(fields.text({ label: 'Ligne' }), { label, description, itemLabel: (p) => p.value || 'Nouvelle ligne' });
+  fields.array(textField({ label: 'Ligne' }), { label, description, itemLabel: (p) => p.value || 'Nouvelle ligne' });
 
 const links = (label: string, description?: string) =>
   fields.array(
@@ -95,8 +98,8 @@ const blocks = () =>
         label: 'Texte : un titre et des paragraphes',
         itemLabel: (p) => `Texte · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
-          text: fields.text({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
+          title: textField({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
+          text: textField({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
           background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'clair' }),
         }),
       },
@@ -104,7 +107,7 @@ const blocks = () =>
         label: 'Liste à coches',
         itemLabel: (p) => `Liste · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
+          title: textField({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
           intro: long('Phrase d’introduction (facultatif)'),
           items: list('Points de la liste', LINK),
           background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'sable' }),
@@ -130,7 +133,7 @@ const blocks = () =>
         label: 'Étapes numérotées : des ronds reliés par une ligne',
         itemLabel: (p) => `Étapes · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
+          title: textField({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
           steps: fields.array(
             fields.object({
               title: text('Titre de l’étape', 'Le numéro s’ajoute tout seul.'),
@@ -144,8 +147,8 @@ const blocks = () =>
         label: 'Équipe : un texte et les cartes des membres, qui se retournent au clic',
         itemLabel: (p) => `Équipe · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({ label: 'Titre', description: HL, defaultValue: 'Qui est *derrière Stagnum* ?' }),
-          text: fields.text({ label: 'Texte', description: `Les membres, leurs photos et leurs présentations se règlent dans « Qui sommes-nous ». ${LINK}`, multiline: true }),
+          title: textField({ label: 'Titre', description: HL, defaultValue: 'Qui est *derrière Stagnum* ?' }),
+          text: textField({ label: 'Texte', description: `Les membres, leurs photos et leurs présentations se règlent dans « Qui sommes-nous ». ${LINK}`, multiline: true }),
           button: text('Texte du bouton (facultatif)'),
           href: text('Adresse du bouton', 'Exemple : /a-propos/'),
         }),
@@ -154,7 +157,7 @@ const blocks = () =>
         label: 'Appel à l’action : bandeau avec les deux boutons',
         itemLabel: (p) => `Appel à l’action · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({
+          title: textField({
             label: 'Titre',
             description: 'Le bandeau turquoise avec les boutons « Calculer mon tarif » et « Demander un devis ».',
             defaultValue: 'Voyez ce que Stagnum coûterait pour votre magasin',
@@ -165,7 +168,7 @@ const blocks = () =>
         label: 'Questions fréquentes',
         itemLabel: (p) => `Questions · ${p.fields.title.value}`,
         schema: fields.object({
-          title: fields.text({ label: 'Titre', defaultValue: 'Questions fréquentes' }),
+          title: textField({ label: 'Titre', defaultValue: 'Questions fréquentes' }),
           items: faq('Questions'),
         }),
       },
@@ -240,13 +243,13 @@ export default config({
           name: { label: 'Titre de l’article', validation: { isRequired: true } },
           slug: { label: 'Adresse de l’article', description: 'Remplie toute seule à partir du titre. Évitez de la changer après publication.' },
         }),
-        description: fields.text({
+        description: textField({
           label: 'Résumé',
           description: 'Une ou deux phrases, environ 150 caractères. Affiché sous le titre, dans la liste du blog et dans Google.',
           multiline: true,
           validation: { isRequired: true },
         }),
-        tag: fields.text({ label: 'Thème', description: 'Un seul mot : Factures, Chantiers, Magasin, Devis…', defaultValue: 'Gestion', validation: { isRequired: true } }),
+        tag: textField({ label: 'Thème', description: 'Un seul mot : Factures, Chantiers, Magasin, Devis…', defaultValue: 'Gestion', validation: { isRequired: true } }),
         date: fields.date({ label: 'Date de publication', defaultValue: { kind: 'today' }, validation: { isRequired: true } }),
         minutes: fields.integer({ label: 'Temps de lecture (minutes)', defaultValue: 4, validation: { isRequired: true, min: 1 } }),
         icon: fields.select({ label: 'Icône', description: 'Affichée dans « À lire aussi ».', options: ICONS, defaultValue: 'devis' }),
@@ -297,7 +300,7 @@ export default config({
           ],
           defaultValue: 'aucune',
         }),
-        h1: fields.text({ label: 'Grand titre', validation: { isRequired: true } }),
+        h1: textField({ label: 'Grand titre', validation: { isRequired: true } }),
         lead: long('Texte d’introduction'),
         voice: group(
           'Exemple à la voix',
@@ -320,8 +323,8 @@ export default config({
         blocks: blocks(),
         order: fields.integer({ label: 'Position dans le menu', description: 'Les pages sont rangées du plus petit au plus grand nombre.', defaultValue: 99 }),
         withBricks: text('Précision dans le menu (atouts)', 'Exemple : Avec la brique Factures.'),
-        title: fields.text({ label: 'Titre pour Google', description: 'Environ 60 caractères, terminé par « | Stagnum ».', validation: { isRequired: true } }),
-        description: fields.text({ label: 'Description pour Google', description: 'Environ 150 caractères.', multiline: true, validation: { isRequired: true } }),
+        title: textField({ label: 'Titre pour Google', description: 'Environ 60 caractères, terminé par « | Stagnum ».', validation: { isRequired: true } }),
+        description: textField({ label: 'Description pour Google', description: 'Environ 150 caractères.', multiline: true, validation: { isRequired: true } }),
       },
     }),
   },

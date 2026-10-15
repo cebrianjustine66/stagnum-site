@@ -18,6 +18,13 @@ export const prerender = false;
   <body>
     <Editor client:only="react" />
     <script is:inline>
+      // Retour vers le nouvel éditeur (/edition) après la connexion GitHub.
+      if (document.cookie.split('; ').includes('edition-retour=1')) {
+        document.cookie = 'edition-retour=; path=/; max-age=0';
+        location.replace('/edition');
+      }
+    </script>
+    <script is:inline>
       // Keystatic laisse quelques boutons en anglais : on les traduit à l'affichage.
       const FR = {
         Add: 'Ajouter',
