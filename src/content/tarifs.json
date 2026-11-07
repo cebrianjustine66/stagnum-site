@@ -2,7 +2,7 @@
   "breadcrumb": "Tarifs",
   "hero": {
     "title": "Votre prix, *en une minute*",
-    "lead": "Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche."
+    "lead": "Un prix par magasin, pas par utilisateur. Quatre questions, et votre montant s’affiche. Il ne bouge pas après la première année."
   },
   "steps": {
     "team": "Combien êtes-vous ?",
@@ -62,6 +62,12 @@
         "title": "{essai} jours d’essai",
         "text": "Gratuits, avant tout engagement.",
         "color": "#DDF2F3"
+      },
+      {
+        "icon": "check",
+        "title": "Prix garanti",
+        "text": "Il ne bouge pas après la première année.",
+        "color": "#E1F3F1"
       }
     ]
   },
@@ -97,6 +103,14 @@
       "a": "Après {essai} jours d’essai gratuit, l’engagement minimum est de 3 mois. En vous engageant 6 mois, vous payez 10 % de moins ; sur 12 mois, 20 % de moins."
     },
     {
+      "q": "Le prix augmente-t-il après la première année ?",
+      "a": "Non. Votre prix est garanti : il reste le même après la première année."
+    },
+    {
+      "q": "La facture électronique est-elle en supplément ?",
+      "a": "Non. Elle fait partie de la brique Factures, prête pour l’obligation de septembre 2027."
+    },
+    {
       "q": "La base clients et la voix sont-elles payantes ?",
       "a": "Non. La base clients vient avec les briques qui l’utilisent, et la voix est présente dans chaque brique. Les relances de paiement font partie de la brique Factures, et l’application mobile de la brique Chantiers."
     },
@@ -112,6 +126,6 @@
   "blocks": [],
   "seo": {
     "title": "Tarifs Stagnum : prix du logiciel pour pisciniste",
-    "description": "Calculez en une minute le prix de Stagnum pour votre magasin de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
+    "description": "Calculez en une minute le prix de Stagnum pour votre entreprise de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
   }
 }
