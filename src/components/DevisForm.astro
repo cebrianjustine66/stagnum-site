@@ -110,9 +110,21 @@ const activityIcons = ['camion', 'chantiers', 'magasin', 'equipe'];
       e.preventDefault();
       const endpoint = form.dataset.endpoint;
       if (!endpoint) return fail(form.dataset.off!);
+      // Champ piège rempli : c'est un robot, on fait comme si tout allait bien sans rien envoyer.
+      if ((form.querySelector<HTMLInputElement>('[name="site-web"]')?.value ?? '').trim()) { window.location.href = '/merci/'; return; }
       button.disabled = true;
+      // Envoi en formulaire classique (une valeur par champ) : le webhook n8n le lit sans réglage
+      // et le navigateur n'a pas de requête préalable à faire. Les briques cochées sont réunies en une liste.
+      const data = new FormData(form);
+      const body = new URLSearchParams();
+      for (const key of new Set(data.keys())) {
+        if (key === 'site-web') continue;
+        body.set(key, data.getAll(key).map(String).join(', '));
+      }
+      if (!body.has('rappel')) body.set('rappel', 'Non');
+      body.set('page', location.pathname);
       try {
-        const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const res = await fetch(endpoint, { method: 'POST', body, headers: { Accept: 'application/json' } });
         if (!res.ok) throw new Error(String(res.status));
         window.location.href = '/merci/';
       } catch {
