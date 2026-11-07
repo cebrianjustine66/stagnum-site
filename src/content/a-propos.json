@@ -9,14 +9,14 @@
     "points": [
       "Un logiciel fait uniquement pour les piscinistes",
       "Une équipe à l’écoute de ceux qui l’utilisent",
-      "Un assistant qui fait la saisie à votre place"
+      "Un assistant qui fait l’essentiel de la saisie"
     ],
     "button": "Demander un devis",
     "href": "/demande-de-devis/",
     "items": [
       {
-        "title": "Un métier délaissé",
-        "text": "Les piscinistes sont peu servis par les éditeurs de logiciels. Il existe peu d’outils faits pour eux, alors que leur métier mêle chantiers, magasin, stock et analyse d’eau."
+        "title": "Des outils pensés pour des bureaux",
+        "text": "Les logiciels proposés aux piscinistes sont lourds et compliqués, alors que leur métier mêle chantiers, entretien, magasin, stock et analyse d’eau, et se passe surtout sur le terrain."
       },
       {
         "title": "Des outils qui ont vieilli",
@@ -24,7 +24,7 @@
       },
       {
         "title": "Plus qu’un logiciel : un assistant",
-        "text": "Nous voulons changer le quotidien des piscinistes. Un logiciel classique attend que vous le remplissiez ; Stagnum fait la saisie à votre place."
+        "text": "Nous voulons changer le quotidien des piscinistes. Les autres logiciels vous donnent du travail. Stagnum vous en enlève."
       },
       {
         "title": "Vous décidez, il prépare",
@@ -89,7 +89,7 @@
         "icon": "magasin",
         "color": "#F3EDE2",
         "title": "Un prix clair",
-        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos briques."
+        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos briques, et le prix ne bouge pas après la première année."
       },
       {
         "icon": "reglages",
