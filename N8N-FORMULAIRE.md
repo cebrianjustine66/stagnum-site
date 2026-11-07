@@ -29,60 +29,37 @@ Les robots (champ piège rempli) sont filtrés par le site : ils n'arrivent jama
 - HTTP Method : **POST**
 - Options → **Allowed Origins (CORS)** : `https://stagnum.fr,https://www.stagnum.fr,https://*.vercel.app`
   (sans ça, le navigateur bloque l'envoi)
-- Respond : **When Last Node Finishes** (ou un nœud *Respond to Webhook*) avec un **code 200**.
+- Respond : **Using 'Respond to Webhook' Node**, avec ce nœud en dernier et un **code 200**,
+  pour que le site n'affiche « Merci » qu'une fois la fiche bien créée dans le CRM.
   Le site affiche la page « Merci » seulement si la réponse est 2xx ; sinon il affiche
   « L'envoi a échoué ».
 
 Les champs arrivent dans `{{$json.body.nom}}`, `{{$json.body.societe}}`, etc.
 
-## 3. Écriture dans le CRM de l'app interne
+## 3. Écriture dans le CRM de l'app interne : l'API prospects
 
-L'app interne stocke tout dans **Supabase**, table `stagnum_kv` (colonnes `key`, `value` jsonb,
-`updated_at`). Un enregistrement par élément, avec une clé `collection/id`.
-Utiliser le nœud Supabase (ou HTTP Request vers `/rest/v1/stagnum_kv` avec l'en-tête
-`Prefer: resolution=merge-duplicates`) pour insérer **trois lignes** :
+Ne pas écrire directement dans Supabase : l'app interne a une API qui crée les fiches au
+bon format, repère les doublons et garde la clé secrète côté serveur.
+Détail complet : `API-PROSPECTS.md` dans le dossier de l'app interne.
 
-Générer un `id` court et unique par élément (l'app utilise
-`Date.now().toString(36) + Math.random().toString(36).slice(2,7)`).
+Nœud **HTTP Request**, juste après le Webhook :
+- Method : `POST`
+- URL : `https://stagnum.netlify.app/api/prospects`
+- Authentication : *Generic Credential Type → Header Auth*,
+  nom `Authorization`, valeur `Bearer <STAGNUM_API_TOKEN>` (jeton fourni à part)
+- Send Body : *JSON → Using JSON* : `{{ JSON.stringify($json.body) }}`
 
-**Entreprise** — clé `companies/<id>`
-```json
-{
-  "id": "<id>",
-  "name": "<societe>",
-  "type": "Installateur si activite = Indépendant ou Entreprise sans magasin, sinon Magasin",
-  "city": "", "dept": "", "size": "", "parentId": "", "owners": [],
-  "doNotContact": false,
-  "stage": "À contacter",
-  "nextAction": "Rappeler : demande de devis du site",
-  "nextDate": "<date du jour, AAAA-MM-JJ>",
-  "lostReason": "", "lostFrom": "",
-  "phone": "<telephone>",
-  "source": "Site web"
-}
-```
+Réponse : `{"ok": true, "nouvelle_entreprise": …, "entreprise": {…}}`. En cas d'erreur, le
+champ `erreur` dit pourquoi (jeton, champ manquant, base indisponible).
 
-**Contact** — clé `contacts/<id>`
-```json
-{ "id": "<id>", "companyId": "<id de l'entreprise>", "name": "<nom>", "role": "",
-  "phone": "<telephone>", "email": "<email>", "decider": true }
-```
-
-**Échange** — clé `exchanges/<id>`
-```json
-{ "id": "<id>", "companyId": "<id de l'entreprise>", "kind": "Mail",
-  "date": "<date du jour>", "time": "", "people": [],
-  "text": "Demande de devis depuis le site (<page>).\nActivité : <activite>\nBriques : <briques>\nCalculette : <configuration>\nÀ rappeler : <rappel>\nMessage : <message>" }
-```
-
-Valeurs possibles, pour mémoire : types `Magasin`, `Réseau`, `Installateur`, `Fabricant` ;
-types d'échange `Visite`, `Appel`, `Mail`, `Démo`, `Salon`, `Autre`.
-
-Doublons : le formulaire ne demande pas la ville, donc l'app ne peut pas repérer seule un
-doublon (elle compare nom + ville). Option : chercher d'abord une entreprise au même nom
-dans `stagnum_kv` (clé `companies/%`) et, si elle existe, ajouter seulement le contact et l'échange.
+Ce qui est créé : une entreprise « À contacter » avec la prochaine action
+« Rappeler : demande de devis du site » pour aujourd'hui (réutilisée si elle existe déjà),
+un contact et un échange « Mail » qui reprend toute la demande.
 
 ## 4. Les deux e-mails
+
+Placés après l'API. Les champs du formulaire se reprennent depuis le Webhook, par exemple
+`{{ $('Webhook').item.json.body.societe }}` ou `{{ $('Webhook').item.json.body.email }}`.
 
 **À l'équipe** (alerte interne)
 - Objet : `Nouvelle demande de devis : <societe>` (ajouter `— à rappeler` si `rappel = Oui`)
