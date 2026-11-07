@@ -45,6 +45,18 @@
         "label": "Essai",
         "us": "{essai} jours gratuits",
         "them": "Essai gratuit proposé"
+      },
+      {
+        "icon": "devis",
+        "label": "Saisie par l’IA et la voix",
+        "us": "Dans chaque brique",
+        "them": "Non mentionnées sur son site"
+      },
+      {
+        "icon": "eau",
+        "label": "Analyse d’eau",
+        "us": "Une brique dédiée",
+        "them": "Non mentionnée sur sa page piscine"
       }
     ],
     "source": "Informations sur Extrabat relevées sur extrabat.com le {date}. Elles peuvent avoir changé : vérifiez-les auprès de l’éditeur. Extrabat est une marque de son propriétaire, sans lien avec Stagnum.",
@@ -64,7 +76,7 @@
         "icon": "equipe",
         "color": "#FBE6D2",
         "title": "Votre équipe grossit en saison",
-        "text": "Le prix par magasin ne bouge pas quand vous embauchez un saisonnier."
+        "text": "Le prix par magasin ne bouge pas quand vous embauchez un saisonnier, ni après la première année."
       },
       {
         "icon": "reglages",
@@ -95,6 +107,10 @@
       {
         "title": "Vous tenez à un éditeur installé de longue date",
         "text": "qui annonce plus de 41 000 utilisateurs et des formations certifiées."
+      },
+      {
+        "title": "Votre réseau vous l’impose",
+        "text": "puisqu’Extrabat se dit adopté par la plupart des réseaux de pisciniers."
       }
     ]
   },
@@ -119,7 +135,7 @@
   "faq": [
     {
       "q": "Quelle est la principale différence entre Stagnum et Extrabat ?",
-      "a": "Extrabat est un logiciel de gestion pour cinq métiers du bâtiment, dont la piscine, facturé par utilisateur. Stagnum est conçu uniquement pour les piscinistes, fait la saisie à votre place et se paie par magasin."
+      "a": "Extrabat est un logiciel de gestion pour cinq métiers du bâtiment, dont la piscine, facturé par utilisateur. Stagnum est conçu uniquement pour les piscinistes, fait l’essentiel de la saisie à votre place et se paie par magasin."
     },
     {
       "q": "Stagnum est-il moins cher qu’Extrabat ?",
