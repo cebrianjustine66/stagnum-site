@@ -9,7 +9,7 @@ import Icon from './Icon.astro';
 interface Props { withConfig?: boolean }
 const { withConfig = false } = Astro.props;
 if (!FORM_ENDPOINT) console.warn('[stagnum] FORM_ENDPOINT est vide : le formulaire de devis ne peut pas envoyer de demande.');
-const activityIcons = ['camion', 'magasin', 'equipe'];
+const activityIcons = ['camion', 'chantiers', 'magasin', 'equipe'];
 ---
 <form name="demande-devis" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT} data-off={f.errorDisabled} data-failed={f.errorFailed} class="df">
   <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off" /></label></p>
