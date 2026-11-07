@@ -10,6 +10,7 @@
   "activityLabel": "Vous êtes",
   "activities": [
     "Indépendant",
+    "Entreprise sans magasin",
     "Un magasin",
     "Plusieurs magasins"
   ],

@@ -373,7 +373,7 @@ const examples = t.examples.items.map((x) => {
 
   .incl-section { padding-top: 0; }
   .incl-section h2 { margin-bottom: 32px; }
-  .incl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
+  .incl { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: #fff; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--lift); overflow: hidden; }
   .incl li { padding: 28px 24px; border-right: 1px solid var(--border); transition: background-color .25s ease; }
   .incl li:last-child { border-right: 0; }
   .i-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--c); color: var(--deep); margin-bottom: 16px; }
@@ -407,9 +407,10 @@ const examples = t.examples.items.map((x) => {
     .s-body { padding: 0 14px 0 0; background: var(--grad-deep); align-self: stretch; align-content: center; }
     .s-body .btn { width: auto; margin: 0; min-height: 44px; padding: 8px 16px; font-size: .9rem; }
     .tiers { grid-template-columns: repeat(3, 1fr); }
-    .incl { grid-template-columns: 1fr 1fr; }
-    .incl li:nth-child(2) { border-right: 0; }
-    .incl li:nth-child(-n + 2) { border-bottom: 1px solid var(--border); }
+    .incl { grid-template-columns: 1fr 1fr; grid-auto-flow: row; }
+    .incl li:nth-child(2n) { border-right: 0; }
+    .incl li:not(:last-child) { border-bottom: 1px solid var(--border); }
+    .incl li:last-child:nth-child(odd) { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) {
     .step { padding: 22px; }

@@ -10,7 +10,7 @@
     }
   },
   "cta": {
-    "title": "Voyez ce que Stagnum coûterait pour votre magasin",
+    "title": "Voyez ce que Stagnum coûterait pour votre entreprise",
     "lead": "Choisissez vos briques, obtenez votre prix en moins d’une minute, puis essayez gratuitement pendant {essai} jours."
   },
   "faq": {
@@ -30,7 +30,7 @@
     "readTime": "min de lecture",
     "published": "Publié le",
     "tocTitle": "Dans cet article",
-    "sideTitle": "Moins de saisie, plus de piscines.",
+    "sideTitle": "Moins de paperasse, plus de piscines.",
     "sideText": "Essayez Stagnum gratuitement pendant {essai} jours.",
     "moreTitle": "À lire aussi"
   }

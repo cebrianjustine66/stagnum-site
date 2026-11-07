@@ -1,12 +1,11 @@
 {
   "hero": {
-    "title": "L’assistant *intelligent* des piscinistes",
-    "lead": "Le logiciel de gestion qui fait la saisie à votre place : devis, factures, achats, chantiers, caisse, stock et analyse d’eau. Et il se règle à votre façon.",
+    "title": "L’assistant *des piscinistes*",
+    "lead": "Le logiciel de gestion qui vous mâche le travail : devis, factures, passages d’entretien, analyses d’eau, chantiers, stock et caisse. Vous saisissez une fois, Stagnum s’occupe du reste. Fini la paperasse le soir.",
     "proofs": [
       "Un prix par magasin",
       "Utilisateurs illimités",
-      "Sans ressaisie",
-      "{essai} jours d’essai offert"
+      "Sans ressaisie"
     ]
   },
   "bricks": {
@@ -15,11 +14,11 @@
     "more": "Voir la démonstration"
   },
   "smart": {
-    "title": "Il fait la saisie, *vous décidez*",
-    "lead": "Un logiciel de gestion classique attend que vous le remplissiez. Stagnum le remplit pour vous, et vous choisissez ce qu’il fait tout seul.",
+    "title": "Il prépare, *vous décidez*",
+    "lead": "Les autres logiciels vous donnent du travail. Stagnum vous en enlève, et vous choisissez ce qu’il fait tout seul.",
     "points": [
       "Une information se donne une seule fois",
-      "L’intelligence artificielle travaille en arrière-plan, sans réglages",
+      "L’intelligence artificielle travaille en coulisses, rien à paramétrer",
       "Au clavier ou [à la voix](/pilotage-vocal/) : c’est vous qui choisissez"
     ],
     "flows": [
@@ -30,7 +29,7 @@
       },
       {
         "icon": "devis",
-        "you": "Vous décrivez un besoin en une phrase",
+        "you": "Vous décrivez un chantier en une phrase",
         "it": "Le devis est prêt à relire"
       },
       {
@@ -42,39 +41,44 @@
         "icon": "chantiers",
         "you": "Vous notez deux heures de plus",
         "it": "La marge du chantier est recalculée"
+      },
+      {
+        "icon": "eau",
+        "you": "Vous entrez les mesures d’un bassin",
+        "it": "Le traitement est proposé, à valider"
       }
     ]
   },
   "perso": {
     "title": "Réglé *à votre façon*",
-    "lead": "Deux piscinistes ne travaillent jamais pareil. Chaque brique se règle selon vos habitudes : vous décidez une fois, Stagnum suit.",
+    "lead": "Deux piscinistes ne travaillent jamais pareil. Chaque brique se règle selon vos habitudes : vous décidez une fois, Stagnum suit. Le délai de vos relances, vos valeurs d’eau idéales, la présentation de vos devis.",
     "points": [
-      "Des réglages simples, sans technicien",
+      "Des réglages simples, sans appeler un technicien",
       "Modifiables quand vous voulez",
-      "Inclus dans chaque brique"
+      "Inclus dans chaque brique, sans supplément"
     ],
     "button": "Voir ce qui se règle"
   },
   "price": {
     "title": "Un prix par magasin, *pas par utilisateur*",
-    "lead": "Pas de formule imposée : votre prix se calcule selon ce que vous utilisez.",
+    "lead": "Pas de formule imposée : vous payez les briques que vous utilisez, et toute l’équipe s’en sert, saisonniers compris.",
     "steps": [
       "Vous indiquez la taille de votre équipe",
       "Vous cochez vos briques",
       "Votre prix s’affiche"
     ],
-    "bonus": "**Prix préférentiel** si vous prenez les {toutes} briques.",
+    "bonus": "**Prix préférentiel** si vous prenez les {toutes} briques. **Prix garanti** : il ne bouge pas après la première année.",
     "note": "Vous utilisez un autre logiciel ? [Comparez Stagnum et Extrabat](/alternative-extrabat/).",
     "allChip": "Les {toutes} briques : prix préférentiel"
   },
   "faq": [
     {
       "q": "Qu’est-ce que Stagnum ?",
-      "a": "Stagnum est un logiciel de gestion conçu uniquement pour les piscinistes. C’est un assistant intelligent : il prépare vos devis, vos factures et leurs relances, vos achats, le suivi de vos chantiers, la caisse, le stock et les analyses d’eau, et vous validez."
+      "a": "Stagnum est un logiciel de gestion conçu uniquement pour les piscinistes. Il prépare vos devis, vos factures et leurs relances, vos achats, le suivi de vos chantiers et de vos passages d’entretien, la caisse, le stock et les analyses d’eau, et vous validez."
     },
     {
       "q": "Qu’est-ce qu’il a d’intelligent ?",
-      "a": "Il fait la saisie à votre place. Vous déposez un bon de livraison et l’achat est rempli ; vous décrivez un besoin en une phrase et le devis est prêt ; une facture est en retard et la relance part au délai que vous avez réglé."
+      "a": "Il fait l’essentiel de la saisie à votre place. Vous déposez un bon de livraison et l’achat est rempli ; vous décrivez un besoin en une phrase et le devis est prêt ; une facture est en retard et la relance part au délai que vous avez réglé."
     },
     {
       "q": "Peut-on adapter Stagnum à sa façon de travailler ?",
@@ -86,7 +90,11 @@
     },
     {
       "q": "Combien coûte Stagnum ?",
-      "a": "Le prix dépend de la taille de votre équipe et des briques que vous choisissez. Il est fixé par magasin, pas par utilisateur, et un prix préférentiel s’applique si vous prenez toutes les briques. La calculette vous donne votre montant en une minute."
+      "a": "Le prix dépend de la taille de votre équipe et des briques que vous choisissez. Il est fixé par magasin, pas par utilisateur, et un prix préférentiel s’applique si vous prenez toutes les briques. La calculette vous donne votre montant en une minute. Votre prix est garanti : il ne bouge pas après la première année."
+    },
+    {
+      "q": "Stagnum est-il prêt pour la facture électronique ?",
+      "a": "Oui. La brique Factures est prête pour l’obligation de septembre 2027 : vous n’avez rien à changer à vos habitudes."
     },
     {
       "q": "Suis-je obligé de prendre toutes les briques ?",
@@ -110,7 +118,7 @@
           {
             "icon": "camion",
             "title": "Vous travaillez seul",
-            "text": "Avec ou sans magasin, Stagnum fonctionne de la même façon. Un tarif est prévu pour les indépendants, et vos devis, vos chantiers et vos analyses d’eau se font aussi depuis votre téléphone.",
+            "text": "Avec ou sans magasin, Stagnum fonctionne pareil. Un tarif est prévu pour les indépendants, et tout se fait aussi depuis votre téléphone, dans le camion ou au bord du bassin.",
             "href": ""
           },
           {
@@ -122,7 +130,7 @@
           {
             "icon": "equipe",
             "title": "Vous avez plusieurs magasins",
-            "text": "Chaque magasin a son abonnement. Vous pouvez les relier entre eux pour partager vos clients et suivre l’ensemble.",
+            "text": "Chaque magasin a son abonnement. Vous les reliez pour partager vos clients et suivre tous vos magasins depuis un seul écran.",
             "href": ""
           }
         ]
@@ -143,7 +151,7 @@
           },
           {
             "title": "Vous essayez gratuitement",
-            "text": "{essai} jours d’essai avant tout engagement, avec les briques qui vous manquent le plus."
+            "text": "{essai} jours d’essai avant tout engagement, avec les briques qui vous manquent le plus. On vous aide à démarrer."
           }
         ]
       }
@@ -152,14 +160,14 @@
       "discriminant": "equipe",
       "value": {
         "title": "Qui est *derrière Stagnum* ?",
-        "text": "Cinq personnes, parties d’un constat : les piscinistes sont un métier délaissé par les éditeurs de logiciels. Cliquez sur une carte pour faire connaissance.",
+        "text": "Cinq personnes, parties d’un constat : les logiciels proposés aux piscinistes sont lourds, compliqués et pensés pour des bureaux, pas pour le terrain. Cliquez sur une carte pour faire connaissance.",
         "button": "Découvrir notre histoire",
         "href": "/a-propos/"
       }
     }
   ],
   "seo": {
-    "title": "Logiciel de gestion pour pisciniste : l’assistant intelligent | Stagnum",
-    "description": "Stagnum est l’assistant intelligent des piscinistes : devis, factures, achats, chantiers, caisse, stock et analyse d’eau, sans ressaisie. Un prix par magasin."
+    "title": "Logiciel de gestion pour pisciniste : l’assistant des piscinistes | Stagnum",
+    "description": "Stagnum, l’assistant des piscinistes : devis, factures, passages d’entretien, analyses d’eau, chantiers, stock et caisse, sans ressaisie. Un prix par magasin, garanti."
   }
 }

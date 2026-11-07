@@ -144,9 +144,22 @@ const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
       <div class="status"><b>9:41</b><span><i class="sig"></i><i class="bat"></i></span></div>
       <div class="p-bar"><span class="p-dot"></span>Stagnum</div>
       {home ? (
-        <ul class="alerts">
-          {alerts.map((a) => <li><span class="a-ic"><Icon name={a.icon} size={15} /></span><div><small>{a.t}</small><strong>{a.v}</strong></div></li>)}
-        </ul>
+        <div class="p-panels">
+          <ul class="alerts p-panel">
+            {alerts.map((a) => <li><span class="a-ic"><Icon name={a.icon} size={15} /></span><div><small>{a.t}</small><strong>{a.v}</strong></div></li>)}
+          </ul>
+          {/* Un tour sur deux : le pisciniste dicte l'avancement d'un chantier, la fiche se met à jour. */}
+          <div class="p-panel p-voice">
+            <div class="p-said"><span class="p-mic"></span><p><span data-type data-from="0.04" data-to="0.36">« Chantier Bernard : terrassement fini, deux heures de plus. »</span><i class="caret"></i></p></div>
+            <div class="p-card" data-at="0.38">
+              <div class="p-row"><span class="a-ic"><Icon name="chantiers" size={15} /></span><div><small>Chantier Bernard</small><strong>Construction 8 × 4</strong></div><b class="p-pct"><i data-num="68" data-dec="0" data-from="0.38">0</i> %</b></div>
+              <div class="p-bar2"><i data-grow="68"></i></div>
+            </div>
+            <div class="p-line" data-at="0.52"><span>Terrassement</span><b class="ok">Terminé ✓</b></div>
+            <div class="p-line" data-at="0.62"><span>Main-d’œuvre</span><b>+ 2 h</b></div>
+            <div class="p-dark" data-at="0.76"><span>Marge</span><b>42 %</b></div>
+          </div>
+        </div>
       ) : (
         <>
           <p class="p-title"><Icon name={id} size={15} />{brick.name}</p>
@@ -218,16 +231,21 @@ const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
 
     if (reduced) { render(1); return; }
 
+    // Sur l'accueil, le téléphone alterne à chaque tour : résumé de la journée, puis chantier dicté à la voix.
+    const phone = demo.querySelector<HTMLElement>('.phone');
+    let lap = 0;
+    const setLap = (n: number) => { lap = n; phone?.classList.toggle('is-voice', lap % 2 === 1); };
+
     let start = 0;
     let raf = 0;
     const tick = (now: number) => {
       if (!start) start = now;
       const elapsed = now - start;
       render(elapsed / SPEED);
-      if (elapsed > SPEED + HOLD) start = now;
+      if (elapsed > SPEED + HOLD) { start = now; setLap(lap + 1); }
       raf = requestAnimationFrame(tick);
     };
-    const play = () => { cancelAnimationFrame(raf); start = 0; raf = requestAnimationFrame(tick); };
+    const play = () => { cancelAnimationFrame(raf); start = 0; setLap(0); raf = requestAnimationFrame(tick); };
     demo.querySelector('.replay')!.addEventListener('click', play);
     new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) play(); else cancelAnimationFrame(raf);
@@ -282,6 +300,31 @@ const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
   .a-ic { flex: none; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
   .alerts small { display: block; font-size: .56rem; color: var(--ink-2); line-height: 1.2; }
   .alerts strong { font-size: .66rem; line-height: 1.2; white-space: nowrap; }
+  /* Les deux écrans du téléphone sont superposés ; on passe de l'un à l'autre en fondu. */
+  .p-panels { display: grid; }
+  .p-panel { grid-area: 1 / 1; transition: opacity .45s, transform .55s var(--spring); }
+  .p-voice { display: grid; gap: 6px; align-content: start; opacity: 0; transform: translateY(8px); pointer-events: none; }
+  .phone.is-voice .alerts { opacity: 0; transform: translateY(-8px); }
+  .phone.is-voice .p-voice { opacity: 1; transform: none; }
+  .p-said { display: flex; gap: 6px; align-items: flex-start; background: var(--deep); color: #fff; border-radius: 10px 10px 10px 4px; padding: 6px 7px; min-height: 46px; }
+  .p-said p { margin: 0; font-size: .58rem; font-weight: 550; line-height: 1.35; }
+  .p-mic { position: relative; flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--sun) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232A1206' stroke-width='2.600' stroke-linecap='round'%3E%3Crect x='9' y='4' width='6' height='10' rx='3'/%3E%3Cpath d='M6 11a6 6 0 0 0 12 0M12 17v3'/%3E%3C/svg%3E") center / 11px no-repeat; }
+  .phone.is-voice .p-said:has(p.typing) .p-mic::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid var(--sun); animation: mic-pulse 1s ease-out infinite; }
+  @keyframes mic-pulse { from { opacity: .9; transform: scale(.9); } to { opacity: 0; transform: scale(1.6); } }
+  .p-card { background: #fff; border-radius: 10px; padding: 7px; display: grid; gap: 6px; box-shadow: 0 6px 14px -10px rgba(7, 52, 58, .5); }
+  .p-row { display: flex; align-items: center; gap: 7px; }
+  .p-row small { display: block; font-size: .56rem; color: var(--ink-2); line-height: 1.2; }
+  .p-row strong { font-size: .64rem; line-height: 1.2; white-space: nowrap; }
+  .p-pct { margin-left: auto; font: 750 .82rem/1 var(--font-display); color: var(--accent); white-space: nowrap; }
+  .p-pct i { font-style: normal; font-variant-numeric: tabular-nums; }
+  .p-bar2 { height: 5px; border-radius: 99px; background: #F1E7D6; overflow: hidden; }
+  .p-bar2 i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--accent-bright), var(--aqua)); }
+  .p-line, .p-dark { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 8px; font-size: .6rem; }
+  .p-line { background: #fff; border: 1px solid #E3ECEB; }
+  .p-line b { white-space: nowrap; }
+  .p-line b.ok { color: #0A7F5A; }
+  .p-dark { background: var(--deep); color: #fff; }
+  .p-dark b { color: #FFD3A8; }
   .p-sync { margin: 2px 0 0; text-align: center; font-size: .58rem; font-weight: 650; color: #0A7F5A; }
   .p-sync::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #1B8A60; margin-right: 5px; }
   .inner { display: flex; flex-direction: column; gap: 7px; width: 100%; min-height: 0; flex: 1; font-size: .88rem; }

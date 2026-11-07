@@ -252,9 +252,10 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .hero { padding-top: calc(var(--head) + clamp(40px, 6vw, 72px)); }
   .hero-grid { display: grid; grid-template-columns: .88fr 1.12fr; gap: 44px; align-items: center; }
   .hero-copy .lead { font-size: clamp(1.15rem, 1.9vw, 1.35rem); font-weight: 500; }
-  .proofs { list-style: none; padding: 0; margin: 30px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
-  .proofs li { font-size: .9rem; font-weight: 600; color: #fff; padding: 7px 14px 7px 10px; border-radius: 999px; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .3); }
-  .proofs li::before { content: "✓"; color: var(--aqua); margin-right: 8px; font-weight: 800; }
+  /* Petits arguments : une ligne discrète, sans pastilles. */
+  .proofs { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .proofs li { font-size: .92rem; font-weight: 600; color: rgba(255, 255, 255, .82); white-space: nowrap; }
+  .proofs li::before { content: "✓"; color: var(--aqua); margin-right: 7px; font-weight: 800; }
 
   .head { margin-bottom: 44px; }
   .briques-section { padding-top: clamp(40px, 6vw, 72px); }
@@ -374,7 +375,8 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .hero-copy .btns { flex-wrap: nowrap; gap: 8px; }
     .hero-copy .btns .btn { flex: 1 1 0; min-width: 0; padding-inline: 8px; font-size: .84rem; white-space: nowrap; }
     .hero-copy .btns .btn :global(svg) { display: none; }
-    .proofs { display: none; }
+    .proofs { flex-direction: column; gap: 6px; margin-top: 18px; }
+    .proofs li { font-size: .86rem; }
     .smart .checks, .perso .checks { display: none; }
     .perso .btns { margin-top: 14px; }
     .ct-mock { display: none; }
