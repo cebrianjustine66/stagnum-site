@@ -55,6 +55,7 @@ h1 { font-size: clamp(2.4rem, 5.6vw, 4.1rem); font-weight: 780; }
 h2 { font-size: clamp(1.8rem, 3.6vw, 2.7rem); font-weight: 740; }
 h3 { font-size: 1.3rem; font-weight: 680; letter-spacing: -.015em; }
 p { margin: 0 0 1em; }
+h1, h2, h3, p, li, td, th { overflow-wrap: break-word; }
 
 .wrap { width: min(100% - 32px, var(--maxw)); margin-inline: auto; }
 .narrow { max-width: 780px; }
@@ -107,8 +108,11 @@ a.card .more, .more { color: var(--accent); font-weight: 680; font-size: .95rem;
 a.card .more svg { transition: transform .18s ease; }
 a.card:hover .more svg { transform: translateX(4px); }
 .grid { display: grid; gap: 20px; }
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { .grid-3 { grid-template-columns: 1fr; } }
+.grid-2 > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
 .price-tag { font-size: .88rem; color: var(--ink-2); }
 .price-tag strong { color: var(--deep); font-size: 1.05rem; }
 

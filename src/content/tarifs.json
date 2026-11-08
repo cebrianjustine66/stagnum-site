@@ -64,6 +64,12 @@
         "color": "#FBE6D2"
       },
       {
+        "icon": "inventaire",
+        "title": "Migration offerte",
+        "text": "Vos données reprises, avec notre aide, sans frais.",
+        "color": "#E1F3F1"
+      },
+      {
         "icon": "horloge",
         "title": "{essai} jours d’essai",
         "text": "Gratuits, avant tout engagement.",
@@ -123,6 +129,10 @@
     {
       "q": "Comment sont facturés plusieurs magasins ?",
       "a": "Chaque magasin a son propre abonnement. Vous pouvez relier vos magasins entre eux pour partager vos clients et suivre l’ensemble."
+    },
+    {
+      "q": "La reprise de mes données est-elle payante ?",
+      "a": "Non. Nous migrons vos données depuis votre logiciel actuel et nous vous accompagnons pendant toute la migration, sans frais."
     },
     {
       "q": "Puis-je ajouter une brique plus tard ?",

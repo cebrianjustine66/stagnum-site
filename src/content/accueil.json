@@ -109,6 +109,10 @@
       "a": "Oui. Stagnum fonctionne de la même façon avec ou sans magasin. Un tarif est prévu pour les piscinistes qui travaillent seuls."
     },
     {
+      "q": "Je change de logiciel : faut-il tout ressaisir ?",
+      "a": "Non. Nous migrons vos données dans Stagnum, gratuitement. Nous vous accompagnons à chaque étape, sans frais. Dites-nous quel logiciel vous utilisez dans votre demande de devis."
+    },
+    {
       "q": "Peut-on essayer avant de s’engager ?",
       "a": "Oui. L’essai est gratuit pendant {essai} jours. Ensuite, l’engagement minimum est de 3 mois, avec un prix dégressif sur 6 et 12 mois."
     }
@@ -148,6 +152,7 @@
         "intro": "Stagnum se prend en main tout seul, même par un saisonnier qui arrive en juin. Pas de journée de formation à caler en pleine saison : à la place, nous restons à vos côtés.",
         "items": [
           "Pendant l’essai, nous réglons vos briques avec vous",
+          "Vous changez de logiciel ? Nous migrons vos données gratuitement",
           "Une question ? Vous parlez directement à l’équipe qui fait Stagnum",
           "Aucune formation payante, ni au départ ni ensuite"
         ]

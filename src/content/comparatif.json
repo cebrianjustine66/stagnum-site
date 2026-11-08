@@ -63,6 +63,12 @@
         "label": "Analyse d’eau",
         "us": "Une brique dédiée",
         "them": "Non mentionnée sur sa page piscine"
+      },
+      {
+        "icon": "inventaire",
+        "label": "Changer de logiciel",
+        "us": "Vos données Extrabat reprises, migration offerte et accompagnée",
+        "them": "Sans objet"
       }
     ],
     "source": "Informations sur Extrabat relevées sur extrabat.com le {date}. Elles peuvent avoir changé : vérifiez-les auprès de l’éditeur. Extrabat est une marque de son propriétaire, sans lien avec Stagnum.",
@@ -95,6 +101,7 @@
         "color": "#DDF2F3",
         "title": "Vous tenez un magasin",
         "text": "La caisse, l’inventaire et l’analyse d’eau font partie de Stagnum."
+
       }
     ]
   },
@@ -116,7 +123,7 @@
       },
       {
         "title": "Votre réseau vous l’impose",
-        "text": "puisqu’Extrabat se dit adopté par la plupart des réseaux de pisciniers."
+        "text": "puisqu’Extrabat se dit adopté par la plupart des réseaux de piscinistes."
       }
     ]
   },
@@ -146,6 +153,14 @@
     {
       "q": "Stagnum est-il moins cher qu’Extrabat ?",
       "a": "Cela dépend de la taille de votre équipe et des briques choisies. Stagnum facture par magasin et Extrabat par utilisateur : l’écart grandit avec le nombre de personnes. La calculette de la page Tarifs vous donne votre prix exact."
+    },
+    {
+      "q": "Puis-je récupérer mes données Extrabat ?",
+      "a": "Oui. Nous extrayons vos données d’Extrabat et les reprenons dans Stagnum. La migration est offerte, et nous vous accompagnons gratuitement à chaque étape."
+    },
+    {
+      "q": "Combien coûte la migration ?",
+      "a": "Rien. La reprise de vos données et l’accompagnement pendant la migration sont gratuits."
     },
     {
       "q": "Puis-je essayer Stagnum en gardant mon logiciel actuel ?",
