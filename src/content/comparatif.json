@@ -47,6 +47,12 @@
         "them": "Essai gratuit proposé"
       },
       {
+        "icon": "bulle",
+        "label": "Prise en main",
+        "us": "Sans formation, avec l’accompagnement de l’équipe",
+        "them": "Formations certifiées proposées"
+      },
+      {
         "icon": "devis",
         "label": "Saisie par l’IA et la voix",
         "us": "Dans chaque brique",

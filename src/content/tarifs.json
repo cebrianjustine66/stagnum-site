@@ -58,6 +58,12 @@
         "color": "#F3EDE2"
       },
       {
+        "icon": "bulle",
+        "title": "Accompagnement inclus",
+        "text": "Pas de formation à payer : on vous aide à démarrer.",
+        "color": "#FBE6D2"
+      },
+      {
         "icon": "horloge",
         "title": "{essai} jours d’essai",
         "text": "Gratuits, avant tout engagement.",
