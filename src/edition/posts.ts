@@ -67,14 +67,34 @@ const inlineMd = (s: string) =>
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
 
-// Assez pour ce qu'écrivent les articles : titres, paragraphes, listes, tableaux, gras, liens.
+/* ---------- Blocs prêts à remplir : tableau et encadrés ---------- */
+
+// Styles d'encadré. Dans le fichier : « > [!conseil] Titre », puis le texte (voir src/markdown/encadres.mjs).
+export const CALLOUTS: Record<string, string> = { conseil: 'Bon à savoir', attention: 'Attention', exemple: 'Exemple' };
+export const calloutKind = (el: Element) => (el.className.match(/encadre-(\w+)/)?.[1] ?? 'conseil');
+
+export const starterTable = () =>
+  `<div class="table-wrap"><table><thead><tr><th>Colonne 1</th><th>Colonne 2</th><th>Colonne 3</th></tr></thead><tbody>${
+    [1, 2].map((r) => `<tr><td>Ligne ${r}</td><td>…</td><td>…</td></tr>`).join('')
+  }</tbody></table></div>`;
+export const starterCallout = (kind: string) =>
+  `<blockquote class="encadre encadre-${kind}"><p class="encadre-titre">${CALLOUTS[kind] ?? 'Bon à savoir'}</p><p>Le texte de l’encadré.</p></blockquote>`;
+
+// Assez pour ce qu'écrivent les articles : titres, paragraphes, listes, tableaux, encadrés, gras, liens.
 export function mdToHtml(md: string): string {
   const out: string[] = [];
   const blocks = md.replace(/\r/g, '').trim().split(/\n\s*\n/);
   for (const b of blocks) {
     const lines = b.split('\n');
     const h = b.match(/^(#{2,3})\s+(.*)$/);
-    if (h && lines.length === 1) out.push(`<h${h[1].length}>${inlineMd(h[2])}</h${h[1].length}>`);
+    if (lines.every((l) => /^\s*>/.test(l))) {
+      const inner = lines.map((l) => l.replace(/^\s*>\s?/, '')).join('\n').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean);
+      const m = inner[0]?.match(/^\[!(\w+)\]\s*(.*)$/s);
+      const kind = m ? m[1].toLowerCase() : 'conseil';
+      if (m) inner.shift();
+      const title = m ? `<p class="encadre-titre">${inlineMd(m[2] || CALLOUTS[kind] || '')}</p>` : '';
+      out.push(`<blockquote class="encadre encadre-${kind}">${title}${inner.map((x) => `<p>${x.split('\n').map(inlineMd).join('<br>')}</p>`).join('')}</blockquote>`);
+    } else if (h && lines.length === 1) out.push(`<h${h[1].length}>${inlineMd(h[2])}</h${h[1].length}>`);
     else if (lines.every((l) => /^\s*[-*]\s+/.test(l))) out.push(`<ul>${lines.map((l) => `<li>${inlineMd(l.replace(/^\s*[-*]\s+/, ''))}</li>`).join('')}</ul>`);
     else if (lines.every((l) => /^\s*\d+\.\s+/.test(l))) out.push(`<ol>${lines.map((l) => `<li>${inlineMd(l.replace(/^\s*\d+\.\s+/, ''))}</li>`).join('')}</ol>`);
     else if (lines.length >= 2 && lines.every((l) => /^\|.*\|$/.test(l.trim())) && /^\|[\s:|-]+\|$/.test(lines[1].trim())) {
@@ -134,7 +154,17 @@ export function htmlToMd(root: HTMLElement): string {
         const row = (r: string[]) => `|${r.map((c) => (c ? ` ${c} ` : ' ')).join('|')}|`;
         out.push([row(rows[0]), `|${rows[0].map(() => '---').join('|')}|`, ...rows.slice(1).map(row)].join('\n'));
       }
-    } else if (tag === 'DIV' && el.querySelector('p, h2, h3, ul, ol, table')) {
+    } else if (tag === 'BLOCKQUOTE') {
+      const kind = calloutKind(el);
+      const t = el.querySelector(':scope > .encadre-titre');
+      const title = t ? clean(inlineFromDom(t)).replace(/\n/g, ' ') : '';
+      const paras = Array.from(el.children).filter((c) => c !== t).map((c) => clean(inlineFromDom(c))).filter(Boolean);
+      const loose = clean(Array.from(el.childNodes).filter((n) => n.nodeType === 3).map((n) => n.nodeValue).join(' '));
+      if (loose) paras.push(loose);
+      const lines = [`> [!${kind}]${title ? ` ${title}` : ''}`];
+      paras.forEach((x) => lines.push('>', ...x.split('\n').map((l) => `> ${l}`)));
+      out.push(lines.join('\n'));
+    } else if (tag === 'DIV' && el.querySelector('p, h2, h3, ul, ol, table, blockquote')) {
       const inner = htmlToMd(el).trim();
       if (inner) out.push(inner);
     } else pushPara(inlineFromDom(el));

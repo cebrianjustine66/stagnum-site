@@ -34,11 +34,16 @@ export const paragraphs = (t = '') => t.split(/\n\s*\n/).map((p) => p.trim()).fi
 
 // Blocs empilables en bas de page (voir components/Blocks.astro et keystatic.config.ts).
 type Background = 'clair' | 'sable' | 'fonce';
+// Mise en page commune : espacement au-dessus et au-dessous du bloc.
+type Layout = { spacing?: 'serre' | 'normal' | 'aere' };
+type Cells = { c1: string; c2: string; c3: string; c4: string };
 export type Block =
-  | { discriminant: 'texte'; value: { title: string; text: string; background: Background } }
-  | { discriminant: 'liste'; value: { title: string; intro: string; items: string[]; background: Background } }
-  | { discriminant: 'cartes'; value: { title: string; cards: { icon: string; title: string; text: string; href: string }[] } }
-  | { discriminant: 'etapes'; value: { title: string; steps: { title: string; text: string }[] } }
+  | { discriminant: 'texte'; value: Layout & { title: string; text: string; background: Background; align?: 'gauche' | 'centre'; width?: 'etroit' | 'large' } }
+  | { discriminant: 'liste'; value: Layout & { title: string; intro: string; items: string[]; background: Background; layout?: 'gauche' | 'droite' | 'empile' } }
+  | { discriminant: 'cartes'; value: Layout & { title: string; cards: { icon: string; title: string; text: string; href: string }[]; columns?: '2' | '3' | '4'; background?: Background } }
+  | { discriminant: 'etapes'; value: Layout & { title: string; steps: { title: string; text: string }[]; background?: Background } }
+  | { discriminant: 'tableau'; value: Layout & { title: string; intro: string; columns: '2' | '3' | '4'; head: Cells; rows: Cells[]; background?: Background } }
+  | { discriminant: 'encadre'; value: Layout & { style: 'conseil' | 'attention' | 'exemple'; title: string; text: string; width?: 'etroit' | 'large' } }
   | { discriminant: 'equipe'; value: { title: string; text: string; button: string; href: string } }
   | { discriminant: 'cta'; value: { title: string } }
   | { discriminant: 'faq'; value: { title: string; items: { q: string; a: string }[] } };

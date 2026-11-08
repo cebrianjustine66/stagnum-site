@@ -80,6 +80,26 @@ const article = {
   <Cta />
 </Base>
 
+<script>
+  // Tableaux des articles : un cadre qui défile si besoin, et l'intitulé de chaque
+  // colonne recopié sur ses cellules, pour la lecture en fiches sur téléphone.
+  document.querySelectorAll('.article-body table').forEach((table) => {
+    const labels = [...table.querySelectorAll('thead th')].map((th) => th.textContent?.trim() ?? '');
+    table.classList.add(`cols-${labels.length}`);
+    table.querySelectorAll('tbody tr').forEach((tr) => {
+      [...tr.children].forEach((cell, i) => { if (labels[i]) cell.setAttribute('data-label', labels[i]); });
+    });
+    if (table.parentElement?.classList.contains('table-wrap')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    wrap.setAttribute('role', 'region');
+    wrap.setAttribute('tabindex', '0');
+    wrap.setAttribute('aria-label', labels.join(', ') || 'Tableau');
+    table.before(wrap);
+    wrap.append(table);
+  });
+</script>
+
 <style>
   .a-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 22px 0 0; font-size: .92rem; color: #EAF9F9; }
   .a-meta span { display: inline-flex; align-items: center; gap: 6px; }
@@ -114,7 +134,7 @@ const article = {
 
 <style is:global>
   /* Mise en forme du texte des articles (contenu Markdown). */
-  .article-body { font-size: 1.09rem; line-height: 1.72; color: #233B3C; max-width: 720px; }
+  .article-body { font-size: 1.09rem; line-height: 1.72; color: #233B3C; max-width: 720px; min-width: 0; overflow-wrap: break-word; }
   .article-body > p:first-child { font-size: 1.28rem; line-height: 1.55; color: var(--ink); font-weight: 500; }
   .article-body h2 { position: relative; margin: 2.2em 0 .7em; padding-left: 22px; font-size: clamp(1.55rem, 3vw, 2rem); scroll-margin-top: 110px; }
   .article-body h2::before { content: ""; position: absolute; left: 0; top: .32em; width: 11px; height: 11px; border-radius: 3px; background: var(--sun); transform: rotate(45deg); }
@@ -127,12 +147,28 @@ const article = {
   .article-body ol { counter-reset: n; }
   .article-body ol > li { counter-increment: n; position: relative; padding: 14px 18px 14px 62px; border-radius: 16px; background: #fff; border: 1px solid var(--border); }
   .article-body ol > li::before { content: counter(n); position: absolute; left: 16px; top: 12px; width: 32px; height: 32px; border-radius: 10px; background: var(--sun); color: #2A1206; font: 800 1rem var(--font-display); display: grid; place-items: center; }
-  .article-body table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.6em 0; font-size: .97rem; line-height: 1.45; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: var(--lift); border: 1px solid var(--border); display: block; overflow-x: auto; }
-  .article-body table tbody, .article-body table thead { display: table; width: 100%; table-layout: auto; }
-  .article-body th, .article-body td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  .article-body thead th { background: var(--accent); color: #fff; font-weight: 700; border: 0; }
-  .article-body tr:last-child td { border-bottom: 0; }
-  .article-body tbody tr:nth-child(even) td { background: #F4FAF9; }
+  /* Tableaux : un vrai tableau sur ordinateur et tablette, des fiches sur téléphone. */
+  .article-body .table-wrap { margin: 1.6em 0; overflow-x: auto; -webkit-overflow-scrolling: touch; background: #fff; border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--lift); }
+  .article-body .table-wrap:focus-visible { outline: 3px solid var(--aqua); outline-offset: 2px; }
+  .article-body > table { display: block; overflow-x: auto; }
+  .article-body table { width: 100%; min-width: 520px; border-collapse: collapse; table-layout: auto; font-size: .97rem; line-height: 1.45; }
+  .article-body th, .article-body td { text-align: left; padding: 13px 16px; vertical-align: top; border-bottom: 1px solid var(--border); }
+  .article-body thead th { background: var(--accent); color: #fff; font-weight: 700; font-size: .9rem; letter-spacing: .01em; border-bottom: 0; vertical-align: middle; }
+  .article-body tbody tr:last-child > * { border-bottom: 0; }
+  .article-body tbody tr:nth-child(even) > * { background: #F4FAF9; }
+  .article-body tbody td:first-child { font-weight: 650; color: var(--ink); }
+  .article-body table.cols-2 td:first-child, .article-body table.cols-2 th:first-child { width: 38%; }
+  .article-body table.cols-3 td:first-child, .article-body table.cols-3 th:first-child { width: 28%; }
+  .article-body table.cols-4 td:first-child, .article-body table.cols-4 th:first-child { width: 22%; }
+  /* Encadrés (« > [!conseil] Titre » dans le fichier, bouton « Encadré » dans l'éditeur). */
+  .article-body blockquote { margin: 1.6em 0; padding: 20px 24px 20px 22px; border-radius: 18px; background: var(--accent-soft, #E1F3F1); border-left: 5px solid var(--accent); color: var(--ink); }
+  .article-body blockquote > p { margin: 0; }
+  .article-body blockquote > p + p { margin-top: .6em; }
+  .article-body blockquote .encadre-titre { font: 750 .82rem var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .article-body blockquote.encadre-attention { background: #FDEDE4; border-left-color: var(--sun); }
+  .article-body blockquote.encadre-attention .encadre-titre { color: #B4501F; }
+  .article-body blockquote.encadre-exemple { background: var(--sand); border-left-color: var(--deep); }
+  .article-body blockquote.encadre-exemple .encadre-titre { color: var(--deep); }
   /* Le dernier titre (« À retenir ») et sa liste forment un encadré. */
   .article-body h2:last-of-type { margin-bottom: 0; padding: 24px 26px 6px 48px; background: var(--sand); border-radius: 22px 22px 0 0; }
   .article-body h2:last-of-type::before { left: 26px; top: calc(24px + .32em); }
@@ -145,7 +181,16 @@ const article = {
     .article-body h3 { font-size: 1.08rem; }
     .article-body ol > li { padding: 12px 14px 12px 52px; }
     .article-body ol > li::before { left: 12px; top: 11px; width: 28px; height: 28px; font-size: .9rem; }
-    .article-body th, .article-body td { padding: 10px 12px; font-size: .88rem; }
+    .article-body .table-wrap { overflow: visible; background: none; border: 0; box-shadow: none; border-radius: 0; }
+    .article-body .table-wrap table { min-width: 0; display: block; }
+    .article-body .table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .article-body .table-wrap tbody { display: grid; gap: 10px; }
+    .article-body .table-wrap tbody tr { display: block; background: #fff; border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--lift); overflow: hidden; }
+    .article-body .table-wrap tbody tr:nth-child(even) > * { background: transparent; }
+    .article-body .table-wrap tbody td, .article-body .table-wrap tbody th { display: block; width: auto !important; padding: 9px 14px; font-size: .92rem; border-bottom: 1px solid var(--border); }
+    .article-body .table-wrap tbody td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+    .article-body .table-wrap tbody td:first-child { background: var(--accent-soft) !important; color: var(--deep); font-size: .98rem; }
+    .article-body .table-wrap tbody td:first-child::before { color: var(--accent); }
     .article-body h2:last-of-type { padding: 18px 18px 4px 38px; }
     .article-body h2:last-of-type::before { left: 18px; top: calc(18px + .32em); }
     .article-body h2:last-of-type + ul { padding: 8px 18px 18px; }

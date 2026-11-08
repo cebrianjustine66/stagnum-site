@@ -455,9 +455,9 @@ export default function App() {
               if (!b) return null;
               return (
                 <>
-                  <DialogHead title={`Bloc « ${blockLabel(b.discriminant)} »`} onClose={() => setDialog(null)} />
+                  <DialogHead title={`Mise en page du bloc « ${blockLabel(b.discriminant)} »`} onClose={() => setDialog(null)} />
                   <div className="dialog-body">
-                    <p className="panel-intro">Les textes se modifient aussi directement dans la page. Ici : la couleur de fond, les icônes, les liens.</p>
+                    <p className="panel-intro">Les textes se modifient directement dans la page. Ici : le fond, l’espacement, la largeur, l’alignement, le nombre de colonnes, la disposition, les icônes et les liens. La page se met à jour tout de suite.</p>
                     <FieldView field={BLOCK_FIELD.element.values[b.discriminant]} value={b.value} path={['blocks', dialog.index, 'value']} ctx={fieldCtx(dialog.file)} label="" />
                   </div>
                 </>
