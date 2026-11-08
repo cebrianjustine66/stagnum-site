@@ -50,6 +50,15 @@ export default function App() {
   const [toast, setToast] = useState<{ text: string; kind?: 'ok' | 'err' } | null>(null);
   const [busy, setBusy] = useState(false);
   const [picker, setPicker] = useState(false);
+  // Mode navigation par défaut : on parcourt le site comme un visiteur. « Modifier » rend les textes modifiables.
+  const [editing, setEditing] = useState(false);
+  const editingRef = useRef(editing);
+  const setMode = (on: boolean) => {
+    if (editingRef.current === on) return;
+    editingRef.current = on;
+    setEditing(on);
+    setFrameKey((k) => k + 1);
+  };
   const frame = useRef<HTMLIFrameElement>(null);
   const src = useRef(url);
   const inline = useRef<ReturnType<typeof attachInline> | null>(null);
@@ -187,6 +196,9 @@ export default function App() {
     const shell = shellUrl();
     if (!shell) return say('Il faut au moins un article publié pour en créer un nouveau ici.', 'err');
     src.current = `${shell}?ed-article=${encodeURIComponent(file)}`;
+    // Un article pas encore publié n'existe que dans l'éditeur : il s'ouvre en mode « Modifier ».
+    editingRef.current = true;
+    setEditing(true);
     setFrameKey((k) => k + 1);
   };
 
@@ -229,6 +241,17 @@ export default function App() {
     const { own, site } = entriesForUrl(path, f);
     const ownPost = view ?? own.find((e) => isPost(e.id))?.id ?? null;
     const textOwn = view ? [] : own.filter((e) => !isPost(e.id));
+    if (!editingRef.current && !view) {
+      // Les liens vers d'autres sites s'ouvrent dans un nouvel onglet, pas dans l'aperçu.
+      doc.addEventListener('click', (e) => {
+        const a = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null;
+        if (a && new URL(a.href, win.location.href).origin !== win.location.origin) { e.preventDefault(); window.open(a.href, '_blank', 'noopener'); }
+      });
+      inline.current = null;
+      setSkipped([]);
+      setReady(true);
+      return;
+    }
     // Les textes s'attachent une fois la page prête (polices et animations d'entrée comprises).
     win.setTimeout(() => {
       inline.current = attachInline(doc, {
@@ -372,6 +395,17 @@ export default function App() {
           )}
         </div>
 
+        <div className="mode" role="group" aria-label="Mode">
+          <button className={!editing ? 'on' : ''} onClick={() => setMode(false)} title="Parcourir le site en cliquant sur les liens">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l7 17 2.5-7.5L21 11z" /></svg>
+            Naviguer
+          </button>
+          <button className={editing ? 'on' : ''} onClick={() => setMode(true)} title="Cliquer sur les textes pour les modifier">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z" /><path d="M13 7l4 4" /></svg>
+            Modifier
+          </button>
+        </div>
+
         <button className="btn settings" onClick={() => setDialog(currentPost ? { kind: 'post', file: currentPost } : { kind: 'page' })} title="Référencement Google, réglages, tout ce qui ne se voit pas dans la page">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></svg>
           Réglages
@@ -403,8 +437,10 @@ export default function App() {
       <main className={`stage ${device}`}>
         <div className="hint">
           <span className="pulse" />
-          {!ready ? 'Chargement de la page…' : <>Cliquez sur un texte pour l’écrire. Survolez un élément : <b className="k plus">+</b> en ajoute un, <b className="k minus">−</b> le retire.</>}
-          {ready && skipped.length > 0 && <span className="warn">Les textes de {skipped.map((p) => `« ${labelOf(p)} »`).join(', ')} se modifient dans « Réglages » jusqu’à la prochaine publication.</span>}
+          {!ready ? 'Chargement de la page…'
+            : !editing && !postView ? <>Mode navigation : cliquez sur les liens pour parcourir le site. Passez en <b>Modifier</b> pour changer les textes.{changed.length > 0 && <span className="warn">Vos modifications non publiées s’affichent en mode « Modifier ».</span>}</>
+            : <>Cliquez sur un texte pour l’écrire. Survolez un élément : <b className="k plus">+</b> en ajoute un, <b className="k minus">−</b> le retire.</>}
+          {ready && (editing || postView) && skipped.length > 0 && <span className="warn">Les textes de {skipped.map((p) => `« ${labelOf(p)} »`).join(', ')} se modifient dans « Réglages » jusqu’à la prochaine publication.</span>}
         </div>
         <div className="frame-wrap">
           <iframe key={frameKey} ref={frame} onLoad={onFrameLoad} title="Aperçu du site" />
