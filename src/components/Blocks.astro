@@ -26,9 +26,11 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
     )}
     {type === 'liste' && (
       <section class={`block ${bg[b.background]}`}>
-        <div class="wrap narrow reveal">
-          {b.title && <h2 set:html={rich(b.title, hl(b))} />}
-          {b.intro && <p class="lead" set:html={rich(b.intro)} />}
+        <div class="wrap split-list reveal">
+          <div>
+            {b.title && <h2 set:html={rich(b.title, hl(b))} />}
+            {b.intro && <p class="lead" set:html={rich(b.intro)} />}
+          </div>
           <ul class="checks">
             {b.items.map((item) => <li set:html={rich(item)} />)}
           </ul>
@@ -99,6 +101,14 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .block h2.center { margin-bottom: 32px; }
   .block .lead { max-width: none; }
   .block .lead + .lead, .block .lead + .checks { margin-top: 18px; }
+  /* Liste : titre et texte à gauche, coches à droite. */
+  .split-list { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center; }
+  .split-list .checks { gap: 0; }
+  .split-list .checks li { padding-top: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); font-weight: 600; }
+  .on-deep .split-list .checks li { border-color: rgba(255, 255, 255, .16); }
+  .split-list .checks li:last-child { border-bottom: 0; }
+  .split-list .checks li::before { top: calc(16px + .15em); }
+  @media (max-width: 860px) { .split-list { grid-template-columns: 1fr; gap: 24px; } }
   .block .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
   .block .card p { margin: 0; }
   .block .tint { position: relative; overflow: hidden; background: var(--tint); border-color: rgba(11, 61, 66, .08); border-radius: 28px; padding: 30px 28px 34px; color: var(--ink); }

@@ -85,6 +85,10 @@
       "a": "Oui. Chaque brique se règle : les paramètres de vos analyses d’eau, le contenu de vos devis, le nombre de jours avant la relance d’une facture."
     },
     {
+      "q": "Faut-il une formation pour utiliser Stagnum ?",
+      "a": "Non. Stagnum est conçu pour se prendre en main tout seul, même par un saisonnier qui arrive en juin. À la place d’une formation, nous vous accompagnons : au démarrage pour régler vos briques, puis chaque fois que vous avez une question."
+    },
+    {
       "q": "Faut-il parler à Stagnum pour l’utiliser ?",
       "a": "Non. Tout se fait à l’écran et au clavier. La voix est une possibilité en plus, pratique quand vous avez les mains occupées sur un chantier."
     },
@@ -133,6 +137,19 @@
             "text": "Chaque magasin a son abonnement. Vous les reliez pour partager vos clients et suivre tous vos magasins depuis un seul écran.",
             "href": ""
           }
+        ]
+      }
+    },
+    {
+      "discriminant": "liste",
+      "value": {
+        "background": "fonce",
+        "title": "Pas de formation, *un vrai accompagnement*",
+        "intro": "Stagnum se prend en main tout seul, même par un saisonnier qui arrive en juin. Pas de journée de formation à caler en pleine saison : à la place, nous restons à vos côtés.",
+        "items": [
+          "Pendant l’essai, nous réglons vos briques avec vous",
+          "Une question ? Vous parlez directement à l’équipe qui fait Stagnum",
+          "Aucune formation payante, ni au départ ni ensuite"
         ]
       }
     },
