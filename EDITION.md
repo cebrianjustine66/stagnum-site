@@ -7,18 +7,20 @@ On modifie le site directement sur ses pages, sans code à retenir.
 - **En ligne** : ouvrir `https://<adresse du site>/edition` et se connecter avec son compte GitHub (une seule fois).
 - **Sur cet ordinateur** : lancer `npm run dev`, puis ouvrir http://127.0.0.1:4321/edition.
 
-Comment s'en servir :
+Comment s’en servir :
 
-1. **Choisir la page** avec le menu « Page » en haut, ou en cliquant sur les liens du site.
+1. **Choisir la page** avec le menu « Page » en haut (il liste aussi les articles du blog), ou en cliquant sur les liens du site.
 2. **Cliquer sur un texte** pour l'écrire directement. Une petite barre apparaît au-dessus : *Surligner* (le trait orange des titres), *Lien*, *Insérer* (nombre de jours d'essai, nombre de briques…, qui se mettent à jour tout seuls).
-3. **Survoler un élément d'une liste** (arguments, questions fréquentes, étapes…) pour l'*ajouter*, le *déplacer* ou le *retirer*.
-4. **Le panneau de droite** montre tous les champs de la page, y compris ceux qu'on ne voit pas à l'écran : référencement Google, blocs supplémentaires, réglages. L'onglet *Tout le site* regroupe le menu, les boutons, le formulaire et les prix.
-5. **Publier** (en ligne) ou **Enregistrer** (sur l'ordinateur). En ligne, le site se met à jour tout seul en une à deux minutes.
+3. **Survoler un élément d'une liste** (arguments, questions fréquentes, étapes, cartes…) : le **+** vert en ajoute un juste après, le **−** rouge le retire, les flèches le déplacent.
+4. **Les blocs** : sous le contenu des pages Accueil, Tarifs, Comparatif, Qui sommes-nous et des pages de fonctionnalités, le bouton **+ Ajouter un bloc** propose les types de blocs (texte, liste à coches, cartes, étapes, équipe, appel à l'action, questions fréquentes). Le bloc apparaît tout de suite dans la page, avec des textes d'exemple à remplacer. En survolant un bloc : flèches pour le déplacer, **+** pour en ajouter un après, **−** pour le retirer, *Réglages* pour la couleur de fond, les icônes et les liens.
+5. **Le blog** : sur la page Blog, **+ Nouvel article** crée un article et l'ouvre. Le titre, le résumé, le thème et tout le texte s'écrivent directement dans la page ; la barre en bas de l'écran donne les intertitres, les listes, le gras et les liens. En survolant un article de la liste, **− Supprimer l'article** le retire. L'adresse d'un nouvel article est fixée à la publication, d'après son titre.
+6. **Le bouton « Réglages »** en haut ouvre une fenêtre pour ce qui ne se voit pas dans la page : référencement Google, réglages de la page, et l'onglet *Tout le site* (menu, boutons, formulaire, prix). Pour un article : la date, le temps de lecture, l'icône, le titre pour Google.
+7. **Publier** (en ligne) ou **Enregistrer** (sur l'ordinateur). En ligne, le site se met à jour tout seul en une à deux minutes.
 
-Les modifications non publiées restent gardées dans le navigateur, même si on ferme la page.
+Les modifications non publiées restent gardées dans le navigateur, même si on ferme la page ou qu'on change de page.
 Si quelqu'un a modifié la même rubrique entre-temps, l'éditeur prévient au lieu d'écraser son travail.
 
-Ce que l'éditeur visuel ne fait pas encore : le texte des **articles du blog** et les **photos de l'équipe**. Pour ceux-là, utiliser l'ancien éditeur décrit ci-dessous (/keystatic).
+Ce que l'éditeur visuel ne fait pas encore : les **photos de l'équipe** et la **création d'une page de fonctionnalité**. Pour celles-là, utiliser l'ancien éditeur décrit ci-dessous (/keystatic).
 
 ## L'ancien éditeur (/keystatic)
 

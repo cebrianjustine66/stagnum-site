@@ -1,6 +1,7 @@
 // Ce que l'éditeur sait des contenus : quelles rubriques existent, sur quelle page elles s'affichent,
 // et la description de chaque champ. Tout vient de keystatic.config.ts, qui reste la référence.
 import config from '../../keystatic.config';
+import { isNewPost, isPost, postSlug } from './posts';
 
 export type Field = any;
 export type Path = (string | number)[];
@@ -46,8 +47,54 @@ export function pageEntries(files: Record<string, any>): Entry[] {
     .sort((a, b) => (files[a.id]?.order ?? 99) - (files[b.id]?.order ?? 99));
 }
 
+// Articles du blog. Leurs textes se modifient directement dans la page de l'article (voir inline.ts).
+export const POST_SCHEMA = (config.collections as any).posts.schema;
+const POST_TEXTS = {
+  h1: { kind: 'form', label: 'Titre de l’article' },
+  description: { kind: 'form', label: 'Résumé', multiline: true },
+  tag: { kind: 'form', label: 'Thème' },
+};
+export function postEntries(files: Record<string, any>): Entry[] {
+  return Object.keys(files)
+    .filter((p) => isPost(p) && files[p])
+    .map((p) => ({ id: p, label: files[p].h1 || 'Article', url: isNewPost(p) ? undefined : `/blog/${postSlug(p)}/`, schema: POST_TEXTS, scope: 'page' as const }));
+}
+
 export function allEntries(files: Record<string, any>) {
-  return [...singletonEntries(), ...pageEntries(files)];
+  return [...singletonEntries(), ...pageEntries(files), ...postEntries(files)];
+}
+
+// Blocs empilables en bas des pages (« Blocs supplémentaires »).
+export const BLOCK_FIELD = (config.singletons as any).accueil.schema.blocks;
+export const BLOCK_TYPES = BLOCK_FIELD.element.discriminant.options as { label: string; value: string }[];
+export const blockLabel = (type: string) => BLOCK_TYPES.find((t) => t.value === type)?.label.split(' :')[0] ?? 'Bloc';
+
+// Contenu d'un nouveau bloc : des textes d'exemple, pour qu'on puisse cliquer dessus et les écrire.
+export function starterBlock(type: string): { discriminant: string; value: any } {
+  const v: Record<string, any> = {
+    texte: { title: 'Votre *titre*', text: 'Votre texte. Cliquez dessus pour l’écrire.', background: 'clair' },
+    liste: { title: 'Votre *titre*', intro: 'Une phrase d’introduction.', items: ['Premier point', 'Deuxième point', 'Troisième point'], background: 'sable' },
+    cartes: {
+      title: 'Titre au-dessus des *cartes*',
+      cards: [
+        { icon: 'devis', title: 'Première carte', text: 'Le texte de la première carte.', href: '' },
+        { icon: 'chantiers', title: 'Deuxième carte', text: 'Le texte de la deuxième carte.', href: '' },
+        { icon: 'factures', title: 'Troisième carte', text: 'Le texte de la troisième carte.', href: '' },
+      ],
+    },
+    etapes: {
+      title: 'En trois *étapes*',
+      steps: [
+        { title: 'Première étape', text: 'Ce qui se passe d’abord.' },
+        { title: 'Deuxième étape', text: 'Ce qui se passe ensuite.' },
+        { title: 'Troisième étape', text: 'Et pour finir.' },
+      ],
+    },
+    equipe: { title: 'L’*équipe*', text: 'Quelques mots sur l’équipe.', button: 'Qui sommes-nous', href: '/a-propos/' },
+    cta: { title: 'Prêt à essayer Stagnum ?' },
+    faq: { title: 'Questions fréquentes', items: [{ q: 'Première question ?', a: 'La réponse.' }, { q: 'Deuxième question ?', a: 'La réponse.' }] },
+  };
+  return { discriminant: type, value: structuredClone(v[type] ?? {}) };
 }
 
 const clean = (u: string) => (u.endsWith('/') ? u : `${u}/`);
@@ -78,6 +125,10 @@ export function pickerPages(files: Record<string, any>) {
       { label: 'Blog', url: '/blog/' },
     ] },
     { group: 'Fonctionnalités', items: pageEntries(files).map((e) => ({ label: e.label, url: e.url! })) },
+    { group: 'Articles du blog', items: Object.keys(files)
+      .filter((p) => isPost(p) && files[p])
+      .sort((a, b) => String(files[b].date).localeCompare(String(files[a].date)))
+      .map((p) => ({ label: files[p].h1 || 'Article', url: isNewPost(p) ? `article:${p}` : `/blog/${postSlug(p)}/` })) },
     { group: 'Autres pages', items: [
       { label: 'Merci (après le formulaire)', url: '/merci/' },
       { label: 'Mentions légales', url: '/mentions-legales/' },
@@ -86,15 +137,17 @@ export function pickerPages(files: Record<string, any>) {
   ];
 }
 
-// Champ décrit à un chemin donné (ex. ['faq', 2, 'q']).
-export function fieldAt(schema: Record<string, Field>, path: Path): Field | undefined {
+// Champ décrit à un chemin donné (ex. ['faq', 2, 'q']). Pour les blocs, value (le contenu) indique leur type.
+export function fieldAt(schema: Record<string, Field>, path: Path, value?: any): Field | undefined {
   let f: Field = { kind: 'object', fields: schema };
+  let v = value;
   for (const k of path) {
     if (!f) return undefined;
     if (f.kind === 'object') f = f.fields[k as string];
     else if (f.kind === 'array') f = typeof k === 'number' ? f.element : undefined;
-    else if (f.kind === 'conditional') f = k === 'discriminant' ? f.discriminant : k === 'value' ? f : undefined;
+    else if (f.kind === 'conditional') f = k === 'discriminant' ? f.discriminant : k === 'value' ? f.values?.[v?.discriminant] : undefined;
     else return undefined;
+    v = v?.[k as any];
   }
   return f;
 }
