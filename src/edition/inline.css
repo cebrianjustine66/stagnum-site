@@ -43,15 +43,66 @@
 .ed-tools select option { color: #0E2224; }
 .ed-hl-ico { background: linear-gradient(transparent 55%, rgba(236, 127, 81, .9) 55%); padding: 0 2px; }
 
-.ed-itembar {
-  display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: #fff;
-  box-shadow: 0 0 0 1px rgba(14, 34, 36, .12), 0 10px 24px -10px rgba(5, 42, 48, .45);
+.ed-bar {
+  display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 12px; background: #fff;
+  box-shadow: 0 0 0 1px rgba(14, 34, 36, .12), 0 12px 26px -10px rgba(5, 42, 48, .45);
   opacity: 0; pointer-events: none; transition: opacity .12s ease;
 }
-.ed-itembar.show { opacity: 1; pointer-events: auto; }
-.ed-itembar button { height: 26px; min-width: 26px; padding: 0 8px; border: 0; border-radius: 7px; background: transparent; font-size: 12px; }
-.ed-itembar button:hover:not(:disabled) { background: #E7F5F5; color: #117C83; }
-.ed-itembar button[data-op="duplicate"] { color: #117C83; }
-.ed-itembar button[data-op="remove"]:hover:not(:disabled) { background: #FCE8EC; color: #A3243C; }
-.ed-itembar button:disabled { opacity: .3; cursor: default; }
-.ed-on [data-ed-item]:hover { box-shadow: 0 0 0 1.5px rgba(23, 153, 161, .35); border-radius: 12px; }
+.ed-bar.show { opacity: 1; pointer-events: auto; }
+.ed-bar button { height: 30px; min-width: 30px; padding: 0 9px; border: 0; border-radius: 8px; background: transparent; font-size: 13px; }
+.ed-bar button:hover:not(:disabled) { background: #E7F5F5; color: #117C83; }
+.ed-bar button:disabled { opacity: .3; cursor: default; }
+/* + et − : bien visibles, ronds, vert pour ajouter, rouge pour retirer. */
+.ed-bar .ed-plus, .ed-bar .ed-minus { width: 30px; padding: 0; border-radius: 50%; font: 700 20px/1 "Inter Variable", system-ui, sans-serif; color: #fff; }
+.ed-bar .ed-plus { background: #1799A1; }
+.ed-bar .ed-plus:hover:not(:disabled) { background: #117C83; color: #fff; }
+.ed-bar .ed-minus { background: #D9485F; margin-left: 2px; }
+.ed-bar .ed-minus:hover:not(:disabled) { background: #A3243C; color: #fff; }
+.ed-bar .ed-minus:disabled { background: #C9D3D2; }
+.ed-bar .ed-minus-label { color: #A3243C; }
+.ed-bar .ed-minus-label:hover { background: #FCE8EC !important; color: #A3243C !important; }
+.ed-bar-label { padding: 0 8px 0 6px; font-weight: 700; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: #48605F; white-space: nowrap; }
+.ed-blockbar { background: #0B3D42; color: #fff; }
+.ed-blockbar .ed-bar-label { color: #9FD9DC; }
+.ed-blockbar button { color: #fff; }
+.ed-blockbar button:hover:not(:disabled) { background: rgba(255, 255, 255, .16); color: #fff; }
+.ed-on [data-ed-item]:hover { box-shadow: 0 0 0 1.5px rgba(23, 153, 161, .45); border-radius: 12px; }
+.ed-on [data-ed-post]:hover { box-shadow: 0 0 0 2px rgba(23, 153, 161, .45); border-radius: 16px; }
+.ed-on [data-ed-block] > *:hover { box-shadow: inset 0 0 0 2px rgba(23, 153, 161, .35); }
+
+/* Boutons « + » dans le fil de la page (ajouter un bloc, un article). */
+.ed-ui.ed-inflow { position: relative; z-index: 5; display: flex; justify-content: center; padding: 18px 16px 34px; }
+.ed-addpost { justify-content: flex-start !important; padding: 0 0 22px !important; }
+.ed-inflow button {
+  display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 22px 0 8px; border-radius: 999px;
+  border: 2px dashed rgba(23, 153, 161, .55); background: rgba(255, 255, 255, .85); color: #117C83; font-weight: 700; font-size: 15px;
+  transition: background-color .15s ease, border-color .15s ease, transform .15s ease;
+}
+.ed-inflow button:hover { background: #E7F5F5; border-color: #1799A1; transform: translateY(-1px); }
+.ed-inflow button span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #1799A1; color: #fff; font-size: 22px; line-height: 1; }
+
+/* Choix du type de bloc. */
+.ed-menu {
+  width: 340px; padding: 8px; border-radius: 16px; background: #fff; display: none;
+  box-shadow: 0 0 0 1px rgba(14, 34, 36, .12), 0 24px 50px -20px rgba(5, 42, 48, .45);
+}
+.ed-menu.show { display: grid; gap: 2px; }
+.ed-menu p { margin: 6px 10px 6px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #7C9290; }
+.ed-menu button { display: grid; gap: 3px; padding: 10px 12px; border: 0; border-radius: 10px; background: none; text-align: left; line-height: 1.25; }
+.ed-menu button:hover { background: #E7F5F5; }
+.ed-menu button strong { font-weight: 650; }
+.ed-menu button span { font-weight: 500; font-size: 12px; color: #48605F; }
+
+/* Texte d'un article, modifiable comme un document. */
+.ed-on .ed-body { outline: 1.5px dashed rgba(23, 153, 161, .35); outline-offset: 14px; border-radius: 6px; cursor: text; }
+.ed-on .ed-body:focus { outline: 2px solid #1799A1; }
+.ed-on .ed-body a { cursor: text; }
+.ed-bodytools {
+  position: fixed !important; left: 50%; bottom: 18px; transform: translate(-50%, 8px);
+  display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 14px;
+  background: #0B3D42; color: #fff; box-shadow: 0 16px 36px -12px rgba(5, 42, 48, .7);
+  opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease;
+}
+.ed-bodytools.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.ed-bodytools button { height: 32px; padding: 0 11px; border: 0; border-radius: 9px; background: rgba(255, 255, 255, .1); color: #fff; white-space: nowrap; }
+.ed-bodytools button:hover { background: rgba(255, 255, 255, .22); }

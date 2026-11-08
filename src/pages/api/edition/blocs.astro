@@ -1,0 +1,12 @@
+---
+// Rendu des blocs en cours de modification, pour l'éditeur visuel (/edition) :
+// il reçoit les blocs d'une page et renvoie leur HTML, exactement comme sur le site.
+import Blocks from '../../../components/Blocks.astro';
+import type { Block } from '../../../lib';
+export const prerender = false;
+let blocks: Block[] = [];
+if (Astro.request.method === 'POST') {
+  try { blocks = (await Astro.request.json()).blocks ?? []; } catch {}
+}
+---
+<Blocks blocks={blocks} />

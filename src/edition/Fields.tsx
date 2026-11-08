@@ -1,4 +1,4 @@
-// Champs du panneau latéral, construits à partir de la description des contenus (keystatic.config.ts).
+// Champs de la fenêtre « Réglages », construits à partir de la description des contenus (keystatic.config.ts).
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { fromEditDOM, tidy, toEditHTML, VAR_LABELS, type Vars } from './markup';
 import { cleanDescription, isMultiline, richness, type Field, type Path } from './schema';

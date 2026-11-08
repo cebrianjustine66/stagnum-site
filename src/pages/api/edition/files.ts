@@ -1,7 +1,7 @@
 // Lecture et écriture des contenus pour l'éditeur visuel, uniquement sur l'ordinateur (npm run dev).
 // En ligne, l'éditeur passe par GitHub et cette adresse ne répond pas.
 import type { APIRoute } from 'astro';
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile, readdir, unlink } from 'node:fs/promises';
 import { join, relative, resolve, sep } from 'node:path';
 
 export const prerender = false;
@@ -34,8 +34,12 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async ({ request }) => {
   if (!import.meta.env.DEV) return off();
-  const { files } = (await request.json()) as { files: Record<string, string> };
+  // Un contenu à null supprime le fichier (un article retiré du blog).
+  const { files } = (await request.json()) as { files: Record<string, string | null> };
   for (const p of Object.keys(files)) if (!allowed(p)) return new Response(`Fichier refusé : ${p}`, { status: 400 });
-  for (const [p, text] of Object.entries(files)) await writeFile(resolve(ROOT, p), text, 'utf8');
+  for (const [p, text] of Object.entries(files)) {
+    if (text === null) await unlink(resolve(ROOT, p)).catch(() => {});
+    else await writeFile(resolve(ROOT, p), text, 'utf8');
+  }
   return Response.json({ ok: true });
 };

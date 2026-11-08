@@ -1,5 +1,6 @@
 ---
 // Blocs ajoutés depuis l'interface d'édition, affichés les uns sous les autres.
+// Les data-ed-* repèrent les blocs pour l'éditeur visuel (/edition), sans effet sur l'affichage.
 import Icon from './Icon.astro';
 import Faq from './Faq.astro';
 import Cta from './Cta.astro';
@@ -14,8 +15,9 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
 const cardColors = [['#0F5358', 'dark'], ['#E1F3F1', ''], ['#FBE6D2', '']];
 const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 ---
-{blocks.map(({ discriminant: type, value: b }) => (
-  <>
+<div data-ed-blocks style="display: contents">
+{blocks.map(({ discriminant: type, value: b }, index) => (
+  <div data-ed-block={index} style="display: contents">
     {type === 'texte' && (
       <section class={`block ${bg[b.background]}`}>
         <div class="wrap narrow reveal">
@@ -92,8 +94,9 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
     )}
     {type === 'cta' && <Cta title={b.title || undefined} />}
     {type === 'faq' && <Faq items={b.items} title={b.title || undefined} />}
-  </>
+  </div>
 ))}
+</div>
 
 <style>
   .narrow { max-width: 820px; }

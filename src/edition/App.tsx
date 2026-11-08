@@ -1,16 +1,23 @@
-// Éditeur visuel du site : la page s'affiche au centre, on clique sur un texte pour le modifier,
-// le panneau de droite montre tous les champs de la page, et « Publier » enregistre.
+// Éditeur visuel du site : la page s'affiche en grand, on clique sur un texte pour l'écrire, et les boutons
+// « + » et « − » de la page ajoutent ou retirent éléments, blocs et articles. Ce qui ne se voit pas à l'écran
+// (Google, couleurs de fond, réglages) est dans la fenêtre « Réglages ». « Publier » enregistre tout.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { attachInline, getAt } from './inline';
+import { attachInline, getAt, type BlogItem, type ListOp } from './inline';
 import { computeVars } from './markup';
-import { entriesForUrl, pickerPages, type Entry, type Path } from './schema';
+import { BLOCK_FIELD, blockLabel, entriesForUrl, pickerPages, POST_SCHEMA, type Entry, type Path } from './schema';
 import { AuthError, ConflictError, currentUser, load, login, logout, ONLINE, save, type Loaded, type User } from './source';
-import { FieldView, pathKey, type FieldCtx } from './Fields';
+import { FieldView, type FieldCtx } from './Fields';
+import { BLOG_DIR, isNewPost, isPost, newPost, parsePost, POST_SETTINGS, postSlug, serializePost, slugify } from './posts';
 
 type Files = Record<string, any>;
+type Ops = Record<string, { path: Path; op: ListOp }[] | null>;
 type Status = 'loading' | 'login' | 'noaccess' | 'ready' | 'error';
+type Dialog = null | { kind: 'page' } | { kind: 'block'; file: string; index: number } | { kind: 'post'; file: string };
 const DRAFT_KEY = 'stagnum-edition-brouillon';
-const serialize = (v: any) => JSON.stringify(v, null, 2) + '\n';
+
+// Contenu d'un fichier tel qu'il est enregistré (null : fichier absent ou supprimé).
+const serialize = (p: string, v: any): string | null =>
+  v === null || v === undefined ? null : isPost(p) ? serializePost(v) : JSON.stringify(v, null, 2) + '\n';
 
 function setAt(obj: any, path: Path, value: any): any {
   if (!path.length) return value;
@@ -20,7 +27,7 @@ function setAt(obj: any, path: Path, value: any): any {
   return copy;
 }
 
-const readDraft = (): { texts: Record<string, string>; files: Files } | null => {
+const readDraft = (): { texts: Record<string, string>; files: Files; ops?: Ops } | null => {
   try { return JSON.parse(localStorage.getItem(DRAFT_KEY) ?? 'null'); } catch { return null; }
 };
 
@@ -31,25 +38,34 @@ export default function App() {
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [base, setBase] = useState<Files>({});
   const [files, setFiles] = useState<Files>({});
+  const [ops, setOps] = useState<Ops>({});
   const [url, setUrl] = useState(() => new URLSearchParams(location.search).get('page') || '/');
+  const [postView, setPostView] = useState<string | null>(null); // article pas encore publié, affiché dans la page
   const [frameKey, setFrameKey] = useState(0);
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [dialog, setDialog] = useState<Dialog>(null);
   const [tab, setTab] = useState<'page' | 'site'>('page');
-  const [focus, setFocus] = useState<{ key: string; label: string } | null>(null);
-  const [inlineCount, setInlineCount] = useState(0);
+  const [ready, setReady] = useState(false);
   const [skipped, setSkipped] = useState<string[]>([]);
   const [toast, setToast] = useState<{ text: string; kind?: 'ok' | 'err' } | null>(null);
   const [busy, setBusy] = useState(false);
   const [picker, setPicker] = useState(false);
   const frame = useRef<HTMLIFrameElement>(null);
+  const src = useRef(url);
   const inline = useRef<ReturnType<typeof attachInline> | null>(null);
   const filesRef = useRef(files);
-  filesRef.current = files;
+  const baseRef = useRef(base);
+  const opsRef = useRef(ops);
+  baseRef.current = base;
 
   const say = (text: string, kind?: 'ok' | 'err') => {
     setToast({ text, kind });
     window.setTimeout(() => setToast((t) => (t?.text === text ? null : t)), kind === 'err' ? 8000 : 4500);
   };
+
+  // Les contenus sont mis à jour tout de suite (la page en a besoin sans attendre React).
+  const commit = (next: Files) => { filesRef.current = next; setFiles(next); };
+  const commitOps = (next: Ops) => { opsRef.current = next; setOps(next); };
 
   /* ---------- Chargement ---------- */
 
@@ -59,14 +75,24 @@ export default function App() {
       if (ONLINE) setUser(await currentUser());
       const l = await load();
       const parsed: Files = {};
-      for (const [p, t] of Object.entries(l.texts)) if (p.endsWith('.json')) parsed[p] = JSON.parse(t);
+      for (const [p, t] of Object.entries(l.texts)) {
+        if (p.endsWith('.json')) parsed[p] = JSON.parse(t);
+        else if (isPost(p)) parsed[p] = parsePost(t);
+      }
       setLoaded(l);
       setBase(parsed);
+      baseRef.current = parsed;
       // Brouillon gardé dans ce navigateur : on le reprend pour les fichiers qui n'ont pas changé depuis.
       const d = readDraft();
       const merged = { ...parsed };
-      if (d) for (const [p, v] of Object.entries(d.files)) if (d.texts[p] === l.texts[p]) merged[p] = v;
-      setFiles(merged);
+      const keptOps: Ops = {};
+      if (d) for (const [p, v] of Object.entries(d.files)) {
+        if (d.texts[p] !== l.texts[p]) continue;
+        merged[p] = v;
+        if (d.ops && p in d.ops) keptOps[p] = d.ops[p];
+      }
+      commit(merged);
+      commitOps(keptOps);
       setStatus('ready');
     } catch (e) {
       if (e instanceof AuthError) setStatus(e.message === 'no-access' ? 'noaccess' : 'login');
@@ -75,16 +101,23 @@ export default function App() {
   }, []);
   useEffect(() => { start(); }, [start]);
 
-  const changed = useMemo(() => Object.keys(files).filter((p) => serialize(files[p]) !== serialize(base[p])), [files, base]);
+  const changed = useMemo(
+    () => [...new Set([...Object.keys(files), ...Object.keys(base)])].filter((p) => serialize(p, files[p]) !== serialize(p, base[p])),
+    [files, base],
+  );
 
   // Brouillon enregistré dans le navigateur à chaque modification.
   useEffect(() => {
     if (status !== 'ready' || !loaded) return;
     try {
       if (!changed.length) localStorage.removeItem(DRAFT_KEY);
-      else localStorage.setItem(DRAFT_KEY, JSON.stringify({ texts: Object.fromEntries(changed.map((p) => [p, loaded.texts[p]])), files: Object.fromEntries(changed.map((p) => [p, files[p]])) }));
+      else localStorage.setItem(DRAFT_KEY, JSON.stringify({
+        texts: Object.fromEntries(changed.map((p) => [p, loaded.texts[p]])),
+        files: Object.fromEntries(changed.map((p) => [p, files[p] ?? null])),
+        ops: Object.fromEntries(changed.filter((p) => p in ops).map((p) => [p, ops[p]])),
+      }));
     } catch {}
-  }, [files, changed, status, loaded]);
+  }, [files, ops, changed, status, loaded]);
 
   useEffect(() => {
     const warn = (e: BeforeUnloadEvent) => { if (changed.length) e.preventDefault(); };
@@ -92,70 +125,162 @@ export default function App() {
     return () => removeEventListener('beforeunload', warn);
   }, [changed.length]);
 
-  const { own, site } = useMemo(() => entriesForUrl(url, files), [url, files]);
   const vars = useMemo(() => computeVars(files), [files]);
 
   /* ---------- Modifications ---------- */
 
-  const change = useCallback((file: string, path: Path, value: any) => {
-    setFiles((f) => ({ ...f, [file]: setAt(f[file], path, value) }));
-    if (typeof value === 'string') inline.current?.update(file, path, value);
-  }, []);
+  // from : 'page' quand on écrit dans la page, 'dialog' quand on passe par la fenêtre « Réglages ».
+  const change = (file: string, path: Path, value: any, from: 'page' | 'dialog') => {
+    commit({ ...filesRef.current, [file]: setAt(filesRef.current[file], path, value) });
+    if (from === 'page') return;
+    if (path[0] === 'blocks' && !isPost(file)) inline.current?.blocksChanged();
+    else if (Array.isArray(value)) {
+      // Liste modifiée dans la fenêtre : la page la montrera après publication.
+      commitOps({ ...opsRef.current, [file]: null });
+    } else if (typeof value === 'string') inline.current?.update(file, path, value);
+  };
 
-  const listOp = useCallback((file: string, path: Path, op: { type: string; index: number }) => {
-    setFiles((f) => {
-      const arr = [...(getAt(f[file], path) as any[])];
-      const i = op.index;
-      if (op.type === 'duplicate') arr.splice(i + 1, 0, structuredClone(arr[i]));
-      if (op.type === 'remove') arr.splice(i, 1);
-      if (op.type === 'up') [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
-      if (op.type === 'down') [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]];
-      return { ...f, [file]: setAt(f[file], path, arr) };
+  const listOp = (file: string, path: Path, op: ListOp) => {
+    const f = filesRef.current;
+    const arr = [...(getAt(f[file], path) as any[])];
+    const i = op.index;
+    if (op.type === 'duplicate') arr.splice(i + 1, 0, structuredClone(arr[i]));
+    if (op.type === 'remove') arr.splice(i, 1);
+    if (op.type === 'up') [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
+    if (op.type === 'down') [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]];
+    commit({ ...f, [file]: setAt(f[file], path, arr) });
+    // Retenu pour pouvoir le rejouer si on revient sur la page avant de publier (les blocs se redessinent seuls).
+    if (path[0] !== 'blocks') {
+      const prev = opsRef.current[file];
+      if (prev !== null) commitOps({ ...opsRef.current, [file]: [...(prev ?? []), { path, op }] });
+    }
+  };
+
+  /* ---------- Articles du blog ---------- */
+
+  const blogItems = (): BlogItem[] => {
+    const f = filesRef.current, b = baseRef.current;
+    return [...new Set([...Object.keys(f), ...Object.keys(b)])].filter(isPost).map((p) => {
+      const v = f[p] ?? b[p] ?? {};
+      return {
+        file: p, url: `/blog/${postSlug(p)}/`, h1: v.h1 ?? '', description: v.description ?? '', tag: v.tag ?? '', date: String(v.date ?? ''),
+        status: f[p] === null || f[p] === undefined ? 'deleted' : b[p] ? 'base' : 'new',
+      };
     });
-  }, []);
+  };
+
+  // Un article pas encore publié s'affiche dans la mise en page d'un article existant.
+  const shellUrl = () => {
+    const p = Object.keys(baseRef.current).find(isPost);
+    return p ? `/blog/${postSlug(p)}/` : null;
+  };
+
+  const go = (u: string) => {
+    setPicker(false);
+    if (u.startsWith('article:')) return openPost(u.slice('article:'.length));
+    src.current = u;
+    setFrameKey((k) => k + 1);
+  };
+
+  const openPost = (file: string) => {
+    if (!isNewPost(file) && baseRef.current[file]) return go(`/blog/${postSlug(file)}/`);
+    const shell = shellUrl();
+    if (!shell) return say('Il faut au moins un article publié pour en créer un nouveau ici.', 'err');
+    src.current = `${shell}?ed-article=${encodeURIComponent(file)}`;
+    setFrameKey((k) => k + 1);
+  };
+
+  const addPost = () => {
+    let n = 1;
+    while (filesRef.current[`${BLOG_DIR}__nouveau-${n}.md`] !== undefined) n++;
+    const file = `${BLOG_DIR}__nouveau-${n}.md`;
+    commit({ ...filesRef.current, [file]: newPost() });
+    openPost(file);
+    say('Nouvel article : cliquez sur le titre, le résumé et le texte pour les écrire. La date et l’icône sont dans « Réglages ».', 'ok');
+  };
+
+  const removePost = (file: string) => {
+    const next = { ...filesRef.current };
+    if (baseRef.current[file]) next[file] = null;
+    else delete next[file];
+    commit(next);
+    // On était sur la page de cet article : retour au blog.
+    if (src.current.includes(`ed-article=${encodeURIComponent(file)}`) || src.current.startsWith(`/blog/${postSlug(file)}/`)) go('/blog/');
+  };
 
   /* ---------- Page affichée ---------- */
+
+  useEffect(() => {
+    if (status === 'ready' && frame.current) { setReady(false); frame.current.src = src.current; }
+  }, [frameKey, status]);
 
   const onFrameLoad = () => {
     const win = frame.current?.contentWindow;
     const doc = frame.current?.contentDocument;
-    if (!win || !doc) return;
+    if (!win || !doc || doc.location.href === 'about:blank') return;
     const path = win.location.pathname;
-    setUrl(path);
-    history.replaceState(null, '', `?page=${encodeURIComponent(path)}`);
-    const { own: o, site: s } = entriesForUrl(path, filesRef.current);
+    const virt = new URLSearchParams(win.location.search).get('ed-article');
+    const view = virt && filesRef.current[virt] ? virt : null;
+    src.current = path + win.location.search;
+    setPostView(view);
+    setUrl(view ? '/blog/' : path);
+    history.replaceState(null, '', `?page=${encodeURIComponent(view ? '/blog/' : path)}`);
+    const f = filesRef.current;
+    const { own, site } = entriesForUrl(path, f);
+    const ownPost = view ?? own.find((e) => isPost(e.id))?.id ?? null;
+    const textOwn = view ? [] : own.filter((e) => !isPost(e.id));
     // Les textes s'attachent une fois la page prête (polices et animations d'entrée comprises).
     win.setTimeout(() => {
       inline.current = attachInline(doc, {
-        entries: [...o, ...s],
-        base,
+        entries: [...textOwn, ...site],
+        base: baseRef.current,
         getFiles: () => filesRef.current,
-        onChange: change,
+        onChange: (file, p, v) => change(file, p, v, 'page'),
         onList: listOp,
-        onFocus: (file, p, label) => { setFocus({ key: pathKey(file, p), label }); setTab(o.some((e) => e.id === file) ? 'page' : 'site'); },
+        replay: opsRef.current,
+        blocksFile: textOwn.find((e) => e.schema.blocks)?.id ?? null,
+        onBlockSettings: (file, index) => setDialog({ kind: 'block', file, index }),
+        post: ownPost ? { file: ownPost, fill: !!view || f[ownPost]?.content !== baseRef.current[ownPost]?.content } : null,
+        blog: path === '/blog/' ? { items: blogItems(), onAdd: addPost, onRemove: removePost, onOpen: openPost } : null,
+        onError: (m) => say(m, 'err'),
       });
-      setInlineCount(inline.current.count);
       setSkipped(inline.current.skipped);
+      setReady(true);
     }, 300);
   };
 
-  const go = (u: string) => { setPicker(false); setFocus(null); if (u === url) setFrameKey((k) => k + 1); else setUrl(u); };
-
   /* ---------- Publication ---------- */
 
-  const labelOf = (p: string) => [...own, ...site, ...entriesForUrl('/', files).own].find((e) => e.id === p)?.label
-    ?? (p.startsWith('src/content/pages/') ? files[p]?.nav : p.split('/').pop()?.replace('.json', ''));
+  const labelOf = (p: string) => {
+    if (isPost(p)) return `article « ${(files[p] ?? base[p])?.h1 ?? postSlug(p)} »`;
+    return entriesForUrl('/', files).own.concat(entriesForUrl('/', files).site).find((e) => e.id === p)?.label
+      ?? [...entriesForUrl(url, files).own].find((e) => e.id === p)?.label
+      ?? (p.startsWith('src/content/pages/') ? files[p]?.nav : p.split('/').pop()?.replace('.json', ''));
+  };
 
   const publish = async () => {
     if (!loaded || !changed.length) return;
     setBusy(true);
     try {
+      // Un nouvel article prend son adresse d'après son titre.
+      const changes: Record<string, string | null> = {};
+      const renamed: Record<string, string> = {};
+      for (const p of changed) {
+        if (!isNewPost(p)) { changes[p] = serialize(p, files[p]); continue; }
+        const slug = slugify(files[p].h1 ?? '');
+        let q = `${BLOG_DIR}${slug}.md`;
+        for (let n = 2; base[q] !== undefined || files[q] || q in changes; n++) q = `${BLOG_DIR}${slug}-${n}.md`;
+        changes[q] = serialize(q, files[p]);
+        renamed[p] = q;
+      }
       const names = [...new Set(changed.map(labelOf))].join(', ');
-      await save(Object.fromEntries(changed.map((p) => [p, serialize(files[p])])), loaded, `Met à jour le contenu du site : ${names}`);
+      await save(changes, loaded, `Met à jour le contenu du site : ${names}`);
       localStorage.removeItem(DRAFT_KEY);
       say(ONLINE ? 'Publié ! Le site se met à jour tout seul d’ici une à deux minutes.' : 'Enregistré. La page se met à jour.', 'ok');
       await start();
-      setFrameKey((k) => k + 1);
+      const viewed = postView && renamed[postView];
+      if (viewed) go(ONLINE ? '/blog/' : `/blog/${postSlug(viewed)}/`);
+      else setFrameKey((k) => k + 1);
     } catch (e) {
       if (e instanceof ConflictError) say(`Quelqu’un a modifié ${e.files.map(labelOf).join(', ')} entre-temps. Vos modifications sont gardées : rechargez la page pour repartir de la dernière version.`, 'err');
       else if (e instanceof AuthError) { setStatus('login'); }
@@ -167,9 +292,11 @@ export default function App() {
 
   const discard = () => {
     if (!confirm(`Annuler ${changed.length > 1 ? `les modifications de ${changed.length} rubriques` : 'les modifications'} ? Elles seront perdues.`)) return;
-    setFiles(base);
+    commit(base);
+    commitOps({});
     localStorage.removeItem(DRAFT_KEY);
-    setFrameKey((k) => k + 1);
+    if (postView) go('/blog/');
+    else setFrameKey((k) => k + 1);
   };
 
   /* ---------- Écrans ---------- */
@@ -198,16 +325,18 @@ export default function App() {
   }
   if (status === 'error') return <div className="screen"><div className="card"><h1>Le site n’a pas pu être chargé</h1><p>{error}</p><button className="btn primary" onClick={start}>Réessayer</button></div></div>;
 
-  const shown = tab === 'page' ? own : site;
+  const { own, site } = entriesForUrl(url, files);
   const pages = pickerPages(files);
-  const current = pages.flatMap((g) => g.items).find((i) => i.url === url)?.label ?? url;
-  const fieldCtx = (e: Entry): FieldCtx => ({
-    file: e.id,
+  const currentPost = postView ?? own.find((e) => isPost(e.id))?.id ?? null;
+  const current = currentPost ? files[currentPost]?.h1 ?? 'Article' : pages.flatMap((g) => g.items).find((i) => i.url === url)?.label ?? url;
+  const fieldCtx = (id: string): FieldCtx => ({
+    file: id,
     vars,
-    focusKey: focus?.key ?? null,
-    onChange: (p, v) => change(e.id, p, v),
-    onReveal: (p) => inline.current?.reveal(e.id, p) ?? false,
+    focusKey: null,
+    onChange: (p, v) => change(id, p, v, 'dialog'),
+    onReveal: (p) => { const ok = inline.current?.reveal(id, p) ?? false; if (ok) setDialog(null); return ok; },
   });
+  const pageEntries = own.filter((e) => !isPost(e.id));
 
   return (
     <div className="app">
@@ -225,18 +354,28 @@ export default function App() {
                 {pages.map((g) => (
                   <div key={g.group}>
                     <p className="pick-group">{g.group}</p>
-                    {g.items.map((i) => (
-                      <button key={i.url} className={i.url === url ? 'on' : ''} onClick={() => go(i.url)}>
-                        {i.label}
-                        {changed.some((p) => entriesForUrl(i.url, files).own.some((e) => e.id === p)) && <span className="dot" title="Modifiée" />}
-                      </button>
-                    ))}
+                    {g.items.map((i) => {
+                      const file = i.url.startsWith('article:') ? i.url.slice(8) : null;
+                      const on = file ? postView === file : !postView && i.url === url;
+                      const dirty = file ? changed.includes(file) : changed.some((p) => entriesForUrl(i.url, files).own.some((e) => e.id === p));
+                      return (
+                        <button key={i.url} className={on ? 'on' : ''} onClick={() => go(i.url)}>
+                          {i.label}
+                          {dirty && <span className="dot" title="Modifiée" />}
+                        </button>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
             </>
           )}
         </div>
+
+        <button className="btn settings" onClick={() => setDialog(currentPost ? { kind: 'post', file: currentPost } : { kind: 'page' })} title="Référencement Google, réglages, tout ce qui ne se voit pas dans la page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></svg>
+          Réglages
+        </button>
 
         <div className="device">
           <button className={device === 'desktop' ? 'on' : ''} onClick={() => setDevice('desktop')} title="Ordinateur">
@@ -261,60 +400,127 @@ export default function App() {
         </div>
       </header>
 
-      <main className="main">
-        <section className={`stage ${device}`}>
-          <div className="hint">
-            <span className="pulse" />
-            {inlineCount ? 'Cliquez sur un texte pour le modifier. Survolez une liste pour ajouter ou retirer un élément.' : 'Chargement de la page…'}
-          </div>
-          <div className="frame-wrap">
-            <iframe key={frameKey} ref={frame} src={url} onLoad={onFrameLoad} title="Aperçu du site" />
-          </div>
-        </section>
-
-        <aside className="panel">
-          <div className="tabs">
-            <button className={tab === 'page' ? 'on' : ''} onClick={() => setTab('page')}>Cette page</button>
-            <button className={tab === 'site' ? 'on' : ''} onClick={() => setTab('site')}>Tout le site</button>
-          </div>
-          <div className="panel-body">
-            {tab === 'site' && <p className="panel-intro">Ce qui revient sur plusieurs pages : le menu, les boutons, le formulaire, les prix des briques…</p>}
-            {tab === 'page' && !shown.length && (url.startsWith('/blog/') && url !== '/blog/'
-              ? <div className="notice"><strong>Les articles du blog</strong><p>Pour l’instant, le texte des articles se modifie dans l’ancien éditeur.</p><a className="btn" href="/keystatic/collection/posts" target="_blank">Ouvrir les articles</a></div>
-              : <p className="panel-intro">Cette page n’a pas de textes à elle : ses textes viennent de « Tout le site ».</p>)}
-            {skipped.length > 0 && <div className="notice"><p>Vos ajouts dans {skipped.map((p) => `« ${labelOf(p)} »`).join(', ')} apparaîtront dans la page après {ONLINE ? 'publication' : 'enregistrement'}. En attendant, modifiez ces textes dans le panneau.</p></div>}
-            {shown.map((e) => (
-              <EntryView key={e.id} entry={e} value={files[e.id]} ctx={fieldCtx(e)} changed={changed.includes(e.id)} defaultOpen={tab === 'page' && shown.length === 1} focusKey={focus?.key ?? null} />
-            ))}
-          </div>
-        </aside>
+      <main className={`stage ${device}`}>
+        <div className="hint">
+          <span className="pulse" />
+          {!ready ? 'Chargement de la page…' : <>Cliquez sur un texte pour l’écrire. Survolez un élément : <b className="k plus">+</b> en ajoute un, <b className="k minus">−</b> le retire.</>}
+          {ready && skipped.length > 0 && <span className="warn">Les textes de {skipped.map((p) => `« ${labelOf(p)} »`).join(', ')} se modifient dans « Réglages » jusqu’à la prochaine publication.</span>}
+        </div>
+        <div className="frame-wrap">
+          <iframe key={frameKey} ref={frame} onLoad={onFrameLoad} title="Aperçu du site" />
+        </div>
       </main>
+
+      {dialog && (
+        <div className="dialog-veil" onMouseDown={(e) => { if (e.target === e.currentTarget) setDialog(null); }}>
+          <div className="dialog" role="dialog" aria-modal="true">
+            {dialog.kind === 'block' && (() => {
+              const b = files[dialog.file]?.blocks?.[dialog.index];
+              if (!b) return null;
+              return (
+                <>
+                  <DialogHead title={`Bloc « ${blockLabel(b.discriminant)} »`} onClose={() => setDialog(null)} />
+                  <div className="dialog-body">
+                    <p className="panel-intro">Les textes se modifient aussi directement dans la page. Ici : la couleur de fond, les icônes, les liens.</p>
+                    <FieldView field={BLOCK_FIELD.element.values[b.discriminant]} value={b.value} path={['blocks', dialog.index, 'value']} ctx={fieldCtx(dialog.file)} label="" />
+                  </div>
+                </>
+              );
+            })()}
+            {dialog.kind === 'post' && files[dialog.file] && (
+              <>
+                <DialogHead title="Réglages de l’article" onClose={() => setDialog(null)} />
+                <div className="dialog-body">
+                  <PostSettings value={files[dialog.file]} onChange={(k, v) => change(dialog.file, [k], v, 'dialog')} />
+                  <div className="danger-zone">
+                    <button className="btn danger" onClick={() => { if (confirm(`Supprimer l’article « ${files[dialog.file].h1} » ?\nIl sera retiré du site à la publication.`)) { removePost(dialog.file); setDialog(null); } }}>− Supprimer l’article</button>
+                  </div>
+                </div>
+              </>
+            )}
+            {dialog.kind === 'page' && (
+              <>
+                <DialogHead title="Réglages" onClose={() => setDialog(null)} />
+                <div className="tabs">
+                  <button className={tab === 'page' ? 'on' : ''} onClick={() => setTab('page')}>Cette page</button>
+                  <button className={tab === 'site' ? 'on' : ''} onClick={() => setTab('site')}>Tout le site</button>
+                </div>
+                <div className="dialog-body">
+                  {tab === 'page' && <p className="panel-intro">Le référencement Google et tout ce qui ne se voit pas dans la page. Les textes visibles se modifient directement dans la page.</p>}
+                  {tab === 'site' && <p className="panel-intro">Ce qui revient sur plusieurs pages : le menu, les boutons, le formulaire, les prix des briques…</p>}
+                  {tab === 'page' && !pageEntries.length && <p className="panel-intro">Cette page n’a pas de réglages à elle : voyez « Tout le site ».</p>}
+                  {(tab === 'page' ? pageEntries : site).map((e) => (
+                    <EntryView key={e.id} entry={e} value={files[e.id]} ctx={fieldCtx(e.id)} changed={changed.includes(e.id)} defaultOpen={tab === 'page' && pageEntries.length === 1} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {toast && <div className={`toast ${toast.kind ?? ''}`}>{toast.text}</div>}
     </div>
   );
 }
 
+function DialogHead({ title, onClose }: { title: string; onClose: () => void }) {
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    addEventListener('keydown', esc);
+    return () => removeEventListener('keydown', esc);
+  }, [onClose]);
+  return (
+    <div className="dialog-head">
+      <h2>{title}</h2>
+      <button className="close" onClick={onClose} title="Fermer" autoFocus>✕</button>
+    </div>
+  );
+}
+
+// Réglages d'un article : date, temps de lecture, icône, Google…
+function PostSettings({ value, onChange }: { value: any; onChange: (k: string, v: any) => void }) {
+  const selects = [
+    { key: 'icon', label: 'Icône', help: 'Affichée dans « À lire aussi ».', options: POST_SCHEMA.icon.options },
+    { key: 'color', label: 'Couleur de l’icône', options: POST_SCHEMA.color.options },
+  ];
+  return (
+    <div className="f-group">
+      {POST_SETTINGS.map((s) => (
+        <label key={s.key} className="f">
+          <span className="f-label">{s.label}</span>
+          {s.type === 'textarea'
+            ? <textarea className="f-input" rows={3} value={value[s.key] ?? ''} onChange={(e) => onChange(s.key, e.target.value)} />
+            : <input className={`f-input${s.type === 'number' ? ' f-num' : ''}`} type={s.type} value={value[s.key] ?? ''} onChange={(e) => onChange(s.key, s.type === 'number' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value)} />}
+          {s.help && <span className="f-help">{s.help}</span>}
+        </label>
+      ))}
+      {selects.map((s) => (
+        <label key={s.key} className="f">
+          <span className="f-label">{s.label}</span>
+          <select className="f-select" value={value[s.key] ?? ''} onChange={(e) => onChange(s.key, e.target.value)}>
+            {s.options.map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          {s.help && <span className="f-help">{s.help}</span>}
+        </label>
+      ))}
+    </div>
+  );
+}
+
 // Une rubrique : ses grandes parties (groupes) se replient.
-function EntryView({ entry, value, ctx, changed, defaultOpen, focusKey }: { entry: Entry; value: any; ctx: FieldCtx; changed: boolean; defaultOpen: boolean; focusKey: string | null }) {
+function EntryView({ entry, value, ctx, changed, defaultOpen }: { entry: Entry; value: any; ctx: FieldCtx; changed: boolean; defaultOpen: boolean }) {
   const [open, setOpen] = useState<string | null>(null);
   const [shown, setShown] = useState(defaultOpen);
   const groups = Object.entries(entry.schema);
-  // Ouvre la partie qui contient le texte sélectionné dans la page.
-  useEffect(() => {
-    if (!focusKey?.startsWith(`${entry.id}::`)) return;
-    const p = JSON.parse(focusKey.slice(entry.id.length + 2)) as Path;
-    setShown(true);
-    const top = String(p[0]);
-    setOpen(entry.schema[top]?.kind === 'object' || entry.schema[top]?.kind === 'array' ? top : null);
-  }, [focusKey, entry.id]);
   useEffect(() => setShown(defaultOpen), [defaultOpen]);
-  // Les réglages (type de page, ordre dans le menu, Google…) sont rangés à part, en dernier.
+  // Les réglages (type de page, ordre dans le menu, Google…) sont rangés à part, en premier.
   const isSetting = ([k, f]: [string, any]) => f.kind === 'form' && (!!f.options || typeof value?.[k] === 'number' || /Google|menu/i.test(f.label ?? ''));
   const loose = groups.filter(([, f]) => f.kind !== 'object' && f.kind !== 'array').filter((g) => !isSetting(g));
   const settings = groups.filter(([, f]) => f.kind !== 'object' && f.kind !== 'array').filter(isSetting);
-  const parts: [string, any][] = [...groups.filter(([, f]) => f.kind === 'object' || f.kind === 'array')];
+  const parts: [string, any][] = [];
   if (settings.length) parts.push(['__reglages', { kind: 'object', label: 'Réglages de la page', fields: Object.fromEntries(settings) }]);
+  parts.push(...groups.filter(([, f]) => f.kind === 'object' || f.kind === 'array'));
   return (
     <div className={`entry${shown ? ' open' : ''}`}>
       <button className="entry-head" onClick={() => setShown(!shown)}>

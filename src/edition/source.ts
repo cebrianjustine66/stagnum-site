@@ -29,7 +29,7 @@ async function localLoad(): Promise<Loaded> {
   return { texts: files, version: { ...files } };
 }
 
-async function localSave(changes: Record<string, string>, loaded: Loaded) {
+async function localSave(changes: Record<string, string | null>, loaded: Loaded) {
   const current = (await localLoad()).texts;
   const changed = Object.keys(changes).filter((p) => current[p] !== loaded.version[p]);
   if (changed.length) throw new ConflictError(changed);
@@ -85,7 +85,7 @@ async function githubLoad(): Promise<Loaded> {
   return { texts: Object.fromEntries(entries), version: blobs };
 }
 
-async function githubSave(changes: Record<string, string>, loaded: Loaded, message: string) {
+async function githubSave(changes: Record<string, string | null>, loaded: Loaded, message: string) {
   const latest = await contentTree();
   const changed = Object.keys(changes).filter((p) => latest.blobs[p] !== loaded.version[p]);
   if (changed.length) throw new ConflictError(changed);
@@ -93,7 +93,8 @@ async function githubSave(changes: Record<string, string>, loaded: Loaded, messa
     method: 'POST',
     body: JSON.stringify({
       base_tree: latest.treeSha,
-      tree: Object.entries(changes).map(([path, content]) => ({ path, mode: '100644', type: 'blob', content })),
+      // null : fichier supprimé (un article retiré du blog).
+      tree: Object.entries(changes).map(([path, content]) => (content === null ? { path, mode: '100644', type: 'blob', sha: null } : { path, mode: '100644', type: 'blob', content })),
     }),
   });
   const commit = await gh(`/repos/${REPO}/git/commits`, {
@@ -129,5 +130,6 @@ export function logout() {
 }
 
 export const load = () => (ONLINE ? githubLoad() : localLoad());
-export const save = (changes: Record<string, string>, loaded: Loaded, message: string) =>
+// Un contenu à null est supprimé.
+export const save = (changes: Record<string, string | null>, loaded: Loaded, message: string) =>
   ONLINE ? githubSave(changes, loaded, message) : localSave(changes, loaded);
