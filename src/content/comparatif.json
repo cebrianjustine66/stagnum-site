@@ -25,13 +25,13 @@
       {
         "icon": "caisse",
         "label": "Prix",
-        "us": "Selon vos briques et la taille de l’équipe",
+        "us": "Selon vos modules et la taille de l’équipe",
         "them": "49 €, 69 € ou 99 € HT par utilisateur et par mois"
       },
       {
         "icon": "inventaire",
         "label": "Composition",
-        "us": "Des briques indépendantes, à la carte",
+        "us": "Des modules indépendants, à la carte",
         "them": "Trois formules"
       },
       {
@@ -55,13 +55,13 @@
       {
         "icon": "devis",
         "label": "Saisie par l’IA et la voix",
-        "us": "Dans chaque brique",
+        "us": "Dans chaque module",
         "them": "Non mentionnées sur son site"
       },
       {
         "icon": "eau",
         "label": "Analyse d’eau",
-        "us": "Une brique dédiée",
+        "us": "Un module dédié",
         "them": "Non mentionnée sur sa page piscine"
       },
       {
@@ -94,7 +94,7 @@
         "icon": "reglages",
         "color": "#F3EDE2",
         "title": "Vous voulez un outil à votre main",
-        "text": "Vous ne prenez que les briques utiles, et chacune se règle à votre façon."
+        "text": "Vous ne prenez que les modules utiles, et chacun se règle à votre façon."
       },
       {
         "icon": "magasin",
@@ -152,7 +152,7 @@
     },
     {
       "q": "Stagnum est-il moins cher qu’Extrabat ?",
-      "a": "Cela dépend de la taille de votre équipe et des briques choisies. Stagnum facture par magasin et Extrabat par utilisateur : l’écart grandit avec le nombre de personnes. La calculette de la page Tarifs vous donne votre prix exact."
+      "a": "Cela dépend de la taille de votre équipe et des modules choisis. Stagnum facture par magasin et Extrabat par utilisateur : l’écart grandit avec le nombre de personnes. La calculette de la page Tarifs vous donne votre prix exact."
     },
     {
       "q": "Puis-je récupérer mes données Extrabat ?",

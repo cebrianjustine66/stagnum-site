@@ -8,11 +8,11 @@
     "said": "",
     "done": []
   },
-  "included": "Incluse avec la brique Factures",
+  "included": "Incluse avec le module Factures",
   "points": [
     "Réception des factures électroniques de vos fournisseurs",
     "Émission de vos factures au format exigé",
-    "Incluse dans la brique Factures, sans supplément",
+    "Incluse dans le module Factures, sans supplément",
     "Aucun changement dans votre façon de facturer"
   ],
   "sections": [
@@ -33,8 +33,8 @@
       "text": "Vous terminez la remise en route du bassin d’un camping. Vous faites la facture comme les autres, à l’écran ou à la voix. Stagnum la met au format exigé et la transmet par le circuit électronique."
     },
     {
-      "h2": "Comprise dans la brique Factures",
-      "text": "Pas d’option à ajouter ni de second abonnement : la facturation électronique fait partie de la brique Factures, comme les relances de paiement."
+      "h2": "Comprise dans le module Factures",
+      "text": "Pas d’option à ajouter ni de second abonnement : la facturation électronique fait partie du module Factures, comme les relances de paiement."
     }
   ],
   "faq": [
@@ -44,7 +44,7 @@
     },
     {
       "q": "La facturation électronique est-elle payante en plus dans Stagnum ?",
-      "a": "Non. Elle fait partie de la brique Factures."
+      "a": "Non. Elle fait partie du module Factures."
     },
     {
       "q": "Mes factures aux particuliers sont-elles concernées ?",
@@ -53,7 +53,7 @@
   ],
   "blocks": [],
   "order": 9,
-  "withBricks": "Avec la brique Factures",
+  "withBricks": "Avec le module Factures",
   "title": "Facturation électronique pour pisciniste | Stagnum",
   "description": "La facturation électronique devient obligatoire pour les piscinistes. Dates, obligations, et comment Stagnum vous met en conformité sans changer vos habitudes."
 }

@@ -89,13 +89,13 @@
         "icon": "magasin",
         "color": "#F3EDE2",
         "title": "Un prix clair",
-        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos briques, et le prix ne bouge pas après la première année."
+        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos modules, et le prix ne bouge pas après la première année."
       },
       {
         "icon": "reglages",
         "color": "#DDF2F3",
         "title": "Réglé à votre façon",
-        "text": "Chaque brique se règle selon vos habitudes de travail."
+        "text": "Chaque module se règle selon vos habitudes de travail."
       }
     ]
   },

@@ -61,7 +61,7 @@ Pour un pisciniste, la troisième mention revient souvent : une rénovation de l
 
 Si vous attendez l’été 2027, vous ferez tout cela en pleine saison.
 
-Dans Stagnum, [la facturation électronique fait partie de la brique Factures](/facturation-electronique-pisciniste/) : vous faites vos factures comme d’habitude, et le format et la transmission sont pris en charge.
+Dans Stagnum, [la facturation électronique fait partie du module Factures](/facturation-electronique-pisciniste/) : vous faites vos factures comme d’habitude, et le format et la transmission sont pris en charge.
 
 Ces informations sont générales et peuvent évoluer. Pour votre situation, référez-vous au site des impôts ou à votre expert-comptable.
 

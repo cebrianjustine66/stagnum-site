@@ -49,7 +49,7 @@ Ces informations sont générales et ne remplacent pas un conseil juridique. Pou
 
 Dans une petite entreprise, personne n’a « relancer les clients » comme métier. La tâche passe après les chantiers, puis après la saison, et les retards s’accumulent. La solution n’est pas d’y penser plus souvent, c’est de ne plus avoir à y penser.
 
-Dans Stagnum, [les relances font partie de la brique Factures](/logiciel-facturation-pisciniste/) : vous réglez une fois le nombre de jours après l’échéance, et la relance part automatiquement.
+Dans Stagnum, [les relances font partie du module Factures](/logiciel-facturation-pisciniste/) : vous réglez une fois le nombre de jours après l’échéance, et la relance part automatiquement.
 
 ## À retenir
 

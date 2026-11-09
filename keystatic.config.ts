@@ -844,6 +844,7 @@ export default config({
       schema: {
         home: text('Nom de l’accueil', 'Premier élément du fil d’Ariane.'),
         buttons: group('Boutons', {
+          demo: text('Bouton de demande de démo (bouton principal)'),
           price: text('Bouton vers la calculette'),
           quote: text('Bouton vers la demande de devis'),
           trial: group(

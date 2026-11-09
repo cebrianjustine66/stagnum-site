@@ -16,7 +16,7 @@
   "points": [
     "Une fiche par chantier, avec son avancement",
     "Rentabilité calculée chantier par chantier",
-    "Application mobile incluse dans la brique",
+    "Application mobile incluse dans le module",
     "Saisie à la voix, sans quitter le chantier"
   ],
   "sections": [
@@ -48,7 +48,7 @@
     },
     {
       "q": "L’application mobile est-elle payante en plus ?",
-      "a": "Non. L’application mobile fait partie de la brique Chantiers."
+      "a": "Non. L’application mobile fait partie du module Chantiers."
     },
     {
       "q": "Le suivi de chantier fonctionne-t-il pour la rénovation et l’entretien ?",

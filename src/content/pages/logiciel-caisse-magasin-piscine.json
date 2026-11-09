@@ -13,7 +13,7 @@
     "Encaissement rapide au comptoir",
     "Ventes rattachées à la fiche client",
     "Logiciel de caisse certifié conforme à la loi française",
-    "Mise à jour du stock avec la brique Inventaire",
+    "Mise à jour du stock avec le module Inventaire",
     "Un prix par magasin, quel que soit le nombre de vendeurs"
   ],
   "sections": [
@@ -31,11 +31,11 @@
     },
     {
       "h2": "Reliée à votre stock, si vous le voulez",
-      "text": "Avec la brique Inventaire, chaque vente met votre stock à jour. Sans elle, la caisse fonctionne quand même : chaque brique est indépendante."
+      "text": "Avec le module Inventaire, chaque vente met votre stock à jour. Sans lui, la caisse fonctionne quand même : chaque module est indépendant."
     },
     {
       "h2": "Exemple : un samedi de juin",
-      "text": "La file s’allonge au comptoir. Le vendeur choisit le produit, retrouve le client et encaisse. La vente rejoint la fiche du client, et le stock est décompté si vous avez la brique Inventaire."
+      "text": "La file s’allonge au comptoir. Le vendeur choisit le produit, retrouve le client et encaisse. La vente rejoint la fiche du client, et le stock est décompté si vous avez le module Inventaire."
     },
     {
       "h2": "Un prix qui ne dépend pas du nombre de vendeurs",
@@ -48,8 +48,8 @@
       "a": "Oui. La caisse est certifiée conforme aux exigences d’inaltérabilité, de sécurisation, de conservation et d’archivage. Le justificatif vous est remis pour vos contrôles."
     },
     {
-      "q": "La caisse fonctionne-t-elle sans la brique Inventaire ?",
-      "a": "Oui. Les deux briques sont indépendantes. Ensemble, chaque vente décompte le stock automatiquement."
+      "q": "La caisse fonctionne-t-elle sans le module Inventaire ?",
+      "a": "Oui. Les deux modules sont indépendants. Ensemble, chaque vente décompte le stock automatiquement."
     },
     {
       "q": "Combien de vendeurs peuvent utiliser la caisse ?",

@@ -170,7 +170,7 @@ const examples = t.examples.items.map((x) => {
               <h3>{x.title}</h3>
               <p class="muted">{x.text}</p>
               <ul class="ex-bricks">
-                {x.all ? <li>Les {BRICK_COUNT_WORD} briques</li> : x.chosen.map((b) => <li>{b.name}</li>)}
+                {x.all ? <li>Les {BRICK_COUNT_WORD} modules</li> : x.chosen.map((b) => <li>{b.name}</li>)}
               </ul>
               <p class="ex-price"><strong>{x.price} €</strong> {t.summary.unit}</p>
             </div>
@@ -249,7 +249,7 @@ const examples = t.examples.items.map((x) => {
       ? (xl ? 'Vous avez tout Stagnum.' : `Appliqué : ${cut(fullSum) - fullPrice} € d’économie par mois.`)
       : cfg.ALL_HINT;
     $('#s-list').replaceChildren(...names.map((n) => Object.assign(document.createElement('li'), { textContent: n })));
-    let config = `Taille : ${xl ? 'plus de 20 personnes' : cfg.TIERS[t].label + (t ? ' personnes' : '')} | Magasins : ${stores} | Briques : ${all ? 'toutes' : names.join(', ') || 'non choisies'} | Engagement : ${eng.months} mois | Paiement : ${yearly ? 'une fois par an' : 'chaque mois'}`;
+    let config = `Taille : ${xl ? 'plus de 20 personnes' : cfg.TIERS[t].label + (t ? ' personnes' : '')} | Magasins : ${stores} | Modules : ${all ? 'tous' : names.join(', ') || 'non choisis'} | Engagement : ${eng.months} mois | Paiement : ${yearly ? 'une fois par an' : 'chaque mois'}`;
 
     if (priced) {
       const monthly = all ? fullPrice : cut(sum);
@@ -259,14 +259,14 @@ const examples = t.examples.items.map((x) => {
       show($('#s-total'), stores > 1 ? `Soit ${total} € HT par mois pour vos ${stores} magasins.` : '');
       show($('#s-year'), yearly ? `Réglé en une fois : ${(total * 12).toLocaleString('fr-FR')} € HT par an.` : '');
       const notes = [];
-      if (all) notes.push('Prix préférentiel : toutes les briques');
+      if (all) notes.push('Prix préférentiel : tous les modules');
       if (eng.discount) notes.push(`${notes.length ? 'r' : 'R'}emise de ${Math.round(eng.discount * 100)} % sur ${eng.months} mois`);
       if (yearly && cfg.ANNUAL_PAYMENT_DISCOUNT) notes.push(`${notes.length ? 'r' : 'R'}emise de ${Math.round(cfg.ANNUAL_PAYMENT_DISCOUNT * 100)} % pour le paiement annuel`);
       show($('#s-applied'), notes.length ? notes.join(', ') + '.' : '');
       const more = fullPrice - monthly;
       show($('#s-tip'), all || selected.length < 3 ? '' : more <= 0
-        ? `Avec toutes les briques, vous paieriez ${fullPrice} € par mois, soit moins qu’aujourd’hui.`
-        : `Pour ${more} € de plus par mois, vous avez toutes les briques.`);
+        ? `Avec tous les modules, vous paieriez ${fullPrice} € par mois, soit moins qu’aujourd’hui.`
+        : `Pour ${more} € de plus par mois, vous avez tous les modules.`);
       config += ` | Prix estimé : ${monthly} € HT par mois${stores > 1 ? ` et par magasin (${total} € au total)` : ''}${yearly ? `, soit ${total * 12} € HT par an` : ''}`;
     } else {
       shown = 0;

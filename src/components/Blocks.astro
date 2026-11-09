@@ -149,6 +149,8 @@ const paragraphs = (t: string) => t.split(/\n\s*\n/).map((p) => p.trim()).filter
   .cols { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); }
   .cols-2 { --cols: 2; } .cols-3 { --cols: 3; } .cols-4 { --cols: 4; }
   @media (max-width: 1000px) { .cols-4 { --cols: 2; } }
+  /* Tablette : trois cartes côte à côte débordent, on les empile. */
+  @media (max-width: 1000px) { .cols-3 { --cols: 1; max-width: 640px; margin-inline: auto; } }
   @media (max-width: 720px) { .cols { --cols: 1; } }
   /* Tableau : un vrai tableau sur ordinateur, des fiches sur téléphone. */
   .tb-head { margin-bottom: 28px; }

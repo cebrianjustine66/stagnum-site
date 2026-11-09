@@ -30,7 +30,7 @@
     },
     {
       "h2": "Le camion compte aussi",
-      "text": "Un indépendant a son stock dans son véhicule ou son dépôt. La brique Inventaire fonctionne de la même façon, sans magasin."
+      "text": "Un indépendant a son stock dans son véhicule ou son dépôt. Le module Inventaire fonctionne de la même façon, sans magasin."
     },
     {
       "h2": "Exemple : l’inventaire avant la saison",
@@ -38,7 +38,7 @@
     },
     {
       "h2": "Un stock qui reste juste entre deux inventaires",
-      "text": "Avec la brique Caisse, chaque vente décompte le stock. Avec la brique Achats, chaque livraison validée l’alimente. Entre deux comptages, vos quantités restent à jour."
+      "text": "Avec le module Caisse, chaque vente décompte le stock. Avec le module Achats, chaque livraison validée l’alimente. Entre deux comptages, vos quantités restent à jour."
     }
   ],
   "faq": [

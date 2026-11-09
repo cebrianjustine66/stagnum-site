@@ -1,6 +1,7 @@
 {
   "home": "Accueil",
   "buttons": {
+    "demo": "Demander une démo",
     "price": "Calculer mon tarif",
     "quote": "Demander un devis",
     "trial": {
@@ -11,7 +12,7 @@
   },
   "cta": {
     "title": "Voyez ce que Stagnum coûterait pour votre entreprise",
-    "lead": "Choisissez vos briques, obtenez votre prix en moins d’une minute, puis essayez gratuitement pendant {essai} jours."
+    "lead": "Choisissez vos modules, obtenez votre prix en moins d’une minute, puis essayez gratuitement pendant {essai} jours."
   },
   "faq": {
     "title": "Questions fréquentes",
@@ -23,8 +24,8 @@
   "landing": {
     "includedSuffix": ", sans supplément",
     "pointsTitle": "Ce qu’il fait *pour vous*",
-    "otherBricks": "Les autres briques",
-    "allBricks": "Les briques de Stagnum"
+    "otherBricks": "Les autres modules",
+    "allBricks": "Les modules de Stagnum"
   },
   "article": {
     "readTime": "min de lecture",

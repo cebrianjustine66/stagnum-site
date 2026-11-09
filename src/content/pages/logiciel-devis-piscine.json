@@ -30,7 +30,7 @@
     },
     {
       "h2": "Du devis à la facture sans ressaisie",
-      "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces briques. Les informations du client suivent toutes seules, parce que la base clients est commune à tout Stagnum."
+      "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces modules. Les informations du client suivent toutes seules, parce que la base clients est commune à tout Stagnum."
     },
     {
       "h2": "Exemple : un liner à remplacer",
@@ -47,8 +47,8 @@
       "a": "Oui. Vous pouvez préparer un devis depuis votre téléphone, en le dictant. Vous le relisez avant de l’envoyer au client."
     },
     {
-      "q": "Faut-il prendre toutes les briques pour utiliser les devis ?",
-      "a": "Non. La brique Devis fonctionne seule. La base clients est incluse, et vous ajoutez les factures ou les chantiers quand vous en avez besoin."
+      "q": "Faut-il prendre tous les modules pour utiliser les devis ?",
+      "a": "Non. Le module Devis fonctionne seul. La base clients est incluse, et vous ajoutez les factures ou les chantiers quand vous en avez besoin."
     },
     {
       "q": "L’intelligence artificielle peut-elle envoyer un devis sans moi ?",

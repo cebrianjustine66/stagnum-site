@@ -9,8 +9,8 @@
     ]
   },
   "bricks": {
-    "title": "{nb_briques} briques. Prenez seulement *ce qu’il vous faut*",
-    "lead": "Chaque brique fonctionne seule. Cliquez sur une brique pour la voir fonctionner.",
+    "title": "{nb_briques} modules. Prenez seulement *ce qu’il vous faut*",
+    "lead": "Chaque module fonctionne seul. Cliquez sur un module pour le voir fonctionner.",
     "more": "Voir la démonstration"
   },
   "smart": {
@@ -51,25 +51,25 @@
   },
   "perso": {
     "title": "Réglé *à votre façon*",
-    "lead": "Deux piscinistes ne travaillent jamais pareil. Chaque brique se règle selon vos habitudes : vous décidez une fois, Stagnum suit. Le délai de vos relances, vos valeurs d’eau idéales, la présentation de vos devis.",
+    "lead": "Deux piscinistes ne travaillent jamais pareil. Chaque module se règle selon vos habitudes : vous décidez une fois, Stagnum suit. Le délai de vos relances, vos valeurs d’eau idéales, la présentation de vos devis.",
     "points": [
       "Des réglages simples, sans appeler un technicien",
       "Modifiables quand vous voulez",
-      "Inclus dans chaque brique, sans supplément"
+      "Inclus dans chaque module, sans supplément"
     ],
     "button": "Voir ce qui se règle"
   },
   "price": {
     "title": "Un prix par magasin, *pas par utilisateur*",
-    "lead": "Pas de formule imposée : vous payez les briques que vous utilisez, et toute l’équipe s’en sert, saisonniers compris.",
+    "lead": "Pas de formule imposée : vous payez les modules que vous utilisez, et toute l’équipe s’en sert, saisonniers compris.",
     "steps": [
       "Vous indiquez la taille de votre équipe",
-      "Vous cochez vos briques",
+      "Vous cochez vos modules",
       "Votre prix s’affiche"
     ],
-    "bonus": "**Prix préférentiel** si vous prenez les {toutes} briques. **Prix garanti** : il ne bouge pas après la première année.",
+    "bonus": "**Prix préférentiel** si vous prenez les {toutes} modules. **Prix garanti** : il ne bouge pas après la première année.",
     "note": "Vous utilisez un autre logiciel ? [Comparez Stagnum et Extrabat](/alternative-extrabat/).",
-    "allChip": "Les {toutes} briques : prix préférentiel"
+    "allChip": "Les {toutes} modules : prix préférentiel"
   },
   "faq": [
     {
@@ -82,11 +82,11 @@
     },
     {
       "q": "Peut-on adapter Stagnum à sa façon de travailler ?",
-      "a": "Oui. Chaque brique se règle : les paramètres de vos analyses d’eau, le contenu de vos devis, le nombre de jours avant la relance d’une facture."
+      "a": "Oui. Chaque module se règle : les paramètres de vos analyses d’eau, le contenu de vos devis, le nombre de jours avant la relance d’une facture."
     },
     {
       "q": "Faut-il une formation pour utiliser Stagnum ?",
-      "a": "Non. Stagnum est conçu pour se prendre en main tout seul, même par un saisonnier qui arrive en juin. À la place d’une formation, nous vous accompagnons : au démarrage pour régler vos briques, puis chaque fois que vous avez une question."
+      "a": "Non. Stagnum est conçu pour se prendre en main tout seul, même par un saisonnier qui arrive en juin. À la place d’une formation, nous vous accompagnons : au démarrage pour régler vos modules, puis chaque fois que vous avez une question."
     },
     {
       "q": "Faut-il parler à Stagnum pour l’utiliser ?",
@@ -94,15 +94,15 @@
     },
     {
       "q": "Combien coûte Stagnum ?",
-      "a": "Le prix dépend de la taille de votre équipe et des briques que vous choisissez. Il est fixé par magasin, pas par utilisateur, et un prix préférentiel s’applique si vous prenez toutes les briques. La calculette vous donne votre montant en une minute. Votre prix est garanti : il ne bouge pas après la première année."
+      "a": "Le prix dépend de la taille de votre équipe et des modules que vous choisissez. Il est fixé par magasin, pas par utilisateur, et un prix préférentiel s’applique si vous prenez tous les modules. La calculette vous donne votre montant en une minute. Votre prix est garanti : il ne bouge pas après la première année."
     },
     {
       "q": "Stagnum est-il prêt pour la facture électronique ?",
-      "a": "Oui. La brique Factures est prête pour l’obligation de septembre 2027 : vous n’avez rien à changer à vos habitudes."
+      "a": "Oui. Le module Factures est prêt pour l’obligation de septembre 2027 : vous n’avez rien à changer à vos habitudes."
     },
     {
-      "q": "Suis-je obligé de prendre toutes les briques ?",
-      "a": "Non. Chaque brique fonctionne seule. Vous commencez par celle qui vous manque le plus et vous en ajoutez quand vous voulez."
+      "q": "Suis-je obligé de prendre tous les modules ?",
+      "a": "Non. Chaque module fonctionne seul. Vous commencez par celui qui vous manque le plus et vous en ajoutez quand vous voulez."
     },
     {
       "q": "Stagnum convient-il à un pisciniste sans magasin ?",
@@ -151,7 +151,7 @@
         "title": "Pas de formation, *un vrai accompagnement*",
         "intro": "Stagnum se prend en main tout seul, même par un saisonnier qui arrive en juin. Pas de journée de formation à caler en pleine saison : à la place, nous restons à vos côtés.",
         "items": [
-          "Pendant l’essai, nous réglons vos briques avec vous",
+          "Pendant l’essai, nous réglons vos modules avec vous",
           "Vous changez de logiciel ? Nous migrons vos données gratuitement",
           "Une question ? Vous parlez directement à l’équipe qui fait Stagnum",
           "Aucune formation payante, ni au départ ni ensuite"
@@ -165,7 +165,7 @@
         "steps": [
           {
             "title": "Vous demandez votre devis",
-            "text": "Avec [la calculette](/tarifs/) ou [le formulaire](/demande-de-devis/) : votre équipe, vos briques, vos coordonnées."
+            "text": "Avec [la calculette](/tarifs/) ou [le formulaire](/demande-de-devis/) : votre équipe, vos modules, vos coordonnées."
           },
           {
             "title": "Vous recevez votre devis",
@@ -173,7 +173,7 @@
           },
           {
             "title": "Vous essayez gratuitement",
-            "text": "{essai} jours d’essai avant tout engagement, avec les briques qui vous manquent le plus. On vous aide à démarrer."
+            "text": "{essai} jours d’essai avant tout engagement, avec les modules qui vous manquent le plus. On vous aide à démarrer."
           }
         ]
       }
