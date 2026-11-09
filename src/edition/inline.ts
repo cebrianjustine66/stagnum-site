@@ -2,7 +2,7 @@
 // au clic, et ajoute dans la page les boutons « + » et « − » : éléments d'une liste, blocs, articles du blog.
 import { computeVars, fromEditDOM, normalize, tidy, toEditHTML, toPlain, VAR_LABELS, type Vars } from './markup';
 import { BLOCK_TYPES, blockLabel, cleanDescription, fieldAt, isMultiline, richness, starterBlock, type Entry, type Path } from './schema';
-import { htmlToMd, mdToHtml } from './posts';
+import { CALLOUTS, calloutKind, htmlToMd, mdToHtml, starterCallout, starterTable } from './posts';
 import EDIT_CSS from './inline.css?raw';
 
 export interface Leaf { file: string; path: Path; raw: string; field: any; rank: number }
@@ -57,6 +57,17 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
   doc.head.appendChild(style);
   doc.documentElement.classList.add('ed-on');
   try { doc.execCommand('defaultParagraphSeparator', false, 'p'); } catch {}
+
+  // Cartes qui se retournent (équipe) : un navigateur ne laisse pas écrire dans un bouton.
+  // En édition, le bouton devient un simple bloc ; un clic en dehors des textes retourne la carte.
+  const unbutton = (root: ParentNode) => root.querySelectorAll('button.flip').forEach((b) => {
+    const d = doc.createElement('div');
+    for (const a of Array.from(b.attributes)) if (a.name !== 'disabled' && a.name !== 'type') d.setAttribute(a.name, a.value);
+    d.title = 'Cliquez sur la photo pour retourner la carte';
+    d.append(...Array.from(b.childNodes));
+    b.replaceWith(d);
+  });
+  unbutton(doc);
 
   // La page affiche les contenus enregistrés. Si on a ajouté ou retiré des éléments depuis, on rejoue ces
   // changements dans la page ; les blocs, eux, sont redessinés à partir des contenus modifiés.
@@ -143,6 +154,23 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
     el.dataset.ed = key(leaf.file, leaf.path);
     meta.set(el, { file: leaf.file, path: leaf.path, seg, field: leaf.field });
     targets.push(el);
+  };
+
+  // Textes repérés directement dans la page (data-ed-file, data-ed-path) : utile quand ils sont vides,
+  // donc introuvables d'après leur contenu (ex. le rôle d'un membre de l'équipe).
+  const bindMarked = (root: ParentNode) => {
+    root.querySelectorAll<HTMLElement>('[data-ed-file][data-ed-path]').forEach((el) => {
+      if (owned.has(el) || el.dataset.ed) return;
+      const file = el.dataset.edFile!;
+      const entry = ctx.entries.find((e) => e.id === file);
+      if (!entry || skipped.has(file)) return;
+      let path: Path;
+      try { path = JSON.parse(el.dataset.edPath!); } catch { return; }
+      const value = getAt(ctx.getFiles()[file], path);
+      if (value !== undefined && typeof value !== 'string') return;
+      const field = fieldAt(entry.schema, path, ctx.getFiles()[file]);
+      bind(el, { file, path, raw: value ?? '', field, rank: 0 });
+    });
   };
 
   /* ---------- Listes : repérer les éléments ---------- */
@@ -283,6 +311,7 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
 
   const leaves = collectLeaves(ctx.entries.filter((e) => shaped.has(e.id)), ctx.base, (p) => p[0] !== 'blocks');
   const pageBound = bindRegion(doc.body, leaves, false, '[data-ed-blocks], .article-body');
+  bindMarked(doc);
   buildLists(pageBound, ctx.base);
 
   // Rejoue les ajouts et retraits faits depuis la dernière publication.
@@ -383,7 +412,7 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
     <span class="ed-bar-label"></span>
     <button type="button" data-b="up" title="Monter le bloc">↑</button>
     <button type="button" data-b="down" title="Descendre le bloc">↓</button>
-    <button type="button" data-b="settings" title="Couleur de fond, icônes, liens…">Réglages</button>
+    <button type="button" data-b="settings" title="Fond, espacement, largeur, colonnes, disposition, icônes, liens…">Mise en page</button>
     <button type="button" data-b="add" class="ed-plus" title="Ajouter un bloc après celui-ci">+</button>
     <button type="button" data-b="remove" class="ed-minus" title="Retirer ce bloc">−</button>`);
   let barBlock: HTMLElement | null = null;
@@ -488,6 +517,8 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
     const fresh = tmp.querySelector('[data-ed-blocks]');
     if (!fresh) return;
     region.replaceChildren(...Array.from(fresh.childNodes));
+    unbutton(region);
+    bindMarked(region);
     region.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
     blockBar.classList.remove('show');
     itemBar.classList.remove('show');
@@ -621,6 +652,8 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
     if (!t.closest('.ed-menu')) menu.classList.remove('show');
     if (t.closest('.ed-ui')) return;
     if (t.closest('[data-ed], .ed-body')) { e.preventDefault(); return; }
+    const flip = t.closest('div.flip');
+    if (flip) { flip.setAttribute('aria-pressed', String(flip.getAttribute('aria-pressed') !== 'true')); return; }
     const np = t.closest('[data-ed-new-post]') as HTMLElement | null;
     if (np && ctx.blog) { e.preventDefault(); ctx.blog.onOpen(np.dataset.edPost!); return; }
     if (t.closest('[data-ed-block] a[href]')) { e.preventDefault(); return; }
@@ -780,7 +813,7 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
     body.addEventListener('input', () => { win.clearTimeout(timer); timer = win.setTimeout(emit, 250); });
     body.addEventListener('blur', emit);
 
-    // Barre de mise en forme du texte de l'article, en bas de l'écran.
+    // Barre de mise en forme du texte de l'article, verticale, sur le bord droit de l'écran.
     const bar = doc.createElement('div');
     bar.className = 'ed-ui ed-bodytools';
     bar.innerHTML = `
@@ -788,11 +821,77 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
       <button type="button" data-c="h2" title="Grand intertitre (apparaît dans le sommaire)">Intertitre</button>
       <button type="button" data-c="h3" title="Petit intertitre">Sous-titre</button>
       <button type="button" data-c="p" title="Paragraphe normal">Texte</button>
-      <button type="button" data-c="ul" title="Liste à puces">• Liste</button>
-      <button type="button" data-c="ol" title="Liste numérotée">1. Liste</button>
-      <button type="button" data-c="bold" title="Gras"><b>G</b></button>
-      <button type="button" data-c="link" title="Lien">Lien</button>`;
+      <div class="ed-row"><button type="button" data-c="ul" title="Liste à puces">• Liste</button><button type="button" data-c="ol" title="Liste numérotée">1. Liste</button></div>
+      <div class="ed-row"><button type="button" data-c="bold" title="Gras"><b>G</b></button><button type="button" data-c="link" title="Lien">Lien</button></div>
+      <span class="ed-sep">Insérer un bloc</span>
+      <button type="button" class="ed-ins" data-c="table" title="Un tableau prêt à remplir">▦ Tableau</button>
+      ${Object.entries(CALLOUTS).map(([k, v]) => `<button type="button" class="ed-ins" data-c="callout" data-k="${k}" title="Un encadré ${v.toLowerCase()}, prêt à remplir">▢ ${v}</button>`).join('')}
+      <div class="ed-ctx" data-ctx="table">
+        <span class="ed-sep">Ce tableau</span>
+        <div class="ed-row"><button type="button" data-c="row+" title="Ajouter une ligne sous celle-ci">+ Ligne</button><button type="button" data-c="row-" title="Retirer cette ligne">− Ligne</button></div>
+        <div class="ed-row"><button type="button" data-c="col+" title="Ajouter une colonne à droite de celle-ci">+ Colonne</button><button type="button" data-c="col-" title="Retirer cette colonne">− Colonne</button></div>
+        <button type="button" class="ed-danger" data-c="drop" title="Retirer tout le tableau">Retirer le tableau</button>
+      </div>
+      <div class="ed-ctx" data-ctx="callout">
+        <span class="ed-sep">Cet encadré</span>
+        <select data-c="kind" title="Style de l’encadré">${Object.entries(CALLOUTS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select>
+        <button type="button" class="ed-danger" data-c="drop" title="Retirer tout l’encadré">Retirer l’encadré</button>
+      </div>`;
     doc.body.appendChild(bar);
+
+    // Élément de premier niveau du texte qui contient le curseur (paragraphe, tableau, encadré…).
+    const caretNode = () => {
+      const sel = win.getSelection();
+      const n = sel?.rangeCount ? sel.getRangeAt(0).startContainer : null;
+      return n && body.contains(n) ? (n.nodeType === 1 ? n as Element : n.parentElement) : null;
+    };
+    const topOf = (el: Element | null) => {
+      let x = el;
+      while (x && x.parentElement !== body) x = x.parentElement;
+      return x as HTMLElement | null;
+    };
+    const blockOf = () => {
+      const el = caretNode();
+      const table = el?.closest('table');
+      if (table && body.contains(table)) return { kind: 'table' as const, el: (table.closest('.table-wrap') as HTMLElement) ?? table, table, cell: el!.closest('td, th') as HTMLTableCellElement | null };
+      const callout = el?.closest('blockquote');
+      if (callout && body.contains(callout)) return { kind: 'callout' as const, el: callout as HTMLElement };
+      return null;
+    };
+    const putCaret = (el: Element, all = true) => {
+      const r = doc.createRange();
+      r.selectNodeContents(el);
+      if (!all) r.collapse(true);
+      const sel = win.getSelection()!;
+      sel.removeAllRanges();
+      sel.addRange(r);
+    };
+    // Insère un bloc après le paragraphe où se trouve le curseur, suivi d'un paragraphe pour continuer à écrire.
+    const insertBlock = (html: string) => {
+      const tmp = doc.createElement('div');
+      tmp.innerHTML = html;
+      const node = tmp.firstElementChild as HTMLElement;
+      const at = topOf(caretNode());
+      if (at) at.after(node); else body.appendChild(node);
+      if (!node.nextElementSibling) { const p = doc.createElement('p'); p.innerHTML = '<br>'; node.after(p); }
+      node.classList.add('ed-new');
+      const first = node.querySelector('th, .encadre-titre');
+      if (first) putCaret(first);
+      node.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    };
+    const cellsOfCol = (table: HTMLTableElement, i: number) => Array.from(table.rows).map((r) => r.cells[i]).filter(Boolean);
+
+    let cur: HTMLElement | null = null;
+    const syncCtx = () => {
+      const b = blockOf();
+      if (cur && cur !== b?.el) cur.classList.remove('ed-cur');
+      cur = b?.el ?? null;
+      cur?.classList.add('ed-cur');
+      bar.querySelectorAll<HTMLElement>('.ed-ctx').forEach((c) => c.classList.toggle('show', c.dataset.ctx === b?.kind));
+      if (b?.kind === 'callout') (bar.querySelector('select[data-c=kind]') as HTMLSelectElement).value = calloutKind(b.el);
+    };
+    doc.addEventListener('selectionchange', () => { if (bar.classList.contains('show')) syncCtx(); });
+
     bar.addEventListener('mousedown', (e) => {
       const b = (e.target as Element).closest('button[data-c]') as HTMLElement | null;
       if (!b) return;
@@ -806,10 +905,65 @@ export function attachInline(doc: Document, ctx: InlineCtx) {
         const href = win.prompt('Adresse du lien (par exemple /tarifs/)', '/');
         if (href) doc.execCommand('createLink', false, href);
       }
+      if (c === 'table') insertBlock(starterTable());
+      if (c === 'callout') insertBlock(starterCallout(b.dataset.k!));
+      const blk = blockOf();
+      if (blk?.kind === 'table' && blk.cell) {
+        const { table, cell } = blk;
+        const tr = cell.parentElement as HTMLTableRowElement;
+        const col = cell.cellIndex;
+        const n = table.rows[0]?.cells.length ?? 1;
+        if (c === 'row+') {
+          const row = doc.createElement('tr');
+          row.innerHTML = Array.from({ length: n }, () => '<td>…</td>').join('');
+          if (tr.parentElement?.tagName === 'THEAD') table.tBodies[0]?.prepend(row); else tr.after(row);
+          putCaret(row.cells[0]);
+        }
+        if (c === 'row-') {
+          const bodyRows = table.tBodies[0]?.rows.length ?? 0;
+          if (tr.parentElement?.tagName === 'THEAD' || bodyRows <= 1) win.alert('Un tableau garde au moins sa ligne de titres et une ligne.');
+          else { const next = (tr.nextElementSibling ?? tr.previousElementSibling) as HTMLTableRowElement; tr.remove(); putCaret(next.cells[0], false); }
+        }
+        if (c === 'col+') {
+          Array.from(table.rows).forEach((r) => {
+            const head = r.parentElement?.tagName === 'THEAD';
+            const x = doc.createElement(head ? 'th' : 'td');
+            x.textContent = head ? 'Nouvelle colonne' : '…';
+            r.cells[col].after(x);
+          });
+          putCaret(table.rows[0].cells[col + 1]);
+        }
+        if (c === 'col-') {
+          if (n <= 2) win.alert('Un tableau garde au moins deux colonnes.');
+          else { cellsOfCol(table, col).forEach((x) => x.remove()); putCaret(table.rows[0].cells[Math.max(0, col - 1)], false); }
+        }
+      }
+      if (c === 'drop' && blk) {
+        if (win.confirm(blk.kind === 'table' ? 'Retirer tout le tableau ?' : 'Retirer tout l’encadré ?')) {
+          const next = blk.el.nextElementSibling ?? blk.el.previousElementSibling;
+          blk.el.remove();
+          if (next) putCaret(next, false);
+        }
+      }
+      syncCtx();
       body.dispatchEvent(new Event('input', { bubbles: true }));
     });
-    body.addEventListener('focus', () => bar.classList.add('show'));
-    body.addEventListener('blur', (e) => { if (!(e.relatedTarget as Element | null)?.closest?.('.ed-bodytools')) win.setTimeout(() => { if (doc.activeElement !== body) bar.classList.remove('show'); }, 150); });
+    bar.addEventListener('change', (e) => {
+      const s = e.target as HTMLSelectElement;
+      const blk = blockOf();
+      if (s.dataset.c !== 'kind') return;
+      const el = blk?.kind === 'callout' ? blk.el : cur?.matches('blockquote') ? cur : null;
+      if (!el) return;
+      const before = calloutKind(el);
+      el.className = `encadre encadre-${s.value} ed-cur`;
+      // Le titre suit le style tant qu'on ne l'a pas réécrit.
+      const t = el.querySelector('.encadre-titre');
+      if (t && t.textContent?.trim() === CALLOUTS[before]) t.textContent = CALLOUTS[s.value];
+      body.focus();
+      body.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    body.addEventListener('focus', () => { bar.classList.add('show'); syncCtx(); });
+    body.addEventListener('blur', (e) => { if (!(e.relatedTarget as Element | null)?.closest?.('.ed-bodytools')) win.setTimeout(() => { if (doc.activeElement !== body && !bar.matches(':hover') && !bar.contains(doc.activeElement)) { bar.classList.remove('show'); cur?.classList.remove('ed-cur'); } }, 150); });
     return { body };
   }
 

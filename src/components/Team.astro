@@ -5,6 +5,8 @@ import Icon from './Icon.astro';
 import p from '../content/a-propos.json';
 // Teintes des cartes des briques, plus le turquoise du logo.
 const faceColors = ['#0F5358', '#FBE6D2', '#14909A', '#F8DDD0', '#0B3D42'];
+// Repère pour l'éditeur visuel (/edition) : permet d'écrire un rôle ou une présentation encore vides.
+const at = (i: number, k: string) => ({ 'data-ed-file': 'src/content/a-propos.json', 'data-ed-path': JSON.stringify(['team', 'members', i, k]) });
 ---
 <ul class="team">
   {p.team.members.map((m, i) => (
@@ -15,8 +17,8 @@ const faceColors = ['#0F5358', '#FBE6D2', '#14909A', '#F8DDD0', '#0B3D42'];
             <span class="photo">
               {m.photo ? <img src={m.photo} alt="" loading="lazy" /> : <span class="initial" aria-hidden="true">{m.name.charAt(0)}</span>}
             </span>
-            <strong>{m.name}</strong>
-            {m.role && <span class="role">{m.role}</span>}
+            <strong {...at(i, 'name')}>{m.name}</strong>
+            <span class="role" {...at(i, 'role')}>{m.role}</span>
             {m.bio && <span class="hint">{p.team.hint} <Icon name="arrow" size={14} /></span>}
           </span>
           <span class="face back">
@@ -25,11 +27,11 @@ const faceColors = ['#0F5358', '#FBE6D2', '#14909A', '#F8DDD0', '#0B3D42'];
                 {m.photo ? <img src={m.photo} alt="" loading="lazy" /> : <span aria-hidden="true">{m.name.charAt(0)}</span>}
               </span>
               <span class="id">
-                <strong>{m.name}</strong>
-                {m.role && <span class="role">{m.role}</span>}
+                <strong {...at(i, 'name')}>{m.name}</strong>
+                <span class="role" {...at(i, 'role')}>{m.role}</span>
               </span>
             </span>
-            <span class="bio">{m.bio}</span>
+            <span class="bio" {...at(i, 'bio')}>{m.bio}</span>
             <span class="return"><Icon name="arrow" size={14} /> {p.team.back}</span>
           </span>
         </span>
@@ -72,6 +74,7 @@ const faceColors = ['#0F5358', '#FBE6D2', '#14909A', '#F8DDD0', '#0B3D42'];
   .flip:hover .photo img { transform: scale(1.06); }
   .initial { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--deep); font: 800 2.4rem var(--font-display); box-shadow: 0 14px 26px -14px rgba(7, 52, 58, .5); }
   .team strong { font: 720 1.3rem var(--font-display); color: var(--ink); }
+  .role:empty { display: none; }
   .role { font-size: .92rem; color: var(--ink-2); padding: 0 12px; }
   .hint { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-size: .84rem; font-weight: 680; color: var(--accent); }
   .who { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, .18); }

@@ -11,8 +11,8 @@ const { title = c.cta.title } = Astro.props;
       <h2>{title}</h2>
       <p class="lead">{plain(c.cta.lead)}</p>
       <div class="btns">
-        <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
-        <a class="btn btn-ghost" href="/demande-de-devis/">{c.buttons.quote}</a>
+        <a class="btn btn-primary" href="/demande-de-devis/?demo=1">{c.buttons.demo} <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-ghost" href="/tarifs/">{c.buttons.price}</a>
       </div>
     </div>
   </div>

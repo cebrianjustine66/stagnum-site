@@ -9,6 +9,8 @@
 .ed-on [data-ed]:hover { outline-color: rgba(23, 153, 161, .55); background-color: rgba(63, 208, 214, .07); }
 .ed-on [data-ed]:focus { outline: 2px solid #1799A1; outline-offset: 4px; background-color: rgba(63, 208, 214, .08); }
 .ed-on [data-ed]:empty::before { content: "Écrivez ici…"; opacity: .45; }
+.ed-on .role[data-ed]:empty { display: block !important; min-width: 6em; }
+.ed-on .role[data-ed]:empty::before { content: "Rôle…"; }
 .ed-on [data-ed].ed-flash { animation: ed-flash 1.4s ease; }
 @keyframes ed-flash { 0%, 40% { outline: 2px solid #EC7F51; outline-offset: 6px; background-color: rgba(236, 127, 81, .14); } }
 .ed-on .ed-wrap { display: inline; }
@@ -97,12 +99,30 @@
 .ed-on .ed-body { outline: 1.5px dashed rgba(23, 153, 161, .35); outline-offset: 14px; border-radius: 6px; cursor: text; }
 .ed-on .ed-body:focus { outline: 2px solid #1799A1; }
 .ed-on .ed-body a { cursor: text; }
+/* Barre verticale, collée au bord droit de l'écran. */
 .ed-bodytools {
-  position: fixed !important; left: 50%; bottom: 18px; transform: translate(-50%, 8px);
-  display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 14px;
+  position: fixed !important; right: 14px; top: 50%; transform: translate(8px, -50%);
+  display: flex; flex-direction: column; align-items: stretch; gap: 3px; width: 168px; max-height: calc(100vh - 28px); overflow-y: auto;
+  padding: 8px; border-radius: 16px;
   background: #0B3D42; color: #fff; box-shadow: 0 16px 36px -12px rgba(5, 42, 48, .7);
   opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease;
 }
-.ed-bodytools.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
-.ed-bodytools button { height: 32px; padding: 0 11px; border: 0; border-radius: 9px; background: rgba(255, 255, 255, .1); color: #fff; white-space: nowrap; }
-.ed-bodytools button:hover { background: rgba(255, 255, 255, .22); }
+.ed-bodytools.show { opacity: 1; pointer-events: auto; transform: translate(0, -50%); }
+.ed-bodytools .ed-tools-label { padding: 4px 6px 6px; max-width: none; font-size: 12px; }
+.ed-bodytools .ed-sep { margin: 8px 6px 4px; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #7FC4C8; }
+.ed-bodytools button { height: 32px; padding: 0 10px; border: 0; border-radius: 9px; background: rgba(255, 255, 255, .08); color: #fff; white-space: nowrap; text-align: left; }
+.ed-bodytools button:hover { background: rgba(255, 255, 255, .2); }
+.ed-bodytools .ed-row { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.ed-bodytools .ed-row button { text-align: center; padding: 0 6px; }
+.ed-bodytools .ed-ins { background: rgba(63, 208, 214, .16); }
+.ed-bodytools .ed-ins:hover { background: rgba(63, 208, 214, .3); }
+.ed-bodytools .ed-ctx { display: none; flex-direction: column; gap: 3px; }
+.ed-bodytools .ed-ctx.show { display: flex; }
+.ed-bodytools .ed-danger { color: #FFB3BF; }
+.ed-bodytools .ed-danger:hover { background: rgba(217, 72, 95, .35); color: #fff; }
+.ed-bodytools select { height: 32px; padding: 0 8px; border: 0; border-radius: 9px; background: rgba(255, 255, 255, .08); color: #fff; }
+.ed-bodytools select option { color: #0E2224; }
+/* Laisse de la place à la barre pour ne pas cacher le texte. */
+@media (min-width: 900px) { .ed-on body:has(.ed-bodytools.show) { padding-right: 190px; } }
+/* Bloc (tableau, encadré) en cours de modification dans un article. */
+.ed-on .ed-body .ed-cur { box-shadow: 0 0 0 2px rgba(23, 153, 161, .55); }

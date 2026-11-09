@@ -15,7 +15,7 @@
     "xlSub": "personnes",
     "storesLabel": "Combien de magasins ?",
     "storesHint": "Sans magasin, laissez 1.",
-    "allTitle": "Prix préférentiel avec les {toutes} briques",
+    "allTitle": "Prix préférentiel avec les {toutes} modules",
     "allHint": "La remise s’applique toute seule.",
     "allButton": "Tout cocher",
     "reduced": "Prix réduit",
@@ -29,7 +29,7 @@
   },
   "summary": {
     "title": "Votre prix",
-    "empty": "Cochez une brique pour voir votre prix.",
+    "empty": "Cochez un module pour voir votre prix.",
     "unit": "HT par mois",
     "perStore": " et par magasin",
     "quote": "Sur mesure, au-delà de 20 personnes.",
@@ -54,7 +54,7 @@
       {
         "icon": "reglages",
         "title": "Réglé à votre façon",
-        "text": "Chaque brique se personnalise.",
+        "text": "Chaque module se personnalise.",
         "color": "#F3EDE2"
       },
       {
@@ -62,6 +62,12 @@
         "title": "Accompagnement inclus",
         "text": "Pas de formation à payer : on vous aide à démarrer.",
         "color": "#FBE6D2"
+      },
+      {
+        "icon": "inventaire",
+        "title": "Migration offerte",
+        "text": "Vos données reprises, avec notre aide, sans frais.",
+        "color": "#E1F3F1"
       },
       {
         "icon": "horloge",
@@ -93,8 +99,8 @@
       "a": "Non. Le prix est fixé par magasin, selon une tranche de taille d’équipe. Tous vos collaborateurs peuvent utiliser Stagnum sans coût supplémentaire."
     },
     {
-      "q": "Y a-t-il un avantage à prendre toutes les briques ?",
-      "a": "Oui. Quand vous cochez les {toutes} briques, un prix préférentiel s’applique automatiquement dans la calculette."
+      "q": "Y a-t-il un avantage à prendre tous les modules ?",
+      "a": "Oui. Quand vous cochez les {toutes} modules, un prix préférentiel s’applique automatiquement dans la calculette."
     },
     {
       "q": "Le stockage est-il facturé en plus ?",
@@ -114,24 +120,28 @@
     },
     {
       "q": "La facture électronique est-elle en supplément ?",
-      "a": "Non. Elle fait partie de la brique Factures, prête pour l’obligation de septembre 2027."
+      "a": "Non. Elle fait partie du module Factures, prête pour l’obligation de septembre 2027."
     },
     {
       "q": "La base clients et la voix sont-elles payantes ?",
-      "a": "Non. La base clients vient avec les briques qui l’utilisent, et la voix est présente dans chaque brique. Les relances de paiement font partie de la brique Factures, et l’application mobile de la brique Chantiers."
+      "a": "Non. La base clients vient avec les modules qui l’utilisent, et la voix est présente dans chaque module. Les relances de paiement font partie du module Factures, et l’application mobile du module Chantiers."
     },
     {
       "q": "Comment sont facturés plusieurs magasins ?",
       "a": "Chaque magasin a son propre abonnement. Vous pouvez relier vos magasins entre eux pour partager vos clients et suivre l’ensemble."
     },
     {
-      "q": "Puis-je ajouter une brique plus tard ?",
-      "a": "Oui. Les briques sont indépendantes : vous en ajoutez quand vous en avez besoin."
+      "q": "La reprise de mes données est-elle payante ?",
+      "a": "Non. Nous migrons vos données depuis votre logiciel actuel et nous vous accompagnons pendant toute la migration, sans frais."
+    },
+    {
+      "q": "Puis-je ajouter un module plus tard ?",
+      "a": "Oui. Les modules sont indépendants : vous en ajoutez quand vous en avez besoin."
     }
   ],
   "blocks": [],
   "seo": {
     "title": "Tarifs Stagnum : prix du logiciel pour pisciniste",
-    "description": "Calculez en une minute le prix de Stagnum pour votre entreprise de piscine : un tarif par magasin, selon vos briques. Essai gratuit de {essai} jours."
+    "description": "Calculez en une minute le prix de Stagnum pour votre entreprise de piscine : un tarif par magasin, selon vos modules. Essai gratuit de {essai} jours."
   }
 }

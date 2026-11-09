@@ -95,6 +95,14 @@ const activityIcons = ['camion', 'chantiers', 'magasin', 'equipe'];
     const bar = form.querySelector<HTMLElement>('[data-bar]')!;
     form.querySelector<HTMLElement>('[data-total]')!.textContent = String(required.length);
 
+    // Arrivée depuis un bouton « Demander une démo » : on coche le rappel et on note la demande dans le message.
+    if (new URLSearchParams(location.search).has('demo')) {
+      const rappel = form.querySelector<HTMLInputElement>('input[name="rappel"]');
+      const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+      if (rappel) rappel.checked = true;
+      if (message && !message.value) message.value = 'Je souhaite une démonstration de Stagnum.';
+    }
+
     // Barre de progression : nombre de champs obligatoires correctement remplis.
     const progress = () => {
       const done = required.filter((i) => i.value.trim() && i.checkValidity()).length;

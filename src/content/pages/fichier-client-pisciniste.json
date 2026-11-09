@@ -2,8 +2,8 @@
   "nav": "Base clients",
   "kind": "atout",
   "brick": "aucune",
-  "h1": "Le fichier client du pisciniste, inclus avec vos briques",
-  "lead": "Un client, un bassin, une seule fiche. Devis, factures, chantiers, ventes et analyses d’eau s’y rangent tout seuls. Elle vient avec les briques qui en ont besoin, sans ligne en plus.",
+  "h1": "Le fichier client du pisciniste, inclus avec vos modules",
+  "lead": "Un client, un bassin, une seule fiche. Devis, factures, chantiers, ventes et analyses d’eau s’y rangent tout seuls. Elle vient avec les modules qui en ont besoin, sans ligne en plus.",
   "voice": {
     "said": "",
     "done": []
@@ -22,7 +22,7 @@
     },
     {
       "h2": "Rien à payer en plus",
-      "text": "La base clients n’est pas une brique à part. Dès que vous prenez une brique qui en a besoin, elle est là, et toutes vos briques partagent la même."
+      "text": "La base clients n’est pas un module à part. Dès que vous prenez un module qui en a besoin, elle est là, et tous vos modules partagent la même."
     },
     {
       "h2": "Retrouver un client en le nommant",
@@ -39,12 +39,12 @@
   ],
   "faq": [
     {
-      "q": "La base clients est-elle une brique payante ?",
-      "a": "Non. Elle est incluse à partir du moment où vous prenez une brique qui en a besoin."
+      "q": "La base clients est-elle un module payant ?",
+      "a": "Non. Elle est incluse à partir du moment où vous prenez un module qui en a besoin."
     },
     {
       "q": "Puis-je reprendre mon fichier client actuel ?",
-      "a": "Parlez-nous de votre situation dans votre demande de devis : nous regardons avec vous comment reprendre vos données."
+      "a": "Oui. Nous migrons vos données dans Stagnum, gratuitement, et nous vous accompagnons à chaque étape. Indiquez votre logiciel actuel dans votre demande de devis."
     },
     {
       "q": "Le nombre de clients est-il limité ?",
@@ -55,5 +55,5 @@
   "order": 8,
   "withBricks": "Avec Devis, Factures, Chantiers, Caisse et Analyse d’eau",
   "title": "Fichier client et CRM pour pisciniste | Stagnum",
-  "description": "Un fichier client pour pisciniste, inclus avec vos briques : le client, son bassin, ses devis, ses achats et ses analyses au même endroit."
+  "description": "Un fichier client pour pisciniste, inclus avec vos modules : le client, son bassin, ses devis, ses achats et ses analyses au même endroit."
 }

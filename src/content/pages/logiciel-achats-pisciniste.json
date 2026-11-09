@@ -13,7 +13,7 @@
     "Achats créés à partir du bon de livraison",
     "Aucune référence à retaper ligne par ligne",
     "Chaque ligne vérifiable avant validation",
-    "Stock mis à jour avec la brique Inventaire"
+    "Stock mis à jour avec le module Inventaire"
   ],
   "sections": [
     {
@@ -26,7 +26,7 @@
     },
     {
       "h2": "Des achats qui servent au reste",
-      "text": "Un achat bien saisi ne dort pas dans un classeur. Avec la brique Inventaire, les quantités reçues entrent en stock ; avec les Chantiers, vos coûts de matériaux sont justes."
+      "text": "Un achat bien saisi ne dort pas dans un classeur. Avec le module Inventaire, les quantités reçues entrent en stock ; avec les Chantiers, vos coûts de matériaux sont justes."
     },
     {
       "h2": "Exemple : une livraison un lundi matin",
@@ -47,8 +47,8 @@
       "a": "Rien n’est enregistré sans vous. Vous voyez toutes les lignes avant de valider et vous pouvez corriger chacune."
     },
     {
-      "q": "Faut-il la brique Inventaire pour utiliser les achats ?",
-      "a": "Non. La brique Achats fonctionne seule. Avec l’Inventaire, les quantités reçues mettent votre stock à jour."
+      "q": "Faut-il le module Inventaire pour utiliser les achats ?",
+      "a": "Non. Le module Achats fonctionne seul. Avec l’Inventaire, les quantités reçues mettent votre stock à jour."
     }
   ],
   "blocks": [],

@@ -178,7 +178,7 @@ export function FieldView({ field, value, path, ctx, label }: { field: Field; va
     );
   } else if (field.options) {
     input = (
-      <select className="f-select" value={value ?? ''} onChange={(e) => set(e.target.value)}>
+      <select className="f-select" value={value ?? defaultOf(field) ?? ''} onChange={(e) => set(e.target.value)}>
         {field.options.map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
     );

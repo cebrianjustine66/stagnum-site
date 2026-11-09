@@ -2,7 +2,7 @@
   "header": {
     "skip": "Aller au contenu",
     "menuLabel": "Fonctionnalités",
-    "bricksTitle": "Les briques",
+    "bricksTitle": "Les modules",
     "includedTitle": "Inclus, sans supplément",
     "links": [
       {
@@ -16,11 +16,15 @@
       {
         "label": "Blog",
         "href": "/blog/"
+      },
+      {
+        "label": "Accéder à l’outil",
+        "href": "https://app.stagnum.fr/"
       }
     ],
     "cta": {
-      "label": "Calculer mon tarif",
-      "href": "/tarifs/"
+      "label": "Demander une démo",
+      "href": "/demande-de-devis/?demo=1"
     }
   },
   "footer": {

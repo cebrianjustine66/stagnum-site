@@ -12,9 +12,9 @@
       "Une facture à relancer"
     ]
   },
-  "included": "Présent dans chaque brique",
+  "included": "Présent dans chaque module",
   "points": [
-    "Voix incluse dans chaque brique",
+    "Voix incluse dans chaque module",
     "Aucune commande à apprendre",
     "Utilisable sur téléphone, en magasin et sur le terrain",
     "Tout reste faisable au clavier"
@@ -26,7 +26,7 @@
     },
     {
       "h2": "L’intelligence artificielle, sans le mode d’emploi",
-      "text": "L’IA travaille derrière chaque brique, mais vous ne la voyez pas. Pas de réglages, pas de jargon : vous voyez un devis prêt, un stock à jour, une relance partie à temps."
+      "text": "L’IA travaille derrière chaque module, mais vous ne la voyez pas. Pas de réglages, pas de jargon : vous voyez un devis prêt, un stock à jour, une relance partie à temps."
     },
     {
       "h2": "Vous gardez toujours la main",
@@ -34,7 +34,7 @@
     },
     {
       "h2": "Exemple : dans la réserve, les bras chargés",
-      "text": "Vous comptez des seaux de chlore et vous annoncez les quantités à voix haute. Avec la brique Inventaire, le stock se met à jour pendant que vous continuez votre tour."
+      "text": "Vous comptez des seaux de chlore et vous annoncez les quantités à voix haute. Avec le module Inventaire, le stock se met à jour pendant que vous continuez votre tour."
     },
     {
       "h2": "La voix quand elle aide, l’écran le reste du temps",
@@ -44,7 +44,7 @@
   "faq": [
     {
       "q": "Le pilotage à la voix est-il une option payante ?",
-      "a": "Non. La voix fait partie de chaque brique."
+      "a": "Non. La voix fait partie de chaque module."
     },
     {
       "q": "Suis-je obligé d’utiliser la voix ?",
@@ -57,7 +57,7 @@
   ],
   "blocks": [],
   "order": 11,
-  "withBricks": "Dans toutes les briques",
+  "withBricks": "Dans tous les modules",
   "title": "Logiciel pisciniste à commande vocale | Stagnum",
   "description": "Stagnum s’utilise aussi à la voix : devis, chantier, inventaire, analyse d’eau. Pratique quand vous avez les mains occupées, jamais obligatoire."
 }

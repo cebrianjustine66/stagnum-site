@@ -90,6 +90,15 @@ export function starterBlock(type: string): { discriminant: string; value: any }
         { title: 'Troisième étape', text: 'Et pour finir.' },
       ],
     },
+    tableau: {
+      title: 'Votre *tableau*', intro: '', columns: '3', background: 'clair',
+      head: { c1: 'Colonne 1', c2: 'Colonne 2', c3: 'Colonne 3', c4: 'Colonne 4' },
+      rows: [
+        { c1: 'Première ligne', c2: 'Case à remplir', c3: 'Autre case', c4: 'Case 4' },
+        { c1: 'Deuxième ligne', c2: 'Votre texte', c3: 'Votre valeur', c4: 'Case 4 bis' },
+      ],
+    },
+    encadre: { style: 'conseil', title: 'Bon à savoir', text: 'Le texte de l’encadré. Cliquez dessus pour l’écrire.', width: 'etroit' },
     equipe: { title: 'L’*équipe*', text: 'Quelques mots sur l’équipe.', button: 'Qui sommes-nous', href: '/a-propos/' },
     cta: { title: 'Prêt à essayer Stagnum ?' },
     faq: { title: 'Questions fréquentes', items: [{ q: 'Première question ?', a: 'La réponse.' }, { q: 'Deuxième question ?', a: 'La réponse.' }] },

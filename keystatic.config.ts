@@ -43,6 +43,23 @@ const BACKGROUNDS = [
   { label: 'Turquoise foncé', value: 'fonce' },
 ];
 
+// Mise en page des blocs : réglages proposés dans « Mise en page » de l'éditeur visuel.
+const SPACING = () =>
+  fields.select({
+    label: 'Espacement',
+    description: 'La place laissée au-dessus et au-dessous du bloc.',
+    options: [{ label: 'Serré', value: 'serre' }, { label: 'Normal', value: 'normal' }, { label: 'Aéré', value: 'aere' }],
+    defaultValue: 'normal',
+  });
+const WIDTH = (defaultValue: 'etroit' | 'large') =>
+  fields.select({ label: 'Largeur', options: [{ label: 'Étroite (texte)', value: 'etroit' }, { label: 'Toute la largeur', value: 'large' }], defaultValue });
+const ALIGN = () =>
+  fields.select({ label: 'Alignement', options: [{ label: 'À gauche', value: 'gauche' }, { label: 'Centré', value: 'centre' }], defaultValue: 'gauche' });
+const COLUMNS = (label: string, defaultValue: '2' | '3' | '4') =>
+  fields.select({ label, options: [{ label: '2', value: '2' }, { label: '3', value: '3' }, { label: '4', value: '4' }], defaultValue });
+const CELLS = (label: string) =>
+  fields.object({ c1: text(`${label} 1`), c2: text(`${label} 2`), c3: text(`${label} 3`), c4: text(`${label} 4 (si 4 colonnes)`) }, { label });
+
 const HL = 'Pour surligner un passage, entourez-le d’astérisques : *comme ceci*.';
 const LINK = 'Un lien s’écrit [texte du lien](/adresse/).';
 const TRIAL = '{essai} est remplacé par le nombre de jours d’essai.';
@@ -101,6 +118,9 @@ const blocks = () =>
           title: textField({ label: 'Titre', description: HL, defaultValue: 'Votre titre' }),
           text: textField({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
           background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'clair' }),
+          align: ALIGN(),
+          width: WIDTH('etroit'),
+          spacing: SPACING(),
         }),
       },
       liste: {
@@ -111,6 +131,16 @@ const blocks = () =>
           intro: long('Phrase d’introduction (facultatif)'),
           items: list('Points de la liste', LINK),
           background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'sable' }),
+          layout: fields.select({
+            label: 'Disposition',
+            options: [
+              { label: 'Texte à gauche, liste à droite', value: 'gauche' },
+              { label: 'Liste à gauche, texte à droite', value: 'droite' },
+              { label: 'Texte au-dessus de la liste', value: 'empile' },
+            ],
+            defaultValue: 'gauche',
+          }),
+          spacing: SPACING(),
         }),
       },
       cartes: {
@@ -125,8 +155,11 @@ const blocks = () =>
               text: long('Texte'),
               href: text('Lien (facultatif)', 'Exemple : /tarifs/. Laissez vide pour une carte non cliquable.'),
             }),
-            { label: 'Cartes', description: 'Trois cartes tiennent sur une ligne.', itemLabel: (p) => p.fields.title.value || 'Nouvelle carte' },
+            { label: 'Cartes', description: 'Le nombre de cartes par ligne se règle juste en dessous.', itemLabel: (p) => p.fields.title.value || 'Nouvelle carte' },
           ),
+          columns: COLUMNS('Cartes par ligne', '3'),
+          background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'clair' }),
+          spacing: SPACING(),
         }),
       },
       etapes: {
@@ -141,6 +174,8 @@ const blocks = () =>
             }),
             { label: 'Étapes', description: 'Trois étapes tiennent bien sur une ligne.', itemLabel: (p) => p.fields.title.value || 'Nouvelle étape' },
           ),
+          background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'clair' }),
+          spacing: SPACING(),
         }),
       },
       equipe: {
@@ -151,6 +186,34 @@ const blocks = () =>
           text: textField({ label: 'Texte', description: `Les membres, leurs photos et leurs présentations se règlent dans « Qui sommes-nous ». ${LINK}`, multiline: true }),
           button: text('Texte du bouton (facultatif)'),
           href: text('Adresse du bouton', 'Exemple : /a-propos/'),
+        }),
+      },
+      tableau: {
+        label: 'Tableau : des lignes et des colonnes prêtes à remplir',
+        itemLabel: (p) => `Tableau · ${p.fields.title.value}`,
+        schema: fields.object({
+          title: text('Titre au-dessus du tableau (facultatif)', HL),
+          intro: long('Phrase d’introduction (facultatif)'),
+          columns: COLUMNS('Nombre de colonnes', '3'),
+          head: CELLS('Titre de colonne'),
+          rows: fields.array(CELLS('Case'), { label: 'Lignes', itemLabel: (p) => p.fields.c1.value || 'Nouvelle ligne' }),
+          background: fields.select({ label: 'Couleur de fond', options: BACKGROUNDS, defaultValue: 'clair' }),
+          spacing: SPACING(),
+        }),
+      },
+      encadre: {
+        label: 'Encadré : un message mis en avant (bon à savoir, attention, exemple)',
+        itemLabel: (p) => `Encadré · ${p.fields.title.value}`,
+        schema: fields.object({
+          style: fields.select({
+            label: 'Style de l’encadré',
+            options: [{ label: 'Bon à savoir (turquoise)', value: 'conseil' }, { label: 'Attention (orange)', value: 'attention' }, { label: 'Exemple (sable)', value: 'exemple' }],
+            defaultValue: 'conseil',
+          }),
+          title: text('Titre de l’encadré'),
+          text: textField({ label: 'Texte', description: `Laissez une ligne vide entre deux paragraphes. ${LINK}`, multiline: true }),
+          width: WIDTH('etroit'),
+          spacing: SPACING(),
         }),
       },
       cta: {
@@ -781,6 +844,7 @@ export default config({
       schema: {
         home: text('Nom de l’accueil', 'Premier élément du fil d’Ariane.'),
         buttons: group('Boutons', {
+          demo: text('Bouton de demande de démo (bouton principal)'),
           price: text('Bouton vers la calculette'),
           quote: text('Bouton vers la demande de devis'),
           trial: group(

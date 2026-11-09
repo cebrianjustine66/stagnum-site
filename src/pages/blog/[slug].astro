@@ -1,10 +1,13 @@
 ---
 import Article from '../../layouts/Article.astro';
 import { POSTS } from '../../data/posts';
+import { encadres } from '../../markdown/encadres';
 
 export function getStaticPaths() {
   return POSTS.map((post) => ({ params: { slug: post.slug } }));
 }
 const post = POSTS.find((p) => p.slug === Astro.params.slug)!;
+// Le texte de l'article, avec ses encadrés (« > [!conseil] Titre ») mis en forme.
+const html = encadres(await post.html());
 ---
-<Article frontmatter={post.frontmatter} headings={post.headings}><post.Content /></Article>
+<Article frontmatter={post.frontmatter} headings={post.headings}><Fragment set:html={html} /></Article>

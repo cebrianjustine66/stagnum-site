@@ -21,7 +21,7 @@
   "bricks": {
     "devis": {
       "name": "Devis",
-      "desc": "Décrivez le chantier, le devis est prêt à relire.",
+      "desc": "Décrivez le chantier, votre devis se crée. Enregistrez vos devis types.",
       "prices": {
         "solo": 15,
         "s": 17,
@@ -32,7 +32,7 @@
     },
     "factures": {
       "name": "Factures",
-      "desc": "Vous facturez, la relance part toute seule.",
+      "desc": "Vous facturez, vos relances sont facilitées.",
       "prices": {
         "solo": 19,
         "s": 22,
@@ -43,7 +43,7 @@
     },
     "chantiers": {
       "name": "Chantiers",
-      "desc": "L’avancement et la marge, à jour depuis le terrain.",
+      "desc": "Suivez l’avancement du chantier au fur et à mesure.",
       "prices": {
         "solo": 19,
         "s": 22,
@@ -54,7 +54,7 @@
     },
     "achats": {
       "name": "Achats",
-      "desc": "Déposez le bon de livraison, l’achat se remplit.",
+      "desc": "Déposez votre bon d’achat, votre stock se met à jour.",
       "prices": {
         "solo": 19,
         "s": 22,
@@ -65,7 +65,7 @@
     },
     "caisse": {
       "name": "Caisse",
-      "desc": "Encaissez au comptoir, le stock suit.",
+      "desc": "Encaissez au comptoir : le stock et le suivi de caisse se mettent à jour.",
       "prices": {
         "solo": 10,
         "s": 11,
@@ -76,7 +76,7 @@
     },
     "inventaire": {
       "name": "Inventaire",
-      "desc": "Votre stock à jour, sans tout recompter.",
+      "desc": "Facilitez vos inventaires grâce au suivi de stock.",
       "prices": {
         "solo": 19,
         "s": 22,
@@ -87,7 +87,7 @@
     },
     "eau": {
       "name": "Analyse d’eau",
-      "desc": "Entrez les mesures, le traitement est proposé.",
+      "desc": "Testez, entrez les mesures : un traitement personnalisé est proposé.",
       "prices": {
         "solo": 23,
         "s": 26,

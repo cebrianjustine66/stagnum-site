@@ -3,7 +3,7 @@
   "kind": "brique",
   "brick": "factures",
   "h1": "Le logiciel de facturation des piscinistes, relances comprises",
-  "lead": "Vos factures partent le jour où le travail est fini. Les retards de paiement sont relancés automatiquement, après le nombre de jours que vous avez choisi. Les relances font partie de la brique Factures.",
+  "lead": "Vos factures partent le jour où le travail est fini. Les retards de paiement sont relancés automatiquement, après le nombre de jours que vous avez choisi. Les relances font partie du module Factures.",
   "voice": {
     "said": "« Facture le chantier Durand. »",
     "done": [
@@ -39,13 +39,13 @@
     },
     {
       "h2": "Prête pour la facturation électronique",
-      "text": "La réforme impose de recevoir, puis d’émettre des factures électroniques. C’est compris dans la brique Factures : vous facturez comme d’habitude et Stagnum met la facture au bon format."
+      "text": "La réforme impose de recevoir, puis d’émettre des factures électroniques. C’est compris dans le module Factures : vous facturez comme d’habitude et Stagnum met la facture au bon format."
     }
   ],
   "faq": [
     {
       "q": "Les relances de paiement sont-elles payantes en plus ?",
-      "a": "Non. Les relances font partie de la brique Factures. Il n’y a pas d’option à ajouter."
+      "a": "Non. Les relances font partie du module Factures. Il n’y a pas d’option à ajouter."
     },
     {
       "q": "Stagnum est-il conforme à la facturation électronique ?",
@@ -56,8 +56,8 @@
       "a": "Oui. Vous choisissez dans les paramètres le nombre de jours après l’échéance, et la relance part toute seule passé ce délai."
     },
     {
-      "q": "Puis-je utiliser la facturation sans la brique Devis ?",
-      "a": "Oui. Chaque brique fonctionne seule. Si vous prenez aussi les devis, un devis accepté se transforme en facture sans ressaisie."
+      "q": "Puis-je utiliser la facturation sans le module Devis ?",
+      "a": "Oui. Chaque module fonctionne seul. Si vous prenez aussi les devis, un devis accepté se transforme en facture sans ressaisie."
     }
   ],
   "blocks": [],
