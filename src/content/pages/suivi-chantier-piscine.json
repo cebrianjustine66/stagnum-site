@@ -17,7 +17,7 @@
     "Une fiche par chantier, avec son avancement",
     "Rentabilité calculée chantier par chantier",
     "Application mobile incluse dans la brique",
-    "Saisie à la voix, sans quitter le chantier"
+    "Saisie à la voix ou au clavier, sans quitter le chantier"
   ],
   "sections": [
     {
@@ -25,8 +25,8 @@
       "text": "Stagnum compare ce que vous avez vendu à ce que le chantier vous a réellement coûté : matériaux, heures passées, déplacements. Vous voyez la marge de chaque chantier pendant qu’il avance, pas trois mois après."
     },
     {
-      "h2": "Fait pour des mains occupées",
-      "text": "Sur un chantier, personne n’a envie de sortir un ordinateur. Vous parlez à votre téléphone : une étape terminée, des heures en plus, une pièce à commander. Stagnum range l’information au bon endroit."
+      "h2": "Pensé pour le terrain",
+      "text": "Sur un chantier, personne n’a envie de sortir un ordinateur. Depuis votre téléphone, vous dites ou vous écrivez l’essentiel : une étape terminée, des heures en plus, une pièce à commander. Stagnum range l’information au bon endroit."
     },
     {
       "h2": "Toute l’équipe voit la même chose",
@@ -34,7 +34,7 @@
     },
     {
       "h2": "Exemple : une rénovation de liner",
-      "text": "Sur place, le technicien dicte l’avancement, les heures passées et les matériaux utilisés. Au bureau, vous voyez la marge évoluer au fil des jours. À la fin, vous savez si le chantier a été rentable."
+      "text": "Sur place, le technicien note l’avancement, à la voix ou au clavier,, les heures passées et les matériaux utilisés. Au bureau, vous voyez la marge évoluer au fil des jours. À la fin, vous savez si le chantier a été rentable."
     },
     {
       "h2": "Comprendre pourquoi un chantier a moins rapporté",
@@ -52,7 +52,7 @@
     },
     {
       "q": "Le suivi de chantier fonctionne-t-il pour la rénovation et l’entretien ?",
-      "a": "Oui. Une construction, une rénovation de liner ou une intervention d’entretien se suivent de la même façon : une fiche, des coûts, une marge."
+      "a": "Oui. Une construction, une rénovation ou une intervention d’entretien se suivent de la même façon : une fiche, des coûts, une marge."
     }
   ],
   "blocks": [],

@@ -2,7 +2,7 @@
   "nav": "Caisse",
   "kind": "brique",
   "brick": "caisse",
-  "h1": "Le logiciel de caisse pensé pour un magasin de piscine",
+  "h1": "Le logiciel de caisse pensé pour votre magasin de piscine",
   "lead": "Vous encaissez en quelques gestes, et chaque vente rejoint la fiche du client. En pleine saison, quand la file s’allonge au comptoir, la caisse ne doit pas vous ralentir.",
   "voice": {
     "said": "",
@@ -14,7 +14,7 @@
     "Ventes rattachées à la fiche client",
     "Logiciel de caisse certifié conforme à la loi française",
     "Mise à jour du stock avec la brique Inventaire",
-    "Un prix par magasin, quel que soit le nombre de vendeurs"
+    "Un prix par magasin, quel que soit le nombre d’utilisateurs"
   ],
   "sections": [
     {
@@ -34,11 +34,7 @@
       "text": "Avec la brique Inventaire, chaque vente met votre stock à jour. Sans elle, la caisse fonctionne quand même : chaque brique est indépendante."
     },
     {
-      "h2": "Exemple : un samedi de juin",
-      "text": "La file s’allonge au comptoir. Le vendeur choisit le produit, retrouve le client et encaisse. La vente rejoint la fiche du client, et le stock est décompté si vous avez la brique Inventaire."
-    },
-    {
-      "h2": "Un prix qui ne dépend pas du nombre de vendeurs",
+      "h2": "Un prix qui ne dépend pas du nombre d’utilisateurs",
       "text": "En saison, vous renforcez l’équipe. Le prix de Stagnum est fixé par magasin : vos saisonniers utilisent la caisse sans coût supplémentaire."
     }
   ],
@@ -52,8 +48,8 @@
       "a": "Oui. Les deux briques sont indépendantes. Ensemble, chaque vente décompte le stock automatiquement."
     },
     {
-      "q": "Combien de vendeurs peuvent utiliser la caisse ?",
-      "a": "Autant que vous voulez. Le prix de Stagnum est fixé par magasin, pas par utilisateur."
+      "q": "La caisse est-elle limitée en nombre d’utilisateurs ?",
+      "a": "Non. Autant de personnes que vous voulez peuvent s’en servir. Le prix de Stagnum est fixé par magasin, pas par utilisateur."
     },
     {
       "q": "J’ai plusieurs magasins : puis-je les relier ?",

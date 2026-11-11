@@ -2,7 +2,7 @@
   "nav": "Devis",
   "kind": "brique",
   "brick": "devis",
-  "h1": "Le logiciel de devis piscine : décrivez le chantier, le devis est prêt",
+  "h1": "Le logiciel de devis piscine : décrivez votre chantier, votre devis est prêt à envoyer",
   "lead": "Vous décrivez le besoin du client en une phrase, tapée ou dictée. Stagnum prépare le devis avec les bons articles, les quantités et les prix. Vous relisez, vous envoyez.",
   "voice": {
     "said": "« Devis pour Madame Martin : remplacement du liner, bassin 8 par 4, et une pompe à chaleur. »",
@@ -16,6 +16,7 @@
   "points": [
     "Devis préparés à partir d’une simple phrase, tapée ou dictée",
     "Catalogue d’articles et de prestations à vos prix",
+    "Suggestions tirées de vos devis habituels",
     "Fiche client créée ou retrouvée automatiquement",
     "Transformation en facture ou en chantier sans ressaisie"
   ],
@@ -25,12 +26,12 @@
       "text": "Le devis le plus rentable est celui que le client reçoit pendant qu’il a encore son projet en tête. Avec Stagnum, vous le préparez chez lui, au bord du bassin, sans rien ressaisir en rentrant. Les soirées passées à recopier des notes de chantier disparaissent."
     },
     {
-      "h2": "Vos articles, vos prix, vos habitudes",
-      "text": "Stagnum travaille avec votre catalogue et vos tarifs. Il apprend les prestations que vous vendez le plus souvent et vous les propose au bon moment. Vous gardez la main sur chaque ligne avant l’envoi."
+      "h2": "Il retient vos habitudes",
+      "text": "Stagnum travaille avec votre catalogue et vos tarifs. Il retient les articles et les prestations que vous mettez d’habitude dans vos devis, et vous les suggère au bon moment : la pose avec le liner, la mise en eau avec la pompe. Vous gardez la main sur chaque ligne avant l’envoi."
     },
     {
       "h2": "Du devis à la facture sans ressaisie",
-      "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces briques. Les informations du client suivent toutes seules, parce que la base clients est commune à tout Stagnum."
+      "text": "Un devis accepté devient une facture ou un chantier en un geste, si vous avez pris ces briques. Les informations du client suivent toutes seules, parce que sa fiche est commune à toutes vos briques."
     },
     {
       "h2": "Exemple : un liner à remplacer",

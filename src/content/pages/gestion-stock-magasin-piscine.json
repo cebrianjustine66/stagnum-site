@@ -3,7 +3,7 @@
   "kind": "brique",
   "brick": "inventaire",
   "h1": "La gestion de stock d’un magasin de piscine, sans tout recompter ni ressaisir",
-  "lead": "Votre stock se met à jour à chaque vente et à chaque livraison. Pour l’inventaire, vous comptez.  et Stagnum enregistre : plus de feuille à recopier le soir.",
+  "lead": "Votre stock se met à jour à chaque vente et à chaque livraison. Pour l’inventaire, vous comptez et Stagnum enregistre : plus de feuille à recopier le soir.",
   "voice": {
     "said": "« Chlore choc cinq kilos : douze seaux. Galets : huit. Il reste deux robots en exposition. »",
     "done": [

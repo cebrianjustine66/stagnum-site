@@ -5,16 +5,13 @@
   "h1": "Le logiciel d’analyse d’eau de piscine pour les professionnels",
   "lead": "Vous relevez les mesures, Stagnum les range dans la fiche du bassin et vous aide à expliquer le traitement au client, avec des mots simples.",
   "voice": {
-    "said": "« Analyse pour Monsieur Petit : pH 7,8, chlore libre 0,5, TAC 60, stabilisant 80. »",
-    "done": [
-      "Mesures enregistrées sur le bassin",
-      "Valeurs hors plage repérées",
-      "Conseil de traitement à valider"
-    ]
+    "said": "",
+    "done": []
   },
   "included": "",
   "points": [
-    "Mesures saisies ou dictées : pH, chlore, TAC, stabilisant",
+    "Mesures saisies au comptoir ou au bord du bassin : pH, chlore, TAC, stabilisant",
+    "Mesures et valeurs idéales choisies par vous",
     "Historique des analyses par bassin",
     "Proposition de traitement à valider par vos soins",
     "Analyse rattachée à la fiche du client"
@@ -22,7 +19,11 @@
   "sections": [
     {
       "h2": "L’historique de chaque bassin",
-      "text": "Une eau qui tourne tous les étés a une cause. Avec l’historique des analyses, vous voyez ce qui revient d’une saison à l’autre et vous traitez le problème de fond."
+      "text": "Un bassin qui pose problème tous les étés, ce n’est pas un hasard. En comparant les analyses d’une saison à l’autre, vous voyez ce qui revient et vous traitez la cause, pas seulement le symptôme."
+    },
+    {
+      "h2": "Votre rapport, pas un rapport générique",
+      "text": "Vous choisissez les mesures qui apparaissent dans vos analyses et vos valeurs idéales. Le rapport remis au client reflète votre façon de travailler, pas celle d’un fabricant de produits. Les mesures que vous ne suivez pas n’encombrent ni votre écran ni la fiche du client."
     },
     {
       "h2": "Un conseil que le client comprend",
@@ -34,11 +35,7 @@
     },
     {
       "h2": "Exemple : un client au comptoir avec son échantillon",
-      "text": "Vous mesurez avec votre matériel, puis vous saisissez ou dictez les valeurs. Stagnum les range sur le bassin du client, repère celles qui sont hors plage et propose un traitement. Vous le validez et vous l’expliquez au client."
-    },
-    {
-      "h2": "Vos paramètres, pas ceux d’un autre",
-      "text": "Vous choisissez les mesures qui apparaissent dans vos analyses. Celles que vous ne suivez pas n’encombrent ni votre écran ni la fiche remise au client."
+      "text": "Vous mesurez avec votre matériel, puis vous saisissez les valeurs. Stagnum les range sur le bassin du client, repère celles qui sont hors plage et propose un traitement. Vous le validez et vous l’expliquez au client."
     }
   ],
   "faq": [

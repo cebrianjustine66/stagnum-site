@@ -16,6 +16,7 @@
   "points": [
     "Factures créées à partir d’un devis ou d’un chantier",
     "Relances envoyées automatiquement, au délai que vous réglez",
+    "Message de relance personnalisable",
     "Conforme à la facturation électronique obligatoire",
     "Suivi des factures payées, à venir et en retard",
     "Utilisable au clavier ou à la voix, au magasin comme sur le terrain"
@@ -27,7 +28,7 @@
     },
     {
       "h2": "Des relances qui partent toutes seules",
-      "text": "Relancer un client est la tâche que tout le monde repousse. Dans Stagnum, vous réglez une fois le délai : sept jours après l’échéance, quinze, trente. Passé ce délai, la relance part automatiquement, et vous savez à tout moment qui vous doit combien."
+      "text": "Relancer un client est la tâche que tout le monde repousse. Dans Stagnum, vous réglez une fois le délai : sept jours après l’échéance, quinze, trente. Vous rédigez aussi le message de relance à votre façon. Passé ce délai, il part automatiquement, avec vos mots, et vous savez à tout moment qui vous doit combien."
     },
     {
       "h2": "Une vue claire de ce qu’on vous doit",
