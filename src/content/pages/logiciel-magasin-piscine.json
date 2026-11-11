@@ -1,0 +1,95 @@
+{
+  "nav": "Logiciel magasin piscine",
+  "kind": "profil",
+  "brick": "aucune",
+  "h1": "Le logiciel du magasin de piscine, du comptoir à la réserve",
+  "lead": "Le client entre avec son échantillon d’eau. Il repart avec le bon traitement et les bons produits. Entre les deux, Stagnum enchaîne l’analyse, le conseil, la vente et le stock, sans ressaisie.",
+  "voice": {
+    "said": "« Vente pour Monsieur Petit : deux seaux de chlore lent et un pH moins. »",
+    "done": [
+      "Vente rattachée à la fiche du client",
+      "Encaissement prêt au comptoir",
+      "Stock décompté avec la brique Inventaire"
+    ]
+  },
+  "included": "",
+  "points": [
+    "Analyse d’eau au comptoir, rattachée au bassin du client",
+    "Caisse certifiée conforme à la loi française",
+    "Stock mis à jour par les ventes et les achats",
+    "Achats remplis à partir du bon de livraison",
+    "Un prix par magasin, saisonniers compris"
+  ],
+  "sections": [
+    {
+      "h2": "L’analyse d’eau, au cœur du comptoir",
+      "text": "Dans un magasin de piscine, la vente commence souvent par un échantillon. Vous mesurez avec votre matériel, Stagnum range les valeurs sur le bassin du client, repère celles qui sont hors plage et propose un traitement que vous validez."
+    },
+    {
+      "h2": "Du conseil à la vente, la même fiche",
+      "text": "Le conseil donné, vous encaissez les produits. La vente rejoint la fiche du client, à côté de ses analyses. La fois suivante, vous savez ce qu’il a acheté et quel bassin il entretient, sans lui reposer les mêmes questions."
+    },
+    {
+      "h2": "Un stock qui suit la saison",
+      "text": "Avec les briques Caisse, Achats et Inventaire, les ventes décomptent le stock et les bons de livraison le réapprovisionnent. Vous voyez les produits qui baissent avant la rupture, et ceux qui dorment dans la réserve."
+    },
+    {
+      "h2": "Exemple : un samedi de juin",
+      "text": "La file s’allonge au comptoir. Une cliente apporte une eau verte : le vendeur saisit les mesures, le traitement est proposé, il l’explique. Elle paie, le stock est décompté, et son bassin garde la trace de cette analyse pour son prochain passage."
+    },
+    {
+      "h2": "Vos saisonniers, sans coût en plus",
+      "text": "En saison, vous renforcez l’équipe. Le prix de Stagnum est fixé par magasin : vos vendeurs l’utilisent dès leur premier jour, sans formation et sans abonnement supplémentaire."
+    }
+  ],
+  "faq": [
+    {
+      "q": "La caisse de Stagnum respecte-t-elle la loi anti-fraude à la TVA ?",
+      "a": "Oui. La caisse est certifiée conforme aux exigences d’inaltérabilité, de sécurisation, de conservation et d’archivage des données. Vous recevez le justificatif à présenter en cas de contrôle."
+    },
+    {
+      "q": "Dois-je changer de matériel d’analyse ?",
+      "a": "Non. Vous gardez votre photomètre ou vos trousses habituels. Stagnum enregistre les résultats, garde l’historique de chaque bassin et vous aide à formuler le conseil."
+    },
+    {
+      "q": "Quelles briques choisir pour un magasin ?",
+      "a": "Les briques Caisse, Inventaire, Achats et Analyse d’eau couvrent le comptoir et la réserve. Chaque brique fonctionne seule : vous pouvez commencer par une partie d’entre elles et ajouter les autres quand vous voulez."
+    },
+    {
+      "q": "J’ai plusieurs magasins : est-ce possible ?",
+      "a": "Oui. Chaque magasin a son abonnement, et vous pouvez les relier pour partager vos clients et suivre l’ensemble depuis un seul écran."
+    }
+  ],
+  "blocks": [
+    {
+      "discriminant": "cartes",
+      "value": {
+        "title": "Les briques *du magasin*",
+        "cards": [
+          {
+            "icon": "eau",
+            "title": "Analyse d’eau",
+            "text": "Entrez les mesures du client, le traitement est proposé, vous le validez.",
+            "href": "/logiciel-analyse-eau-piscine/"
+          },
+          {
+            "icon": "caisse",
+            "title": "Caisse",
+            "text": "Encaissez au comptoir avec une caisse certifiée, et chaque vente rejoint la fiche du client.",
+            "href": "/logiciel-caisse-magasin-piscine/"
+          },
+          {
+            "icon": "inventaire",
+            "title": "Inventaire",
+            "text": "Votre stock à jour, sans feuille de comptage ni ressaisie.",
+            "href": "/gestion-stock-magasin-piscine/"
+          }
+        ]
+      }
+    }
+  ],
+  "order": 21,
+  "withBricks": "Comptoir, caisse et stock",
+  "title": "Logiciel magasin piscine : caisse, stock et analyse d’eau | Stagnum",
+  "description": "Le logiciel du magasin de piscine : analyses d’eau au comptoir, caisse certifiée, stock à jour et fiche client. Un prix par magasin, saisonniers compris."
+}

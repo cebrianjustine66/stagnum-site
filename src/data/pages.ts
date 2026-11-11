@@ -7,7 +7,7 @@ import type { Block } from '../lib';
 export type Landing = {
   slug: string;
   order: number;
-  kind: 'brique' | 'atout';
+  kind: 'brique' | 'atout' | 'profil'; // profil : page par métier, rubrique « Par métier » du menu
   nav: string;
   brick?: string; // id dans pricing.ts
   included?: string; // pour les atouts : avec quelles briques ils viennent

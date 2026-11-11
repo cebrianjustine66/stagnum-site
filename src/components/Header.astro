@@ -9,6 +9,7 @@ const h = nav.header;
 const current = (href: string) => (path === href || (href === '/blog/' && path.startsWith(href)) ? 'page' : undefined);
 const briques = LANDINGS.filter((l) => l.kind === 'brique');
 const atouts = LANDINGS.filter((l) => l.kind === 'atout');
+const metiers = LANDINGS.filter((l) => l.kind === 'profil');
 const desc = (id?: string) => BRICKS.find((b) => b.id === id)?.desc;
 const path = Astro.url.pathname;
 ---
@@ -47,6 +48,19 @@ const path = Astro.url.pathname;
                 </li>
               ))}
             </ul>
+            {metiers.length > 0 && <p class="mega-title mega-title-next">{h.metiersTitle}</p>}
+            {metiers.length > 0 && (
+              <ul>
+                {metiers.map((f) => (
+                  <li>
+                    <a href={`/${f.slug}/`} aria-current={path === `/${f.slug}/` ? 'page' : undefined}>
+                      <strong>{f.nav}</strong>
+                      {f.withBricks && <small>{f.withBricks}</small>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>
@@ -68,6 +82,8 @@ const path = Astro.url.pathname;
         <div class="m-chips">
           {atouts.map((f) => <a href={`/${f.slug}/`}>{f.nav}</a>)}
         </div>
+        {metiers.length > 0 && <p class="m-title">{h.metiersTitle}</p>}
+        {metiers.length > 0 && <div class="m-chips">{metiers.map((f) => <a href={`/${f.slug}/`}>{f.nav}</a>)}</div>}
         <div class="m-links">
           {h.links.map((l) => <a href={l.href}>{l.label}</a>)}
         </div>
@@ -115,6 +131,7 @@ const path = Astro.url.pathname;
   .drop.open .mega, .drop:focus-within .mega { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
   .mega-col { padding: 22px 16px 16px; }
   .mega-side { padding: 22px 16px 16px; background: var(--tint); border-left: 1px solid var(--border); }
+  .mega-title-next { margin-top: 18px !important; }
   .mega-title { margin: 0 12px 10px; font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
   .mega ul { list-style: none; margin: 0; padding: 0; }
   .mega-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }

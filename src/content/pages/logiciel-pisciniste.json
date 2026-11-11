@@ -1,0 +1,99 @@
+{
+  "nav": "Logiciel pisciniste",
+  "kind": "profil",
+  "brick": "aucune",
+  "h1": "Le logiciel pisciniste qui fait la saisie à votre place",
+  "lead": "Devis, factures, chantiers, passages d’entretien, achats, caisse, stock et analyses d’eau : Stagnum réunit tout le métier de pisciniste dans un seul logiciel. Vous donnez une information une fois, il prépare le reste, et vous validez.",
+  "voice": {
+    "said": "« Devis pour Madame Roux : remplacement du liner et contrôle de la filtration. »",
+    "done": [
+      "Fiche client retrouvée, avec son bassin",
+      "Devis préparé, prêt à relire",
+      "Transformable en facture ou en chantier"
+    ]
+  },
+  "included": "",
+  "points": [
+    "Pensé pour les piscinistes, pas pour tout le bâtiment",
+    "Des briques indépendantes, à choisir selon votre activité",
+    "Une fiche par client, avec son bassin",
+    "Au clavier ou à la voix, au magasin comme sur le terrain",
+    "Un prix par magasin, utilisateurs illimités"
+  ],
+  "sections": [
+    {
+      "h2": "Un logiciel qui connaît les bassins",
+      "text": "Un logiciel généraliste gère des contacts. Un pisciniste gère des bassins : leur volume, leur équipement, l’historique de leur eau. Dans Stagnum, chaque client a sa fiche, et son bassin y est rattaché, avec ses devis, ses factures, ses chantiers et ses analyses."
+    },
+    {
+      "h2": "Vous prenez seulement ce qu’il vous faut",
+      "text": "Constructeur, magasin, entretien : chaque pisciniste a son métier. Stagnum se compose de briques indépendantes : Devis, Factures, Chantiers, Achats, Caisse, Inventaire et Analyse d’eau. Vous payez celles que vous utilisez, et vous en ajoutez quand votre activité grandit."
+    },
+    {
+      "h2": "Une information se donne une seule fois",
+      "text": "Le devis accepté devient une facture ou un chantier, sans ressaisie. Le bon de livraison déposé remplit l’achat. La facture en retard est relancée au délai que vous avez choisi. Vous ne retapez plus ce que vous avez déjà écrit."
+    },
+    {
+      "h2": "Exemple : une semaine de mai",
+      "text": "Lundi, vous dictez un devis en sortant de chez un client. Mercredi, il est accepté et devient un chantier, dont la marge se met à jour à chaque heure notée. Vendredi, la facture part. Si elle n’est pas réglée à l’échéance, la relance part toute seule."
+    },
+    {
+      "h2": "Toute l’équipe, sans payer par personne",
+      "text": "Le prix de Stagnum est fixé par magasin. Vos techniciens, vos vendeurs et vos saisonniers l’utilisent sans coût supplémentaire, et sans journée de formation à caler en pleine saison."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Qu’est-ce qu’un logiciel pisciniste ?",
+      "a": "C’est un logiciel de gestion conçu pour le métier de la piscine. Il connaît les bassins, les analyses d’eau, les chantiers et la vente au comptoir, là où un logiciel généraliste du bâtiment s’arrête aux devis et aux contacts."
+    },
+    {
+      "q": "Stagnum convient-il à un pisciniste indépendant ?",
+      "a": "Oui. Un tarif est prévu pour les indépendants, avec ou sans magasin. Tout se fait aussi depuis un téléphone, dans le camion ou au bord du bassin."
+    },
+    {
+      "q": "Faut-il prendre toutes les briques ?",
+      "a": "Non. Chaque brique fonctionne seule. Vous commencez par celles dont vous avez besoin et vous en ajoutez quand vous voulez. Si vous prenez toutes les briques, un prix préférentiel s’applique."
+    },
+    {
+      "q": "Stagnum est-il prêt pour la facturation électronique ?",
+      "a": "Oui. La brique Factures reçoit les factures électroniques de vos fournisseurs et émet les vôtres au format exigé, sans supplément et sans changer votre façon de facturer."
+    },
+    {
+      "q": "Peut-on essayer Stagnum avant de s’engager ?",
+      "a": "Oui. L’essai est gratuit, et pendant ce temps nous réglons vos briques avec vous. Il suffit de demander votre devis."
+    }
+  ],
+  "blocks": [
+    {
+      "discriminant": "cartes",
+      "value": {
+        "title": "Un logiciel pour *chaque façon d’exercer*",
+        "cards": [
+          {
+            "icon": "magasin",
+            "title": "Vous tenez un magasin",
+            "text": "Analyses d’eau au comptoir, caisse certifiée et stock à jour, pour toute l’équipe, saisonniers compris.",
+            "href": "/logiciel-magasin-piscine/"
+          },
+          {
+            "icon": "chantiers",
+            "title": "Vous construisez et rénovez",
+            "text": "Des devis préparés en une phrase, l’avancement et la marge de chaque chantier, à jour depuis le terrain.",
+            "href": "/suivi-chantier-piscine/"
+          },
+          {
+            "icon": "camion",
+            "title": "Vous faites de l’entretien",
+            "text": "Les mesures de chaque bassin, leur historique et le conseil de traitement, depuis votre téléphone.",
+            "href": "/logiciel-analyse-eau-piscine/"
+          }
+        ]
+      }
+    }
+  ],
+  "order": 20,
+  "withBricks": "Tout le métier, en un outil",
+  "title": "Logiciel pisciniste : tout le métier en un seul outil | Stagnum",
+  "description": "Stagnum, le logiciel des piscinistes : devis, factures, chantiers, entretien, caisse, stock et analyses d’eau. Un prix par magasin, utilisateurs illimités."
+}

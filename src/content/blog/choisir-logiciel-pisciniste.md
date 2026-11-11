@@ -69,7 +69,7 @@ Une démonstration menée par un commercial est toujours fluide. Le vrai test, c
 2. Refaites-le en entier dans le logiciel, pendant l’essai gratuit.
 3. Faites-le faire aussi à la personne de l’équipe la moins à l’aise avec l’informatique.
 
-Si cette personne y arrive seule, vous tenez le bon outil. C’est avec cette idée que nous avons conçu [Stagnum](/), un logiciel fait uniquement pour les piscinistes : vous pouvez [calculer son prix](/tarifs/) en une minute.
+Si cette personne y arrive seule, vous tenez le bon outil. C’est avec cette idée que nous avons conçu [Stagnum](/), [un logiciel fait uniquement pour les piscinistes](/logiciel-pisciniste/) : vous pouvez [calculer son prix](/tarifs/) en une minute.
 
 ## À retenir
 

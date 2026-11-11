@@ -278,10 +278,11 @@ export default config({
         }),
         kind: fields.select({
           label: 'Type de page',
-          description: 'Une brique se vend séparément. Un atout est inclus dans les briques (colonne « Inclus » du menu).',
+          description: 'Une brique se vend séparément. Un atout est inclus dans les briques (colonne « Inclus » du menu). Une page par métier (logiciel pisciniste, magasin…) apparaît sous les atouts, dans la rubrique « Par métier » du menu.',
           options: [
             { label: 'Brique', value: 'brique' },
             { label: 'Atout', value: 'atout' },
+            { label: 'Page par métier', value: 'profil' },
           ],
           defaultValue: 'atout',
         }),
@@ -756,6 +757,7 @@ export default config({
             menuLabel: text('Intitulé du menu déroulant'),
             bricksTitle: text('Titre de la colonne des briques'),
             includedTitle: text('Titre de la colonne des atouts'),
+            metiersTitle: text('Titre des pages par métier', 'Affiché sous les atouts, dans le menu déroulant.'),
             links: links('Autres liens du menu'),
             cta: group('Bouton à droite', {
               label: text('Texte du bouton'),
