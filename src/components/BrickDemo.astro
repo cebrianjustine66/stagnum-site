@@ -294,6 +294,9 @@ const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
   .p-title { margin: 0; display: flex; align-items: center; gap: 6px; font: 700 .8rem var(--font-display); color: var(--accent); padding: 0 4px; }
   .phone :global(.mini) { padding: 8px 9px; gap: 6px; font-size: .62rem; border-radius: 10px; box-shadow: 0 6px 14px -10px rgba(7, 52, 58, .5); }
   .phone :global(.mini .pill) { font-size: .54rem; padding: 2px 6px; }
+  /* Le téléphone est étroit : on y masque le détail (numéro de facture, conditionnement) pour garder une ligne par élément. */
+  .phone :global(.mini .ref) { display: none; }
+  .phone :global(.mini .row span) { white-space: nowrap; }
   .phone :global(.mini .gauge) { grid-template-columns: 30px 1fr 22px; gap: 6px; }
   .alerts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   .alerts li { display: flex; align-items: center; gap: 7px; background: #fff; border-radius: 10px; padding: 7px; box-shadow: 0 6px 14px -10px rgba(7, 52, 58, .5); }
@@ -370,7 +373,7 @@ const steps = ['Créée', 'Envoyée', 'Relancée', 'Payée'];
   .dark { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 10px; background: var(--deep); color: #fff; font-weight: 500; font-size: .84rem; }
   .dark b { color: #FFD3A8; white-space: nowrap; }
 
-  .rail { position: relative; height: 4px; margin: 22px 8% 0; border-radius: 4px; background: #F1E7D6; }
+  .rail { position: relative; height: 4px; margin: 22px 12.5% 0; border-radius: 4px; background: #F1E7D6; }
   .rail i { display: block; height: 100%; border-radius: 4px; background: var(--accent); width: 0; transition: width .6s cubic-bezier(.2, .7, .2, 1); }
   .steps { margin-top: -30px; display: grid; grid-template-columns: repeat(4, 1fr); }
   .step { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
