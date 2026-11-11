@@ -11,19 +11,19 @@ color: "#E1F3F1"
 
 Une facture en retard n’est pas toujours un client de mauvaise foi. Le plus souvent, elle a été oubliée, ou elle attend dans une boîte mail. Une relance rapide et courtoise règle la plupart des cas. Voici une méthode en quatre étapes.
 
-Dans la piscine, le risque est plus fort qu'ailleurs. Les interventions sont saisonnières, les montants parfois élevés (liner, pompe à chaleur, local technique..) et le client a déjà sa piscine en service quand la facture arrive. Voici une méthode en 4 étapes, du devis à la mise en demeure.
+Dans la piscine, le risque est plus fort qu'ailleurs. Les interventions sont saisonnières, les montants parfois élevés (liner, pompe à chaleur, local technique…) et le client a déjà sa piscine en service quand la facture arrive. Voici une méthode en 4 étapes, du devis à la mise en demeure.
 
 ## Étape 0 : poser les règles dès le devis
 
 Les impayés se préviennent avant la première facture. Tout se joue sur le devis.
 
-Les conditions de règlement. **Écrivez-les sur chaque devis** : délai de paiement, moyens acceptés, pénalités de retard. Ce qui n'est pas écrit se discute après coup. Dans Stagnum, vous enregistrez vos conditions de paiement une fois dans une bibliothèque réutilisable, puis vous les ajoutez au devis en un clic.
+Les conditions de règlement. Écrivez-les sur chaque devis : délai de paiement, moyens acceptés, pénalités de retard. Ce qui n'est pas écrit se discute après coup. Dans Stagnum, vous enregistrez vos conditions de paiement une fois dans une bibliothèque réutilisable, puis vous les ajoutez au devis en un clic.
 
 L'acompte. Pour un chantier ou une grosse intervention, le schéma le plus courant est simple :
 
-• 50 % d‘acompte à la signature du devis, pour réserver le créneau et couvrir les achats ; 50 % le jour de l'intervention, pour solder avant de repartir.
+• 50 % d'acompte à la signature du devis, pour réserver le créneau et couvrir les achats ; 50 % le jour de l'intervention, pour solder avant de repartir.
 
-• X% à la signature du devis ; X% au debut du chantier ; X% à la pose du local technique ; X% à la mise en eau de la piscine et enfin X% à la reception du chantier
+• Pour un chantier plus long, l'échéancier se découpe par étapes : X % à la signature du devis ; X % au début du chantier ; X % à la pose du local technique ; X % à la mise en eau de la piscine ; et enfin X % à la réception du chantier.
 
 Ce rythme protège votre trésorerie. Il filtre aussi les projets pas assez mûrs.
 
@@ -33,21 +33,19 @@ Ce rythme protège votre trésorerie. Il filtre aussi les projets pas assez mûr
 
 Le meilleur moment pour éviter un retard est avant qu’il arrive :
 
-- envoyez la facture **le jour de la fin des travaux**, pas en fin de mois ;
-- indiquez clairement la **date limite de paiement** et vos coordonnées bancaires ;
-- Pour un gros chantier, **rappeler le solde la veille** de l’intervention. Le clients
+- Demandez **un acompte à la commande** pour les chantiers/interventions important(e)s.
+- Envoyez la facture **le jour de la fin des travaux**, pas en fin de mois.
+- Indiquez clairement la **date limite de paiement** et vos coordonnées bancaires.
 
 ## Étape 2. La relance amiable
 
-Quelques jours après l’échéance, envoyez un message simple, sans reproche. Rappelez le numéro de la facture, son montant, sa date d’échéance, et joignez-la de nouveau. Un appel téléphonique est souvent plus efficace qu’un second e-mail : il permet de savoir s’il y a un désaccord sur les travaux.
+Quelques jours après l’échéance, envoyez un message simple, sans reproche. Rappelez le numéro de la facture, son montant, sa date d’échéance, et joignez-la de nouveau. Un **appel téléphonique** est souvent plus efficace qu’un second e-mail : il permet de savoir s’il y a un désaccord sur les travaux.
 
 Si le client conteste la prestation, traitez ce point d’abord. Une relance de paiement ne règle pas un litige sur la qualité.
 
 ## Étape 3. La relance ferme
 
-Sans réponse après une ou deux semaines, envoyez une relance plus formelle. Elle rappelle les relances précédentes et fixe une nouvelle date limite précise.
-
-**Gardez une trace écrite** de chaque échange : elle vous servira si le dossier va plus loin.
+Sans réponse après une ou deux semaines, envoyez une relance plus formelle. Elle rappelle les relances précédentes et fixe une nouvelle date limite précise. Gardez une trace écrite de chaque échange : elle vous servira si le dossier va plus loin.
 
 ## Étape 4. La mise en demeure
 
@@ -61,9 +59,9 @@ La mise en demeure est un courrier qui exige le paiement dans un délai donné, 
 | Indemnité forfaitaire de recouvrement | 40 € par facture en retard | Ne s’applique pas |
 | Délai pour agir en justice | 5 ans | 2 ans |
 
-Le délai de 2 ans pour les particuliers est court pour un pisciniste : une facture d’entretien de l’été peut être prescrite deux saisons plus tard. Ne laissez pas un impayé dormir.
+Le délai de deux ans pour les particuliers est court pour un pisciniste : une facture d’entretien de l’été peut être prescrite deux saisons plus tard. Ne laissez pas un impayé dormir.
 
-*Ces informations sont générales et ne remplacent pas un conseil juridique. Pour un montant important ou un litige, rapprochez-vous de votre expert-comptable ou d’un professionnel du droit.*
+Ces informations sont générales et ne remplacent pas un conseil juridique. Pour un montant important ou un litige, rapprochez-vous de votre expert-comptable ou d’un professionnel du droit.
 
 ## Pourquoi les relances ne partent pas
 
@@ -74,6 +72,5 @@ Dans Stagnum, [les relances font partie de la brique Factures](/logiciel-factura
 ## À retenir
 
 - Fixez vos conditions de règlement sur le devis : l'impayé se prévient avant la facture.
-- Pour les grosses interventions, demandez des acomptes.
-- Facturez le jour même, relancez tôt, commencez aimablement, gardez une trace écrite.
-- Avec un particulier, vous avez 2 ans pour agir. N'attendez pas.
+- Facturez le jour même, relancez tôt, d’abord à l’amiable, et gardez une trace écrite.
+- Avec un particulier, vous avez deux ans pour agir : n’attendez pas.
