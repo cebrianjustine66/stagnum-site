@@ -4,6 +4,7 @@
     "menuLabel": "Fonctionnalités",
     "bricksTitle": "Les briques",
     "includedTitle": "Inclus, sans supplément",
+    "metiersTitle": "Par métier",
     "links": [
       {
         "label": "Tarifs",
@@ -40,14 +41,6 @@
       {
         "label": "Comparer avec Extrabat",
         "href": "/alternative-extrabat/"
-      },
-      {
-        "label": "Logiciel pisciniste",
-        "href": "/logiciel-pisciniste/"
-      },
-      {
-        "label": "Logiciel magasin piscine",
-        "href": "/logiciel-magasin-piscine/"
       },
       {
         "label": "Qui sommes-nous",
