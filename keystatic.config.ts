@@ -278,10 +278,11 @@ export default config({
         }),
         kind: fields.select({
           label: 'Type de page',
-          description: 'Une brique se vend séparément. Un atout est inclus dans les briques (colonne « Inclus » du menu).',
+          description: 'Une brique se vend séparément. Un atout est inclus dans les briques (colonne « Inclus » du menu). Une page par métier (logiciel pisciniste, magasin…) n’apparaît pas dans le menu Fonctionnalités : elle est liée depuis le pied de page.',
           options: [
             { label: 'Brique', value: 'brique' },
             { label: 'Atout', value: 'atout' },
+            { label: 'Page par métier', value: 'profil' },
           ],
           defaultValue: 'atout',
         }),
