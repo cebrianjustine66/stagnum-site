@@ -1,107 +1,107 @@
 {
+  "blocks": [],
   "breadcrumb": "Qui sommes-nous",
   "hero": {
-    "title": "Plus qu’un logiciel pour les *piscinistes*",
-    "lead": "Stagnum est né d’un constat : les piscinistes méritent mieux que des outils qui ont vieilli. Voici pourquoi nous l’avons créé, et qui nous sommes."
+    "lead": "Stagnum est né d’un constat : les piscinistes méritent mieux que des outils qui ont vieilli. Voici pourquoi nous l’avons créé, et qui nous sommes.",
+    "title": "Plus qu’un logiciel pour les *piscinistes*"
+  },
+  "seo": {
+    "description": "Stagnum a été créé par cinq personnes pour donner aux piscinistes plus qu’un logiciel : un assistant pensé pour le terrain pour gérer leur entreprise.",
+    "title": "Qui sommes-nous ? L’équipe et l’histoire de Stagnum"
   },
   "story": {
-    "title": "Pourquoi *Stagnum*",
+    "button": "Demander un devis",
+    "href": "/demande-de-devis/",
+    "items": [
+      {
+        "text": "Les logiciels proposés aux piscinistes sont lourds et compliqués, alors que leur métier mêle chantiers, entretien, magasin, stock et analyse d’eau, et se passe surtout sur le terrain.",
+        "title": "Des outils pensés pour des bureaux"
+      },
+      {
+        "text": "Ceux qui existent évoluent peu. Les demandes des clients restent sans suite et les réponses se font attendre. Pendant ce temps, on recopie des bons de livraison et on refait ses devis le soir.",
+        "title": "Des outils qui ont vieilli"
+      },
+      {
+        "text": "Nous voulons changer le quotidien des piscinistes. Les autres logiciels vous donnent du travail. Stagnum vous en enlève.",
+        "title": "Plus qu’un logiciel : un assistant"
+      },
+      {
+        "text": "Stagnum prépare un devis, un achat, une relance. Vous relisez et vous validez : rien ne part sans vous, sauf ce que vous avez choisi d’automatiser.",
+        "title": "Vous décidez, il prépare"
+      }
+    ],
     "points": [
       "Un logiciel fait uniquement pour les piscinistes",
       "Une équipe à l’écoute de ceux qui l’utilisent",
       "Un assistant qui fait l’essentiel de la saisie"
     ],
-    "button": "Demander un devis",
-    "href": "/demande-de-devis/",
-    "items": [
-      {
-        "title": "Des outils pensés pour des bureaux",
-        "text": "Les logiciels proposés aux piscinistes sont lourds et compliqués, alors que leur métier mêle chantiers, entretien, magasin, stock et analyse d’eau, et se passe surtout sur le terrain."
-      },
-      {
-        "title": "Des outils qui ont vieilli",
-        "text": "Ceux qui existent évoluent peu. Les demandes des clients restent sans suite et les réponses se font attendre. Pendant ce temps, on recopie des bons de livraison et on refait ses devis le soir."
-      },
-      {
-        "title": "Plus qu’un logiciel : un assistant",
-        "text": "Nous voulons changer le quotidien des piscinistes. Les autres logiciels vous donnent du travail. Stagnum vous en enlève."
-      },
-      {
-        "title": "Vous décidez, il prépare",
-        "text": "Stagnum prépare un devis, un achat, une relance. Vous relisez et vous validez : rien ne part sans vous, sauf ce que vous avez choisi d’automatiser."
-      }
-    ]
+    "title": "Pourquoi *Stagnum*"
   },
   "team": {
-    "title": "Cinq personnes, *une équipe*",
+    "back": "Retourner",
+    "hint": "Faire connaissance",
     "intro": "Cliquez sur une carte pour faire connaissance.",
     "members": [
       {
+        "bio": "Présentation à venir.",
         "name": "Yohan",
-        "role": "",
         "photo": null,
-        "bio": "Présentation à venir."
+        "role": ""
       },
       {
+        "bio": "Présentation à venir.",
         "name": "Léana",
-        "role": "",
         "photo": null,
-        "bio": "Présentation à venir."
+        "role": ""
       },
       {
+        "bio": "Présentation à venir.",
         "name": "Axel",
-        "role": "",
         "photo": null,
-        "bio": "Présentation à venir."
+        "role": ""
       },
       {
+        "bio": "Présentation à venir.",
         "name": "Jérémy",
-        "role": "",
         "photo": null,
-        "bio": "Présentation à venir."
+        "role": ""
       },
       {
+        "bio": "test",
         "name": "Justine",
-        "role": "",
         "photo": null,
-        "bio": "Présentation à venir."
+        "role": ""
       }
     ],
-    "hint": "Faire connaissance",
-    "back": "Retourner"
+    "title": "Cinq personnes, *une équipe*"
   },
   "values": {
-    "title": "Nos *partis pris*",
     "items": [
       {
-        "icon": "metier",
         "color": "#E1F3F1",
-        "title": "Un seul métier",
-        "text": "Conçu uniquement pour les piscinistes, avec ou sans magasin."
+        "icon": "metier",
+        "text": "Conçu uniquement pour les piscinistes, avec ou sans magasin.",
+        "title": "Un seul métier"
       },
       {
-        "icon": "voix",
         "color": "#FBE6D2",
-        "title": "À l’écoute",
-        "text": "Nous écoutons ceux qui utilisent Stagnum et nous leur répondons sans les faire attendre."
+        "icon": "voix",
+        "text": "Nous écoutons ceux qui utilisent Stagnum et nous leur répondons sans les faire attendre.",
+        "title": "À l’écoute"
       },
       {
-        "icon": "magasin",
         "color": "#F3EDE2",
-        "title": "Un prix clair",
-        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos briques, et le prix ne bouge pas après la première année."
+        "icon": "magasin",
+        "text": "Par magasin, pas par utilisateur. Vous ne payez que vos briques, et le prix ne bouge pas après la première année.",
+        "title": "Un prix clair"
       },
       {
-        "icon": "reglages",
         "color": "#DDF2F3",
-        "title": "Réglé à votre façon",
-        "text": "Chaque brique se règle selon vos habitudes de travail."
+        "icon": "reglages",
+        "text": "Chaque brique se règle selon vos habitudes de travail.",
+        "title": "Réglé à votre façon"
       }
-    ]
-  },
-  "blocks": [],
-  "seo": {
-    "title": "Qui sommes-nous ? L’équipe et l’histoire de Stagnum",
-    "description": "Stagnum a été créé par cinq personnes pour donner aux piscinistes plus qu’un logiciel : un assistant pensé pour le terrain pour gérer leur entreprise."
+    ],
+    "title": "Nos *partis pris*"
   }
 }
