@@ -13,7 +13,13 @@ Un devis signé est un contrat. S’il est incomplet, il vous protège mal en ca
 
 ## Quand le devis est-il obligatoire ?
 
-Pour un client particulier, le devis est obligatoire avant tous travaux de dépannage, de réparation ou d’entretien dont le montant dépasse 150 € TTC. Pour une construction ou une rénovation, il est de toute façon indispensable : c’est lui qui fixe ce que vous devez livrer, et à quel prix.
+Pour un client particulier, le devis détaillé est obligatoire avant toute prestation de dépannage, de réparation ou d'entretien dans le bâtiment et l'équipement de la maison, quel que soit le montant. L'ancien seuil de 150 € TTC a été supprimé en 2017 (arrêté du 24 janvier 2017).
+
+Ce texte ne vise pas les contrats d'entretien payés au forfait. Si vous vendez un forfait d'entretien annuel, c'est le contrat qui fixe ce qui est inclus.
+
+Pour une construction ou une rénovation, le devis est indispensable dans tous les cas : il fixe ce que vous devez livrer, et à quel prix.
+
+Le bon réflexe : un devis pour chaque intervention, même petite. C'est votre meilleure protection en cas de désaccord.
 
 ## Les mentions à faire figurer
 
@@ -26,7 +32,7 @@ Pour un client particulier, le devis est obligatoire avant tous travaux de dépa
 | Le détail | Chaque prestation, avec sa quantité et son prix unitaire |
 | La main-d’œuvre | Son prix, et les frais de déplacement s’il y en a |
 | Le total | Montant hors taxes, taux de TVA, montant toutes taxes comprises |
-| Le paiement | Acompte demandé, échéances, modalités |
+| Le paiement | Acompte demandé (écrire le mot « acompte »), échéances, moyens de paiement, pénalités de retard |
 | Le devis lui-même | S’il est gratuit ou payant |
 
 ## Les trois mentions que les piscinistes oublient
@@ -61,7 +67,21 @@ Ces informations sont générales et ne remplacent pas un conseil juridique. Fai
 
 ## À retenir
 
-- Le devis est obligatoire au-delà de 150 € TTC pour le dépannage, la réparation et l’entretien.
-- Indiquez toujours votre assurance décennale, avec l’assureur et la zone couverte.
+- Pour un particulier, un devis est obligatoire avant tout dépannage, réparation ou entretien, quel que soit le montant.
+- Indiquez toujours votre assurance décennale.
 - Un devis signé au domicile du client ouvre un droit de rétractation de 14 jours.
 - Écrivez noir sur blanc ce qui n’est pas compris dans le prix.
+
+Questions fréquentes :
+
+**Un pisciniste doit-il faire un devis pour une petite intervention ?**
+
+Oui, pour un client particulier. Depuis 2017, le devis est obligatoire pour tout dépannage, réparation ou entretien, quel que soit le montant.
+
+**Un devis de piscine peut-il être payant ?**
+
+Oui, mais vous devez l'annoncer au client avant de l'établir, et l'indiquer sur le devis.
+
+**Combien de temps un devis de piscine est-il valable ?**
+
+C'est vous qui le fixez. Indiquez toujours une durée de validité, par exemple 1 ou 3 mois, pour ne pas être engagé sur un prix qui n'est plus tenable.
