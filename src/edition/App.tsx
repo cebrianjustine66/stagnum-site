@@ -53,9 +53,13 @@ export default function App() {
   // Mode navigation par défaut : on parcourt le site comme un visiteur. « Modifier » rend les textes modifiables.
   const [editing, setEditing] = useState(false);
   const editingRef = useRef(editing);
+  // Position de lecture à restaurer après un basculement Naviguer/Modifier (l'aperçu se recharge).
+  const keepScroll = useRef<number | null>(null);
   const setMode = (on: boolean) => {
     if (editingRef.current === on) return;
     editingRef.current = on;
+    // On garde la position de défilement : rien ne doit remonter en haut de la page.
+    keepScroll.current = frame.current?.contentWindow?.scrollY ?? null;
     setEditing(on);
     setFrameKey((k) => k + 1);
   };
@@ -230,6 +234,15 @@ export default function App() {
     const win = frame.current?.contentWindow;
     const doc = frame.current?.contentDocument;
     if (!win || !doc || doc.location.href === 'about:blank') return;
+    // Après un basculement Naviguer/Modifier, on revient à la position de lecture (pas en haut).
+    if (keepScroll.current != null) {
+      const y = keepScroll.current;
+      keepScroll.current = null;
+      const back = () => win.scrollTo(0, y);
+      back();
+      win.requestAnimationFrame(back);
+      win.setTimeout(back, 350);
+    }
     const path = win.location.pathname;
     const virt = new URLSearchParams(win.location.search).get('ed-article');
     const view = virt && filesRef.current[virt] ? virt : null;
