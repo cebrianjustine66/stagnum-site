@@ -1,6 +1,6 @@
 ---
 title: "Stock d’un magasin de piscine : préparer la saison | Stagnum"
-h1: "Stock d’un magasin de piscine : comment préparer la saison"
+h1: "Stock d’un magasin de piscine : comment préparer la saison ?"
 description: "Éviter les ruptures en juillet sans immobiliser sa trésorerie en mars : une méthode simple pour gérer le stock d’un magasin de piscine au fil de la saison."
 date: "2026-10-07"
 tag: "Magasin"
@@ -21,7 +21,7 @@ Tous les produits ne méritent pas la même attention. La règle observée dans 
 | B : les réguliers | Accessoires, pièces de filtration, bandelettes | Tous les quinze jours |
 | C : les occasionnels | Robots, pompes à chaleur, pièces rares | À la commande, ou en très petit stock |
 
-Le groupe A représente peu de références : c’est ce qui rend son suivi serré réaliste.
+Le groupe A représente peu de références : c’est ce qui rend son suivi serré réaliste. Pour savoir dans quel groupe ranger un produit, partez de vos ventes des 12 derniers mois, pas de sa famille. Un accessoire très demandé peut être en A, un produit de traitement rare peut être en C.
 
 ## 2. Fixez un seuil pour chaque produit du groupe A
 
@@ -32,6 +32,12 @@ Un seuil d’alerte est la quantité en dessous de laquelle vous devez commander
 Prenons un seau de chlore choc qui se vend à 6 exemplaires par jour en juillet, avec un fournisseur qui livre en 4 jours. Il vous faut au moins 24 seaux pour tenir jusqu’à la livraison. Avec une marge de sécurité de 3 jours de vente, soit 18 seaux, le seuil est de **42 seaux**.
 
 Le même produit se vend peut-être à 1 exemplaire par jour en avril : le seuil tombe alors à 7. Un seuil unique sur toute l’année est donc soit trop haut au printemps, soit trop bas en été. Prévoyez deux seuils : un pour la saison, un pour le reste de l’année.
+
+**Et les groupes B et C ?** Ils ne demandent pas de seuil calculé produit par produit.
+
+• Groupe B : fixez un stock cible pour chaque produit. Tous les quinze jours, vous recommandez de quoi revenir à ce niveau.
+
+• Groupe C : gardez au plus un exemplaire en exposition. Le reste se commande à la demande, avec un acompte versé par le client à la commande. Vous n'immobilisez pas 3 000 € de pompe à chaleur en attendant un acheteur.
 
 ## 3. Comptez peu, mais souvent
 
