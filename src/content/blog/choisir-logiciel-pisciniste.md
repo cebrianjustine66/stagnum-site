@@ -9,11 +9,11 @@ icon: "reglages"
 color: "#DDF2F3"
 ---
 
-Un logiciel de gestion se garde des années. Le bon vous fait gagner une heure par jour ; le mauvais vous en fait perdre une, et personne ne l’utilise au bout de trois mois. Voici sept critères pour choisir, classés du plus important au moins important.
+Devis le soir, factures le dimanche, stock compté à la main en juillet : beaucoup de piscinistes gèrent encore leur entreprise entre trois outils et un carnet. Un bon logiciel pisciniste remet tout au même endroit. Encore faut-il bien le choisir, car on le garde des années. Voici les sept critères qui comptent vraiment, du plus important au moins important.
 
 ## 1. Il est fait pour votre métier
 
-Un pisciniste ne gère pas des contacts, il gère des bassins. Le logiciel doit connaître ce qu’est un volume, un liner, une filtration, une analyse d’eau. Avec un outil généraliste du bâtiment, vous passerez votre temps à contourner des écrans prévus pour un plombier ou un maçon.
+Un pisciniste ne gère pas des contacts, il gère des bassins. Le logiciel doit connaître ce qu’est un volume, un revêtement, une filtration, une analyse d’eau. Avec un outil généraliste du bâtiment, vous passerez votre temps à contourner des écrans prévus pour un plombier ou un maçon.
 
 Posez la question simplement : « Montrez-moi la fiche d’un bassin. »
 
@@ -35,18 +35,29 @@ Comptez, pendant la démonstration, le nombre de fois où l’on vous demande de
 
 ## 4. Son prix reste lisible quand vous grandissez
 
-Il existe deux grands modèles de prix :
+Votre équipe n'a pas la même taille en janvier et en juillet. Le prix de votre logiciel peut suivre le même chemin.
 
-| Modèle | Ce que vous payez | Le risque |
-|---|---|---|
-| Par utilisateur | Un montant pour chaque personne qui se connecte | La facture grimpe à chaque embauche, saisonniers compris |
-| Par magasin ou par entreprise | Un forfait pour toute l’équipe | À vérifier : ce que le forfait contient vraiment |
+Il existe deux façons de facturer :
 
-Demandez toujours le prix pour votre effectif **en pleine saison**, pas seulement pour votre effectif d’hiver. Demandez aussi ce qui est en supplément : stockage, application mobile, assistance, formation.
+• Par utilisateur : vous payez pour chaque personne qui se connecte. Chaque saisonnier ajouté fait monter la facture.
+
+• Au forfait : un prix fixe pour toute l'entreprise, quel que soit le nombre de personnes.
+
+Exemple (prix illustratifs) : un logiciel à 30 € par utilisateur et par mois. En hiver, vous êtes 3 : 90 € par mois. En été, vous êtes 7 avec les saisonniers : 210 € par mois. Le prix a plus que doublé, sans aucune fonction en plus.
+
+**Avant de signer, posez deux questions :**
+
+*1. « Combien je paie avec mon équipe d'été au complet ? »*
+
+*2. « Qu'est-ce qui est en supplément ? » : application mobile, stockage, assistance, formation.*
+
+***Chez Stagnum, le prix est fixé par magasin. Vous pouvez inviter toute votre équipe, saisonniers compris, sans payer plus.***
 
 ## 5. Vous ne payez que ce qui vous sert
 
 Un indépendant qui fait de l’entretien n’a pas besoin d’une caisse. Un magasin sans équipe de pose n’a pas besoin du suivi de chantier. Un logiciel vendu en formules vous fait payer des fonctions que vous n’ouvrirez jamais ; un logiciel modulaire vous laisse commencer petit et ajouter le reste plus tard.
+
+C'est le principe de Stagnum : **vous choisissez vos briques** (devis, factures, caisse, inventaire, analyse d'eau…) et **vous ne payez que celles-là**. Vous en ajoutez une quand votre activité évolue.
 
 ## 6. Il s’adapte à vos habitudes
 
@@ -75,5 +86,5 @@ Si cette personne y arrive seule, vous tenez le bon outil. C’est avec cette id
 
 - Choisissez un logiciel conçu pour la piscine, utilisable sur le terrain.
 - Comptez les ressaisies pendant la démonstration : c’est là que se perd le temps.
-- Demandez le prix pour votre effectif de pleine saison, suppléments compris.
+- Demandez le prix avec votre équipe d'été au complet, options comprises.
 - Testez vous-même, sur un vrai dossier, avant de vous engager.
