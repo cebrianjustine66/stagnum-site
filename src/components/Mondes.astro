@@ -1,0 +1,45 @@
+---
+// Section d'accueil : un seul outil, trois moments de la journée.
+// Remplace l'ancienne grille à plat des briques. Chaque carte ouvre la page du monde.
+import { MONDES, MONDES_HEAD } from '../data/mondes';
+import '../styles/mondes.css';
+const ARROW = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+<section class="monde-section" id="briques">
+  <div class="wrap">
+    <div class="m-head">
+      <span class="eyebrow">{MONDES_HEAD.eyebrow}</span>
+      <h2>Un seul outil, <em>trois moments</em> de votre journée</h2>
+      <p>{MONDES_HEAD.lead}</p>
+    </div>
+
+    <div class="mondes">
+      {MONDES.map((m, i) => (
+        <a
+          class={`tcard reveal${m.dark ? ' dark' : ''}`}
+          href={`/${m.slug}/`}
+          style={`--bg:${m.bg};--fg:${m.fg}`}
+          data-water={m.dark ? '' : undefined}
+        >
+          <div class="tcard-top">
+            <span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={m.icon} /></span>
+            <span class="num">{num(i)}</span>
+          </div>
+          <h3>{m.title}</h3>
+          <div class="t-where">{m.where}</div>
+          <p class="t-desc">{m.teaser}</p>
+          <div class="t-bricks">
+            {m.chips.map((c) => <span class={c.soon ? 'soon' : undefined}>{c.label}</span>)}
+          </div>
+          <span class="more">Voir les {m.bricks.length} briques <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={ARROW} /></span>
+        </a>
+      ))}
+    </div>
+
+    <div class="base-strip">
+      <span class="pin">●</span>
+      <div>Et sous tout ça : <b>le fichier clients et bassins, votre équipe, vos réglages.</b> Communs à tout, réglés une seule fois.</div>
+    </div>
+  </div>
+</section>

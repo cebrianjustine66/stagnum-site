@@ -1,0 +1,58 @@
+---
+// Corps d'une page « monde » : héro (avec effet eau), grille des briques
+// dans le style du site (carte teintée + mini-démo), puis le copilote et les autres mondes.
+import type { Monde } from '../data/mondes';
+import { MONDES } from '../data/mondes';
+import MondeMini from './MondeMini.astro';
+import '../styles/mondes.css';
+interface Props { monde: Monde }
+const { monde } = Astro.props;
+const ARROW = '<path d="M5 12h14M13 6l6 6-6 6"/>';
+const num = (i: number) => String(i + 1).padStart(2, '0');
+const others = MONDES.filter((m) => m.slug !== monde.slug);
+---
+<div class="monde-page">
+  <section class="on-deep water wave-bottom m-hero">
+    <div class="wrap">
+      <a class="back" href="/#briques">← Retour à l’accueil</a>
+      <div class="where"><span class="ebadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={monde.icon} /></span> {monde.where}</div>
+      <h1>{monde.title}</h1>
+      <p class="lead" set:html={monde.heroLead} />
+      <span class="count">{monde.count}</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="bricks-detail">
+        {monde.bricks.map((b, i) => (
+          <div class={`tcard reveal${b.dark ? ' dark' : ''}`} style={`--bg:${b.bg};--fg:${b.fg}`} data-water={b.dark ? '' : undefined}>
+            <div class="tcard-top">
+              <span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={b.icon} /></span>
+              <span class="num">{num(i)}</span>
+            </div>
+            <h3>{b.name}{b.soon && <span class="badge-soon">À venir</span>}</h3>
+            <p class="t-desc">{b.desc}</p>
+            <div class="mini-wrap"><MondeMini demo={b.demo} /></div>
+            <span class="more">{b.more ?? 'Voir la démonstration'} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={ARROW} /></span>
+          </div>
+        ))}
+      </div>
+
+      <div class="dcta">
+        <h3>{monde.cta.title}</h3>
+        <p>{monde.cta.text}</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/demande-de-devis/">Demander une démo</a>
+          <a class="btn btn-ghost" href="/#briques">Revenir à l’accueil</a>
+        </div>
+      </div>
+
+      <div class="other">
+        {others.map((o) => (
+          <a href={`/${o.slug}/`}><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={o.icon} /></span> {o.title}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</div>

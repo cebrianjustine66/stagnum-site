@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import MondeDetail from '../components/MondeDetail.astro';
+import { bySlug } from '../data/mondes';
+const monde = bySlug('au-bureau');
+---
+<Base
+  title="Au bureau : devis, factures et chantiers | Stagnum"
+  description="La gestion sans paperasse du soir : devis, factures et relances, bons de commande, chantiers et marge. Prêt pour la facture électronique de 2027."
+  breadcrumbs={[{ name: 'Au bureau', href: '/au-bureau/' }]}
+>
+  <MondeDetail monde={monde} />
+</Base>
