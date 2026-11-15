@@ -3,9 +3,9 @@
 // en ligne, elle sera ouverte aux membres connectés (étape « connexion des membres »).
 import type { APIRoute } from 'astro';
 import { getDoc, saveDraft, publish, history, restore } from '../../lib/cms/store';
+import { isEditor } from '../../lib/cms/auth';
 
 export const prerender = false;
-const DEV = import.meta.env.DEV;
 
 export const GET: APIRoute = async ({ url }) => {
   const key = url.searchParams.get('key');
@@ -14,8 +14,9 @@ export const GET: APIRoute = async ({ url }) => {
   return Response.json(await getDoc(key));
 };
 
-export const POST: APIRoute = async ({ request }) => {
-  if (!DEV) return new Response('Édition en ligne pas encore activée (étape connexion des membres)', { status: 404 });
+export const POST: APIRoute = async ({ request, cookies }) => {
+  // Écriture réservée aux membres connectés (toujours autorisée en local).
+  if (!isEditor(cookies)) return new Response('Connexion requise pour éditer', { status: 401 });
 
   let body: { action?: string; key?: string; value?: unknown; by?: string; versionId?: number };
   try {

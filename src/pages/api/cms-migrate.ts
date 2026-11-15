@@ -5,13 +5,15 @@ import { migratePublished } from '../../lib/cms/store';
 import { LANDINGS } from '../../data/pages';
 import { MONDES } from '../../data/mondes';
 import { BASE_ARTICLE_METAS, baseArticleFull } from '../../lib/cms/blog';
+import { isEditor } from '../../lib/cms/auth';
 
 export const prerender = false;
 
 const files = import.meta.glob('../../content/*.json', { eager: true }) as Record<string, { default: unknown }>;
 
-export const POST: APIRoute = async () => {
-  if (!import.meta.env.DEV) return new Response('Reprise disponible seulement en local', { status: 404 });
+export const POST: APIRoute = async ({ cookies }) => {
+  // Reprise du contenu : en local, ou en ligne par un membre connecté (à lancer une fois).
+  if (!isEditor(cookies)) return new Response('Connexion requise', { status: 401 });
   const migrated: string[] = [];
   // Pages « simples » (accueil, tarifs, à propos, comparatif…)
   for (const [path, mod] of Object.entries(files)) {

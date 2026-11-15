@@ -11,9 +11,12 @@
 //
 // La barre d'édition ne s'affiche qu'en local (npm run dev) pour l'instant. En ligne, elle
 // s'ouvrira aux membres connectés (étape « connexion des membres »).
+import { isEditor } from '../lib/cms/auth';
 interface Props { pageKey: string; base: unknown; newArticle?: boolean; }
 const { pageKey, base, newArticle = false } = Astro.props;
-const canEdit = import.meta.env.DEV;
+// Barre d'édition : visible en local, et en ligne seulement pour un membre connecté.
+const canEdit = isEditor(Astro.cookies);
+const isDev = import.meta.env.DEV;
 ---
 {canEdit && (
   <Fragment>
@@ -33,6 +36,7 @@ const canEdit = import.meta.env.DEV;
         <button id="cmsed-publish" class="cmsed-btn cmsed-go" hidden>🚀 Publier</button>
         <button id="cmsed-cancel" class="cmsed-btn cmsed-dark" hidden>Annuler</button>
         <button id="cmsed-hist" class="cmsed-btn cmsed-dark">🕑 Historique</button>
+        {!isDev && <button id="cmsed-logout" class="cmsed-btn cmsed-dark">Se déconnecter</button>}
       </div>
     </div>
     <div id="cmsed-legend" class="cmsed-legend" hidden>
@@ -252,6 +256,13 @@ const canEdit = import.meta.env.DEV;
         await api({ action: 'save', key: 'blog/' + slug, value: article, by: who.value });
         location.href = '/blog/' + slug + '/?edit=1';
       } catch (e) { showToast('Erreur : ' + e.message); newBtn.disabled = false; }
+    });
+
+    // Déconnexion (en ligne).
+    const logoutBtn = $('#cmsed-logout');
+    if (logoutBtn) logoutBtn.addEventListener('click', async () => {
+      try { await fetch('/api/cms-login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'logout' }) }); } catch {}
+      location.reload();
     });
 
     // Arrivée sur un nouvel article (lien ?edit=1) : on ouvre directement l'édition.
