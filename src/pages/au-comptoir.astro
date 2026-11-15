@@ -1,8 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import MondeDetail from '../components/MondeDetail.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import { bySlug } from '../data/mondes';
-const monde = bySlug('au-comptoir');
+import { loadPublished } from '../lib/cms/content';
+export const prerender = false;
+const base = bySlug('au-comptoir');
+const monde = await loadPublished('mondes/au-comptoir', base);
 ---
 <Base
   title="Au comptoir : caisse, articles et fichier client | Stagnum"
@@ -10,4 +14,5 @@ const monde = bySlug('au-comptoir');
   breadcrumbs={[{ name: 'Au comptoir', href: '/au-comptoir/' }]}
 >
   <MondeDetail monde={monde} />
+  <CmsEditor pageKey="mondes/au-comptoir" base={monde} />
 </Base>

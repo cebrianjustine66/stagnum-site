@@ -15,10 +15,10 @@ const others = MONDES.filter((m) => m.slug !== monde.slug);
   <section class="on-deep water wave-bottom m-hero">
     <div class="wrap">
       <a class="back" href="/#briques">← Retour à l’accueil</a>
-      <div class="where"><span class="ebadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={monde.icon} /></span> {monde.where}</div>
-      <h1>{monde.title}</h1>
-      <p class="lead" set:html={monde.heroLead} />
-      <span class="count">{monde.count}</span>
+      <div class="where"><span class="ebadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={monde.icon} /></span> <span data-cms="where">{monde.where}</span></div>
+      <h1 data-cms="title">{monde.title}</h1>
+      <p class="lead" set:html={monde.heroLead} data-cms="heroLead" />
+      <span class="count" data-cms="count">{monde.count}</span>
     </div>
   </section>
 
@@ -31,8 +31,8 @@ const others = MONDES.filter((m) => m.slug !== monde.slug);
               <span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={b.icon} /></span>
               <span class="num">{num(i)}</span>
             </div>
-            <h3>{b.name}{b.soon && <span class="badge-soon">À venir</span>}</h3>
-            <p class="t-desc">{b.desc}</p>
+            <h3><span data-cms={`bricks.${i}.name`}>{b.name}</span>{b.soon && <span class="badge-soon">À venir</span>}</h3>
+            <p class="t-desc" data-cms={`bricks.${i}.desc`}>{b.desc}</p>
             <div class="mini-wrap"><MondeMini demo={b.demo} /></div>
             <span class="more">{b.more ?? 'Voir la démonstration'} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={ARROW} /></span>
           </div>
@@ -40,8 +40,8 @@ const others = MONDES.filter((m) => m.slug !== monde.slug);
       </div>
 
       <div class="dcta">
-        <h3>{monde.cta.title}</h3>
-        <p>{monde.cta.text}</p>
+        <h3 data-cms="cta.title">{monde.cta.title}</h3>
+        <p data-cms="cta.text">{monde.cta.text}</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="/demande-de-devis/">Demander une démo</a>
           <a class="btn btn-ghost" href="/#briques">Revenir à l’accueil</a>
