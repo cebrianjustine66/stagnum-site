@@ -73,10 +73,11 @@ const canEdit = import.meta.env.DEV;
   .cmsed-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .cmsed-wrap [hidden] { display: none !important; }
 
-  /* Pendant l'édition : on repère les zones modifiables, et on affiche le texte source. */
-  body.cmsed-editing [data-cms] { outline: 2px dashed #EC7F51; outline-offset: 3px; border-radius: 4px; cursor: text; white-space: pre-wrap; }
-  body.cmsed-editing [data-cms]:focus { outline: 2px solid #1799A1; background: #fff; }
-  body.cmsed-editing [data-cms] * { all: unset; } /* neutralise la mise en forme rendue pendant la saisie */
+  /* Pendant l'édition : zones modifiables repérées, texte source affiché, toujours lisible
+     (fond clair + texte foncé) même sur les cartes/bandeaux à fond foncé et texte blanc. */
+  body.cmsed-editing [data-cms] { outline: 2px dashed #EC7F51; outline-offset: 3px; border-radius: 5px; cursor: text; white-space: pre-wrap; background: #fff !important; color: #0f172a !important; -webkit-text-fill-color: #0f172a; box-shadow: 0 0 0 4px #fff; }
+  body.cmsed-editing [data-cms]:focus { outline: 2px solid #1799A1; }
+  body.cmsed-editing [data-cms] * { all: unset; color: #0f172a !important; -webkit-text-fill-color: #0f172a; } /* neutralise la mise en forme rendue pendant la saisie */
 </style>
 
 <script is:inline>
