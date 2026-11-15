@@ -1,0 +1,217 @@
+---
+// Éditeur « sur la page » réutilisable.
+// À poser une fois sur une page, avec la clé de la page et le contenu de base :
+//   <CmsEditor pageKey="a-propos" base={p} />
+// Les éléments à rendre modifiables portent data-cms="chemin.vers.le.champ"
+// (ex. data-cms="hero.title", data-cms="story.items.0.title").
+//
+// Principe : on édite le TEXTE SOURCE (avec ses *surlignages*, **gras**, [liens] et {variables}),
+// jamais le texte déjà mis en forme — comme ça rien n'est abîmé. On ne touche qu'aux champs
+// exposés ; tout le reste du contenu est conservé tel quel.
+//
+// La barre d'édition ne s'affiche qu'en local (npm run dev) pour l'instant. En ligne, elle
+// s'ouvrira aux membres connectés (étape « connexion des membres »).
+interface Props { pageKey: string; base: unknown; }
+const { pageKey, base } = Astro.props;
+const canEdit = import.meta.env.DEV;
+---
+{canEdit && (
+  <Fragment>
+  <script type="application/json" id="cms-base" is:inline set:html={JSON.stringify(base)} />
+  <span id="cms-key" data-key={pageKey} hidden></span>
+  <div class="cmsed-wrap" data-cms-editor>
+    <div class="cmsed-bar">
+      <div class="cmsed-left">
+        <span class="cmsed-tag">Édition</span>
+        <input id="cmsed-who" class="cmsed-who" placeholder="ton prénom" />
+        <span id="cmsed-badge" class="cmsed-badge"></span>
+      </div>
+      <div class="cmsed-actions">
+        <button id="cmsed-edit" class="cmsed-btn cmsed-primary">✏️ Modifier</button>
+        <button id="cmsed-save" class="cmsed-btn cmsed-soft" hidden>💾 Enregistrer le brouillon</button>
+        <button id="cmsed-publish" class="cmsed-btn cmsed-go" hidden>🚀 Publier</button>
+        <button id="cmsed-cancel" class="cmsed-btn cmsed-dark" hidden>Annuler</button>
+        <button id="cmsed-hist" class="cmsed-btn cmsed-dark">🕑 Historique</button>
+      </div>
+    </div>
+    <div id="cmsed-legend" class="cmsed-legend" hidden>
+      Astuce mise en forme : <b>*mot*</b> = mot surligné · <b>**mot**</b> = gras ·
+      <b>[texte](/adresse/)</b> = lien · <b>{'{annee}'}</b> = remplacé automatiquement.
+    </div>
+    <div id="cmsed-history" class="cmsed-panel" hidden>
+      <h3>Historique des versions</h3>
+      <div id="cmsed-vlist"></div>
+    </div>
+    <div id="cmsed-toast" class="cmsed-toast" hidden></div>
+  </div>
+
+  <style is:global>
+  .cmsed-wrap { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  .cmsed-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .5rem .9rem; background: #0B3D42; color: #fff; flex-wrap: wrap; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+  .cmsed-left { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .cmsed-tag { font-size: .8rem; font-weight: 600; opacity: .9; }
+  .cmsed-who { font: inherit; font-size: .85rem; border: 0; border-radius: 7px; padding: .35rem .55rem; width: 120px; }
+  .cmsed-badge { font-size: .8rem; padding: .25rem .6rem; border-radius: 999px; }
+  .cmsed-badge.draft { background: #fff3e9; color: #b4521f; }
+  .cmsed-badge.clean { background: #e9f7ef; color: #166534; }
+  .cmsed-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; }
+  .cmsed-btn { font: inherit; font-size: .9rem; border: 0; border-radius: 8px; padding: .45rem .8rem; cursor: pointer; }
+  .cmsed-primary { background: #1799A1; color: #fff; }
+  .cmsed-soft { background: #e2e8f0; color: #0f172a; }
+  .cmsed-go { background: #16a34a; color: #fff; }
+  .cmsed-dark { background: #1f5d63; color: #fff; }
+  .cmsed-legend { position: fixed; top: 48px; left: 0; right: 0; z-index: 9998; background: #fff7ed; color: #7c2d12; font-size: .82rem; padding: .4rem .9rem; border-bottom: 1px solid #fed7aa; text-align: center; }
+  .cmsed-panel { position: fixed; top: 54px; right: 12px; z-index: 9998; width: min(360px, 92vw); max-height: 70vh; overflow: auto; padding: 1rem 1.1rem; background: #fff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
+  .cmsed-panel h3 { margin: .1rem 0 .7rem; color: #0B3D42; font-size: 1.05rem; }
+  .cmsed-vrow { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-top: 1px solid #eef2f2; font-size: .9rem; }
+  .cmsed-vrow:first-of-type { border-top: 0; }
+  .cmsed-vrow .cmsed-k { display: inline-block; font-size: .72rem; padding: .1rem .45rem; border-radius: 999px; margin-right: .5rem; }
+  .cmsed-k.published { background: #e9f7ef; color: #166534; }
+  .cmsed-k.draft { background: #fff3e9; color: #b4521f; }
+  .cmsed-vrow button { font: inherit; font-size: .85rem; border: 0; border-radius: 7px; padding: .35rem .7rem; background: #1799A1; color: #fff; cursor: pointer; }
+  .cmsed-toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(10px); background: #0B3D42; color: #fff; padding: .7rem 1.1rem; border-radius: 10px; opacity: 0; transition: all .3s; box-shadow: 0 8px 24px rgba(0,0,0,.2); max-width: 90vw; z-index: 10000; }
+  .cmsed-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .cmsed-wrap [hidden] { display: none !important; }
+
+  /* Pendant l'édition : on repère les zones modifiables, et on affiche le texte source. */
+  body.cmsed-editing [data-cms] { outline: 2px dashed #EC7F51; outline-offset: 3px; border-radius: 4px; cursor: text; white-space: pre-wrap; }
+  body.cmsed-editing [data-cms]:focus { outline: 2px solid #1799A1; background: #fff; }
+  body.cmsed-editing [data-cms] * { all: unset; } /* neutralise la mise en forme rendue pendant la saisie */
+</style>
+
+<script is:inline>
+  (() => {
+    const canEdit = !!document.querySelector('[data-cms-editor]');
+    if (!canEdit) return;
+    const KEY = document.getElementById('cms-key').dataset.key;
+    const BASE = JSON.parse(document.getElementById('cms-base').textContent || '{}');
+    const $ = (s) => document.querySelector(s);
+    const editBtn = $('#cmsed-edit'), saveBtn = $('#cmsed-save'), publishBtn = $('#cmsed-publish'),
+          cancelBtn = $('#cmsed-cancel'), histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
+          badge = $('#cmsed-badge'), legend = $('#cmsed-legend'), histPanel = $('#cmsed-history'),
+          vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast');
+
+    let editingBase = null; // l'objet complet sur lequel on applique les champs modifiés
+
+    try { who.value = localStorage.getItem('cms-who') || ''; } catch {}
+    who.addEventListener('input', () => { try { localStorage.setItem('cms-who', who.value); } catch {} });
+
+    const esc = (t) => { const d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; };
+    const getPath = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
+    const setPath = (obj, path, val) => {
+      const ks = path.split('.'); const last = ks.pop();
+      let o = obj; for (const k of ks) { if (o[k] == null) o[k] = {}; o = o[k]; }
+      o[last] = val;
+    };
+
+    function setBadge(hasDraft, by) {
+      if (hasDraft) { badge.className = 'cmsed-badge draft'; badge.textContent = 'Brouillon en attente' + (by ? ' · ' + by : ''); }
+      else { badge.className = 'cmsed-badge clean'; badge.textContent = 'Tout est publié' + (by ? ' · ' + by : ''); }
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg; toast.hidden = false;
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => (toast.hidden = true), 300); }, 2800);
+    }
+
+    function setEditing(on) {
+      document.body.classList.toggle('cmsed-editing', on);
+      document.querySelectorAll('[data-cms]').forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
+      editBtn.hidden = on; saveBtn.hidden = !on; publishBtn.hidden = !on; cancelBtn.hidden = !on; legend.hidden = !on;
+    }
+
+    // Remplit les zones modifiables avec le TEXTE SOURCE (markup visible) de l'objet donné.
+    function fillSource(source) {
+      document.querySelectorAll('[data-cms]').forEach((el) => {
+        const v = getPath(source, el.getAttribute('data-cms'));
+        el.textContent = v == null ? '' : String(v);
+      });
+    }
+
+    // Construit l'objet à enregistrer : copie de editingBase + champs modifiés.
+    function getPayload() {
+      const out = JSON.parse(JSON.stringify(editingBase));
+      document.querySelectorAll('[data-cms]').forEach((el) => {
+        setPath(out, el.getAttribute('data-cms'), el.textContent.replace(/ /g, ' ').trim());
+      });
+      return out;
+    }
+
+    async function api(body) {
+      const r = await fetch('/api/cms', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      if (!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+    function reflect(doc) { setBadge(!!doc.draft, doc.updatedBy); }
+
+    async function loadDoc() {
+      try { const r = await fetch('/api/cms?key=' + encodeURIComponent(KEY)); return await r.json(); }
+      catch { return { published: BASE, draft: null, updatedBy: null }; }
+    }
+
+    // Au chargement : badge selon l'état réel.
+    loadDoc().then((doc) => setBadge(!!doc.draft, doc.updatedBy));
+
+    editBtn.addEventListener('click', async () => {
+      const doc = await loadDoc();
+      editingBase = doc.draft || doc.published || BASE;
+      fillSource(editingBase);
+      setEditing(true);
+      reflect(doc);
+    });
+
+    cancelBtn.addEventListener('click', () => location.reload());
+
+    saveBtn.addEventListener('click', async () => {
+      saveBtn.disabled = true;
+      try {
+        const { doc } = await api({ action: 'save', key: KEY, value: getPayload(), by: who.value });
+        editingBase = doc.draft || editingBase;
+        reflect(doc);
+        showToast('Brouillon enregistré ✓ (pas encore visible du public)');
+      } catch (e) { showToast('Erreur : ' + e.message); }
+      finally { saveBtn.disabled = false; }
+    });
+
+    publishBtn.addEventListener('click', async () => {
+      publishBtn.disabled = true;
+      try {
+        await api({ action: 'save', key: KEY, value: getPayload(), by: who.value });
+        const { doc } = await api({ action: 'publish', key: KEY, by: who.value });
+        reflect(doc);
+        showToast('Publié ✓ visible tout de suite — rechargement…');
+        setTimeout(() => location.reload(), 900);
+      } catch (e) { showToast('Erreur : ' + e.message); publishBtn.disabled = false; }
+    });
+
+    histBtn.addEventListener('click', async () => {
+      if (!histPanel.hidden) { histPanel.hidden = true; return; }
+      try {
+        const r = await fetch('/api/cms?key=' + encodeURIComponent(KEY) + '&history=1');
+        const { versions } = await r.json();
+        vlist.innerHTML = (versions || []).map((v) => {
+          const d = new Date(v.at);
+          const when = d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+          return '<div class="cmsed-vrow"><span><span class="cmsed-k ' + v.kind + '">' +
+            (v.kind === 'published' ? 'publié' : 'brouillon') + '</span>' + when + (v.by ? ' · ' + esc(v.by) : '') +
+            '</span><button data-restore="' + v.id + '">Restaurer</button></div>';
+        }).join('') || '<p>Aucune version pour l’instant.</p>';
+        histPanel.hidden = false;
+        vlist.querySelectorAll('[data-restore]').forEach((b) => b.addEventListener('click', async () => {
+          try {
+            const { doc } = await api({ action: 'restore', key: KEY, versionId: Number(b.dataset.restore), by: who.value });
+            editingBase = doc.draft || editingBase;
+            if (!document.body.classList.contains('cmsed-editing')) setEditing(true);
+            fillSource(editingBase);
+            reflect(doc);
+            histPanel.hidden = true;
+            showToast('Version restaurée en brouillon — relis puis « Publier »');
+          } catch (e) { showToast('Erreur : ' + e.message); }
+        }));
+      } catch (e) { showToast('Erreur : ' + e.message); }
+    });
+  })();
+</script>
+  </Fragment>
+)}

@@ -5,6 +5,7 @@ import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import Blocks from '../components/Blocks.astro';
 import Team from '../components/Team.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import fallback from '../content/a-propos.json';
 import { loadPublished } from '../lib/cms/content';
 import { plain, rich, type Block } from '../lib';
@@ -20,24 +21,24 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
   description={plain(p.seo.description)}
   breadcrumbs={[{ name: p.breadcrumb, href: '/a-propos/' }]}
 >
-  <PageHero title={rich(p.hero.title)} lead={plain(p.hero.lead)} />
+  <PageHero title={rich(p.hero.title)} lead={plain(p.hero.lead)} titleKey="hero.title" leadKey="hero.lead" />
 
   <section class="what">
     <div class="wrap what-grid">
       <aside class="what-side on-deep water reveal">
-        <h2 set:html={rich(p.story.title)} />
+        <h2 set:html={rich(p.story.title)} data-cms="story.title" />
         <ul class="checks">
-          {p.story.points.map((x) => <li>{x}</li>)}
+          {p.story.points.map((x, i) => <li data-cms={`story.points.${i}`}>{x}</li>)}
         </ul>
-        {p.story.button && <a class="btn btn-primary" href={p.story.href}>{p.story.button} <Icon name="arrow" size={18} /></a>}
+        {p.story.button && <a class="btn btn-primary" href={p.story.href}><span data-cms="story.button">{p.story.button}</span> <Icon name="arrow" size={18} /></a>}
       </aside>
       <ol class="what-steps">
         {p.story.items.map((s, i) => (
           <li class="reveal" style={`--c:${stepColors[i % 3]}`}>
             <span class="n">{i + 1}</span>
             <div class="w-card">
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
+              <h3 data-cms={`story.items.${i}.title`}>{s.title}</h3>
+              <p data-cms={`story.items.${i}.text`}>{s.text}</p>
             </div>
           </li>
         ))}
@@ -49,8 +50,8 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
     <section class="sandy team-section">
       <div class="wrap">
         <div class="center head">
-          <h2 set:html={rich(p.team.title, 'hl hl-ink')} />
-          {p.team.intro && <p class="lead">{p.team.intro}</p>}
+          <h2 set:html={rich(p.team.title, 'hl hl-ink')} data-cms="team.title" />
+          {p.team.intro && <p class="lead" data-cms="team.intro">{p.team.intro}</p>}
         </div>
         <Team />
       </div>
@@ -60,13 +61,13 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
   {p.values.items.length > 0 && (
     <section>
       <div class="wrap">
-        <h2 class="center values-title" set:html={rich(p.values.title, 'hl hl-ink')} />
+        <h2 class="center values-title" set:html={rich(p.values.title, 'hl hl-ink')} data-cms="values.title" />
         <ul class="incl reveal" style={`--n:${Math.min(p.values.items.length, 4)}`}>
-          {p.values.items.map((x) => (
+          {p.values.items.map((x, i) => (
             <li>
               <span class="i-ic" style={`--c:${x.color}`}><Icon name={x.icon} size={24} /></span>
-              <h3>{x.title}</h3>
-              <p>{x.text}</p>
+              <h3 data-cms={`values.items.${i}.title`}>{x.title}</h3>
+              <p data-cms={`values.items.${i}.text`}>{x.text}</p>
             </li>
           ))}
         </ul>
@@ -76,6 +77,7 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
 
   <Blocks blocks={p.blocks as Block[]} />
   <Cta />
+  <CmsEditor pageKey="a-propos" base={p} />
 </Base>
 
 <style>
