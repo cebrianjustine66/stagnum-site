@@ -6,3 +6,7 @@ dist/
 .env
 .env.*
 .claude/
+
+# CMS (base de dev locale, ne pas committer)
+.data/
+.demo-cms.json

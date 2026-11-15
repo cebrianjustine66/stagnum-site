@@ -5,8 +5,13 @@ import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import Blocks from '../components/Blocks.astro';
 import Team from '../components/Team.astro';
-import p from '../content/a-propos.json';
+import fallback from '../content/a-propos.json';
+import { loadPublished } from '../lib/cms/content';
 import { plain, rich, type Block } from '../lib';
+
+// Le contenu vient maintenant de la base (avec repli sur le fichier si la base est vide).
+export const prerender = false;
+const p = await loadPublished('a-propos', fallback);
 
 const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
 ---
