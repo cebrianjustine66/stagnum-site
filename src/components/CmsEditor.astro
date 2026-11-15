@@ -25,17 +25,19 @@ const isDev = import.meta.env.DEV;
   <div class="cmsed-wrap" data-cms-editor>
     <div class="cmsed-bar">
       <div class="cmsed-left">
-        <span class="cmsed-tag">Édition</span>
-        <input id="cmsed-who" class="cmsed-who" placeholder="ton prénom" />
-        <span id="cmsed-badge" class="cmsed-badge"></span>
+        <label class="cmsed-switch" title="Activer l’édition sur tout le site">
+          <input type="checkbox" id="cmsed-toggle" />
+          <span class="cmsed-slider" aria-hidden="true"></span>
+          <span class="cmsed-switch-label">Édition</span>
+        </label>
+        <input id="cmsed-who" class="cmsed-who" placeholder="ton prénom" hidden />
+        <span id="cmsed-badge" class="cmsed-badge" hidden></span>
       </div>
       <div class="cmsed-actions">
-        {newArticle && <button id="cmsed-new" class="cmsed-btn cmsed-dark">＋ Nouvel article</button>}
-        <button id="cmsed-edit" class="cmsed-btn cmsed-primary">✏️ Modifier</button>
+        {newArticle && <button id="cmsed-new" class="cmsed-btn cmsed-dark" hidden>＋ Nouvel article</button>}
         <button id="cmsed-save" class="cmsed-btn cmsed-soft" hidden>💾 Enregistrer le brouillon</button>
         <button id="cmsed-publish" class="cmsed-btn cmsed-go" hidden>🚀 Publier</button>
-        <button id="cmsed-cancel" class="cmsed-btn cmsed-dark" hidden>Annuler</button>
-        <button id="cmsed-hist" class="cmsed-btn cmsed-dark">🕑 Historique</button>
+        <button id="cmsed-hist" class="cmsed-btn cmsed-dark" hidden>🕑 Historique</button>
         {!isDev && <button id="cmsed-logout" class="cmsed-btn cmsed-dark">Se déconnecter</button>}
       </div>
     </div>
@@ -52,9 +54,18 @@ const isDev = import.meta.env.DEV;
 
   <style is:global>
   .cmsed-wrap { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-  .cmsed-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .5rem .9rem; background: #0B3D42; color: #fff; flex-wrap: wrap; box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+  .cmsed-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .5rem .9rem; background: #0B3D42; color: #fff; flex-wrap: wrap; box-shadow: 0 -4px 16px rgba(0,0,0,.18); }
   .cmsed-left { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
   .cmsed-tag { font-size: .8rem; font-weight: 600; opacity: .9; }
+  /* Interrupteur Édition */
+  .cmsed-switch { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; user-select: none; }
+  .cmsed-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .cmsed-slider { position: relative; width: 44px; height: 26px; flex: none; border-radius: 999px; background: rgba(255,255,255,.28); transition: background-color .2s; }
+  .cmsed-slider::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .22s cubic-bezier(.34,1.4,.5,1); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .cmsed-switch input:checked + .cmsed-slider { background: #16a34a; }
+  .cmsed-switch input:checked + .cmsed-slider::after { transform: translateX(18px); }
+  .cmsed-switch input:focus-visible + .cmsed-slider { outline: 2px solid #fff; outline-offset: 2px; }
+  .cmsed-switch-label { font-size: .85rem; font-weight: 650; }
   .cmsed-who { font: inherit; font-size: .85rem; border: 0; border-radius: 7px; padding: .35rem .55rem; width: 120px; }
   .cmsed-badge { font-size: .8rem; padding: .25rem .6rem; border-radius: 999px; }
   .cmsed-badge.draft { background: #fff3e9; color: #b4521f; }
@@ -65,8 +76,8 @@ const isDev = import.meta.env.DEV;
   .cmsed-soft { background: #e2e8f0; color: #0f172a; }
   .cmsed-go { background: #16a34a; color: #fff; }
   .cmsed-dark { background: #1f5d63; color: #fff; }
-  .cmsed-legend { position: fixed; top: 48px; left: 0; right: 0; z-index: 9998; background: #fff7ed; color: #7c2d12; font-size: .82rem; padding: .4rem .9rem; border-bottom: 1px solid #fed7aa; text-align: center; }
-  .cmsed-panel { position: fixed; top: 54px; right: 12px; z-index: 9998; width: min(360px, 92vw); max-height: 70vh; overflow: auto; padding: 1rem 1.1rem; background: #fff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
+  .cmsed-legend { position: fixed; bottom: 48px; left: 0; right: 0; z-index: 9998; background: #fff7ed; color: #7c2d12; font-size: .82rem; padding: .4rem .9rem; border-top: 1px solid #fed7aa; text-align: center; }
+  .cmsed-panel { position: fixed; bottom: 54px; right: 12px; z-index: 9998; width: min(360px, 92vw); max-height: 70vh; overflow: auto; padding: 1rem 1.1rem; background: #fff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
   .cmsed-panel h3 { margin: .1rem 0 .7rem; color: #0B3D42; font-size: 1.05rem; }
   .cmsed-vrow { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-top: 1px solid #eef2f2; font-size: .9rem; }
   .cmsed-vrow:first-of-type { border-top: 0; }
@@ -74,7 +85,7 @@ const isDev = import.meta.env.DEV;
   .cmsed-k.published { background: #e9f7ef; color: #166534; }
   .cmsed-k.draft { background: #fff3e9; color: #b4521f; }
   .cmsed-vrow button { font: inherit; font-size: .85rem; border: 0; border-radius: 7px; padding: .35rem .7rem; background: #1799A1; color: #fff; cursor: pointer; }
-  .cmsed-toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(10px); background: #0B3D42; color: #fff; padding: .7rem 1.1rem; border-radius: 10px; opacity: 0; transition: all .3s; box-shadow: 0 8px 24px rgba(0,0,0,.2); max-width: 90vw; z-index: 10000; }
+  .cmsed-toast { position: fixed; left: 50%; bottom: 4rem; transform: translateX(-50%) translateY(10px); background: #0B3D42; color: #fff; padding: .7rem 1.1rem; border-radius: 10px; opacity: 0; transition: all .3s; box-shadow: 0 8px 24px rgba(0,0,0,.2); max-width: 90vw; z-index: 10000; }
   .cmsed-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .cmsed-wrap [hidden] { display: none !important; }
 
@@ -96,10 +107,11 @@ const isDev = import.meta.env.DEV;
     const KEY = document.getElementById('cms-key').dataset.key;
     const BASE = JSON.parse(document.getElementById('cms-base').textContent || '{}');
     const $ = (s) => document.querySelector(s);
-    const editBtn = $('#cmsed-edit'), saveBtn = $('#cmsed-save'), publishBtn = $('#cmsed-publish'),
-          cancelBtn = $('#cmsed-cancel'), histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
+    const toggle = $('#cmsed-toggle'), saveBtn = $('#cmsed-save'), publishBtn = $('#cmsed-publish'),
+          histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
           badge = $('#cmsed-badge'), legend = $('#cmsed-legend'), histPanel = $('#cmsed-history'),
           vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast'), newBtn = $('#cmsed-new');
+    const ON_KEY = 'cms-editing'; // mémorise que l'édition est activée, d'une page à l'autre
     const FIELDS = '[data-cms], [data-cms-html]';
     const slugify = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'article';
@@ -131,7 +143,20 @@ const isDev = import.meta.env.DEV;
     function setEditing(on) {
       document.body.classList.toggle('cmsed-editing', on);
       document.querySelectorAll(FIELDS).forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
-      editBtn.hidden = on; saveBtn.hidden = !on; publishBtn.hidden = !on; cancelBtn.hidden = !on; legend.hidden = !on;
+      toggle.checked = on;
+      saveBtn.hidden = !on; publishBtn.hidden = !on; histBtn.hidden = !on; legend.hidden = !on;
+      who.hidden = !on; badge.hidden = !on;
+      if (newBtn) newBtn.hidden = !on;
+      try { on ? localStorage.setItem(ON_KEY, '1') : localStorage.removeItem(ON_KEY); } catch {}
+    }
+
+    // Active l'édition sur la page courante (charge le brouillon s'il existe).
+    async function enterEditing() {
+      const doc = await loadDoc();
+      editingBase = doc.draft || doc.published || BASE;
+      fillSource(editingBase);
+      setEditing(true);
+      reflect(doc);
     }
 
     // Remplit les zones modifiables depuis l'objet donné : texte source pour les champs
@@ -174,15 +199,12 @@ const isDev = import.meta.env.DEV;
     // Au chargement : badge selon l'état réel.
     loadDoc().then((doc) => setBadge(!!doc.draft, doc.updatedBy));
 
-    editBtn.addEventListener('click', async () => {
-      const doc = await loadDoc();
-      editingBase = doc.draft || doc.published || BASE;
-      fillSource(editingBase);
-      setEditing(true);
-      reflect(doc);
+    // L'interrupteur « Édition » : on bascule → la page devient modifiable ; l'état est
+    // mémorisé, donc en naviguant sur le site les pages suivantes s'ouvrent aussi en édition.
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) enterEditing();
+      else { try { localStorage.removeItem(ON_KEY); } catch {} location.reload(); }
     });
-
-    cancelBtn.addEventListener('click', () => location.reload());
 
     saveBtn.addEventListener('click', async () => {
       saveBtn.disabled = true;
@@ -265,8 +287,11 @@ const isDev = import.meta.env.DEV;
       location.reload();
     });
 
-    // Arrivée sur un nouvel article (lien ?edit=1) : on ouvre directement l'édition.
-    if (new URLSearchParams(location.search).get('edit') === '1') editBtn.click();
+    // Édition déjà activée (interrupteur mémorisé), ou arrivée sur un nouvel article (?edit=1) :
+    // on ouvre directement la page en édition.
+    let wantEdit = false;
+    try { wantEdit = localStorage.getItem(ON_KEY) === '1'; } catch {}
+    if (wantEdit || new URLSearchParams(location.search).get('edit') === '1') enterEditing();
   })();
 </script>
   </Fragment>

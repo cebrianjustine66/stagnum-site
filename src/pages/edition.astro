@@ -44,13 +44,9 @@ const isDev = import.meta.env.DEV;
       <h1>Modifier le site</h1>
       {already ? (
         <>
-          <p>Vous êtes connecté·e. Ouvrez une page, puis cliquez sur <b>« ✏️ Modifier »</b> en haut pour changer les textes. Sur le <b>blog</b>, le bouton <b>« ＋ Nouvel article »</b> crée un article.</p>
-          <div class="links">
-            <a href="/">→ Accueil</a>
-            <a href="/tarifs/">→ Tarifs</a>
-            <a href="/blog/">→ Blog (et nouveaux articles)</a>
-            <a href="/a-propos/">→ À propos</a>
-          </div>
+          <p>Vous êtes connecté·e ✓. Vous allez être redirigé·e vers le site : naviguez normalement, puis basculez l’interrupteur <b>« Édition »</b> en haut de page pour modifier.</p>
+          <p><a class="plain" href="/">→ Aller sur le site maintenant</a></p>
+          <script is:inline>setTimeout(() => (location.href = '/'), 1200);</script>
         </>
       ) : !configured && !isDev ? (
         <p>L’édition en ligne n’est pas encore activée. (Il manque le mot de passe d’équipe côté hébergement — voir le guide de mise en ligne.)</p>
@@ -78,8 +74,8 @@ const isDev = import.meta.env.DEV;
           try {
             const r = await fetch('/api/cms-login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: pw.value }) });
             if (r.ok) {
-              msg.className = 'msg ok'; msg.textContent = 'Connecté·e ✓';
-              setTimeout(() => location.reload(), 500);
+              msg.className = 'msg ok'; msg.textContent = 'Connecté·e ✓ on vous emmène sur le site…';
+              setTimeout(() => (location.href = '/'), 700);
             } else {
               msg.className = 'msg err'; msg.textContent = r.status === 401 ? 'Mot de passe incorrect.' : await r.text();
               btn.disabled = false;
