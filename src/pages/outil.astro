@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { FORM_ENDPOINT } from '../data/site';
+
+const seo = {
+  title: 'Accéder à l’outil Stagnum — bientôt disponible | Stagnum',
+  description:
+    'L’application Stagnum arrive bientôt. Inscrivez-vous à la liste de précommande pour être prévenu dès l’ouverture.',
+};
+---
+<Base title={seo.title} description={seo.description} noindex>
+  <PageHero
+    center
+    title="L’outil Stagnum <span class='hl'>arrive bientôt</span>"
+    lead="Nous terminons l’application. Laissez vos coordonnées : vous êtes prévenu dès l’ouverture et vous faites partie des premiers piscinistes à l’essayer."
+  />
+
+  <section class="pc-section">
+    <div class="wrap pc-wrap">
+      <form class="pc-form" method="POST" action={FORM_ENDPOINT} data-endpoint={FORM_ENDPOINT}>
+        <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off" /></label></p>
+        <input type="hidden" name="demande" value="Liste de précommande" />
+
+        <h2>Être prévenu du lancement</h2>
+
+        <div class="grid2">
+          <label class="fl">
+            <span>Nom et prénom</span>
+            <input name="nom" type="text" autocomplete="name" required />
+          </label>
+          <label class="fl">
+            <span>Société</span>
+            <input name="societe" type="text" autocomplete="organization" required />
+          </label>
+          <label class="fl">
+            <span>Téléphone</span>
+            <input name="telephone" type="tel" autocomplete="tel" inputmode="tel" required />
+          </label>
+          <label class="fl">
+            <span>E-mail</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+        </div>
+
+        <button class="btn btn-primary" type="submit">M’inscrire à la liste <Icon name="arrow" size={18} /></button>
+        <p class="status" role="alert" hidden></p>
+        <p class="note"><Icon name="cadenas" size={14} /><span>Pas de démarchage. Vos coordonnées servent seulement à vous prévenir de l’ouverture.</span></p>
+      </form>
+
+      <div class="pc-done" hidden>
+        <span class="pc-check"><Icon name="check" size={28} /></span>
+        <h2>C’est noté, vous êtes sur la liste</h2>
+        <p>Nous vous écrivons dès que l’outil ouvre. En attendant, vous pouvez déjà préparer votre devis.</p>
+        <div class="btns" style="justify-content:center">
+          <a class="btn btn-ghost" href="/tarifs/">Calculer mon tarif</a>
+          <a class="btn btn-ghost" href="/">Retour à l’accueil</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.pc-form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const done = form.parentElement!.querySelector<HTMLElement>('.pc-done')!;
+
+    const fail = (msg: string) => { status.textContent = msg; status.hidden = false; button.disabled = false; };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const endpoint = form.dataset.endpoint;
+      const showDone = () => { form.hidden = true; done.hidden = false; done.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      // Champ piège rempli : robot. On fait comme si tout allait bien, sans rien envoyer.
+      if ((form.querySelector<HTMLInputElement>('[name="site-web"]')?.value ?? '').trim()) { showDone(); return; }
+      if (!endpoint) { fail('L’inscription est momentanément indisponible. Réessayez plus tard ou écrivez-nous.'); return; }
+      button.disabled = true;
+
+      const data = new FormData(form);
+      const body = new URLSearchParams();
+      for (const key of new Set(data.keys())) {
+        if (key === 'site-web') continue;
+        body.set(key, data.getAll(key).map(String).join(', '));
+      }
+      body.set('page', location.pathname);
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        showDone();
+      } catch {
+        fail('L’envoi n’a pas abouti. Réessayez dans un instant ou écrivez-nous.');
+      }
+    });
+  });
+</script>
+
+<style>
+  .pc-section { padding-top: 24px; padding-bottom: clamp(48px, 7vw, 80px); }
+  .pc-wrap { max-width: 640px; }
+  .pc-form[hidden], .pc-done[hidden] { display: none; }
+  .pc-form { display: grid; gap: 22px; padding: clamp(24px, 4vw, 40px); border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 40px 80px -44px rgba(7, 52, 58, .5), var(--lift); }
+  .pc-form h2 { font-size: clamp(1.3rem, 2.4vw, 1.55rem); margin: 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .fl { display: grid; gap: 6px; }
+  .fl span { font-size: .82rem; font-weight: 650; color: var(--ink-2); }
+  .fl input {
+    width: 100%; min-height: 54px; padding: 10px 16px;
+    font: 500 1rem var(--font-sans); color: var(--ink); background: #F5F9F9;
+    border: 1.5px solid transparent; border-radius: 14px; transition: border-color .15s, background-color .15s, box-shadow .15s;
+  }
+  .fl input:hover { border-color: var(--border); }
+  .fl input:focus { outline: none; background: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(17, 124, 131, .12); }
+  .fl input:user-invalid { border-color: #D4687C; background: #FDF4F6; }
+  .pc-form button { width: 100%; min-height: 58px; font-size: 1.05rem; }
+  .status { margin: -8px 0 0; padding: 12px 14px; border-radius: 12px; background: #FCE8EC; color: #A3243C; font-weight: 600; font-size: .92rem; }
+  .note { margin: -6px 0 0; display: flex; justify-content: center; align-items: flex-start; gap: 7px; color: var(--ink-2); font-size: .8rem; line-height: 1.5; text-align: center; }
+  .note :global(svg) { flex: none; margin-top: 3px; }
+  .hp { position: absolute; left: -9999px; }
+
+  .pc-done { text-align: center; display: grid; gap: 14px; padding: clamp(28px, 5vw, 48px); border-radius: 28px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 40px 80px -44px rgba(7, 52, 58, .5), var(--lift); }
+  .pc-done h2 { margin: 0; }
+  .pc-done p { margin: 0 auto; max-width: 46ch; color: var(--ink-2); }
+  .pc-check { width: 60px; height: 60px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: #0A7F5A; }
+  .pc-done .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+
+  @media (max-width: 560px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .pc-form { gap: 18px; padding: 20px 16px; border-radius: 22px; }
+  }
+</style>

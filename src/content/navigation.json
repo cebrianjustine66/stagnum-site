@@ -19,6 +19,10 @@
         "href": "/blog/"
       }
     ],
+    "tool": {
+      "label": "Accéder à l’outil",
+      "href": "/outil/"
+    },
     "cta": {
       "label": "Calculer mon tarif",
       "href": "/tarifs/"

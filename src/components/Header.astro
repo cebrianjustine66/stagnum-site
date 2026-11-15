@@ -66,6 +66,7 @@ const path = Astro.url.pathname;
       </div>
       {h.links.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
     </nav>
+    <a href={h.tool.href} class="btn btn-ghost tool" aria-current={path === h.tool.href ? 'page' : undefined}>{h.tool.label}</a>
     <a href={h.cta.href} class="btn btn-primary cta">{h.cta.label}</a>
     <details class="mobile">
       <summary aria-label="Menu"><span></span></summary>
@@ -87,6 +88,7 @@ const path = Astro.url.pathname;
         <div class="m-links">
           {h.links.map((l) => <a href={l.href}>{l.label}</a>)}
         </div>
+        <a href={h.tool.href} class="btn btn-ghost">{h.tool.label}</a>
         <a href={h.cta.href} class="btn btn-primary">{h.cta.label}</a>
       </nav>
     </details>
@@ -144,6 +146,7 @@ const path = Astro.url.pathname;
   .mega-side a:hover, .mega-side a[aria-current] { background: rgba(255, 255, 255, .75); }
   .mega-side small { margin-top: 2px; color: var(--accent); font-weight: 600; }
   .cta { min-height: 46px; padding: 9px 20px; font-size: .95rem; flex: none; }
+  .tool { min-height: 46px; padding: 9px 18px; font-size: .92rem; flex: none; }
   .mobile { display: none; margin-left: auto; }
   .mobile summary { list-style: none; width: 46px; height: 46px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; background: var(--surface-2); }
   .mobile summary::-webkit-details-marker { display: none; }
@@ -167,7 +170,7 @@ const path = Astro.url.pathname;
   .m-links a { text-align: center; padding: 10px 4px; border-radius: 12px; color: var(--deep); text-decoration: none; font-weight: 700; font-size: .92rem; background: var(--tint); }
   .mobile nav .btn { margin-top: 2px; }
   @media (max-width: 900px) {
-    .nav, .cta { display: none; }
+    .nav, .cta, .tool { display: none; }
     .mobile { display: block; }
     .bar { padding-left: 20px; }
   }
