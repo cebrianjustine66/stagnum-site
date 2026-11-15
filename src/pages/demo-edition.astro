@@ -1,0 +1,272 @@
+---
+// Démo du CMS, version RÉELLE : le contenu vient de la base de données.
+// - Le public voit le contenu PUBLIÉ.
+// - « Modifier » charge le brouillon, « Enregistrer » le met de côté, « Publier » le met en ligne.
+// - « Historique » permet de revenir à une version précédente.
+import { getDoc, seedPublished } from '../lib/cms/store';
+import { DEFAULT } from '../lib/demo-cms';
+
+export const prerender = false;
+
+await seedPublished('demo', DEFAULT);
+const doc = await getDoc<typeof DEFAULT>('demo');
+const store = doc.published ?? DEFAULT;
+const hasDraft = !!doc.draft;
+const updatedBy = doc.updatedBy;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Démo CMS · brouillon, publication, historique</title>
+    <style>
+      :root { --teal:#1799A1; --orange:#EC7F51; --dark:#0B3D42; --ink:#0f172a; --paper:#f6faf9; }
+      * { box-sizing:border-box; }
+      body { margin:0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color:var(--ink); background:var(--paper); }
+      .bar { position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.55rem 1rem; background:var(--dark); color:#fff; flex-wrap:wrap; }
+      .bar .left { display:flex; align-items:center; gap:.6rem; }
+      .tag { font-size:.8rem; opacity:.85; }
+      .who { font:inherit; font-size:.85rem; border:0; border-radius:7px; padding:.35rem .55rem; width:130px; }
+      .actions { display:flex; align-items:center; flex-wrap:wrap; gap:.4rem; }
+      .actions button { font:inherit; font-size:.9rem; border:0; border-radius:8px; padding:.45rem .8rem; cursor:pointer; }
+      #edit { background:var(--teal); color:#fff; }
+      #save { background:#e2e8f0; color:#0f172a; }
+      #publish { background:#16a34a; color:#fff; }
+      #hist, #cancel, #add { background:#1f5d63; color:#fff; }
+      .status { max-width:780px; margin:1rem auto 0; padding:0 1.25rem; }
+      .badge { display:inline-block; font-size:.85rem; padding:.3rem .7rem; border-radius:999px; }
+      .badge.draft { background:#fff3e9; color:#b4521f; border:1px solid #f3c9ad; }
+      .badge.clean { background:#e9f7ef; color:#166534; border:1px solid #bbe6c9; }
+      .hero { padding:2.2rem 1.25rem 1.5rem; max-width:780px; margin:0 auto; text-align:center; }
+      .hero h1 { font-size:2rem; line-height:1.15; color:var(--dark); margin:.2rem 0 .6rem; }
+      .hero p { font-size:1.15rem; color:#475569; margin:0; }
+      main { max-width:780px; margin:0 auto; padding:0 1.25rem 4rem; }
+      .intro { font-size:1.05rem; line-height:1.6; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:1rem 1.2rem; }
+      .blog-head { display:flex; align-items:center; justify-content:space-between; margin-top:2rem; gap:1rem; }
+      .blog h2 { color:var(--dark); margin:0; }
+      #articles { display:grid; gap:1rem; }
+      .card { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:1rem 1.2rem; }
+      .card h3 { margin:.1rem 0 .3rem; color:var(--dark); }
+      .card p { margin:0 0 .5rem; color:#475569; }
+      .card time { font-size:.8rem; color:#94a3b8; }
+      body.editing [data-field], body.editing [data-afield] { outline:2px dashed var(--orange); outline-offset:3px; border-radius:4px; }
+      [contenteditable="true"]:focus { outline:2px solid var(--teal); background:#fff; }
+      .panel { max-width:780px; margin:1rem auto 0; padding:1rem 1.2rem; background:#fff; border:1px solid #e2e8f0; border-radius:12px; }
+      .panel h3 { margin:.1rem 0 .7rem; color:var(--dark); }
+      .vrow { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.45rem 0; border-top:1px solid #eef2f2; font-size:.9rem; }
+      .vrow:first-of-type { border-top:0; }
+      .vrow .meta { color:#475569; }
+      .vrow .k { display:inline-block; font-size:.72rem; padding:.1rem .45rem; border-radius:999px; margin-right:.5rem; }
+      .k.published { background:#e9f7ef; color:#166534; }
+      .k.draft { background:#fff3e9; color:#b4521f; }
+      .vrow button { font:inherit; font-size:.85rem; border:0; border-radius:7px; padding:.35rem .7rem; background:var(--teal); color:#fff; cursor:pointer; }
+      .toast { position:fixed; left:50%; bottom:1.5rem; transform:translateX(-50%) translateY(10px); background:var(--dark); color:#fff; padding:.7rem 1.1rem; border-radius:10px; opacity:0; transition:all .3s; box-shadow:0 8px 24px rgba(0,0,0,.2); max-width:90vw; z-index:20; }
+      .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+      [hidden] { display:none !important; }
+    </style>
+  </head>
+  <body data-has-draft={hasDraft ? '1' : '0'} data-updated-by={updatedBy ?? ''}>
+    <div class="bar">
+      <div class="left">
+        <span class="tag">Démo CMS — base réelle (local)</span>
+        <input id="who" class="who" placeholder="ton prénom" />
+      </div>
+      <div class="actions">
+        <button id="edit">✏️ Modifier</button>
+        <button id="add" hidden>+ Article</button>
+        <button id="save" hidden>💾 Enregistrer le brouillon</button>
+        <button id="publish" hidden>🚀 Publier</button>
+        <button id="cancel" hidden>Annuler</button>
+        <button id="hist">🕑 Historique</button>
+      </div>
+    </div>
+
+    <div class="status">
+      <span id="badge" class="badge"></span>
+    </div>
+
+    <header class="hero">
+      <h1 data-field="hero.titre">{store.hero.titre}</h1>
+      <p data-field="hero.sous_titre">{store.hero.sous_titre}</p>
+    </header>
+
+    <main>
+      <p class="intro" data-field="intro">{store.intro}</p>
+
+      <section class="blog">
+        <div class="blog-head">
+          <h2>Articles de blog</h2>
+        </div>
+        <div id="articles">
+          {store.articles.map((a) => (
+            <article class="card" data-article>
+              <h3 data-afield="titre">{a.titre}</h3>
+              <p data-afield="chapo">{a.chapo}</p>
+              <time>{a.date}</time>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <div id="history" class="panel" hidden>
+      <h3>Historique des versions</h3>
+      <div id="vlist"></div>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script is:inline>
+      const KEY = 'demo';
+      const $ = (s) => document.querySelector(s);
+      const editBtn = $('#edit'), addBtn = $('#add'), saveBtn = $('#save'), publishBtn = $('#publish'),
+            cancelBtn = $('#cancel'), histBtn = $('#hist'), who = $('#who'), badge = $('#badge'),
+            histPanel = $('#history'), vlist = $('#vlist'), toast = $('#toast');
+
+      // Prénom de l'éditeur (mémorisé sur cet appareil) — pour l'attribution « modifié par ».
+      try { who.value = localStorage.getItem('cms-who') || ''; } catch {}
+      who.addEventListener('input', () => { try { localStorage.setItem('cms-who', who.value); } catch {} });
+
+      function setBadge() {
+        const draft = document.body.dataset.hasDraft === '1';
+        const by = document.body.dataset.updatedBy;
+        if (draft) { badge.className = 'badge draft'; badge.textContent = '✏️ Brouillon en attente de publication' + (by ? ' — modifié par ' + by : ''); }
+        else { badge.className = 'badge clean'; badge.textContent = '✓ Tout est publié' + (by ? ' — par ' + by : ''); }
+      }
+      setBadge();
+
+      function setEditing(on) {
+        document.body.classList.toggle('editing', on);
+        document.querySelectorAll('[data-field], [data-afield]').forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
+        editBtn.hidden = on; addBtn.hidden = !on; saveBtn.hidden = !on; publishBtn.hidden = !on; cancelBtn.hidden = !on;
+      }
+
+      function showToast(msg) {
+        toast.textContent = msg; toast.hidden = false;
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => (toast.hidden = true), 300); }, 2600);
+      }
+
+      function renderArticles(list) {
+        $('#articles').innerHTML = (list || []).map((a) =>
+          '<article class="card" data-article>' +
+          '<h3 data-afield="titre">' + esc(a.titre) + '</h3>' +
+          '<p data-afield="chapo">' + esc(a.chapo) + '</p>' +
+          '<time>' + esc(a.date || '') + '</time></article>').join('');
+      }
+      function esc(t) { const d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+
+      function populate(store) {
+        if (!store) return;
+        $('[data-field="hero.titre"]').textContent = store.hero?.titre ?? '';
+        $('[data-field="hero.sous_titre"]').textContent = store.hero?.sous_titre ?? '';
+        $('[data-field="intro"]').textContent = store.intro ?? '';
+        renderArticles(store.articles);
+        if (document.body.classList.contains('editing'))
+          document.querySelectorAll('[data-field], [data-afield]').forEach((el) => (el.contentEditable = 'true'));
+      }
+
+      function getPayload() {
+        return {
+          hero: {
+            titre: $('[data-field="hero.titre"]').textContent.trim(),
+            sous_titre: $('[data-field="hero.sous_titre"]').textContent.trim(),
+          },
+          intro: $('[data-field="intro"]').textContent.trim(),
+          articles: [...document.querySelectorAll('[data-article]')].map((el, i) => ({
+            id: 'a' + (i + 1),
+            titre: el.querySelector('[data-afield="titre"]').textContent.trim(),
+            chapo: el.querySelector('[data-afield="chapo"]').textContent.trim(),
+            date: (el.querySelector('time')?.textContent || new Date().toISOString().slice(0, 10)).trim(),
+          })),
+        };
+      }
+
+      async function api(body) {
+        const r = await fetch('/api/cms', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+        if (!r.ok) throw new Error(await r.text());
+        return r.json();
+      }
+      function reflect(doc) {
+        document.body.dataset.hasDraft = doc.draft ? '1' : '0';
+        document.body.dataset.updatedBy = doc.updatedBy || '';
+        setBadge();
+      }
+
+      editBtn.addEventListener('click', async () => {
+        // On édite le brouillon s'il existe, sinon le publié.
+        try {
+          const r = await fetch('/api/cms?key=' + KEY);
+          const doc = await r.json();
+          populate(doc.draft || doc.published);
+        } catch {}
+        setEditing(true);
+      });
+
+      cancelBtn.addEventListener('click', () => location.reload());
+
+      addBtn.addEventListener('click', () => {
+        const art = document.createElement('article');
+        art.className = 'card'; art.setAttribute('data-article', '');
+        art.innerHTML =
+          '<h3 data-afield="titre" contenteditable="true">Nouvel article</h3>' +
+          '<p data-afield="chapo" contenteditable="true">Écris ici le chapô…</p>' +
+          '<time>' + new Date().toISOString().slice(0, 10) + '</time>';
+        $('#articles').prepend(art);
+        art.querySelector('h3').focus();
+      });
+
+      saveBtn.addEventListener('click', async () => {
+        saveBtn.disabled = true;
+        try {
+          const { doc } = await api({ action: 'save', key: KEY, value: getPayload(), by: who.value });
+          reflect(doc);
+          showToast('Brouillon enregistré ✓ (pas encore visible du public)');
+        } catch (e) { showToast('Erreur : ' + e.message); }
+        finally { saveBtn.disabled = false; }
+      });
+
+      publishBtn.addEventListener('click', async () => {
+        publishBtn.disabled = true;
+        try {
+          // On enregistre d'abord l'état courant comme brouillon, puis on publie.
+          await api({ action: 'save', key: KEY, value: getPayload(), by: who.value });
+          const { doc } = await api({ action: 'publish', key: KEY, by: who.value });
+          reflect(doc);
+          setEditing(false);
+          showToast('Publié ✓ en ligne tout de suite (aucun déploiement)');
+        } catch (e) { showToast('Erreur : ' + e.message); }
+        finally { publishBtn.disabled = false; }
+      });
+
+      histBtn.addEventListener('click', async () => {
+        if (!histPanel.hidden) { histPanel.hidden = true; return; }
+        try {
+          const r = await fetch('/api/cms?key=' + KEY + '&history=1');
+          const { versions } = await r.json();
+          vlist.innerHTML = versions.map((v) => {
+            const d = new Date(v.at);
+            const when = d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+            return '<div class="vrow"><span class="meta"><span class="k ' + v.kind + '">' +
+              (v.kind === 'published' ? 'publié' : 'brouillon') + '</span>' + when + (v.by ? ' · ' + esc(v.by) : '') +
+              '</span><button data-restore="' + v.id + '">Restaurer</button></div>';
+          }).join('') || '<p class="meta">Aucune version pour l’instant.</p>';
+          histPanel.hidden = false;
+          vlist.querySelectorAll('[data-restore]').forEach((b) => b.addEventListener('click', async () => {
+            try {
+              const { doc } = await api({ action: 'restore', key: KEY, versionId: Number(b.dataset.restore), by: who.value });
+              if (!document.body.classList.contains('editing')) setEditing(true);
+              populate(doc.draft);
+              reflect(doc);
+              histPanel.hidden = true;
+              showToast('Version restaurée en brouillon — relis puis « Publier »');
+            } catch (e) { showToast('Erreur : ' + e.message); }
+          }));
+        } catch (e) { showToast('Erreur : ' + e.message); }
+      });
+    </script>
+  </body>
+</html>

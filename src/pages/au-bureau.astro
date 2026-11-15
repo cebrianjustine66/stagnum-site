@@ -1,8 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import MondeDetail from '../components/MondeDetail.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import { bySlug } from '../data/mondes';
-const monde = bySlug('au-bureau');
+import { loadPublished } from '../lib/cms/content';
+export const prerender = false;
+const base = bySlug('au-bureau');
+const monde = await loadPublished('mondes/au-bureau', base);
 ---
 <Base
   title="Au bureau : devis, factures et chantiers | Stagnum"
@@ -10,4 +14,5 @@ const monde = bySlug('au-bureau');
   breadcrumbs={[{ name: 'Au bureau', href: '/au-bureau/' }]}
 >
   <MondeDetail monde={monde} />
+  <CmsEditor pageKey="mondes/au-bureau" base={monde} />
 </Base>

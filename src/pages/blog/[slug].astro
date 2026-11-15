@@ -1,10 +1,26 @@
 ---
 import Article from '../../layouts/Article.astro';
-import { POSTS } from '../../data/posts';
+import CmsEditor from '../../components/CmsEditor.astro';
+import { getDoc } from '../../lib/cms/store';
+import { baseArticleFull, addHeadingIds, type Article as ArticleT } from '../../lib/cms/blog';
 
-export function getStaticPaths() {
-  return POSTS.map((post) => ({ params: { slug: post.slug } }));
-}
-const post = POSTS.find((p) => p.slug === Astro.params.slug)!;
+// Article lu depuis la base (repli sur le contenu d'origine). SSR : publication instantanée.
+export const prerender = false;
+const DEV = import.meta.env.DEV;
+const slug = Astro.params.slug!;
+const key = `blog/${slug}`;
+
+let doc;
+try { doc = await getDoc<ArticleT>(key); } catch { doc = { published: null, draft: null } as any; }
+const fallback = await baseArticleFull(slug);
+// Le public voit le publié ; en local, on peut aussi ouvrir un brouillon (nouvel article).
+const content = (doc.published ?? (DEV ? doc.draft : null) ?? fallback) as ArticleT | null;
+if (!content) return new Response(null, { status: 404 });
+
+const { html, headings } = addHeadingIds(content.bodyHtml || '');
+const fm = { ...content, title: content.title || `${content.h1} | Stagnum` };
 ---
-<Article frontmatter={post.frontmatter} headings={post.headings}><post.Content /></Article>
+<Article frontmatter={fm} headings={headings} bodyKey="bodyHtml" titleKey="h1" leadKey="description">
+  <Fragment set:html={html} />
+  <CmsEditor slot="editor" pageKey={key} base={content} />
+</Article>

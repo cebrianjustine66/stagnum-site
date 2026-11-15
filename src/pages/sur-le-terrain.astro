@@ -1,8 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import MondeDetail from '../components/MondeDetail.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import { bySlug } from '../data/mondes';
-const monde = bySlug('sur-le-terrain');
+import { loadPublished } from '../lib/cms/content';
+export const prerender = false;
+const base = bySlug('sur-le-terrain');
+const monde = await loadPublished('mondes/sur-le-terrain', base);
 ---
 <Base
   title="Sur le terrain : analyses d’eau, interventions et rapports | Stagnum"
@@ -10,4 +14,5 @@ const monde = bySlug('sur-le-terrain');
   breadcrumbs={[{ name: 'Sur le terrain', href: '/sur-le-terrain/' }]}
 >
   <MondeDetail monde={monde} />
+  <CmsEditor pageKey="mondes/sur-le-terrain" base={monde} />
 </Base>

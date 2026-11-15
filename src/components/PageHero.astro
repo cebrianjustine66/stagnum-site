@@ -1,8 +1,8 @@
 ---
 // Haut de page commun : fond turquoise, effet d'eau et vague en bas.
-interface Props { title: string; lead?: string; crumbs?: { name: string; href?: string }[]; center?: boolean }
+interface Props { title: string; lead?: string; crumbs?: { name: string; href?: string }[]; center?: boolean; titleKey?: string; leadKey?: string }
 import c from '../content/commun.json';
-const { title, lead, crumbs, center = false } = Astro.props;
+const { title, lead, crumbs, center = false, titleKey, leadKey } = Astro.props;
 ---
 <section class="on-deep water wave-bottom page-hero">
   <div class={`wrap ${center ? 'center' : ''}`}>
@@ -15,8 +15,8 @@ const { title, lead, crumbs, center = false } = Astro.props;
       </nav>
     )}
     <slot name="before" />
-    <h1 set:html={title} />
-    {lead && <p class="lead">{lead}</p>}
+    <h1 set:html={title} data-cms={titleKey} />
+    {lead && <p class="lead" data-cms={leadKey}>{lead}</p>}
     <slot />
   </div>
 </section>

@@ -5,9 +5,15 @@ import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import Blocks from '../components/Blocks.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import c from '../content/commun.json';
-import x from '../content/comparatif.json';
+import fallback from '../content/comparatif.json';
+import { loadPublished } from '../lib/cms/content';
 import { faqLd, plain, rich, type Block } from '../lib';
+
+// Contenu lu depuis la base (repli sur le fichier si la base est vide).
+export const prerender = false;
+const x = await loadPublished('comparatif', fallback);
 
 const faq = x.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 ---
@@ -21,22 +27,24 @@ const faq = x.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
     crumbs={[{ name: x.hero.crumb }]}
     title={rich(x.hero.title)}
     lead={x.hero.lead}
+    titleKey="hero.title"
+    leadKey="hero.lead"
   />
 
   <section class="versus-section">
     <div class="wrap">
-      <h2 class="center" set:html={rich(x.table.title, 'hl hl-ink')} />
+      <h2 class="center" set:html={rich(x.table.title, 'hl hl-ink')} data-cms="table.title" />
       <div class="versus reveal" role="table" aria-label="Comparaison de Stagnum et d’Extrabat">
         <div class="v-row v-head" role="row">
           <span role="columnheader"></span>
-          <span class="us" role="columnheader">{x.table.us}</span>
-          <span class="them" role="columnheader">{x.table.them}</span>
+          <span class="us" role="columnheader" data-cms="table.us">{x.table.us}</span>
+          <span class="them" role="columnheader" data-cms="table.them">{x.table.them}</span>
         </div>
-        {x.table.rows.map((r) => (
+        {x.table.rows.map((r, i) => (
           <div class="v-row" role="row">
-            <span class="label" role="rowheader"><i><Icon name={r.icon} size={20} /></i>{r.label}</span>
-            <span class="us" role="cell">{plain(r.us)}</span>
-            <span class="them" role="cell">{plain(r.them)}</span>
+            <span class="label" role="rowheader"><i><Icon name={r.icon} size={20} /></i><span data-cms={`table.rows.${i}.label`}>{r.label}</span></span>
+            <span class="us" role="cell" data-cms={`table.rows.${i}.us`}>{plain(r.us)}</span>
+            <span class="them" role="cell" data-cms={`table.rows.${i}.them`}>{plain(r.them)}</span>
           </div>
         ))}
       </div>
@@ -47,16 +55,16 @@ const faq = x.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
   <section class="sandy">
     <div class="wrap fit">
       <div class="fit-head">
-        <h2 set:html={rich(x.forUs.title, 'sun')} />
-        <p class="muted">{x.forUs.intro}</p>
+        <h2 set:html={rich(x.forUs.title, 'sun')} data-cms="forUs.title" />
+        <p class="muted" data-cms="forUs.intro">{x.forUs.intro}</p>
         <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
       </div>
       <ol class="frame fit-list reveal">
         {x.forUs.items.map((u, i) => (
           <li>
             <div class="f-top"><span class="i-ic" style={`--c:${u.color}`}><Icon name={u.icon} size={24} /></span><span class="n">0{i + 1}</span></div>
-            <h3>{u.title}</h3>
-            <p>{u.text}</p>
+            <h3 data-cms={`forUs.items.${i}.title`}>{u.title}</h3>
+            <p data-cms={`forUs.items.${i}.text`}>{u.text}</p>
           </li>
         ))}
       </ol>
@@ -66,34 +74,35 @@ const faq = x.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
   <section>
     <div class="wrap them-wrap">
       <div>
-        <h2 set:html={rich(x.forThem.title, 'sun')} />
-        <p class="muted">{x.forThem.intro}</p>
+        <h2 set:html={rich(x.forThem.title, 'sun')} data-cms="forThem.title" />
+        <p class="muted" data-cms="forThem.intro">{x.forThem.intro}</p>
       </div>
       <ul class="for-them">
-        {x.forThem.items.map((u) => <li class="reveal"><strong>{u.title}</strong> {u.text}</li>)}
+        {x.forThem.items.map((u, i) => <li class="reveal"><strong data-cms={`forThem.items.${i}.title`}>{u.title}</strong> <span data-cms={`forThem.items.${i}.text`}>{u.text}</span></li>)}
       </ul>
     </div>
   </section>
 
   <section class="on-deep water test">
     <div class="wrap">
-      <h2 class="center" set:html={rich(x.test.title)} />
+      <h2 class="center" set:html={rich(x.test.title)} data-cms="test.title" />
       <ol class="t-steps">
         {x.test.steps.map((u, i) => (
           <li class="reveal">
             <span class="n">{i + 1}</span>
-            <h3>{u.title}</h3>
-            <p>{u.text}</p>
+            <h3 data-cms={`test.steps.${i}.title`}>{u.title}</h3>
+            <p data-cms={`test.steps.${i}.text`}>{u.text}</p>
           </li>
         ))}
       </ol>
-      <div class="btns center-btns"><a class="btn btn-primary" href="/demande-de-devis/">{plain(x.test.button)} <Icon name="arrow" size={18} /></a></div>
+      <div class="btns center-btns"><a class="btn btn-primary" href="/demande-de-devis/"><span data-cms="test.button">{plain(x.test.button)}</span> <Icon name="arrow" size={18} /></a></div>
     </div>
   </section>
 
   <Faq items={faq} />
   <Blocks blocks={x.blocks as Block[]} />
   <Cta title={x.ctaTitle} />
+  <CmsEditor pageKey="comparatif" base={x} />
 </Base>
 
 <style>
