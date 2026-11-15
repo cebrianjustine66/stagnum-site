@@ -1,0 +1,23 @@
+---
+// Mini-démo d'une brique de monde, reprise du style de BrickMini du site.
+// Rendu à partir d'une liste de lignes typées (voir MiniLine dans data/mondes.ts).
+import type { MiniLine } from '../data/mondes';
+interface Props { demo: MiniLine[] }
+const { demo } = Astro.props;
+const isGauge = (l: MiniLine): l is { gauge: string; pos: number; value: string } => 'gauge' in l;
+const isBar = (l: MiniLine): l is { bar: number } => 'bar' in l;
+---
+<div class="mini">
+  {demo.map((l) => (
+    isGauge(l) ? (
+      <div class="gauge"><span>{l.gauge}</span><div class="track"><i style={`left:${l.pos}%`}></i></div><b>{l.value}</b></div>
+    ) : isBar(l) ? (
+      <div class="bar"><i style={`width:${l.bar}%`}></i></div>
+    ) : (
+      <div class={`row${l.total ? ' total' : ''}${l.sub ? ' sub' : ''}`}>
+        <span>{l.left}</span>
+        {l.pill ? <i class={`pill${l.kind ? ' ' + l.kind : ''}`}>{l.pill}</i> : l.value ? <b>{l.value}</b> : null}
+      </div>
+    )
+  ))}
+</div>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import MondeDetail from '../components/MondeDetail.astro';
+import { bySlug } from '../data/mondes';
+const monde = bySlug('au-comptoir');
+---
+<Base
+  title="Au comptoir : caisse, articles et fichier client | Stagnum"
+  description="Au magasin : caisse conforme, catalogue et tarifs, stock à jour, achats fournisseurs, fiche client et bassins. Vous encaissez, le fichier reste au magasin."
+  breadcrumbs={[{ name: 'Au comptoir', href: '/au-comptoir/' }]}
+>
+  <MondeDetail monde={monde} />
+</Base>

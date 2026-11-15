@@ -1,0 +1,118 @@
+/* Accueil « 3 mondes » et pages détail des mondes.
+   Reprend le style des briques du site (carte teintée numérotée + mini-démo).
+   Tous les sélecteurs sont préfixés par .monde-section (accueil) ou .monde-page
+   (page détail) pour n'affecter que ces zones et rien d'autre du site. */
+
+/* ===== Carte teintée, commune aux deux ===== */
+.monde-section .tcard,
+.monde-page .tcard {
+  position: relative; display: flex; flex-direction: column;
+  padding: 24px; border-radius: 24px;
+  background: var(--bg, #fff); color: var(--fg, var(--ink));
+  text-decoration: none; border: 1px solid rgba(14, 34, 36, .06);
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, opacity .7s ease;
+}
+.monde-section a.tcard.reveal.in:hover,
+.monde-page .tcard:hover { transform: translateY(-5px); box-shadow: 0 24px 40px -22px rgba(7, 52, 58, .45); color: var(--fg, var(--ink)); }
+.monde-section .tcard-top,
+.monde-page .tcard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 10px; }
+.monde-section .tile,
+.monde-page .tile { width: 46px; height: 46px; flex: none; border-radius: 13px; display: grid; place-items: center; background: #fff; color: var(--accent); box-shadow: 0 6px 14px -8px rgba(7, 52, 58, .4); margin: 0; }
+.monde-section .tile svg,
+.monde-page .tile svg { width: 22px; height: 22px; display: block; }
+.monde-section .tcard.dark,
+.monde-page .tcard.dark { border-color: transparent; }
+.monde-section .tcard.dark .tile,
+.monde-page .tcard.dark .tile { background: rgba(255, 255, 255, .16); color: #fff; box-shadow: none; }
+.monde-section .num,
+.monde-page .num { font: 600 .9rem/1 var(--font-display); letter-spacing: .04em; opacity: .55; }
+.monde-section .tcard h3,
+.monde-page .tcard h3 { font-size: 1.5rem; font-weight: 720; letter-spacing: -.025em; margin-bottom: 4px; color: inherit; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.monde-section .t-desc,
+.monde-page .t-desc { opacity: .84; margin-bottom: 16px; font-size: .98rem; line-height: 1.5; }
+.monde-section .more,
+.monde-page .more { margin-top: auto; font-weight: 650; font-size: .93rem; display: inline-flex; align-items: center; gap: 8px; color: inherit; }
+.monde-section .more svg,
+.monde-page .more svg { width: 16px; height: 16px; transition: transform .2s ease; }
+.monde-section .tcard:hover .more svg,
+.monde-page .tcard:hover .more svg { transform: translateX(5px); }
+.monde-section .badge-soon,
+.monde-page .badge-soon { font-size: 11px; font-weight: 700; color: var(--sun-deep); background: #FDE6DF; border: 1px solid #F6D8C6; border-radius: 6px; padding: 2px 8px; letter-spacing: .02em; }
+.monde-section .tcard.dark .badge-soon,
+.monde-page .tcard.dark .badge-soon { background: rgba(236, 127, 81, .22); color: #FBE0D2; border-color: transparent; }
+
+/* ===== Accueil : en-tête + 3 mondes ===== */
+.monde-section { padding-top: clamp(40px, 6vw, 72px); }
+.monde-section .m-head { max-width: 46ch; margin: 0 auto 40px; text-align: center; }
+.monde-section .m-head .eyebrow { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.monde-section .m-head h2 { font-size: clamp(27px, 3.6vw, 38px); }
+.monde-section .m-head h2 em { font-style: normal; color: var(--accent); }
+.monde-section .m-head p { color: var(--ink-2); font-size: 18px; margin-top: 14px; }
+.monde-section .mondes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.monde-section .tcard { min-height: 300px; }
+.monde-section .t-where { font-size: .9rem; font-weight: 600; opacity: .75; margin-bottom: 12px; }
+.monde-section .t-bricks { display: flex; gap: 7px; flex-wrap: wrap; margin: 4px 0 18px; }
+.monde-section .t-bricks span { font-size: .8rem; font-weight: 600; padding: 5px 10px; border-radius: 8px; background: rgba(255, 255, 255, .55); color: #2b4a48; }
+.monde-section .tcard.dark .t-bricks span { background: rgba(255, 255, 255, .14); color: #eafafa; }
+.monde-section .t-bricks span.soon { opacity: .72; }
+.monde-section .t-bricks span.soon::after { content: " · bientôt"; opacity: .8; }
+.monde-section .base-strip { margin-top: 22px; background: var(--tint); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; color: var(--ink-2); font-size: 15.5px; display: flex; gap: 12px; align-items: center; }
+.monde-section .base-strip b { color: var(--ink); }
+.monde-section .base-strip .pin { color: var(--accent); font-weight: 700; }
+@media (max-width: 900px) { .monde-section .mondes { grid-template-columns: 1fr; } }
+
+/* ===== Page détail d'un monde ===== */
+.monde-page .m-hero { padding-top: calc(var(--head, 68px) + clamp(24px, 4vw, 44px)); }
+.monde-page .back { display: inline-flex; align-items: center; gap: 8px; color: #bfe0e0; text-decoration: none; font-size: 14.5px; font-weight: 500; margin-bottom: 20px; }
+.monde-page .back:hover { color: #fff; }
+.monde-page .where { display: inline-flex; align-items: center; gap: 11px; font-size: 13.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #8fe4e6; margin-bottom: 16px; }
+.monde-page .where .ebadge { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 255, 255, .12); color: #fff; text-transform: none; }
+.monde-page .where .ebadge svg { width: 22px; height: 22px; display: block; }
+.monde-page .m-hero h1 { font-size: clamp(30px, 5vw, 48px); color: #fff; max-width: 16ch; }
+.monde-page .m-hero .lead { font-size: 18.5px; color: #cfe6e6; max-width: 50ch; margin-top: 18px; }
+.monde-page .m-hero .lead b { color: #fff; font-weight: 600; }
+.monde-page .count { margin-top: 24px; display: inline-flex; gap: 9px; align-items: center; font-size: 14px; color: #9fdede; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); border-radius: 999px; padding: 8px 15px; }
+
+/* 6 colonnes : 3 cartes en haut (span 2), les 2 du bas s'élargissent (span 3) pour remplir la ligne */
+.monde-page .bricks-detail { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.monde-page .bricks-detail .tcard { grid-column: span 2; padding: 22px; }
+.monde-page .bricks-detail .tcard:nth-last-child(-n + 2) { grid-column: span 3; }
+.monde-page .bricks-detail .tcard h3 { font-size: 1.3rem; }
+.monde-page .bricks-detail .t-desc { font-size: .92rem; margin-bottom: 12px; }
+.monde-page .bricks-detail .mini-wrap { margin-bottom: 14px; }
+@media (max-width: 1000px) {
+  .monde-page .bricks-detail { grid-template-columns: repeat(2, 1fr); }
+  .monde-page .bricks-detail .tcard,
+  .monde-page .bricks-detail .tcard:nth-last-child(-n + 2) { grid-column: auto; }
+}
+@media (max-width: 620px) { .monde-page .bricks-detail { grid-template-columns: 1fr; } }
+
+/* mini-démo (repris de BrickMini du site) */
+.monde-page .mini-wrap { margin-top: 6px; margin-bottom: 16px; }
+.monde-page .mini { background: #fff; color: var(--ink); border-radius: 14px; box-shadow: 0 10px 22px -16px rgba(7, 52, 58, .5); padding: 12px 14px; display: grid; gap: 8px; font-size: .8rem; }
+.monde-page .mini .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--ink-2); }
+.monde-page .mini .row b { color: var(--ink); font-weight: 650; white-space: nowrap; }
+.monde-page .mini .row.total { padding-top: 8px; border-top: 1px dashed var(--border-strong); color: var(--ink); font-weight: 600; }
+.monde-page .mini .row.total b { color: var(--accent); font-weight: 750; }
+.monde-page .mini .row.sub { font-size: .76rem; }
+.monde-page .mini .pill { font-style: normal; font-size: .72rem; font-weight: 650; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.monde-page .mini .pill.ok { background: #DEF1E8; color: #14694A; }
+.monde-page .mini .pill.warn { background: #FDE6DF; color: #A8461E; }
+.monde-page .mini .bar { height: 8px; border-radius: 99px; background: var(--border); overflow: hidden; }
+.monde-page .mini .bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent-bright), var(--aqua)); }
+.monde-page .mini .gauge { display: grid; grid-template-columns: 48px 1fr 34px; align-items: center; gap: 10px; color: var(--ink-2); }
+.monde-page .mini .gauge b { color: var(--ink); text-align: right; }
+.monde-page .mini .track { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #F2B8A0 0 22%, #9FDFC4 22% 72%, #F2B8A0 72%); }
+.monde-page .mini .track i { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #fff; border: 3px solid var(--deep); }
+
+/* bas de page détail */
+.monde-page .dcta { background: var(--deep); color: #eafafa; border-radius: 24px; padding: 40px; text-align: center; overflow: hidden; position: relative; margin-top: 40px; }
+.monde-page .dcta::after { content: ""; position: absolute; right: -6%; bottom: -50%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(63, 208, 214, .2), transparent 60%); }
+.monde-page .dcta h3 { font-size: clamp(22px, 3vw, 30px); color: #fff; margin-bottom: 10px; position: relative; z-index: 1; }
+.monde-page .dcta p { color: #bfe0e0; position: relative; z-index: 1; max-width: 48ch; margin: 0 auto 24px; }
+.monde-page .dcta .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+.monde-page .other { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+.monde-page .other a { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 15px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 999px; padding: 10px 18px; transition: .18s; display: inline-flex; align-items: center; gap: 9px; }
+.monde-page .other a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.monde-page .other a .mi { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.monde-page .other a .mi svg { width: 15px; height: 15px; display: block; }

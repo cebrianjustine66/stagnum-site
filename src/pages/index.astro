@@ -8,6 +8,7 @@ import Cta from '../components/Cta.astro';
 import { SITE } from '../data/site';
 import { TIERS, BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
+import Mondes from '../components/Mondes.astro';
 import a from '../content/accueil.json';
 import c from '../content/commun.json';
 import { faqLd, plain, rich, type Block } from '../lib';
@@ -59,28 +60,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </section>
 
-  <section id="briques" class="briques-section">
-    <div class="wrap">
-      <div class="center head">
-        <h2 set:html={rich(a.bricks.title, 'hl hl-ink')} />
-        <p class="lead">{a.bricks.lead}</p>
-      </div>
-      <div class="bricks">
-        {BRICKS.map((b, i) => (
-          <a class={`brick reveal ${BRICK_COLORS[b.id][1] === '#FFFFFF' ? 'dark' : ''}`} href={b.href} data-water={BRICK_COLORS[b.id][1] === '#FFFFFF' ? '' : undefined} style={`--bg:${BRICK_COLORS[b.id][0]};--fg:${BRICK_COLORS[b.id][1]}`}>
-            <div class="brick-top">
-              <span class="b-icon"><Icon name={b.id} size={22} /></span>
-              <span class="num">{num(i)}</span>
-            </div>
-            <h3>{b.name}</h3>
-            <p class="b-desc">{b.desc}</p>
-            <div class="mini-wrap"><BrickMini id={b.id} /></div>
-            <span class="b-more"><span>{a.bricks.more}</span> <Icon name="arrow" size={16} /></span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+  <Mondes />
 
   <section class="on-deep water smart">
     <div class="wrap two">

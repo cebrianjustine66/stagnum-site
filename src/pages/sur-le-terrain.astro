@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import MondeDetail from '../components/MondeDetail.astro';
+import { bySlug } from '../data/mondes';
+const monde = bySlug('sur-le-terrain');
+---
+<Base
+  title="Sur le terrain : analyses d’eau, interventions et rapports | Stagnum"
+  description="Au bord du bassin : analyse d’eau, interventions, rapports dictés, agenda et tâches. Le technicien dicte, le bureau reçoit tout, sans ressaisie."
+  breadcrumbs={[{ name: 'Sur le terrain', href: '/sur-le-terrain/' }]}
+>
+  <MondeDetail monde={monde} />
+</Base>
