@@ -19,6 +19,10 @@
         "href": "/blog/"
       }
     ],
+    "demo": {
+      "label": "Demander une démo",
+      "href": "/demande-de-devis/"
+    },
     "tool": {
       "label": "Accéder à l’outil",
       "href": "/outil/"

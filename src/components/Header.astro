@@ -66,6 +66,7 @@ const path = Astro.url.pathname;
       </div>
       {h.links.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
     </nav>
+    <a href={h.demo.href} class="btn btn-ghost tool" aria-current={path === h.demo.href ? 'page' : undefined}>{h.demo.label}</a>
     <a href={h.tool.href} class="btn btn-ghost tool" aria-current={path === h.tool.href ? 'page' : undefined}>{h.tool.label}</a>
     <a href={h.cta.href} class="btn btn-primary cta">{h.cta.label}</a>
     <details class="mobile">
@@ -88,6 +89,7 @@ const path = Astro.url.pathname;
         <div class="m-links">
           {h.links.map((l) => <a href={l.href}>{l.label}</a>)}
         </div>
+        <a href={h.demo.href} class="btn btn-ghost">{h.demo.label}</a>
         <a href={h.tool.href} class="btn btn-ghost">{h.tool.label}</a>
         <a href={h.cta.href} class="btn btn-primary">{h.cta.label}</a>
       </nav>
@@ -121,10 +123,10 @@ const path = Astro.url.pathname;
   .skip { position: absolute; left: -9999px; top: 8px; background: #fff; padding: 8px 12px; border-radius: 8px; z-index: 100; }
   .skip:focus { left: 8px; }
   .site-header { position: fixed; top: 14px; left: 0; right: 0; z-index: 50; pointer-events: none; }
-  .bar { pointer-events: auto; position: relative; width: min(100% - 24px, var(--maxw)); margin-inline: auto; min-height: 62px; display: flex; align-items: center; gap: 20px; padding: 8px 8px 8px 24px; border-radius: 999px; background: rgba(255, 255, 255, .94); backdrop-filter: blur(16px) saturate(160%); box-shadow: 0 16px 40px -18px rgba(4, 38, 43, .55), 0 0 0 1px rgba(7, 52, 58, .07); }
+  .bar { pointer-events: auto; position: relative; width: min(100% - 24px, var(--maxw)); margin-inline: auto; min-height: 62px; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 24px; border-radius: 999px; background: rgba(255, 255, 255, .94); backdrop-filter: blur(16px) saturate(160%); box-shadow: 0 16px 40px -18px rgba(4, 38, 43, .55), 0 0 0 1px rgba(7, 52, 58, .07); }
   .logo { flex: none; }
   .nav { display: flex; align-items: center; gap: 2px; margin-inline: auto; }
-  .nav > a, .drop-btn { font: 600 .95rem var(--font-sans); color: var(--ink); text-decoration: none; padding: 10px 16px; border-radius: 999px; background: none; border: 0; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
+  .nav > a, .drop-btn { font: 600 .95rem var(--font-sans); color: var(--ink); text-decoration: none; padding: 10px 12px; border-radius: 999px; background: none; border: 0; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
   .nav > a:hover, .drop-btn:hover, .drop.open .drop-btn { background: var(--surface-2); color: var(--deep); }
   .nav > a[aria-current] { color: var(--accent); }
   .drop-btn::after { content: ""; display: inline-block; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-3px); margin-left: 9px; transition: transform .2s ease; }
@@ -145,8 +147,8 @@ const path = Astro.url.pathname;
   .mega-side a { display: block; }
   .mega-side a:hover, .mega-side a[aria-current] { background: rgba(255, 255, 255, .75); }
   .mega-side small { margin-top: 2px; color: var(--accent); font-weight: 600; }
-  .cta { min-height: 46px; padding: 9px 20px; font-size: .95rem; flex: none; }
-  .tool { min-height: 46px; padding: 9px 18px; font-size: .92rem; flex: none; }
+  .cta { min-height: 46px; padding: 9px 16px; font-size: .95rem; flex: none; white-space: nowrap; }
+  .tool { min-height: 46px; padding: 9px 13px; font-size: .88rem; flex: none; white-space: nowrap; }
   .mobile { display: none; margin-left: auto; }
   .mobile summary { list-style: none; width: 46px; height: 46px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; background: var(--surface-2); }
   .mobile summary::-webkit-details-marker { display: none; }
@@ -169,7 +171,7 @@ const path = Astro.url.pathname;
   .m-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--border); }
   .m-links a { text-align: center; padding: 10px 4px; border-radius: 12px; color: var(--deep); text-decoration: none; font-weight: 700; font-size: .92rem; background: var(--tint); }
   .mobile nav .btn { margin-top: 2px; }
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .nav, .cta, .tool { display: none; }
     .mobile { display: block; }
     .bar { padding-left: 20px; }
