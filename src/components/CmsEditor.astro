@@ -45,6 +45,15 @@ const isDev = import.meta.env.DEV;
       Astuce mise en forme : <b>*mot*</b> = mot surligné · <b>**mot**</b> = gras ·
       <b>[texte](/adresse/)</b> = lien · <b>{'{annee}'}</b> = remplacé automatiquement.
     </div>
+    <div id="cmsed-format" class="cmsed-format" hidden>
+      <span class="cmsed-fmt-label">Mise en forme du texte :</span>
+      <button type="button" class="cmsed-fmt" data-fmt="h2">Titre</button>
+      <button type="button" class="cmsed-fmt" data-fmt="h3">Sous-titre</button>
+      <button type="button" class="cmsed-fmt cmsed-fmt-b" data-fmt="bold">G</button>
+      <button type="button" class="cmsed-fmt" data-fmt="link">Lien</button>
+      <button type="button" class="cmsed-fmt" data-fmt="ul">Liste</button>
+      <button type="button" class="cmsed-fmt" data-fmt="p">Texte normal</button>
+    </div>
     <div id="cmsed-history" class="cmsed-panel" hidden>
       <h3>Historique des versions</h3>
       <div id="cmsed-vlist"></div>
@@ -77,6 +86,11 @@ const isDev = import.meta.env.DEV;
   .cmsed-go { background: #16a34a; color: #fff; }
   .cmsed-dark { background: #1f5d63; color: #fff; }
   .cmsed-legend { position: fixed; bottom: 48px; left: 0; right: 0; z-index: 9998; background: #fff7ed; color: #7c2d12; font-size: .82rem; padding: .4rem .9rem; border-top: 1px solid #fed7aa; text-align: center; }
+  .cmsed-format { position: fixed; bottom: 48px; left: 0; right: 0; z-index: 9998; background: #f1f5f9; color: #0f172a; padding: .4rem .9rem; border-top: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .4rem; }
+  .cmsed-fmt-label { font-size: .82rem; color: #475569; margin-right: .3rem; }
+  .cmsed-fmt { font: inherit; font-size: .85rem; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; border-radius: 7px; padding: .3rem .7rem; cursor: pointer; }
+  .cmsed-fmt:hover { background: #e2e8f0; }
+  .cmsed-fmt-b { font-weight: 800; min-width: 34px; }
   .cmsed-panel { position: fixed; bottom: 54px; right: 12px; z-index: 9998; width: min(360px, 92vw); max-height: 70vh; overflow: auto; padding: 1rem 1.1rem; background: #fff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
   .cmsed-panel h3 { margin: .1rem 0 .7rem; color: #0B3D42; font-size: 1.05rem; }
   .cmsed-vrow { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-top: 1px solid #eef2f2; font-size: .9rem; }
@@ -110,8 +124,10 @@ const isDev = import.meta.env.DEV;
     const toggle = $('#cmsed-toggle'), saveBtn = $('#cmsed-save'), publishBtn = $('#cmsed-publish'),
           histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
           badge = $('#cmsed-badge'), legend = $('#cmsed-legend'), histPanel = $('#cmsed-history'),
-          vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast'), newBtn = $('#cmsed-new');
+          vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast'), newBtn = $('#cmsed-new'),
+          fmtBar = $('#cmsed-format');
     const ON_KEY = 'cms-editing'; // mémorise que l'édition est activée, d'une page à l'autre
+    const hasRichBody = !!document.querySelector('[data-cms-html]'); // page d'article (corps riche)
     const FIELDS = '[data-cms], [data-cms-html]';
     const slugify = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'article';
@@ -144,8 +160,11 @@ const isDev = import.meta.env.DEV;
       document.body.classList.toggle('cmsed-editing', on);
       document.querySelectorAll(FIELDS).forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
       toggle.checked = on;
-      saveBtn.hidden = !on; publishBtn.hidden = !on; histBtn.hidden = !on; legend.hidden = !on;
+      saveBtn.hidden = !on; publishBtn.hidden = !on; histBtn.hidden = !on;
       who.hidden = !on; badge.hidden = !on;
+      // Sur un article : barre de mise en forme. Ailleurs : astuce *mot*.
+      legend.hidden = !on || hasRichBody;
+      if (fmtBar) fmtBar.hidden = !on || !hasRichBody;
       if (newBtn) newBtn.hidden = !on;
       try { on ? localStorage.setItem(ON_KEY, '1') : localStorage.removeItem(ON_KEY); } catch {}
     }
@@ -204,6 +223,23 @@ const isDev = import.meta.env.DEV;
     toggle.addEventListener('change', () => {
       if (toggle.checked) enterEditing();
       else { try { localStorage.removeItem(ON_KEY); } catch {} location.reload(); }
+    });
+
+    // Boutons de mise en forme du corps d'un article (Titre, Sous-titre, Gras, Lien, Liste).
+    if (fmtBar) fmtBar.querySelectorAll('.cmsed-fmt').forEach((b) => {
+      b.addEventListener('mousedown', (e) => e.preventDefault()); // garde la sélection dans le texte
+      b.addEventListener('click', () => {
+        const cmd = b.dataset.fmt;
+        try {
+          if (cmd === 'h2' || cmd === 'h3' || cmd === 'p') document.execCommand('formatBlock', false, '<' + cmd + '>');
+          else if (cmd === 'bold') document.execCommand('bold');
+          else if (cmd === 'ul') document.execCommand('insertUnorderedList');
+          else if (cmd === 'link') {
+            const url = (prompt('Adresse du lien (https://… ou /page/) :') || '').trim();
+            if (url) document.execCommand('createLink', false, url);
+          }
+        } catch {}
+      });
     });
 
     saveBtn.addEventListener('click', async () => {
