@@ -11,8 +11,8 @@
 //
 // La barre d'édition ne s'affiche qu'en local (npm run dev) pour l'instant. En ligne, elle
 // s'ouvrira aux membres connectés (étape « connexion des membres »).
-interface Props { pageKey: string; base: unknown; }
-const { pageKey, base } = Astro.props;
+interface Props { pageKey: string; base: unknown; newArticle?: boolean; }
+const { pageKey, base, newArticle = false } = Astro.props;
 const canEdit = import.meta.env.DEV;
 ---
 {canEdit && (
@@ -27,6 +27,7 @@ const canEdit = import.meta.env.DEV;
         <span id="cmsed-badge" class="cmsed-badge"></span>
       </div>
       <div class="cmsed-actions">
+        {newArticle && <button id="cmsed-new" class="cmsed-btn cmsed-dark">＋ Nouvel article</button>}
         <button id="cmsed-edit" class="cmsed-btn cmsed-primary">✏️ Modifier</button>
         <button id="cmsed-save" class="cmsed-btn cmsed-soft" hidden>💾 Enregistrer le brouillon</button>
         <button id="cmsed-publish" class="cmsed-btn cmsed-go" hidden>🚀 Publier</button>
@@ -78,6 +79,10 @@ const canEdit = import.meta.env.DEV;
   body.cmsed-editing [data-cms] { outline: 2px dashed #EC7F51; outline-offset: 3px; border-radius: 5px; cursor: text; white-space: pre-wrap; background: #fff !important; color: #0f172a !important; -webkit-text-fill-color: #0f172a; box-shadow: 0 0 0 4px #fff; }
   body.cmsed-editing [data-cms]:focus { outline: 2px solid #1799A1; }
   body.cmsed-editing [data-cms] * { all: unset; color: #0f172a !important; -webkit-text-fill-color: #0f172a; } /* neutralise la mise en forme rendue pendant la saisie */
+
+  /* Corps riche (article de blog) : on édite la mise en forme telle quelle, repérée par un cadre. */
+  body.cmsed-editing [data-cms-html] { outline: 2px dashed #EC7F51; outline-offset: 8px; border-radius: 6px; cursor: text; }
+  body.cmsed-editing [data-cms-html]:focus { outline: 2px solid #1799A1; }
 </style>
 
 <script is:inline>
@@ -90,7 +95,10 @@ const canEdit = import.meta.env.DEV;
     const editBtn = $('#cmsed-edit'), saveBtn = $('#cmsed-save'), publishBtn = $('#cmsed-publish'),
           cancelBtn = $('#cmsed-cancel'), histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
           badge = $('#cmsed-badge'), legend = $('#cmsed-legend'), histPanel = $('#cmsed-history'),
-          vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast');
+          vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast'), newBtn = $('#cmsed-new');
+    const FIELDS = '[data-cms], [data-cms-html]';
+    const slugify = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'article';
 
     let editingBase = null; // l'objet complet sur lequel on applique les champs modifiés
 
@@ -118,15 +126,20 @@ const canEdit = import.meta.env.DEV;
 
     function setEditing(on) {
       document.body.classList.toggle('cmsed-editing', on);
-      document.querySelectorAll('[data-cms]').forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
+      document.querySelectorAll(FIELDS).forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
       editBtn.hidden = on; saveBtn.hidden = !on; publishBtn.hidden = !on; cancelBtn.hidden = !on; legend.hidden = !on;
     }
 
-    // Remplit les zones modifiables avec le TEXTE SOURCE (markup visible) de l'objet donné.
+    // Remplit les zones modifiables depuis l'objet donné : texte source pour les champs
+    // simples, mise en forme (HTML) pour le corps riche d'un article.
     function fillSource(source) {
       document.querySelectorAll('[data-cms]').forEach((el) => {
         const v = getPath(source, el.getAttribute('data-cms'));
         el.textContent = v == null ? '' : String(v);
+      });
+      document.querySelectorAll('[data-cms-html]').forEach((el) => {
+        const v = getPath(source, el.getAttribute('data-cms-html'));
+        if (v != null) el.innerHTML = String(v);
       });
     }
 
@@ -135,6 +148,9 @@ const canEdit = import.meta.env.DEV;
       const out = JSON.parse(JSON.stringify(editingBase));
       document.querySelectorAll('[data-cms]').forEach((el) => {
         setPath(out, el.getAttribute('data-cms'), el.textContent.replace(/ /g, ' ').trim());
+      });
+      document.querySelectorAll('[data-cms-html]').forEach((el) => {
+        setPath(out, el.getAttribute('data-cms-html'), el.innerHTML.trim());
       });
       return out;
     }
@@ -212,6 +228,34 @@ const canEdit = import.meta.env.DEV;
         }));
       } catch (e) { showToast('Erreur : ' + e.message); }
     });
+
+    // Créer un nouvel article de blog, puis ouvrir sa page directement en édition.
+    if (newBtn) newBtn.addEventListener('click', async () => {
+      const title = (prompt('Titre du nouvel article ?') || '').trim();
+      if (!title) return;
+      newBtn.disabled = true;
+      try {
+        const root = slugify(title);
+        let slug = root;
+        for (let n = 2; n < 60; n++) {
+          const d = await (await fetch('/api/cms?key=' + encodeURIComponent('blog/' + slug))).json();
+          if (!d.published && !d.draft) break;
+          slug = root + '-' + n;
+        }
+        const today = new Date().toISOString().slice(0, 10);
+        const article = {
+          slug, h1: title, title: title + ' | Stagnum',
+          description: 'Résumé de l’article, à compléter.',
+          date: today, tag: 'Conseils', minutes: 3, icon: 'reglages', color: '#DDF2F3',
+          bodyHtml: '<p>Commencez à écrire votre article ici.</p>\n<h2>Un premier sous-titre</h2>\n<p>…</p>',
+        };
+        await api({ action: 'save', key: 'blog/' + slug, value: article, by: who.value });
+        location.href = '/blog/' + slug + '/?edit=1';
+      } catch (e) { showToast('Erreur : ' + e.message); newBtn.disabled = false; }
+    });
+
+    // Arrivée sur un nouvel article (lien ?edit=1) : on ouvre directement l'édition.
+    if (new URLSearchParams(location.search).get('edit') === '1') editBtn.click();
   })();
 </script>
   </Fragment>

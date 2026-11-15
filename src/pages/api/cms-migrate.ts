@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 import { migratePublished } from '../../lib/cms/store';
 import { LANDINGS } from '../../data/pages';
 import { MONDES } from '../../data/mondes';
+import { BASE_ARTICLE_METAS, baseArticleFull } from '../../lib/cms/blog';
 
 export const prerender = false;
 
@@ -27,6 +28,11 @@ export const POST: APIRoute = async () => {
   for (const m of MONDES) {
     await migratePublished(`mondes/${m.slug}`, m);
     migrated.push(`mondes/${m.slug}`);
+  }
+  // Articles du blog : clé blog/<slug>, corps en HTML (déjà compilé par Astro).
+  for (const a of BASE_ARTICLE_METAS) {
+    const full = await baseArticleFull(a.slug);
+    if (full) { await migratePublished(`blog/${a.slug}`, full); migrated.push(`blog/${a.slug}`); }
   }
   return Response.json({ ok: true, count: migrated.length, migrated });
 };

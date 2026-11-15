@@ -8,7 +8,7 @@ import c from '../content/commun.json';
 import blog from '../content/page-blog.json';
 import { plain } from '../lib';
 import { POSTS } from '../data/posts';
-const { frontmatter: fm, headings = [] } = Astro.props;
+const { frontmatter: fm, headings = [], bodyKey, titleKey, leadKey } = Astro.props;
 const url = new URL(Astro.url.pathname, SITE.url).href;
 const fmtDate = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const toc = headings.filter((h: any) => h.depth === 2);
@@ -33,16 +33,16 @@ const article = {
   breadcrumbs={[{ name: blog.breadcrumb, href: '/blog/' }, { name: fm.h1, href: Astro.url.pathname }]}
   jsonld={[article]}
 >
-  <PageHero crumbs={[{ name: blog.breadcrumb, href: '/blog/' }]} title={fm.h1} lead={fm.description}>
+  <PageHero crumbs={[{ name: blog.breadcrumb, href: '/blog/' }]} title={fm.h1} lead={fm.description} titleKey={titleKey} leadKey={leadKey}>
     <p class="a-meta">
-      <span class="a-tag">{fm.tag}</span>
-      <span><Icon name="horloge" size={16} /> {fm.minutes} {c.article.readTime}</span>
+      <span class="a-tag" data-cms={bodyKey ? 'tag' : undefined}>{fm.tag}</span>
+      <span><Icon name="horloge" size={16} /> <span data-cms={bodyKey ? 'minutes' : undefined}>{fm.minutes}</span> {c.article.readTime}</span>
       <span>{c.article.published} <time datetime={fm.date}>{fmtDate(fm.date)}</time></span>
     </p>
   </PageHero>
 
   <div class="wrap a-layout">
-    <article class="article-body">
+    <article class="article-body" data-cms-html={bodyKey}>
       <slot />
     </article>
     <aside class="a-side">
@@ -78,6 +78,7 @@ const article = {
     </section>
   )}
   <Cta />
+  <slot name="editor" />
 </Base>
 
 <style>

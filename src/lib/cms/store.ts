@@ -88,6 +88,22 @@ export async function publish(key: string, by: string): Promise<void> {
   });
 }
 
+// Liste tous les documents dont la clé commence par un préfixe (ex. "blog/").
+export async function listDocs<T = unknown>(prefix: string): Promise<Doc<T>[]> {
+  await ensureSchema();
+  const r = await db().execute({
+    sql: 'SELECT key, draft, published, updated_at, updated_by FROM cms_docs WHERE key LIKE ? ORDER BY key',
+    args: [prefix + '%'],
+  });
+  return r.rows.map((row) => ({
+    key: row.key as string,
+    published: row.published ? (JSON.parse(row.published as string) as T) : null,
+    draft: row.draft ? (JSON.parse(row.draft as string) as T) : null,
+    updatedAt: (row.updated_at as string) ?? null,
+    updatedBy: (row.updated_by as string) ?? null,
+  }));
+}
+
 export async function history(key: string, limit = 20): Promise<Version[]> {
   await ensureSchema();
   const r = await db().execute({
