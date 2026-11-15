@@ -6,14 +6,18 @@ import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import Blocks from '../components/Blocks.astro';
+import CmsEditor from '../components/CmsEditor.astro';
 import { LANDINGS, BRIQUE_PAGES, type Landing } from '../data/pages';
 import c from '../content/commun.json';
+import { loadPublished } from '../lib/cms/content';
 import { faqLd, plain, rich } from '../lib';
 
-export function getStaticPaths() {
-  return LANDINGS.map((page) => ({ params: { slug: page.slug }, props: { page } }));
-}
-const { page } = Astro.props as { page: Landing };
+// Pages produit lues depuis la base (repli sur le contenu d'origine si la base est vide).
+export const prerender = false;
+const slug = Astro.params.slug!;
+const base = LANDINGS.find((l) => l.slug === slug);
+if (!base) return new Response(null, { status: 404 });
+const page = await loadPublished<Landing>(`pages/${slug}`, base);
 const others = BRIQUE_PAGES.filter((b) => b.slug !== page.slug);
 const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
 ---
@@ -29,13 +33,13 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
         <nav class="breadcrumb" aria-label="Fil d’Ariane">
           <ol><li><a href="/">{c.home}</a></li><li aria-current="page">{page.nav}</li></ol>
         </nav>
-        <h1>{page.h1}</h1>
-        <p class="lead">{page.lead}</p>
+        <h1 data-cms="h1">{page.h1}</h1>
+        <p class="lead" data-cms="lead">{page.lead}</p>
         <div class="btns">
           <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
           <a class="btn btn-ghost" href="/demande-de-devis/">{c.buttons.trial.before} <span class="long">{plain(c.buttons.trial.middle)} </span>{c.buttons.trial.after}</a>
         </div>
-        {page.included && <p class="from"><Icon name="check" size={16} />{page.included}{c.landing.includedSuffix}</p>}
+        {page.included && <p class="from"><Icon name="check" size={16} /><span data-cms="included">{page.included}</span>{c.landing.includedSuffix}</p>}
       </div>
       {page.brick
         ? <BrickDemo id={page.brick} />
@@ -48,7 +52,7 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
       <aside class="what-side on-deep water reveal">
         <h2 set:html={rich(c.landing.pointsTitle)} />
         <ul class="checks">
-          {page.points.map((p) => <li>{p}</li>)}
+          {page.points.map((p, i) => <li data-cms={`points.${i}`}>{p}</li>)}
         </ul>
         <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
       </aside>
@@ -57,8 +61,8 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
           <li class="reveal" style={`--c:${stepColors[i % 3]}`}>
             <span class="n">{i + 1}</span>
             <div class="w-card">
-              <h3>{s.h2}</h3>
-              <p>{s.text}</p>
+              <h3 data-cms={`sections.${i}.h2`}>{s.h2}</h3>
+              <p data-cms={`sections.${i}.text`}>{s.text}</p>
             </div>
           </li>
         ))}
@@ -86,6 +90,7 @@ const stepColors = ['#1799A1', '#EC7F51', '#0B3D42'];
   <Blocks blocks={page.blocks} />
 
   <Cta />
+  <CmsEditor pageKey={`pages/${slug}`} base={page} />
 </Base>
 
 <style>

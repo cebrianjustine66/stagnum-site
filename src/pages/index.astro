@@ -9,9 +9,15 @@ import { SITE } from '../data/site';
 import { TIERS, BRICKS, BRICK_COLORS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, TRIAL_DAYS, LOWEST_PRICE } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
 import Mondes from '../components/Mondes.astro';
-import a from '../content/accueil.json';
+import CmsEditor from '../components/CmsEditor.astro';
+import fallback from '../content/accueil.json';
 import c from '../content/commun.json';
+import { loadPublished } from '../lib/cms/content';
 import { faqLd, plain, rich, type Block } from '../lib';
+
+// Contenu lu depuis la base (repli sur le fichier si la base est vide).
+export const prerender = false;
+const a = await loadPublished('accueil', fallback);
 
 const faq = a.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 
@@ -46,14 +52,14 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <section class="on-deep water wave-bottom hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1 set:html={rich(a.hero.title)} />
-        <p class="lead">{a.hero.lead}</p>
+        <h1 set:html={rich(a.hero.title)} data-cms="hero.title" />
+        <p class="lead" data-cms="hero.lead">{a.hero.lead}</p>
         <div class="btns">
           <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
           <a class="btn btn-ghost" href="/demande-de-devis/">{c.buttons.trial.before} <span class="long">{plain(c.buttons.trial.middle)} </span>{c.buttons.trial.after}</a>
         </div>
         <ul class="proofs">
-          {a.hero.proofs.map((p) => <li>{plain(p)}</li>)}
+          {a.hero.proofs.map((p, i) => <li data-cms={`hero.proofs.${i}`}>{plain(p)}</li>)}
         </ul>
       </div>
       <BrickDemo id="achats" home />
@@ -65,19 +71,19 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <section class="on-deep water smart">
     <div class="wrap two">
       <div class="reveal">
-        <h2 set:html={rich(a.smart.title, 'hl')} />
-        <p class="lead">{a.smart.lead}</p>
+        <h2 set:html={rich(a.smart.title, 'hl')} data-cms="smart.title" />
+        <p class="lead" data-cms="smart.lead">{a.smart.lead}</p>
         <ul class="checks">
-          {a.smart.points.map((p) => <li set:html={rich(p)} />)}
+          {a.smart.points.map((p, i) => <li set:html={rich(p)} data-cms={`smart.points.${i}`} />)}
         </ul>
       </div>
       <ul class="flows">
-        {a.smart.flows.map((f) => (
+        {a.smart.flows.map((f, i) => (
           <li class="flow reveal">
             <span class="f-ic"><Icon name={f.icon} size={22} /></span>
             <div>
-              <p class="you">{f.you}</p>
-              <p class="it"><Icon name="arrow" size={16} />{f.it}</p>
+              <p class="you" data-cms={`smart.flows.${i}.you`}>{f.you}</p>
+              <p class="it"><Icon name="arrow" size={16} /><span data-cms={`smart.flows.${i}.it`}>{f.it}</span></p>
             </div>
           </li>
         ))}
@@ -88,12 +94,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <section class="sandy perso">
     <div class="wrap perso-grid">
       <div class="reveal">
-        <h2 set:html={rich(a.perso.title, 'hl hl-ink')} />
-        <p class="lead">{a.perso.lead}</p>
+        <h2 set:html={rich(a.perso.title, 'hl hl-ink')} data-cms="perso.title" />
+        <p class="lead" data-cms="perso.lead">{a.perso.lead}</p>
         <ul class="checks">
-          {a.perso.points.map((p) => <li set:html={rich(p)} />)}
+          {a.perso.points.map((p, i) => <li set:html={rich(p)} data-cms={`perso.points.${i}`} />)}
         </ul>
-        <div class="btns"><a class="btn btn-ghost" href="/logiciel-pisciniste-personnalisable/">{a.perso.button} <Icon name="arrow" size={18} /></a></div>
+        <div class="btns"><a class="btn btn-ghost" href="/logiciel-pisciniste-personnalisable/"><span data-cms="perso.button">{a.perso.button}</span> <Icon name="arrow" size={18} /></a></div>
       </div>
 
       <div class="panel reveal" id="reglages">
@@ -148,15 +154,15 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <section>
     <div class="wrap">
       <div class="center head">
-        <h2 set:html={rich(a.price.title, 'hl hl-ink')} />
-        <p class="lead">{a.price.lead}</p>
+        <h2 set:html={rich(a.price.title, 'hl hl-ink')} data-cms="price.title" />
+        <p class="lead" data-cms="price.lead">{a.price.lead}</p>
       </div>
       <div class="calc-teaser reveal">
         <div class="ct-left">
           <ol class="ct-steps">
-            {a.price.steps.map((t, i) => <li><span>{i + 1}</span>{t}</li>)}
+            {a.price.steps.map((t, i) => <li><span>{i + 1}</span><span data-cms={`price.steps.${i}`}>{t}</span></li>)}
           </ol>
-          <p class="ct-bonus" set:html={rich(a.price.bonus)} />
+          <p class="ct-bonus" set:html={rich(a.price.bonus)} data-cms="price.bonus" />
           <a class="btn btn-primary" href="/tarifs/">{c.buttons.price} <Icon name="arrow" size={18} /></a>
         </div>
         <div class="ct-mock" aria-hidden="true">
@@ -174,13 +180,14 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
           <p class="ct-all"><Icon name="check" size={16} />{plain(a.price.allChip)}</p>
         </div>
       </div>
-      <p class="center small muted note" set:html={rich(a.price.note)} />
+      <p class="center small muted note" set:html={rich(a.price.note)} data-cms="price.note" />
     </div>
   </section>
 
   <Blocks blocks={a.blocks as Block[]} />
   <Faq items={faq} />
   <Cta />
+  <CmsEditor pageKey="accueil" base={a} />
   <script>
   const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
   const $ = (id: string) => document.getElementById(id)!;

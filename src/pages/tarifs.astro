@@ -6,8 +6,14 @@ import Icon from '../components/Icon.astro';
 import DevisForm from '../components/DevisForm.astro';
 import { TIERS, BRICKS, BRICK_COUNT_WORD, ALL_BRICKS_PRICES, ENGAGEMENTS, TRIAL_DAYS, ANNUAL_PAYMENT_DISCOUNT, MULTI_STORE_DISCOUNT, MAX_STORES } from '../data/pricing';
 import Blocks from '../components/Blocks.astro';
-import t from '../content/tarifs.json';
+import CmsEditor from '../components/CmsEditor.astro';
+import fallback from '../content/tarifs.json';
+import { loadPublished } from '../lib/cms/content';
 import { faqLd, pct, plain, rich, type Block } from '../lib';
+
+// Contenu lu depuis la base (repli sur le fichier si la base est vide).
+export const prerender = false;
+const t = await loadPublished('tarifs', fallback);
 
 const faq = t.faq.map((f) => ({ q: plain(f.q), a: plain(f.a) }));
 
@@ -36,7 +42,7 @@ const examples = t.examples.items.map((x) => {
   breadcrumbs={[{ name: t.breadcrumb, href: '/tarifs/' }]}
   jsonld={[faqLd(faq)]}
 >
-  <PageHero center title={rich(t.hero.title)} lead={t.hero.lead} />
+  <PageHero center title={rich(t.hero.title)} lead={t.hero.lead} titleKey="hero.title" leadKey="hero.lead" />
 
   <section class="calc-section">
     <div class="wrap calc" id="calculette">
@@ -147,13 +153,13 @@ const examples = t.examples.items.map((x) => {
 
   <section class="incl-section">
     <div class="wrap">
-      <h2 class="center" set:html={rich(t.included.title, 'hl hl-ink')} />
+      <h2 class="center" set:html={rich(t.included.title, 'hl hl-ink')} data-cms="included.title" />
       <ul class="incl reveal">
-        {t.included.items.map((x) => (
+        {t.included.items.map((x, i) => (
           <li>
             <span class="i-ic" style={`--c:${x.color}`}><Icon name={x.icon} size={24} /></span>
-            <h3>{plain(x.title)}</h3>
-            <p>{x.text}</p>
+            <h3 data-cms={`included.items.${i}.title`}>{plain(x.title)}</h3>
+            <p data-cms={`included.items.${i}.text`}>{x.text}</p>
           </li>
         ))}
       </ul>
@@ -163,12 +169,12 @@ const examples = t.examples.items.map((x) => {
   {examples.length > 0 && (
     <section class="ex-section">
       <div class="wrap">
-        <h2 class="center" set:html={rich(t.examples.title, 'hl hl-ink')} />
+        <h2 class="center" set:html={rich(t.examples.title, 'hl hl-ink')} data-cms="examples.title" />
         <div class="grid grid-3">
-          {examples.map((x) => (
+          {examples.map((x, i) => (
             <div class="card ex reveal">
-              <h3>{x.title}</h3>
-              <p class="muted">{x.text}</p>
+              <h3 data-cms={`examples.items.${i}.title`}>{x.title}</h3>
+              <p class="muted" data-cms={`examples.items.${i}.text`}>{x.text}</p>
               <ul class="ex-bricks">
                 {x.all ? <li>Les {BRICK_COUNT_WORD} briques</li> : x.chosen.map((b) => <li>{b.name}</li>)}
               </ul>
@@ -176,15 +182,15 @@ const examples = t.examples.items.map((x) => {
             </div>
           ))}
         </div>
-        <p class="center small muted ex-note">{plain(t.examples.note)}</p>
+        <p class="center small muted ex-note" data-cms="examples.note">{plain(t.examples.note)}</p>
       </div>
     </section>
   )}
 
   <section class="sandy" id="demande">
     <div class="wrap ask">
-      <h2 class="center">{t.request.title}</h2>
-      <p class="lead center">{plain(t.request.lead)}</p>
+      <h2 class="center" data-cms="request.title">{t.request.title}</h2>
+      <p class="lead center" data-cms="request.lead">{plain(t.request.lead)}</p>
       <p class="recap" id="f-recap" hidden></p>
       <DevisForm withConfig />
     </div>
@@ -193,6 +199,7 @@ const examples = t.examples.items.map((x) => {
   <Blocks blocks={t.blocks as Block[]} />
 
   <Faq items={faq} title={t.faqTitle} />
+  <CmsEditor pageKey="tarifs" base={t} />
 </Base>
 
 <script is:inline define:vars={{ cfg }}>
