@@ -36,6 +36,7 @@ const isDev = import.meta.env.DEV;
       <div class="cmsed-actions">
         {newArticle && <button id="cmsed-new" class="cmsed-btn cmsed-dark" hidden>＋ Nouvel article</button>}
         <button id="cmsed-save" class="cmsed-btn cmsed-soft" hidden>💾 Enregistrer le brouillon</button>
+        <button id="cmsed-schedule" class="cmsed-btn cmsed-soft" hidden>⏰ Programmer</button>
         <button id="cmsed-publish" class="cmsed-btn cmsed-go" hidden>🚀 Publier</button>
         <button id="cmsed-hist" class="cmsed-btn cmsed-dark" hidden>🕑 Historique</button>
         {!isDev && <button id="cmsed-logout" class="cmsed-btn cmsed-dark">Se déconnecter</button>}
@@ -58,6 +59,17 @@ const isDev = import.meta.env.DEV;
       <h3>Historique des versions</h3>
       <div id="cmsed-vlist"></div>
     </div>
+ <div id="cmsed-sched" class="cmsed-panel" hidden>
+      <h3>Programmer la publication</h3>
+      <p class="cmsed-help">La version en cours d’édition sera mise en ligne automatiquement à l’heure choisie (heure de Paris). D’ici là, le public voit la version actuelle.</p>
+      <label class="cmsed-field">Date et heure
+        <input type="datetime-local" id="cmsed-sched-at" />
+      </label>
+      <div class="cmsed-row">
+        <button type="button" id="cmsed-sched-ok" class="cmsed-btn cmsed-primary">Programmer</button>
+        <button type="button" id="cmsed-sched-cancel" class="cmsed-btn cmsed-soft" hidden>Annuler la programmation</button>
+      </div>
+    </div>
     <div id="cmsed-toast" class="cmsed-toast" hidden></div>
   </div>
 
@@ -79,6 +91,11 @@ const isDev = import.meta.env.DEV;
   .cmsed-badge { font-size: .8rem; padding: .25rem .6rem; border-radius: 999px; }
   .cmsed-badge.draft { background: #fff3e9; color: #b4521f; }
   .cmsed-badge.clean { background: #e9f7ef; color: #166534; }
+  .cmsed-badge.sched { background: #e6f4f5; color: #0e6b71; }
+  .cmsed-help { font-size: .85rem; color: #475569; margin: 0 0 .8rem; line-height: 1.45; }
+  .cmsed-field { display: flex; flex-direction: column; gap: .3rem; font-size: .85rem; font-weight: 600; color: #0f172a; margin-bottom: .8rem; }
+  .cmsed-field input { font: inherit; font-weight: 400; font-size: .95rem; padding: .45rem .55rem; border: 1px solid #cbd5e1; border-radius: 8px; }
+  .cmsed-row { display: flex; flex-wrap: wrap; gap: .4rem; }
   .cmsed-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; }
   .cmsed-btn { font: inherit; font-size: .9rem; border: 0; border-radius: 8px; padding: .45rem .8rem; cursor: pointer; }
   .cmsed-primary { background: #1799A1; color: #fff; }
@@ -98,6 +115,7 @@ const isDev = import.meta.env.DEV;
   .cmsed-vrow .cmsed-k { display: inline-block; font-size: .72rem; padding: .1rem .45rem; border-radius: 999px; margin-right: .5rem; }
   .cmsed-k.published { background: #e9f7ef; color: #166534; }
   .cmsed-k.draft { background: #fff3e9; color: #b4521f; }
+  .cmsed-k.scheduled { background: #e6f4f5; color: #0e6b71; }
   .cmsed-vrow button { font: inherit; font-size: .85rem; border: 0; border-radius: 7px; padding: .35rem .7rem; background: #1799A1; color: #fff; cursor: pointer; }
   .cmsed-toast { position: fixed; left: 50%; bottom: 4rem; transform: translateX(-50%) translateY(10px); background: #0B3D42; color: #fff; padding: .7rem 1.1rem; border-radius: 10px; opacity: 0; transition: all .3s; box-shadow: 0 8px 24px rgba(0,0,0,.2); max-width: 90vw; z-index: 10000; }
   .cmsed-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -125,7 +143,10 @@ const isDev = import.meta.env.DEV;
           histBtn = $('#cmsed-hist'), who = $('#cmsed-who'),
           badge = $('#cmsed-badge'), legend = $('#cmsed-legend'), histPanel = $('#cmsed-history'),
           vlist = $('#cmsed-vlist'), toast = $('#cmsed-toast'), newBtn = $('#cmsed-new'),
-          fmtBar = $('#cmsed-format');
+          fmtBar = $('#cmsed-format'), schedBtn = $('#cmsed-schedule'), schedPanel = $('#cmsed-sched'),
+          schedAt = $('#cmsed-sched-at'), schedOk = $('#cmsed-sched-ok'), schedCancel = $('#cmsed-sched-cancel');
+    const IS_ARTICLE = KEY.startsWith('blog/');
+    let currentDoc = null;
     const ON_KEY = 'cms-editing'; // mémorise que l'édition est activée, d'une page à l'autre
     const hasRichBody = !!document.querySelector('[data-cms-html]'); // page d'article (corps riche)
     const FIELDS = '[data-cms], [data-cms-html]';
@@ -145,8 +166,10 @@ const isDev = import.meta.env.DEV;
       o[last] = val;
     };
 
-    function setBadge(hasDraft, by) {
-      if (hasDraft) { badge.className = 'cmsed-badge draft'; badge.textContent = 'Brouillon en attente' + (by ? ' · ' + by : ''); }
+    const fmtWhen = (iso) => new Date(iso).toLocaleString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    function setBadge(hasDraft, by, scheduledAt) {
+      if (scheduledAt && !hasDraft) { badge.className = 'cmsed-badge sched'; badge.textContent = '⏰ Programmé ' + fmtWhen(scheduledAt) + (by ? ' · ' + by : ''); }
+      else if (hasDraft) { badge.className = 'cmsed-badge draft'; badge.textContent = 'Brouillon en attente' + (by ? ' · ' + by : ''); }
       else { badge.className = 'cmsed-badge clean'; badge.textContent = 'Tout est publié' + (by ? ' · ' + by : ''); }
     }
 
@@ -160,7 +183,8 @@ const isDev = import.meta.env.DEV;
       document.body.classList.toggle('cmsed-editing', on);
       document.querySelectorAll(FIELDS).forEach((el) => { el.contentEditable = on ? 'true' : 'false'; });
       toggle.checked = on;
-      saveBtn.hidden = !on; publishBtn.hidden = !on; histBtn.hidden = !on;
+      saveBtn.hidden = !on; publishBtn.hidden = !on; histBtn.hidden = !on; schedBtn.hidden = !on;
+      if (!on) schedPanel.hidden = true;
       who.hidden = !on; badge.hidden = !on;
       // Sur un article : barre de mise en forme. Ailleurs : astuce *mot*.
       legend.hidden = !on || hasRichBody;
@@ -172,7 +196,7 @@ const isDev = import.meta.env.DEV;
     // Active l'édition sur la page courante (charge le brouillon s'il existe).
     async function enterEditing() {
       const doc = await loadDoc();
-      editingBase = doc.draft || doc.published || BASE;
+      editingBase = doc.draft || doc.scheduled || doc.published || BASE;
       fillSource(editingBase);
       setEditing(true);
       reflect(doc);
@@ -208,15 +232,19 @@ const isDev = import.meta.env.DEV;
       if (!r.ok) throw new Error(await r.text());
       return r.json();
     }
-    function reflect(doc) { setBadge(!!doc.draft, doc.updatedBy); }
+    function reflect(doc) {
+      currentDoc = doc;
+      setBadge(!!doc.draft, doc.updatedBy, doc.scheduledAt);
+      if (doc.scheduledAt) badge.title = doc.draft ? 'Une version est aussi programmée le ' + fmtWhen(doc.scheduledAt) + ' (le brouillon ne la remplace que si tu le programmes ou le publies)' : '';
+    }
 
     async function loadDoc() {
       try { const r = await fetch('/api/cms?key=' + encodeURIComponent(KEY)); return await r.json(); }
-      catch { return { published: BASE, draft: null, updatedBy: null }; }
+      catch { return { published: BASE, draft: null, scheduled: null, scheduledAt: null, updatedBy: null }; }
     }
 
     // Au chargement : badge selon l'état réel.
-    loadDoc().then((doc) => setBadge(!!doc.draft, doc.updatedBy));
+    loadDoc().then(reflect);
 
     // L'interrupteur « Édition » : on bascule → la page devient modifiable ; l'état est
     // mémorisé, donc en naviguant sur le site les pages suivantes s'ouvrent aussi en édition.
@@ -264,7 +292,52 @@ const isDev = import.meta.env.DEV;
       } catch (e) { showToast('Erreur : ' + e.message); publishBtn.disabled = false; }
     });
 
+    // Programmer : on enregistre la version en cours, puis on fixe l'heure de mise en ligne.
+    const pad = (n) => String(n).padStart(2, '0');
+    const toLocalInput = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    schedBtn.addEventListener('click', () => {
+      if (!schedPanel.hidden) { schedPanel.hidden = true; return; }
+      histPanel.hidden = true;
+      let d;
+      if (currentDoc && currentDoc.scheduledAt) d = new Date(currentDoc.scheduledAt);
+      else { d = new Date(); d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); } // par défaut : demain 9 h
+      schedAt.value = toLocalInput(d);
+      schedAt.min = toLocalInput(new Date());
+      schedCancel.hidden = !(currentDoc && currentDoc.scheduledAt);
+      schedPanel.hidden = false;
+    });
+    schedOk.addEventListener('click', async () => {
+      const when = schedAt.value ? new Date(schedAt.value) : null;
+      if (!when || isNaN(when.getTime())) { showToast('Choisis une date et une heure'); return; }
+      if (when.getTime() <= Date.now()) { showToast('Choisis une heure à venir (sinon, utilise « Publier »)'); return; }
+      schedOk.disabled = true;
+      try {
+        const value = getPayload();
+        // Un article programmé prend la date de sa mise en ligne (ordre du blog, date affichée).
+        if (IS_ARTICLE) value.date = when.getFullYear() + '-' + pad(when.getMonth() + 1) + '-' + pad(when.getDate());
+        await api({ action: 'save', key: KEY, value, by: who.value });
+        const { doc } = await api({ action: 'schedule', key: KEY, at: when.toISOString(), by: who.value });
+        editingBase = doc.scheduled || editingBase;
+        reflect(doc);
+        schedPanel.hidden = true;
+        showToast('Programmé ✓ mise en ligne ' + fmtWhen(doc.scheduledAt));
+      } catch (e) { showToast('Erreur : ' + e.message); }
+      finally { schedOk.disabled = false; }
+    });
+    schedCancel.addEventListener('click', async () => {
+      schedCancel.disabled = true;
+      try {
+        const { doc } = await api({ action: 'unschedule', key: KEY, by: who.value });
+        editingBase = doc.draft || editingBase;
+        reflect(doc);
+        schedPanel.hidden = true;
+        showToast('Programmation annulée — la version est gardée en brouillon');
+      } catch (e) { showToast('Erreur : ' + e.message); }
+      finally { schedCancel.disabled = false; }
+    });
+
     histBtn.addEventListener('click', async () => {
+      schedPanel.hidden = true;
       if (!histPanel.hidden) { histPanel.hidden = true; return; }
       try {
         const r = await fetch('/api/cms?key=' + encodeURIComponent(KEY) + '&history=1');
@@ -273,7 +346,7 @@ const isDev = import.meta.env.DEV;
           const d = new Date(v.at);
           const when = d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
           return '<div class="cmsed-vrow"><span><span class="cmsed-k ' + v.kind + '">' +
-            (v.kind === 'published' ? 'publié' : 'brouillon') + '</span>' + when + (v.by ? ' · ' + esc(v.by) : '') +
+            (v.kind === 'published' ? 'publié' : v.kind === 'scheduled' ? 'programmé' : 'brouillon') + '</span>' + when + (v.by ? ' · ' + esc(v.by) : '') +
             '</span><button data-restore="' + v.id + '">Restaurer</button></div>';
         }).join('') || '<p>Aucune version pour l’instant.</p>';
         histPanel.hidden = false;
@@ -301,7 +374,7 @@ const isDev = import.meta.env.DEV;
         let slug = root;
         for (let n = 2; n < 60; n++) {
           const d = await (await fetch('/api/cms?key=' + encodeURIComponent('blog/' + slug))).json();
-          if (!d.published && !d.draft) break;
+          if (!d.published && !d.draft && !d.scheduled) break;
           slug = root + '-' + n;
         }
         const today = new Date().toISOString().slice(0, 10);

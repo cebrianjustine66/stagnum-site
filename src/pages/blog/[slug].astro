@@ -2,19 +2,21 @@
 import Article from '../../layouts/Article.astro';
 import CmsEditor from '../../components/CmsEditor.astro';
 import { getDoc } from '../../lib/cms/store';
+import { isEditor } from '../../lib/cms/auth';
 import { baseArticleFull, addHeadingIds, type Article as ArticleT } from '../../lib/cms/blog';
 
 // Article lu depuis la base (repli sur le contenu d'origine). SSR : publication instantanée.
 export const prerender = false;
-const DEV = import.meta.env.DEV;
+// L'équipe (en local, ou connectée en ligne) voit aussi les brouillons et les articles programmés.
+const TEAM = isEditor(Astro.cookies);
 const slug = Astro.params.slug!;
 const key = `blog/${slug}`;
 
 let doc;
-try { doc = await getDoc<ArticleT>(key); } catch { doc = { published: null, draft: null } as any; }
+try { doc = await getDoc<ArticleT>(key); } catch { doc = { published: null, draft: null, scheduled: null } as any; }
 const fallback = await baseArticleFull(slug);
-// Le public voit le publié ; en local, on peut aussi ouvrir un brouillon (nouvel article).
-const content = (doc.published ?? (DEV ? doc.draft : null) ?? fallback) as ArticleT | null;
+// Le public ne voit que le publié : un article programmé reste introuvable jusqu'à son heure.
+const content = (doc.published ?? (TEAM ? doc.draft ?? doc.scheduled : null) ?? fallback) as ArticleT | null;
 if (!content) return new Response(null, { status: 404 });
 
 const { html, headings } = addHeadingIds(content.bodyHtml || '');
