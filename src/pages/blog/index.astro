@@ -9,11 +9,13 @@ import blogFallback from '../../content/page-blog.json';
 import { loadPublished } from '../../lib/cms/content';
 import { listDocs } from '../../lib/cms/store';
 import { BASE_ARTICLE_METAS } from '../../lib/cms/blog';
+import { isEditor } from '../../lib/cms/auth';
 import { plain, rich } from '../../lib';
 
 // Contenu de la page (en-tête) et liste des articles, lus depuis la base.
 export const prerender = false;
-const DEV = import.meta.env.DEV;
+// L'équipe (en local, ou connectée en ligne) voit aussi les brouillons et les articles programmés.
+const TEAM = isEditor(Astro.cookies);
 const b = await loadPublished('page-blog', blogFallback);
 
 // Liste des articles : articles d'origine + articles de la base (nouveaux ou modifiés).
@@ -23,12 +25,14 @@ for (const a of BASE_ARTICLE_METAS) map.set(a.slug, { slug: a.slug, url: a.url, 
 for (const r of rows) {
   const slug = r.key.slice('blog/'.length);
   if (r.published) map.set(slug, { slug, url: `/blog/${slug}/`, frontmatter: r.published, draft: false });
-  else if (DEV && r.draft) map.set(slug, { slug, url: `/blog/${slug}/`, frontmatter: r.draft, draft: true });
+  else if (TEAM && r.scheduled) map.set(slug, { slug, url: `/blog/${slug}/`, frontmatter: r.scheduled, draft: false, scheduledAt: r.scheduledAt });
+  else if (TEAM && r.draft) map.set(slug, { slug, url: `/blog/${slug}/`, frontmatter: r.draft, draft: true });
 }
 const posts = [...map.values()]
-  .filter((p) => DEV || !p.draft)
+  .filter((p) => TEAM || (!p.draft && !p.scheduledAt))
   .sort((a, b) => String(b.frontmatter.date).localeCompare(String(a.frontmatter.date)));
 const url = (p: any) => p.url;
+const fmtWhen = (iso: string) => new Date(iso).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
 const fmtDate = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const [first, ...rest] = posts;
 ---
@@ -52,7 +56,7 @@ const [first, ...rest] = posts;
           <span class="theme">{first.frontmatter.tag}</span>
         </div>
         <div class="body">
-          <p class="meta">{first.draft && <span class="draft-pill">Brouillon</span>}<span class="tag">{first.frontmatter.tag}</span><time datetime={first.frontmatter.date}>{fmtDate(first.frontmatter.date)}</time><span>{first.frontmatter.minutes} {c.article.readTime}</span></p>
+          <p class="meta">{first.draft && <span class="draft-pill">Brouillon</span>}{first.scheduledAt && <span class="draft-pill sched-pill">Programmé · {fmtWhen(first.scheduledAt)}</span>}<span class="tag">{first.frontmatter.tag}</span><time datetime={first.frontmatter.date}>{fmtDate(first.frontmatter.date)}</time><span>{first.frontmatter.minutes} {c.article.readTime}</span></p>
           <h2>{first.frontmatter.h1}</h2>
           <p class="excerpt">{first.frontmatter.description}</p>
           <span class="more">{b.readMore} <Icon name="arrow" size={16} /></span>
@@ -66,7 +70,7 @@ const [first, ...rest] = posts;
             {rest.map((p) => (
               <li>
                 <a href={url(p)}>
-                  <p class="meta">{p.draft && <span class="draft-pill">Brouillon</span>}<span class="tag">{p.frontmatter.tag}</span><time datetime={p.frontmatter.date}>{fmtDate(p.frontmatter.date)}</time></p>
+                  <p class="meta">{p.draft && <span class="draft-pill">Brouillon</span>}{p.scheduledAt && <span class="draft-pill sched-pill">Programmé · {fmtWhen(p.scheduledAt)}</span>}<span class="tag">{p.frontmatter.tag}</span><time datetime={p.frontmatter.date}>{fmtDate(p.frontmatter.date)}</time></p>
                   <div>
                     <h3>{p.frontmatter.h1}</h3>
                     <p class="excerpt">{p.frontmatter.description}</p>
@@ -88,6 +92,7 @@ const [first, ...rest] = posts;
 <style>
   .list-section { padding-top: 24px; }
   .draft-pill { font-weight: 700; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: #fff3e9; color: #b4521f; border: 1px solid #f3c9ad; }
+  .sched-pill { background: #e6f4f5; color: #0e6b71; border-color: #a9dadd; }
   .lead-post { display: grid; grid-template-columns: .9fr 1.1fr; border-radius: 28px; overflow: hidden; background: #fff; border: 1px solid var(--border); box-shadow: var(--lift); color: inherit; text-decoration: none; transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, opacity .7s ease; }
   .lead-post.in:hover { transform: translateY(-4px); box-shadow: var(--lift-hover); color: inherit; }
   .cover { position: relative; min-height: 320px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; color: #fff;

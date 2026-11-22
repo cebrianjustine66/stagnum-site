@@ -42,6 +42,13 @@ export function ensureSchema(): Promise<void> {
       at TEXT NOT NULL,
       by TEXT
     )`);
+    // Publication programmée : la version à mettre en ligne (scheduled) et son heure (scheduled_at, ISO UTC).
+    // Colonnes ajoutées après coup : on les crée si la base existante ne les a pas encore.
+    const cols = await c.execute('PRAGMA table_info(cms_docs)');
+    const names = new Set(cols.rows.map((r) => String(r.name)));
+    if (!names.has('scheduled')) await c.execute('ALTER TABLE cms_docs ADD COLUMN scheduled TEXT');
+    if (!names.has('scheduled_at')) await c.execute('ALTER TABLE cms_docs ADD COLUMN scheduled_at TEXT');
   })();
+  ready.catch(() => { ready = null; }); // en cas d'échec (base injoignable), on réessaiera au prochain appel
   return ready;
 }
